@@ -17,8 +17,9 @@ from pydantic import BaseModel, ValidationError
 
 from app.core.config import settings
 
-client = Anthropic(api_key=settings.ANTHROPIC_API_KEY)
 MODEL = "claude-sonnet-4-6"
+_IA_DISPONIVEL = bool(settings.ANTHROPIC_API_KEY)
+client = Anthropic(api_key=settings.ANTHROPIC_API_KEY) if _IA_DISPONIVEL else None
 
 
 # ---------------------------------------------------------------------------
@@ -48,6 +49,8 @@ class _TreinoAlternativoOutput(BaseModel):
 
 def _call_claude(system: str, user: str, max_tokens: int = 600, max_retries: int = 2) -> str:
     """Chama Claude com retry e backoff crescente. Levanta a última exceção ao esgotar."""
+    if not _IA_DISPONIVEL or client is None:
+        raise RuntimeError("ANTHROPIC_API_KEY não configurada")
     last_exc: Exception | None = None
     for attempt in range(max_retries + 1):
         try:
