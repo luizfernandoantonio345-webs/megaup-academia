@@ -9,9 +9,7 @@ services:
     plan: free
     envVars:
       - key: DATABASE_URL
-        fromDatabase:
-          name: fitsaas-db
-          property: connectionString
+        sync: false        # preencher com a URL do Neon (neon.tech)
       - key: SECRET_KEY
         generateValue: true
       - key: ANTHROPIC_API_KEY
@@ -45,9 +43,4 @@ services:
         source: /*
         destination: /index.html
 
-# ─── PostgreSQL ───────────────────────────────────────────────────────────
-databases:
-  - name: fitsaas-db
-    plan: free
-    databaseName: fitsaas
-    user: fitsaas
+# Banco de dados externo (Neon.tech) — configure DATABASE_URL manualmente no backend
