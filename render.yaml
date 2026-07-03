@@ -14,6 +14,8 @@ services:
         generateValue: true
       - key: ANTHROPIC_API_KEY
         sync: false        # preencher manualmente no dashboard
+      - key: PYTHON_VERSION
+        value: "3.11.9"
       - key: ENABLE_SCHEDULER
         value: "false"
       - key: ASAAS_API_KEY
