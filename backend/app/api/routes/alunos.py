@@ -38,6 +38,18 @@ def _get_aluno_or_404(aluno_id: int, tenant_id: int, db: Session) -> Aluno:
     return aluno
 
 
+@router.get("/meu-perfil", response_model=AlunoResponse)
+def meu_perfil(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Retorna o registro Aluno vinculado ao usuário logado (role=aluno)."""
+    aluno = db.query(Aluno).filter(Aluno.user_id == current_user.id).first()
+    if not aluno:
+        raise HTTPException(status_code=404, detail="Perfil de aluno não encontrado")
+    return aluno
+
+
 @router.get("/", response_model=list[AlunoResponse])
 def listar_alunos(
     current_user: User = Depends(get_current_user),

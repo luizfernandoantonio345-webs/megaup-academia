@@ -560,9 +560,8 @@ function StreakCard({ gami }) {
 
 /* ─── MAIN PAGE ─── */
 export default function TreinoHoje() {
-  const { user } = useAuth()
+  const { user, alunoId } = useAuth()
   const [treinoAtivo, setTreinoAtivo] = useState(null)
-  const alunoId = user?.id
 
   const { data: treinosHoje = [], isLoading } = useQuery({
     queryKey: ['treino-do-dia', alunoId],

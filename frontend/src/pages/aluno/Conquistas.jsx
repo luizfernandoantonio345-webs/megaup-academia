@@ -171,8 +171,7 @@ function ConquistaCard({ conquista: c, gami, desbloqueadas }) {
 }
 
 export default function Conquistas() {
-  const { user } = useAuth()
-  const alunoId = user?.id
+  const { user, alunoId } = useAuth()
 
   const { data: gami, isLoading } = useQuery({
     queryKey: ['gamificacao', alunoId],

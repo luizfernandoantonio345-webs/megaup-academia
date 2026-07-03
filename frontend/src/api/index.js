@@ -11,6 +11,7 @@ export const infoConvite = (token) => api.get(`/convites/${token}`)
 
 // Alunos
 export const listarAlunos = () => api.get('/alunos/')
+export const meuPerfilAluno = () => api.get('/alunos/meu-perfil')
 export const criarAluno = (data) => api.post('/alunos/', data)
 export const obterAluno = (id) => api.get(`/alunos/${id}`)
 export const atualizarAluno = (id, data) => api.patch(`/alunos/${id}`, data)

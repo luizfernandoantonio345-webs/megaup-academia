@@ -19,6 +19,7 @@ class UserInfo(BaseModel):
     email: str
     role: str
     tenant_id: int
+    aluno_id: int | None = None
 
 
 class AuthResponse(BaseModel):

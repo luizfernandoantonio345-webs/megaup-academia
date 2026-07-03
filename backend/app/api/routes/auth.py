@@ -12,12 +12,17 @@ from app.schemas.convites import AceitarConviteRequest
 router = APIRouter()
 
 
-def _auth_response(user: User) -> AuthResponse:
+def _auth_response(user: User, db: Session | None = None) -> AuthResponse:
     token = create_access_token({
         "sub": str(user.id),
         "role": user.role.value,
         "tenant_id": user.tenant_id,
     })
+    aluno_id = None
+    if user.role == Role.aluno and db is not None:
+        aluno = db.query(Aluno).filter(Aluno.user_id == user.id).first()
+        if aluno:
+            aluno_id = aluno.id
     return AuthResponse(
         access_token=token,
         user=UserInfo(
@@ -26,6 +31,7 @@ def _auth_response(user: User) -> AuthResponse:
             email=user.email,
             role=user.role.value,
             tenant_id=user.tenant_id,
+            aluno_id=aluno_id,
         ),
     )
 
@@ -35,7 +41,7 @@ def login(body: LoginRequest, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == body.email, User.ativo == True).first()
     if not user or not verify_password(body.senha, user.senha_hash):
         raise HTTPException(status_code=401, detail="Credenciais inválidas")
-    return _auth_response(user)
+    return _auth_response(user, db)
 
 
 @router.post("/registrar-personal", response_model=AuthResponse, status_code=201)
