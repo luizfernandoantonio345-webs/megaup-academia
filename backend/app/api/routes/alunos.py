@@ -46,6 +46,15 @@ def meu_perfil(
     """Retorna o registro Aluno vinculado ao usuário logado (role=aluno)."""
     aluno = db.query(Aluno).filter(Aluno.user_id == current_user.id).first()
     if not aluno:
+        # Fallback: aluno criado manualmente sem convite — busca por email + tenant
+        aluno = db.query(Aluno).filter(
+            Aluno.email == current_user.email,
+            Aluno.tenant_id == current_user.tenant_id,
+        ).first()
+        if aluno:
+            aluno.user_id = current_user.id  # auto-link
+            db.commit()
+    if not aluno:
         raise HTTPException(status_code=404, detail="Perfil de aluno não encontrado")
     return aluno
 

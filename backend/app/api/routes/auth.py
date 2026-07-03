@@ -21,6 +21,15 @@ def _auth_response(user: User, db: Session | None = None) -> AuthResponse:
     aluno_id = None
     if user.role == Role.aluno and db is not None:
         aluno = db.query(Aluno).filter(Aluno.user_id == user.id).first()
+        if not aluno:
+            # Fallback: aluno criado manualmente (sem convite) — busca por email + tenant
+            aluno = db.query(Aluno).filter(
+                Aluno.email == user.email,
+                Aluno.tenant_id == user.tenant_id,
+            ).first()
+            if aluno:
+                aluno.user_id = user.id  # auto-link para próximos logins
+                db.commit()
         if aluno:
             aluno_id = aluno.id
     return AuthResponse(

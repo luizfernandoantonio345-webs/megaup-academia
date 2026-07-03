@@ -137,13 +137,18 @@ export default function Login() {
             </button>
           </form>
 
-          <div className="mt-8 p-4 rounded-xl" style={{ background:'rgba(99,102,241,0.08)', border:'1px solid rgba(99,102,241,0.15)' }}>
-            <p style={{ fontSize:11, color:'#4B5768', marginBottom:8, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.07em' }}>
-              Acesso de demonstração
+          <div className="mt-8 text-center">
+            <p style={{ fontSize:11, color:'#1F2D4A' }}>
+              Desenvolvido por{' '}
+              <a
+                href="https://www.instagram.com/luuiz.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color:'#6366f1', fontWeight:700, textDecoration:'none' }}
+              >
+                @luuiz.dev
+              </a>
             </p>
-            <p style={{ fontSize:12, color:'#3D4F6A' }}>Personal: <span style={{ color:'#818cf8', fontWeight:600 }}>trainer@demo.com</span></p>
-            <p style={{ fontSize:12, color:'#3D4F6A', marginTop:2 }}>Aluno: <span style={{ color:'#818cf8', fontWeight:600 }}>aluno@demo.com</span></p>
-            <p style={{ fontSize:12, color:'#3D4F6A', marginTop:2 }}>Senha: <span style={{ color:'#818cf8', fontWeight:600 }}>demo123</span></p>
           </div>
         </div>
       </div>
