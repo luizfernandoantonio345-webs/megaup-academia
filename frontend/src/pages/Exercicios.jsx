@@ -1,32 +1,189 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { listarExercicios, criarExercicio } from '../api'
 import toast from 'react-hot-toast'
-import { Plus, Dumbbell, Search, X, Video, Filter } from 'lucide-react'
-import { VideoThumb } from '../components/VideoPlayer'
+import { Plus, Dumbbell, Search, X, Filter, Download, Play } from 'lucide-react'
+import VideoPlayer, { getYouTubeId } from '../components/VideoPlayer'
 import { SkeletonCard } from '../components/ui/Skeleton'
 
-const GRUPOS = ['', 'Peito', 'Costas', 'Ombros', 'Bíceps', 'Tríceps', 'Pernas', 'Glúteos', 'Core', 'Cardio', 'Outro']
+const GRUPOS = ['', 'Peito', 'Costas', 'Ombros', 'Biceps', 'Triceps', 'Pernas', 'Gluteos', 'Core', 'Cardio', 'Outro']
 
-const GRUPO_COLORS = {
-  'Peito':   { bg: 'rgba(239,68,68,0.1)',    text: '#f87171',  border: 'rgba(239,68,68,0.25)'   },
-  'Costas':  { bg: 'rgba(56,189,248,0.1)',   text: '#7dd3fc',  border: 'rgba(56,189,248,0.25)'  },
-  'Ombros':  { bg: 'rgba(234,179,8,0.1)',    text: '#fde047',  border: 'rgba(234,179,8,0.25)'   },
-  'Bíceps':  { bg: 'rgba(16,185,129,0.1)',   text: '#34d399',  border: 'rgba(16,185,129,0.25)'  },
-  'Tríceps': { bg: 'rgba(52,211,153,0.1)',   text: '#6ee7b7',  border: 'rgba(52,211,153,0.25)'  },
-  'Pernas':  { bg: 'rgba(167,139,250,0.1)',  text: '#c4b5fd',  border: 'rgba(167,139,250,0.25)' },
-  'Glúteos': { bg: 'rgba(236,72,153,0.1)',   text: '#f9a8d4',  border: 'rgba(236,72,153,0.25)'  },
-  'Core':    { bg: 'rgba(249,115,22,0.1)',   text: '#fdba74',  border: 'rgba(249,115,22,0.25)'  },
-  'Cardio':  { bg: 'rgba(14,165,233,0.1)',   text: '#7dd3fc',  border: 'rgba(14,165,233,0.25)'  },
-  'Outro':   { bg: 'rgba(255,255,255,0.06)', text: '#64748B',  border: 'rgba(255,255,255,0.1)'  },
+const GRUPO_META = {
+  Peito:   { color: '#f87171', bg: 'rgba(239,68,68,0.13)',   border: 'rgba(239,68,68,0.28)',   grad: 'linear-gradient(135deg,#450a0a,#1c0505)' },
+  Costas:  { color: '#7dd3fc', bg: 'rgba(56,189,248,0.13)',  border: 'rgba(56,189,248,0.28)',  grad: 'linear-gradient(135deg,#082032,#020d18)' },
+  Ombros:  { color: '#fde047', bg: 'rgba(234,179,8,0.13)',   border: 'rgba(234,179,8,0.28)',   grad: 'linear-gradient(135deg,#2d2000,#110d00)' },
+  Biceps:  { color: '#34d399', bg: 'rgba(16,185,129,0.13)',  border: 'rgba(16,185,129,0.28)',  grad: 'linear-gradient(135deg,#022c1a,#010f09)' },
+  Triceps: { color: '#6ee7b7', bg: 'rgba(52,211,153,0.13)',  border: 'rgba(52,211,153,0.28)',  grad: 'linear-gradient(135deg,#022c20,#01110c)' },
+  Pernas:  { color: '#c4b5fd', bg: 'rgba(167,139,250,0.13)', border: 'rgba(167,139,250,0.28)', grad: 'linear-gradient(135deg,#1a0a3d,#0a0520)' },
+  Gluteos: { color: '#f9a8d4', bg: 'rgba(236,72,153,0.13)',  border: 'rgba(236,72,153,0.28)',  grad: 'linear-gradient(135deg,#3d0a23,#180510)' },
+  Core:    { color: '#fdba74', bg: 'rgba(249,115,22,0.13)',   border: 'rgba(249,115,22,0.28)',  grad: 'linear-gradient(135deg,#2d1200,#110700)' },
+  Cardio:  { color: '#38bdf8', bg: 'rgba(14,165,233,0.13)',  border: 'rgba(14,165,233,0.28)',  grad: 'linear-gradient(135deg,#082030,#020c17)' },
+  Outro:   { color: '#94a3b8', bg: 'rgba(255,255,255,0.06)', border: 'rgba(255,255,255,0.1)',  grad: 'linear-gradient(135deg,#0e1525,#070b14)' },
+}
+const META_DEFAULT = GRUPO_META.Outro
+
+const GRUPOS_DISPLAY = {
+  Biceps: 'Biceps', Triceps: 'Triceps', Gluteos: 'Gluteos',
 }
 
+const EXERCISE_LIBRARY = [
+  { nome: 'Supino Reto com Barra',           grupo_muscular: 'Peito',   equipamento: 'Barra olimpica, banco plano',       video_url: 'https://www.youtube.com/watch?v=rT7DgCr-3pg' },
+  { nome: 'Supino Inclinado com Halteres',   grupo_muscular: 'Peito',   equipamento: 'Halteres, banco inclinado 45',      video_url: 'https://www.youtube.com/watch?v=8iPEnn-ltC8' },
+  { nome: 'Crucifixo no Banco Plano',        grupo_muscular: 'Peito',   equipamento: 'Halteres, banco plano',             video_url: 'https://www.youtube.com/watch?v=L4_QRVO8Ams' },
+  { nome: 'Flexao de Braco',                 grupo_muscular: 'Peito',   equipamento: 'Peso corporal',                     video_url: 'https://www.youtube.com/watch?v=IODxDxX7oi4' },
+  { nome: 'Puxada Frontal na Polia',         grupo_muscular: 'Costas',  equipamento: 'Polia alta, barra larga',           video_url: 'https://www.youtube.com/watch?v=CAwf7n6Luuc' },
+  { nome: 'Remada Curvada com Barra',        grupo_muscular: 'Costas',  equipamento: 'Barra olimpica',                    video_url: 'https://www.youtube.com/watch?v=G8l_8chR5BE' },
+  { nome: 'Levantamento Terra',              grupo_muscular: 'Costas',  equipamento: 'Barra olimpica',                    video_url: 'https://www.youtube.com/watch?v=op9kVnSso6Q' },
+  { nome: 'Remada Unilateral com Haltere',   grupo_muscular: 'Costas',  equipamento: 'Haltere, banco plano',              video_url: 'https://www.youtube.com/watch?v=pYcpY20QaE8' },
+  { nome: 'Desenvolvimento com Barra',       grupo_muscular: 'Ombros',  equipamento: 'Barra olimpica, banco com encosto', video_url: 'https://www.youtube.com/watch?v=2yjwXTZQDDI' },
+  { nome: 'Elevacao Lateral com Halteres',   grupo_muscular: 'Ombros',  equipamento: 'Halteres',                          video_url: 'https://www.youtube.com/watch?v=3VcKaXpzqRo' },
+  { nome: 'Elevacao Frontal com Halteres',   grupo_muscular: 'Ombros',  equipamento: 'Halteres',                          video_url: 'https://www.youtube.com/watch?v=sOoBiA4dMGo' },
+  { nome: 'Rosca Direta com Barra',          grupo_muscular: 'Biceps',  equipamento: 'Barra reta',                        video_url: 'https://www.youtube.com/watch?v=kwG2ipFRgfo' },
+  { nome: 'Rosca Martelo',                   grupo_muscular: 'Biceps',  equipamento: 'Halteres',                          video_url: 'https://www.youtube.com/watch?v=zC3nLlEvin4' },
+  { nome: 'Rosca Concentrada',               grupo_muscular: 'Biceps',  equipamento: 'Haltere',                           video_url: 'https://www.youtube.com/watch?v=0AUGkch3tzc' },
+  { nome: 'Triceps Pulley na Polia',         grupo_muscular: 'Triceps', equipamento: 'Polia alta, corda ou barra',        video_url: 'https://www.youtube.com/watch?v=vB5OHsJ3EME' },
+  { nome: 'Triceps Frances com Barra EZ',    grupo_muscular: 'Triceps', equipamento: 'Barra EZ, banco plano',             video_url: 'https://www.youtube.com/watch?v=d_KZxkY_0cM' },
+  { nome: 'Mergulho nas Paralelas',          grupo_muscular: 'Triceps', equipamento: 'Paralelas (dip station)',           video_url: 'https://www.youtube.com/watch?v=wjUmnZH528Y' },
+  { nome: 'Agachamento Livre',               grupo_muscular: 'Pernas',  equipamento: 'Barra olimpica, rack de agachamento', video_url: 'https://www.youtube.com/watch?v=ultWZbUMPL8' },
+  { nome: 'Leg Press 45',                    grupo_muscular: 'Pernas',  equipamento: 'Aparelho leg press 45',             video_url: 'https://www.youtube.com/watch?v=IZxyjW7MPJQ' },
+  { nome: 'Cadeira Extensora',               grupo_muscular: 'Pernas',  equipamento: 'Aparelho cadeira extensora',        video_url: 'https://www.youtube.com/watch?v=YyvSfVjQeL0' },
+  { nome: 'Mesa Flexora',                    grupo_muscular: 'Pernas',  equipamento: 'Aparelho mesa flexora',             video_url: 'https://www.youtube.com/watch?v=1Tq3QdYUuHs' },
+  { nome: 'Stiff com Barra',                 grupo_muscular: 'Pernas',  equipamento: 'Barra olimpica',                    video_url: 'https://www.youtube.com/watch?v=ap5bNhfnaF8' },
+  { nome: 'Afundo (Lunge)',                  grupo_muscular: 'Pernas',  equipamento: 'Halteres',                          video_url: 'https://www.youtube.com/watch?v=QOVaHwm-Q6U' },
+  { nome: 'Hip Thrust (Elevacao Pelvica)',   grupo_muscular: 'Gluteos', equipamento: 'Barra olimpica, banco',             video_url: 'https://www.youtube.com/watch?v=xDmFkJxPzeM' },
+  { nome: 'Abducao de Quadril no Cabo',      grupo_muscular: 'Gluteos', equipamento: 'Polia baixa',                       video_url: 'https://www.youtube.com/watch?v=3MHsKzs_6Gw' },
+  { nome: 'Prancha Abdominal (Plank)',       grupo_muscular: 'Core',    equipamento: 'Peso corporal',                     video_url: 'https://www.youtube.com/watch?v=pSHjTRCQxIw' },
+  { nome: 'Abdominal Crunch',                grupo_muscular: 'Core',    equipamento: 'Peso corporal',                     video_url: 'https://www.youtube.com/watch?v=Xyd_fa5zoEU' },
+  { nome: 'Burpee',                          grupo_muscular: 'Cardio',  equipamento: 'Peso corporal',                     video_url: 'https://www.youtube.com/watch?v=dZgVxmf6jkA' },
+  { nome: 'Corda Naval (Battle Rope)',       grupo_muscular: 'Cardio',  equipamento: 'Corda naval',                       video_url: 'https://www.youtube.com/watch?v=ejhEJDGtm0Y' },
+  { nome: 'Polichinelo (Jumping Jack)',      grupo_muscular: 'Cardio',  equipamento: 'Peso corporal',                     video_url: 'https://www.youtube.com/watch?v=c4DAnQ9DjAA' },
+]
+
 function GroupBadge({ grupo }) {
-  const c = GRUPO_COLORS[grupo] || GRUPO_COLORS['Outro']
+  const key = grupo in GRUPO_META ? grupo : 'Outro'
+  const m = GRUPO_META[key]
   return (
-    <span style={{ display:'inline-flex', alignItems:'center', padding:'3px 10px', borderRadius:999, fontSize:11, fontWeight:700, background:c.bg, color:c.text, border:`1px solid ${c.border}`, textTransform:'uppercase', letterSpacing:'0.05em' }}>
-      {grupo}
+    <span style={{
+      display: 'inline-flex', alignItems: 'center',
+      padding: '2px 9px', borderRadius: 999,
+      fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em',
+      background: m.bg, color: m.color, border: `1px solid ${m.border}`,
+    }}>
+      {grupo || 'Outro'}
     </span>
+  )
+}
+
+function ExercicioCard({ exercicio: e }) {
+  const [playing, setPlaying] = useState(false)
+  const key = e.grupo_muscular in GRUPO_META ? e.grupo_muscular : 'Outro'
+  const meta = GRUPO_META[key]
+  const ytId = getYouTubeId(e.video_url)
+
+  return (
+    <div
+      style={{
+        background: '#0E1525', border: `1px solid ${meta.border}`,
+        borderRadius: 20, overflow: 'hidden',
+        transition: 'transform 0.25s ease, box-shadow 0.25s ease',
+        display: 'flex', flexDirection: 'column',
+      }}
+      onMouseEnter={ev => {
+        ev.currentTarget.style.transform = 'translateY(-4px)'
+        ev.currentTarget.style.boxShadow = `0 20px 56px rgba(0,0,0,0.45), 0 0 24px ${meta.color}18`
+      }}
+      onMouseLeave={ev => {
+        ev.currentTarget.style.transform = 'translateY(0)'
+        ev.currentTarget.style.boxShadow = 'none'
+      }}
+    >
+      {playing ? (
+        <div style={{ aspectRatio: '16/9' }}>
+          <VideoPlayer url={e.video_url} title={e.nome} className="rounded-none" />
+        </div>
+      ) : (
+        <div
+          onClick={() => e.video_url && setPlaying(true)}
+          style={{
+            position: 'relative', aspectRatio: '16/9', overflow: 'hidden',
+            cursor: e.video_url ? 'pointer' : 'default', background: meta.grad,
+          }}
+        >
+          {ytId ? (
+            <img
+              src={`https://img.youtube.com/vi/${ytId}/mqdefault.jpg`}
+              alt={e.nome}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', opacity: 0.88 }}
+            />
+          ) : (
+            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 8 }}>
+              <Dumbbell style={{ width: 36, height: 36, color: meta.color, opacity: 0.35 }} />
+            </div>
+          )}
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(14,21,37,0.92) 0%, rgba(0,0,0,0.05) 50%)', pointerEvents: 'none' }} />
+          {e.video_url && (
+            <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{
+                width: 56, height: 56, borderRadius: '50%',
+                background: `${meta.color}cc`,
+                boxShadow: `0 0 32px ${meta.color}80, 0 4px 16px rgba(0,0,0,0.5)`,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                backdropFilter: 'blur(8px)',
+              }}>
+                <svg width="20" height="20" fill="white" viewBox="0 0 24 24" style={{ marginLeft: 2 }}>
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+            </div>
+          )}
+          {!e.tenant_id && (
+            <div style={{ position: 'absolute', top: 10, right: 10 }}>
+              <span style={{ fontSize: 9, fontWeight: 800, textTransform: 'uppercase', padding: '2px 7px', borderRadius: 999, background: 'rgba(0,0,0,0.55)', color: 'rgba(255,255,255,0.5)', backdropFilter: 'blur(6px)', letterSpacing: '0.07em' }}>
+                Global
+              </span>
+            </div>
+          )}
+        </div>
+      )}
+      <div style={{ padding: '14px 16px 18px', flex: 1 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
+          <GroupBadge grupo={e.grupo_muscular} />
+          {e.video_url && (
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '2px 8px', borderRadius: 999, fontSize: 10, fontWeight: 700, background: 'rgba(99,102,241,0.12)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.2)' }}>
+              <Play style={{ width: 8, height: 8 }} />
+              Video
+            </span>
+          )}
+        </div>
+        <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 15, fontWeight: 700, color: '#e2e8f0', lineHeight: 1.3, marginBottom: 8 }}>
+          {e.nome}
+        </div>
+        {e.equipamento && (
+          <div style={{ fontSize: 12, color: '#3D4F6A', lineHeight: 1.5 }}>
+            {e.equipamento}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function ExercicioSection({ title, count, items }) {
+  return (
+    <div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
+        <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, color: '#334155', fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em', margin: 0 }}>
+          {title}
+        </h2>
+        <span style={{ background: 'rgba(255,255,255,0.06)', color: '#475569', fontSize: 11, fontWeight: 700, padding: '1px 8px', borderRadius: 999, border: '1px solid rgba(255,255,255,0.07)' }}>
+          {count}
+        </span>
+        <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.04)' }} />
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
+        {items.map(e => <ExercicioCard key={e.id} exercicio={e} />)}
+      </div>
+    </div>
   )
 }
 
@@ -36,6 +193,8 @@ export default function Exercicios() {
   const [filterGrupo, setFilterGrupo] = useState('')
   const [showForm, setShowForm] = useState(false)
   const [form, setForm] = useState({ nome: '', grupo_muscular: '', equipamento: '', video_url: '' })
+  const [seeding, setSeeding] = useState(false)
+  const [seedDone, setSeedDone] = useState(0)
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
 
   const { data: exercicios = [], isLoading } = useQuery({
@@ -47,84 +206,177 @@ export default function Exercicios() {
     mutationFn: criarExercicio,
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['exercicios'] })
-      toast.success('Exercício criado!')
+      toast.success('Exercicio criado!')
       setShowForm(false)
       setForm({ nome: '', grupo_muscular: '', equipamento: '', video_url: '' })
     },
-    onError: (err) => toast.error(err.response?.data?.detail || 'Erro ao criar exercício'),
+    onError: (err) => toast.error(err.response?.data?.detail || 'Erro ao criar exercicio'),
   })
+
+  const handleSeedLibrary = async () => {
+    setSeeding(true)
+    setSeedDone(0)
+    let created = 0
+    for (let i = 0; i < EXERCISE_LIBRARY.length; i++) {
+      try {
+        await criarExercicio(EXERCISE_LIBRARY[i])
+        created++
+      } catch {
+        // skip duplicates
+      }
+      setSeedDone(i + 1)
+    }
+    await qc.invalidateQueries({ queryKey: ['exercicios'] })
+    setSeeding(false)
+    setSeedDone(0)
+    toast.success(`${created} exercicio${created !== 1 ? 's' : ''} importados com videos!`)
+  }
 
   const filtered = exercicios.filter((e) => {
     const q = search.toLowerCase()
-    return (!q || e.nome.toLowerCase().includes(q) || (e.grupo_muscular||'').toLowerCase().includes(q) || (e.equipamento||'').toLowerCase().includes(q))
-        && (!filterGrupo || e.grupo_muscular === filterGrupo)
+    return (
+      (!q || e.nome?.toLowerCase().includes(q) || (e.grupo_muscular || '').toLowerCase().includes(q) || (e.equipamento || '').toLowerCase().includes(q)) &&
+      (!filterGrupo || e.grupo_muscular === filterGrupo)
+    )
   })
   const proprios = filtered.filter(e => e.tenant_id)
   const globais  = filtered.filter(e => !e.tenant_id)
   const grupos = [...new Set(exercicios.map(e => e.grupo_muscular).filter(Boolean))]
+  const comVideo = exercicios.filter(e => e.video_url).length
+  const seedPct = EXERCISE_LIBRARY.length > 0 ? Math.round((seedDone / EXERCISE_LIBRARY.length) * 100) : 0
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div className="page-header">
-        <div>
-          <h1 className="page-title">Exercícios</h1>
-          <p className="page-subtitle">{exercicios.length} exercício{exercicios.length !== 1 ? 's' : ''} disponíveis</p>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="animate-fade-in">
+
+      <div style={{ background: 'linear-gradient(135deg, #0a0f1e 0%, #0e1525 60%, #141d30 100%)', border: '1px solid rgba(99,102,241,0.18)', borderRadius: 24, padding: '28px 32px', position: 'relative', overflow: 'hidden' }}>
+        <div style={{ position: 'absolute', top: -40, right: -40, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%)', pointerEvents: 'none' }} />
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20, position: 'relative', zIndex: 1 }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+              <div style={{ width: 36, height: 36, borderRadius: 12, background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', boxShadow: '0 0 20px rgba(99,102,241,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Dumbbell style={{ width: 17, height: 17, color: 'white' }} />
+              </div>
+              <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 26, fontWeight: 900, color: '#EFF6FF', letterSpacing: '-0.03em', margin: 0 }}>
+                Biblioteca de Exercicios
+              </h1>
+            </div>
+            <p style={{ fontSize: 13, color: '#3D4F6A', margin: 0 }}>
+              Catalogue movimentos com demonstracoes em video e prescreva com precisao
+            </p>
+            {exercicios.length > 0 && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
+                {[
+                  { label: `${exercicios.length} exercicio${exercicios.length !== 1 ? 's' : ''}`, color: '#a5b4fc', bg: 'rgba(99,102,241,0.12)', border: 'rgba(99,102,241,0.25)' },
+                  { label: `${comVideo} com video`, color: '#34d399', bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.2)' },
+                  { label: `${grupos.length} grupos`, color: '#fbbf24', bg: 'rgba(245,158,11,0.1)', border: 'rgba(245,158,11,0.2)' },
+                ].map(({ label, color, bg, border }) => (
+                  <span key={label} style={{ padding: '4px 12px', borderRadius: 999, fontSize: 11, fontWeight: 700, background: bg, color, border: `1px solid ${border}` }}>
+                    {label}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+            <button className="btn-secondary btn-sm" onClick={handleSeedLibrary} disabled={seeding} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '8px 16px' }}>
+              <Download style={{ width: 14, height: 14 }} />
+              {seeding ? 'Importando...' : 'Importar biblioteca'}
+            </button>
+            <button className="btn-gradient" onClick={() => setShowForm(true)}>
+              <Plus style={{ width: 15, height: 15 }} />
+              Novo exercicio
+            </button>
+          </div>
         </div>
-        <button className="btn-gradient" onClick={() => setShowForm(true)}>
-          <Plus style={{ width: 16, height: 16 }} /> Novo exercício
-        </button>
+        {seeding && (
+          <div style={{ marginTop: 16 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+              <span style={{ fontSize: 12, color: '#7dd3fc', fontWeight: 600 }}>Importando exercicios...</span>
+              <span style={{ fontSize: 12, color: '#64748B' }}>{seedDone}/{EXERCISE_LIBRARY.length}</span>
+            </div>
+            <div style={{ height: 6, background: 'rgba(255,255,255,0.07)', borderRadius: 999, overflow: 'hidden' }}>
+              <div style={{ height: '100%', borderRadius: 999, background: 'linear-gradient(90deg, #4f46e5, #7c3aed)', width: `${seedPct}%`, transition: 'width 0.3s ease', boxShadow: '0 0 12px rgba(99,102,241,0.5)' }} />
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* Search + filter */}
-      <div className="flex flex-col sm:flex-row gap-3">
-        <div className="relative flex-1">
-          <Search style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', width:16, height:16, color:'#3D4F6A' }} />
-          <input className="input pl-11" placeholder="Buscar por nome, grupo ou equipamento..." value={search} onChange={e => setSearch(e.target.value)} />
+      {!seeding && exercicios.length < 5 && (
+        <div style={{ background: 'linear-gradient(135deg, rgba(14,165,233,0.07) 0%, rgba(99,102,241,0.07) 100%)', border: '1px solid rgba(99,102,241,0.18)', borderRadius: 18, padding: '20px 24px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
+          <div style={{ flex: 1, minWidth: 200 }}>
+            <div style={{ fontSize: 15, fontWeight: 700, color: '#c7d2fe', fontFamily: 'Space Grotesk, sans-serif', marginBottom: 4 }}>
+              Importe 30+ exercicios profissionais com videos
+            </div>
+            <div style={{ fontSize: 12, color: '#3D4F6A' }}>
+              Demonstracoes no YouTube para cada movimento — peito, costas, pernas, cardio e muito mais.
+            </div>
+          </div>
+          <button className="btn-gradient" onClick={handleSeedLibrary}>
+            <Download style={{ width: 14, height: 14 }} />
+            Importar agora
+          </button>
         </div>
-        <div className="relative">
-          <Filter style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', width:15, height:15, color:'#3D4F6A', pointerEvents:'none' }} />
-          <select className="input pl-11 pr-4 min-w-[180px]" value={filterGrupo} onChange={e => setFilterGrupo(e.target.value)}>
+      )}
+
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 12 }}>
+        <div style={{ position: 'relative', flex: '1 1 260px' }}>
+          <Search style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#3D4F6A' }} />
+          <input className="input" style={{ paddingLeft: 42 }} placeholder="Buscar exercicio, grupo ou equipamento..." value={search} onChange={e => setSearch(e.target.value)} />
+          {search && (
+            <button onClick={() => setSearch('')} style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#3D4F6A' }}>
+              <X style={{ width: 14, height: 14 }} />
+            </button>
+          )}
+        </div>
+        <div style={{ position: 'relative', flexShrink: 0 }}>
+          <Filter style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, color: '#3D4F6A', pointerEvents: 'none' }} />
+          <select className="input" style={{ paddingLeft: 38, paddingRight: 14, minWidth: 180 }} value={filterGrupo} onChange={e => setFilterGrupo(e.target.value)}>
             <option value="">Todos os grupos</option>
             {grupos.map(g => <option key={g} value={g}>{g}</option>)}
           </select>
         </div>
       </div>
 
-      {/* Category pills */}
       {grupos.length > 0 && (
-        <div className="flex gap-2 flex-wrap">
-          <button onClick={() => setFilterGrupo('')} className="btn-sm transition-all"
-            style={{ background: !filterGrupo ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)', color: !filterGrupo ? '#a5b4fc' : '#4B5768', border: `1px solid ${!filterGrupo ? 'rgba(99,102,241,0.35)' : 'rgba(255,255,255,0.07)'}`, borderRadius: 999 }}>
-            Todos
-          </button>
-          {grupos.map(g => {
-            const c = GRUPO_COLORS[g] || GRUPO_COLORS['Outro']
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+          {['', ...grupos].map(g => {
             const active = filterGrupo === g
+            const key2 = g in GRUPO_META ? g : 'Outro'
+            const m = GRUPO_META[key2]
             return (
-              <button key={g} onClick={() => setFilterGrupo(active ? '' : g)} className="btn-sm transition-all"
-                style={{ background: active ? c.bg : 'rgba(255,255,255,0.04)', color: active ? c.text : '#4B5768', border: `1px solid ${active ? c.border : 'rgba(255,255,255,0.07)'}`, borderRadius: 999 }}>
-                {g}
+              <button
+                key={g || '__all__'}
+                onClick={() => setFilterGrupo(active && g ? '' : g)}
+                style={{
+                  padding: '5px 14px', borderRadius: 999, cursor: 'pointer',
+                  fontSize: 12, fontWeight: 700, transition: 'all 0.15s',
+                  background: active ? (g ? m.bg : 'rgba(99,102,241,0.2)') : 'rgba(255,255,255,0.04)',
+                  color: active ? (g ? m.color : '#a5b4fc') : '#475569',
+                  border: active ? `1px solid ${g ? m.border : 'rgba(99,102,241,0.35)'}` : '1px solid rgba(255,255,255,0.07)',
+                  outline: 'none',
+                }}
+              >
+                {g || 'Todos'}
               </button>
             )
           })}
         </div>
       )}
 
-      {/* Create form */}
       {showForm && (
         <div className="card animate-slide-down" style={{ border: '1px solid rgba(99,102,241,0.3)' }}>
-          <div className="flex justify-between items-start mb-5">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
             <div>
-              <h3 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#EFF6FF', fontSize:15 }}>Novo exercício</h3>
-              <p style={{ fontSize:12, color:'#3D4F6A', marginTop:2 }}>Adicione ao seu banco pessoal</p>
+              <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, color: '#EFF6FF', fontSize: 16, margin: 0 }}>Novo exercicio</h3>
+              <p style={{ fontSize: 12, color: '#3D4F6A', marginTop: 4, marginBottom: 0 }}>Adicione ao seu banco personalizado</p>
             </div>
-            <button onClick={() => setShowForm(false)} className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background:'rgba(255,255,255,0.07)', color:'#64748B' }}>
-              <X style={{ width:14, height:14 }} />
+            <button onClick={() => setShowForm(false)} style={{ width: 32, height: 32, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.07)', color: '#64748B', border: 'none', cursor: 'pointer' }}>
+              <X style={{ width: 14, height: 14 }} />
             </button>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 16 }}>
             <div>
-              <label className="label">Nome do exercício *</label>
+              <label className="label">Nome do exercicio *</label>
               <input className="input" placeholder="Ex: Supino reto com barra" value={form.nome} onChange={set('nome')} />
             </div>
             <div>
@@ -135,77 +387,65 @@ export default function Exercicios() {
             </div>
             <div>
               <label className="label">Equipamento</label>
-              <input className="input" placeholder="Ex: barra olímpica, haltere" value={form.equipamento} onChange={set('equipamento')} />
+              <input className="input" placeholder="Ex: barra olimpica, haltere" value={form.equipamento} onChange={set('equipamento')} />
             </div>
             <div>
-              <label className="label">Link de vídeo demonstrativo</label>
-              <input className="input" placeholder="YouTube, Vimeo ou MP4..." value={form.video_url} onChange={set('video_url')} />
+              <label className="label">Link do video (YouTube)</label>
+              <input className="input" placeholder="https://youtube.com/watch?v=..." value={form.video_url} onChange={set('video_url')} />
             </div>
           </div>
-          <div className="flex gap-3 mt-5">
+          {form.video_url && getYouTubeId(form.video_url) && (
+            <div style={{ marginTop: 14 }}>
+              <label className="label">Previa do video</label>
+              <img src={`https://img.youtube.com/vi/${getYouTubeId(form.video_url)}/mqdefault.jpg`} alt="preview" style={{ width: '100%', maxWidth: 320, borderRadius: 12, objectFit: 'cover', border: '1px solid rgba(255,255,255,0.08)' }} />
+            </div>
+          )}
+          <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
             <button className="btn-secondary" onClick={() => setShowForm(false)}>Cancelar</button>
             <button className="btn-gradient" disabled={isPending || !form.nome} onClick={() => mutate(form)}>
-              {isPending ? <span className="w-4 h-4 border-2 rounded-full animate-spin" style={{ borderColor:'rgba(255,255,255,0.3)', borderTopColor:'white' }} /> : 'Criar exercício'}
+              {isPending ? <span style={{ width: 16, height: 16, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.7s linear infinite' }} /> : 'Criar exercicio'}
             </button>
           </div>
         </div>
       )}
 
-      {/* Results */}
       {isLoading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 20 }}>
           {[1,2,3,4,5,6].map(i => <SkeletonCard key={i} />)}
         </div>
       ) : (
-        <div className="space-y-8">
-          {proprios.length > 0 && <ExercicioSection title="Meus exercícios" count={proprios.length} items={proprios} />}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 40 }}>
+          {proprios.length > 0 && <ExercicioSection title="Meus exercicios" count={proprios.length} items={proprios} />}
           {globais.length > 0
             ? <ExercicioSection title="Biblioteca global" count={globais.length} items={globais} />
-            : filtered.length === 0 && (
-              <div className="card empty-state">
-                <div className="empty-icon"><Dumbbell style={{ width:28, height:28, color:'#4B5768' }} /></div>
-                <p className="empty-title">Nenhum exercício encontrado</p>
-                <p className="empty-message">Tente ajustar a busca ou os filtros</p>
-                <button className="btn-gradient" onClick={() => { setSearch(''); setFilterGrupo('') }}>Limpar filtros</button>
+            : filtered.length === 0 && exercicios.length === 0 && (
+              <div style={{ background: '#0E1525', border: '1px dashed rgba(99,102,241,0.2)', borderRadius: 24, padding: '60px 32px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16, textAlign: 'center' }}>
+                <div style={{ width: 72, height: 72, borderRadius: 22, background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <Dumbbell style={{ width: 30, height: 30, color: '#4B5768' }} />
+                </div>
+                <div>
+                  <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 18, fontWeight: 800, color: '#CBD5E1', margin: '0 0 8px' }}>Nenhum exercicio ainda</p>
+                  <p style={{ fontSize: 13, color: '#3D4F6A', maxWidth: 340, lineHeight: 1.6, margin: 0 }}>
+                    Importe nossa biblioteca com 30+ exercicios profissionais, cada um com demonstracao em video.
+                  </p>
+                </div>
+                <button className="btn-gradient" onClick={handleSeedLibrary} disabled={seeding}>
+                  <Download style={{ width: 15, height: 15 }} />
+                  Importar biblioteca completa
+                </button>
               </div>
             )
           }
+          {filtered.length === 0 && exercicios.length > 0 && (
+            <div style={{ textAlign: 'center', padding: '48px 0' }}>
+              <p style={{ color: '#3D4F6A', fontSize: 14 }}>Nenhum exercicio encontrado para os filtros ativos</p>
+              <button className="btn-secondary btn-sm" style={{ marginTop: 12 }} onClick={() => { setSearch(''); setFilterGrupo('') }}>
+                Limpar filtros
+              </button>
+            </div>
+          )}
         </div>
       )}
-    </div>
-  )
-}
-
-function ExercicioSection({ title, count, items }) {
-  return (
-    <div>
-      <div className="flex items-center gap-3 mb-4">
-        <h2 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#94A3B8', fontSize:13, textTransform:'uppercase', letterSpacing:'0.06em' }}>{title}</h2>
-        <span style={{ background:'rgba(255,255,255,0.07)', color:'#64748B', fontSize:11, fontWeight:700, padding:'2px 8px', borderRadius:999 }}>{count}</span>
-      </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {items.map(e => <ExercicioCard key={e.id} exercicio={e} />)}
-      </div>
-    </div>
-  )
-}
-
-function ExercicioCard({ exercicio: e }) {
-  return (
-    <div className="card-interactive space-y-3">
-      <div className="flex items-start gap-3">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: e.video_url ? 'rgba(167,139,250,0.15)' : 'rgba(99,102,241,0.12)' }}>
-          {e.video_url
-            ? <Video style={{ width:17, height:17, color:'#c4b5fd' }} />
-            : <Dumbbell style={{ width:17, height:17, color:'#818cf8' }} />}
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="font-semibold text-sm leading-tight" style={{ color:'#CBD5E1', fontFamily:'Space Grotesk, sans-serif' }}>{e.nome}</div>
-          {e.equipamento && <div className="text-xs mt-0.5 truncate" style={{ color:'#3D4F6A' }}>{e.equipamento}</div>}
-        </div>
-      </div>
-      {e.grupo_muscular && <GroupBadge grupo={e.grupo_muscular} />}
-      {e.video_url && <VideoThumb url={e.video_url} title={e.nome} />}
     </div>
   )
 }

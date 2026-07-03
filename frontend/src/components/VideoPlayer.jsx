@@ -1,10 +1,7 @@
-/**
- * Componente inteligente de vídeo.
- * Detecta automaticamente YouTube, Vimeo ou vídeo direto (mp4).
- * Uso: <VideoPlayer url="https://youtube.com/watch?v=..." />
- */
+import { useState } from 'react'
 
-function getYouTubeId(url) {
+export function getYouTubeId(url) {
+  if (!url) return null
   const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([A-Za-z0-9_-]{11})/)
   return m ? m[1] : null
 }
@@ -16,17 +13,15 @@ function getVimeoId(url) {
 
 export default function VideoPlayer({ url, title = 'Demonstração do exercício', className = '' }) {
   if (!url) return null
-
   const ytId = getYouTubeId(url)
   const vimeoId = !ytId ? getVimeoId(url) : null
-
   const base = `w-full rounded-xl overflow-hidden aspect-video bg-black ${className}`
 
   if (ytId) {
     return (
       <div className={base}>
         <iframe
-          src={`https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1`}
+          src={`https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&autoplay=1`}
           title={title}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
@@ -50,42 +45,75 @@ export default function VideoPlayer({ url, title = 'Demonstração do exercício
     )
   }
 
-  // Vídeo direto (mp4, webm, etc.)
   return (
     <div className={base}>
       <video controls className="w-full h-full" title={title}>
         <source src={url} />
-        Seu navegador não suporta vídeos HTML5.
       </video>
     </div>
   )
 }
 
-/** Thumbnail clicável — mostra o player só quando clicado. Economiza banda. */
 export function VideoThumb({ url, title }) {
+  const [playing, setPlaying] = useState(false)
   if (!url) return null
   const ytId = getYouTubeId(url)
 
-  return (
-    <details className="group">
-      <summary className="cursor-pointer list-none">
-        <div className="flex items-center gap-2 text-sm font-medium select-none" style={{ color:'#a5b4fc' }}>
-          <span className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style={{ background:'rgba(99,102,241,0.2)', color:'#a5b4fc', fontSize:12 }}>
-            ▶
-          </span>
-          Ver demonstração
-        </div>
-        {ytId && (
-          <img
-            src={`https://img.youtube.com/vi/${ytId}/mqdefault.jpg`}
-            alt={title}
-            className="mt-2 w-full rounded-xl object-cover max-h-40 group-open:hidden"
-          />
-        )}
-      </summary>
-      <div className="mt-2">
+  if (playing) {
+    return (
+      <div style={{ borderRadius: 12, overflow: 'hidden' }}>
         <VideoPlayer url={url} title={title} />
       </div>
-    </details>
+    )
+  }
+
+  return (
+    <div
+      onClick={() => setPlaying(true)}
+      style={{
+        position: 'relative',
+        cursor: 'pointer',
+        borderRadius: 12,
+        overflow: 'hidden',
+        aspectRatio: '16/9',
+        background: '#080D1A',
+      }}
+    >
+      {ytId ? (
+        <img
+          src={`https://img.youtube.com/vi/${ytId}/mqdefault.jpg`}
+          alt={title || ''}
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+      ) : (
+        <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #0E1525, #141D30)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <svg width="28" height="28" fill="#3D4F6A" viewBox="0 0 24 24">
+            <path d="M17 10.5V7a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h12a1 1 0 001-1v-3.5l4 4v-11l-4 4z" />
+          </svg>
+        </div>
+      )}
+      <div style={{
+        position: 'absolute', inset: 0,
+        background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 55%)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        <div style={{
+          width: 52, height: 52, borderRadius: '50%',
+          background: 'rgba(99,102,241,0.92)',
+          boxShadow: '0 0 32px rgba(99,102,241,0.6)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          backdropFilter: 'blur(8px)',
+        }}>
+          <svg width="18" height="18" fill="white" viewBox="0 0 24 24" style={{ marginLeft: 2 }}>
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </div>
+      </div>
+      {title && (
+        <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '8px 12px' }}>
+          <span style={{ color: 'rgba(255,255,255,0.8)', fontSize: 11, fontWeight: 600, fontFamily: 'Inter, sans-serif' }}>{title}</span>
+        </div>
+      )}
+    </div>
   )
 }
