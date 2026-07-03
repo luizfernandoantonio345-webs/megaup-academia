@@ -2,11 +2,13 @@ import { useQuery } from '@tanstack/react-query'
 import { listarAlunos, listarTreinos } from '../api'
 import { useAuth } from '../contexts/AuthContext'
 import { Link } from 'react-router-dom'
-import { Users, Dumbbell, Brain, UserPlus, ArrowRight, BarChart2, Zap, TrendingUp } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { Users, Dumbbell, Brain, UserPlus, ArrowRight, BarChart2, TrendingUp } from 'lucide-react'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 import { SkeletonPage } from '../components/ui/Skeleton'
 
 const DIAS = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb']
+const DIAS_API = ['domingo','segunda','terca','quarta','quinta','sexta','sabado']
+const DIAS_ALT = ['domingo','segunda','terça','quarta','quinta','sexta','sábado']
 
 function StatCard({ icon: Icon, label, value, sub, gradient, to, accent }) {
   const content = (
@@ -22,13 +24,13 @@ function StatCard({ icon: Icon, label, value, sub, gradient, to, accent }) {
           <Icon style={{ width: 20, height: 20, color: 'white' }} />
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-3xl font-black animate-number-in" style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#EFF6FF', letterSpacing: '-0.03em' }}>
+          <div className="text-3xl font-black" style={{ fontFamily: 'Space Grotesk, sans-serif', color: '#EFF6FF', letterSpacing: '-0.03em' }}>
             {value}
           </div>
           <div className="text-sm font-medium mt-0.5" style={{ color: '#94A3B8' }}>{label}</div>
           {sub && <div className="text-xs mt-0.5" style={{ color: '#3D4F6A' }}>{sub}</div>}
         </div>
-        {to && <ArrowRight className="w-4 h-4 flex-shrink-0 mt-1 transition-transform group-hover:translate-x-1" style={{ color: accent }} />}
+        {to && <ArrowRight className="w-4 h-4 flex-shrink-0 mt-1" style={{ color: accent }} />}
       </div>
     </div>
   )
@@ -41,7 +43,7 @@ const DarkTooltip = ({ active, payload, label }) => {
     <div style={{ background: '#141D30', border: '1px solid rgba(99,102,241,0.3)', borderRadius: 12, padding: '10px 14px', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
       <p style={{ color: '#64748B', fontSize: 11, fontWeight: 700, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</p>
       {payload.map((p) => (
-        <p key={p.name} style={{ color: '#a5b4fc', fontWeight: 700, fontSize: 15, fontFamily: 'Space Grotesk, sans-serif' }}>
+        <p key={p.dataKey} style={{ color: '#a5b4fc', fontWeight: 700, fontSize: 15, fontFamily: 'Space Grotesk, sans-serif' }}>
           {p.value} treino{p.value !== 1 ? 's' : ''}
         </p>
       ))}
@@ -52,13 +54,13 @@ const DarkTooltip = ({ active, payload, label }) => {
 function Avatar({ nome }) {
   const initials = nome?.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase()
   return (
-    <div className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{
-      background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
-    }}>
+    <div style={{ width:36, height:36, borderRadius:'50%', background:'linear-gradient(135deg,#4f46e5,#7c3aed)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:700, color:'white', flexShrink:0 }}>
       {initials}
     </div>
   )
 }
+
+const BAR_COLORS = ['#4f46e5','#5b52e8','#675feb','#736bee','#7f78f0','#8b84f3','#9791f6']
 
 export default function Dashboard() {
   const { user } = useAuth()
@@ -67,12 +69,11 @@ export default function Dashboard() {
 
   if (la || lt) return <SkeletonPage />
 
-  const DIAS_API = ['domingo','segunda','terca','quarta','quinta','sexta','sabado']
   const treinosPorDia = DIAS.map((dia, i) => ({
     dia,
     treinos: treinos.filter((t) => {
       const d = t.dia_semana?.toLowerCase()
-      return d === DIAS_API[i] || d === ['domingo','segunda','terça','quarta','quinta','sexta','sábado'][i]
+      return d === DIAS_API[i] || d === DIAS_ALT[i]
     }).length,
   }))
 
@@ -102,20 +103,20 @@ export default function Dashboard() {
 
       {/* Stat cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard icon={Users}    label="Alunos ativos"     value={alunos.length}  sub="na plataforma"    gradient="linear-gradient(135deg,#4f46e5,#7c3aed)" accent="#6366f1" to="/alunos" />
-        <StatCard icon={Dumbbell} label="Treinos prescritos" value={treinos.length} sub={`${avgEx} ex/treino`} gradient="linear-gradient(135deg,#059669,#10b981)" accent="#10b981" />
-        <StatCard icon={Brain}    label="IA · Progressão"   value="Ver"            sub="Sugestões ativas"  gradient="linear-gradient(135deg,#7c3aed,#a78bfa)"  accent="#a78bfa" to="/ia" />
-        <StatCard icon={BarChart2} label="Financeiro"       value="Ver"            sub="Cobranças e planos" gradient="linear-gradient(135deg,#d97706,#f59e0b)" accent="#f59e0b" to="/financeiro" />
+        <StatCard icon={Users}     label="Alunos ativos"      value={alunos.length}  sub="na plataforma"      gradient="linear-gradient(135deg,#4f46e5,#7c3aed)" accent="#6366f1" to="/alunos" />
+        <StatCard icon={Dumbbell}  label="Treinos prescritos"  value={treinos.length} sub={`${avgEx} ex/treino`} gradient="linear-gradient(135deg,#059669,#10b981)" accent="#10b981" />
+        <StatCard icon={Brain}     label="IA · Progressão"     value="Ver"            sub="Sugestões ativas"    gradient="linear-gradient(135deg,#7c3aed,#a78bfa)"  accent="#a78bfa" to="/ia" />
+        <StatCard icon={BarChart2} label="Financeiro"          value="Ver"            sub="Cobranças e planos"  gradient="linear-gradient(135deg,#d97706,#f59e0b)"  accent="#f59e0b" to="/financeiro" />
       </div>
 
       {/* Charts row */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-5">
-        {/* Bar chart */}
+        {/* Bar chart — animations OFF to prevent removeChild crashes */}
         <div className="card lg:col-span-3">
           <div className="flex items-center justify-between mb-5">
             <div>
               <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, color: '#CBD5E1', fontSize: 15 }}>Treinos por dia</h2>
-              <p style={{ fontSize: 12, color: '#3D4F6A', marginTop: 2 }}>Distribuição semanal dos treinos prescritos</p>
+              <p style={{ fontSize: 12, color: '#3D4F6A', marginTop: 2 }}>Distribuição semanal</p>
             </div>
             <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background: 'rgba(99,102,241,0.12)' }}>
               <BarChart2 style={{ width: 15, height: 15, color: '#818cf8' }} />
@@ -129,18 +130,16 @@ export default function Dashboard() {
             </div>
           ) : (
             <ResponsiveContainer width="100%" height={190}>
-              <BarChart data={treinosPorDia} barSize={24}>
-                <defs>
-                  <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#6366f1" stopOpacity={0.9} />
-                    <stop offset="100%" stopColor="#7c3aed" stopOpacity={0.6} />
-                  </linearGradient>
-                </defs>
+              <BarChart data={treinosPorDia} barSize={24} margin={{ top: 4, right: 4, left: -16, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
-                <XAxis dataKey="dia" tick={{ fontSize: 11, fill: '#3D4F6A', fontFamily: 'Inter' }} axisLine={false} tickLine={false} />
+                <XAxis dataKey="dia" tick={{ fontSize: 11, fill: '#3D4F6A', fontFamily: 'Inter, sans-serif' }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fontSize: 11, fill: '#3D4F6A' }} axisLine={false} tickLine={false} allowDecimals={false} width={20} />
-                <Tooltip content={<DarkTooltip />} cursor={{ fill: 'rgba(99,102,241,0.08)', radius: 6 }} />
-                <Bar dataKey="treinos" fill="url(#barGrad)" radius={[6, 6, 0, 0]} />
+                <Tooltip content={<DarkTooltip />} cursor={{ fill: 'rgba(99,102,241,0.08)' }} />
+                <Bar dataKey="treinos" radius={[6, 6, 0, 0]} isAnimationActive={false}>
+                  {treinosPorDia.map((_, i) => (
+                    <Cell key={`cell-${i}`} fill={BAR_COLORS[i % BAR_COLORS.length]} fillOpacity={0.85} />
+                  ))}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           )}
@@ -155,10 +154,10 @@ export default function Dashboard() {
             </div>
             <div className="space-y-4">
               {[
-                { label: 'Alunos', value: alunos.length, max: Math.max(alunos.length, 10),   color: 'linear-gradient(90deg,#4f46e5,#7c3aed)', accent: '#6366f1' },
-                { label: 'Treinos', value: treinos.length, max: Math.max(treinos.length, 20), color: 'linear-gradient(90deg,#059669,#10b981)', accent: '#10b981' },
-                { label: 'Ex/treino', value: avgEx, max: 12,                                  color: 'linear-gradient(90deg,#7c3aed,#a78bfa)', accent: '#a78bfa' },
-              ].map(({ label, value, max, color, accent }) => (
+                { label: 'Alunos',    value: alunos.length,  max: Math.max(alunos.length, 10),   color: 'linear-gradient(90deg,#4f46e5,#7c3aed)' },
+                { label: 'Treinos',   value: treinos.length, max: Math.max(treinos.length, 20),   color: 'linear-gradient(90deg,#059669,#10b981)' },
+                { label: 'Ex/treino', value: avgEx,          max: 12,                             color: 'linear-gradient(90deg,#7c3aed,#a78bfa)' },
+              ].map(({ label, value, max, color }) => (
                 <div key={label}>
                   <div className="flex justify-between mb-2">
                     <span style={{ fontSize: 12, color: '#64748B' }}>{label}</span>
@@ -171,7 +170,6 @@ export default function Dashboard() {
               ))}
             </div>
           </div>
-
           <div className="mt-6 pt-5" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
             <Link to="/convites" className="btn-gradient w-full justify-center">
               <UserPlus style={{ width: 15, height: 15 }} />
@@ -200,7 +198,9 @@ export default function Dashboard() {
           ) : (
             <div className="space-y-1">
               {recentAlunos.map((a) => (
-                <Link key={a.id} to={`/alunos/${a.id}`} className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all group" style={{ ':hover': { background: 'rgba(255,255,255,0.04)' } }}
+                <Link key={a.id} to={`/alunos/${a.id}`}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-colors"
+                  style={{ color: 'inherit', textDecoration: 'none' }}
                   onMouseEnter={e => e.currentTarget.style.background='rgba(255,255,255,0.04)'}
                   onMouseLeave={e => e.currentTarget.style.background='transparent'}
                 >
@@ -222,15 +222,16 @@ export default function Dashboard() {
           <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, color: '#CBD5E1', fontSize: 15, marginBottom: 16 }}>Ações rápidas</h2>
           <div className="space-y-2">
             {[
-              { to: '/convites',   icon: UserPlus,   label: 'Enviar convite por e-mail',      accent: '#6366f1', bg: 'rgba(99,102,241,0.1)'  },
-              { to: '/exercicios', icon: Dumbbell,   label: 'Gerenciar banco de exercícios',   accent: '#10b981', bg: 'rgba(16,185,129,0.1)'  },
-              { to: '/ia',         icon: Brain,      label: 'Ver sugestões da IA por aluno',   accent: '#a78bfa', bg: 'rgba(167,139,250,0.1)' },
-              { to: '/financeiro', icon: BarChart2,  label: 'Acompanhar cobranças e planos',   accent: '#f59e0b', bg: 'rgba(245,158,11,0.1)'  },
+              { to: '/convites',   icon: UserPlus,  label: 'Enviar convite por e-mail',     accent: '#6366f1', bg: 'rgba(99,102,241,0.1)'  },
+              { to: '/exercicios', icon: Dumbbell,  label: 'Gerenciar banco de exercícios',  accent: '#10b981', bg: 'rgba(16,185,129,0.1)'  },
+              { to: '/ia',         icon: Brain,     label: 'Ver sugestões da IA por aluno',  accent: '#a78bfa', bg: 'rgba(167,139,250,0.1)' },
+              { to: '/financeiro', icon: BarChart2, label: 'Cobranças e planos',             accent: '#f59e0b', bg: 'rgba(245,158,11,0.1)'  },
             ].map(({ to, icon: Icon, label, accent, bg }) => (
-              <Link key={to} to={to} className="flex items-center gap-3 px-3 py-3 rounded-xl transition-all group"
-                style={{ border: '1px solid rgba(255,255,255,0.05)' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor=`${accent}30`; e.currentTarget.style.background=bg }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor='rgba(255,255,255,0.05)'; e.currentTarget.style.background='transparent' }}
+              <Link key={to} to={to}
+                className="flex items-center gap-3 px-3 py-3 rounded-xl transition-colors"
+                style={{ border: '1px solid rgba(255,255,255,0.05)', textDecoration: 'none' }}
+                onMouseEnter={e => { e.currentTarget.style.background = bg; e.currentTarget.style.borderColor = `${accent}40` }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.05)' }}
               >
                 <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: bg }}>
                   <Icon style={{ width: 16, height: 16, color: accent }} />
