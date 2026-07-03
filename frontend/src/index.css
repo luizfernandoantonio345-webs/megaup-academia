@@ -503,3 +503,64 @@
   0%, 100% { transform: scale(1);    opacity: 1 }
   50%       { transform: scale(1.05); opacity: 0.85 }
 }
+@keyframes sheetUp   { from { transform: translateY(100%) } to { transform: translateY(0) } }
+@keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1) } 50% { opacity: 0.6; transform: scale(0.8) } }
+
+/* ══════════════════════════════════════════
+   MOBILE — Safe Area + Touch
+══════════════════════════════════════════ */
+
+/* Remove tap highlight on all interactive elements */
+* { -webkit-tap-highlight-color: transparent; }
+
+/* Prevent iOS font size adjustment */
+html { -webkit-text-size-adjust: 100%; }
+
+/* Prevent iOS auto-zoom on input focus (font-size must be ≥ 16px) */
+@media (max-width: 1024px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Safe area utilities */
+.pt-safe  { padding-top:    env(safe-area-inset-top)    }
+.pb-safe  { padding-bottom: env(safe-area-inset-bottom) }
+.pl-safe  { padding-left:   env(safe-area-inset-left)   }
+.pr-safe  { padding-right:  env(safe-area-inset-right)  }
+
+/* Bottom padding that accounts for mobile nav + safe area */
+.pb-mobile-nav { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
+
+/* Minimum touch target size (WCAG 2.5.5 / Apple HIG: 44px) */
+.touch-target {
+  min-height: 44px;
+  min-width:  44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Gym-specific utility: neon glow text */
+.text-glow-indigo { text-shadow: 0 0 20px rgba(99,102,241,0.5); }
+.text-glow-green  { text-shadow: 0 0 20px rgba(16,185,129,0.5); }
+.text-glow-amber  { text-shadow: 0 0 20px rgba(245,158,11,0.5); }
+
+/* Mobile card that fills full width */
+@media (max-width: 640px) {
+  .card { border-radius: 18px; }
+  .card-interactive:hover { transform: none; } /* disable hover lift on touch */
+}
+
+/* Smooth momentum scrolling on iOS */
+.scroll-smooth-ios { -webkit-overflow-scrolling: touch; }
+
+/* Large button variant for touch */
+.btn-xl {
+  @apply btn text-base px-6;
+  min-height: 56px;
+  border-radius: 18px;
+}
+
+/* Full-width button on mobile */
+.btn-mobile { @apply w-full justify-center; min-height: 52px; border-radius: 16px; }

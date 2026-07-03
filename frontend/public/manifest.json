@@ -1,0 +1,50 @@
+{
+  "name": "FitSaaS — Academia Pro",
+  "short_name": "FitSaaS",
+  "description": "Plataforma completa para personal trainers e alunos de academia",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "background_color": "#070B14",
+  "theme_color": "#4f46e5",
+  "orientation": "portrait-primary",
+  "lang": "pt-BR",
+  "categories": ["fitness", "health", "sports"],
+  "icons": [
+    {
+      "src": "/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Treino de hoje",
+      "short_name": "Treino",
+      "description": "Ver treino do dia",
+      "url": "/aluno",
+      "icons": [{ "src": "/icon-192.svg", "sizes": "192x192" }]
+    },
+    {
+      "name": "Dashboard",
+      "short_name": "Dashboard",
+      "description": "Painel do personal trainer",
+      "url": "/dashboard",
+      "icons": [{ "src": "/icon-192.svg", "sizes": "192x192" }]
+    }
+  ]
+}

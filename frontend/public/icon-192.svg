@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" width="192" height="192">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0e1525"/>
+      <stop offset="100%" style="stop-color:#070b14"/>
+    </linearGradient>
+    <linearGradient id="icon" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#818cf8"/>
+      <stop offset="100%" style="stop-color:#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect width="192" height="192" rx="40" fill="url(#bg)"/>
+  <rect width="192" height="192" rx="40" fill="none" stroke="rgba(99,102,241,0.3)" stroke-width="2"/>
+  <!-- Dumbbell icon centered -->
+  <g transform="translate(48, 72)">
+    <!-- Left weight -->
+    <rect x="0" y="12" width="14" height="24" rx="4" fill="url(#icon)"/>
+    <!-- Left inner weight -->
+    <rect x="4" y="8" width="6" height="32" rx="3" fill="url(#icon)" opacity="0.7"/>
+    <!-- Bar -->
+    <rect x="10" y="21" width="76" height="6" rx="3" fill="url(#icon)"/>
+    <!-- Right inner weight -->
+    <rect x="86" y="8" width="6" height="32" rx="3" fill="url(#icon)" opacity="0.7"/>
+    <!-- Right weight -->
+    <rect x="82" y="12" width="14" height="24" rx="4" fill="url(#icon)"/>
+  </g>
+  <!-- Zap accent -->
+  <path d="M100 32 L88 58 L96 58 L84 88 L112 54 L103 54 Z" fill="#fbbf24" opacity="0.9"/>
+</svg>
