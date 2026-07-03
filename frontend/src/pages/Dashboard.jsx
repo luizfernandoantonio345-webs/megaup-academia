@@ -67,11 +67,12 @@ export default function Dashboard() {
 
   if (la || lt) return <SkeletonPage />
 
+  const DIAS_API = ['domingo','segunda','terca','quarta','quinta','sexta','sabado']
   const treinosPorDia = DIAS.map((dia, i) => ({
     dia,
     treinos: treinos.filter((t) => {
       const d = t.dia_semana?.toLowerCase()
-      return d === ['domingo','segunda','terça','quarta','quinta','sexta','sábado'][i]
+      return d === DIAS_API[i] || d === ['domingo','segunda','terça','quarta','quinta','sexta','sábado'][i]
     }).length,
   }))
 

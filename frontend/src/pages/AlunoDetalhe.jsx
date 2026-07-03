@@ -83,7 +83,7 @@ export default function AlunoDetalhe() {
             ) : (
               <div className="flex items-center gap-2 mb-0.5">
                 <h1 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:20, fontWeight:800, color:'#EFF6FF', letterSpacing:'-0.02em' }}>{aluno?.nome}</h1>
-                <button onClick={() => { setNomeTemp(aluno.nome); setEditNome(true) }} style={{ color:'#1F2D4A', background:'none', border:'none', cursor:'pointer', padding:2 }}>
+                <button onClick={() => { setNomeTemp(aluno?.nome || ''); setEditNome(true) }} style={{ color:'#1F2D4A', background:'none', border:'none', cursor:'pointer', padding:2 }}>
                   <Edit2 style={{ width:13, height:13 }} />
                 </button>
               </div>
@@ -236,7 +236,7 @@ function GamificacaoTab({ gami }) {
 
       <div>
         <p className="section-title">Conquistas desbloqueadas</p>
-        {gami.conquistas.length === 0 ? (
+        {(gami.conquistas?.length ?? 0) === 0 ? (
           <div className="card empty-state py-10">
             <div style={{ fontSize:40, marginBottom:8 }}>🎯</div>
             <p className="empty-title">Nenhuma conquista ainda</p>
@@ -244,7 +244,7 @@ function GamificacaoTab({ gami }) {
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {gami.conquistas.map(c => {
+            {(gami.conquistas || []).map(c => {
               const b = BADGES[c.codigo] || { emoji:'🎖️', label:c.descricao, border:'rgba(100,116,139,0.25)', bg:'rgba(100,116,139,0.08)' }
               return (
                 <div key={c.id} className="card text-center p-4" style={{ border:`1px solid ${b.border}`, background:b.bg }}>
@@ -279,7 +279,7 @@ function SugestoesTab({ sugestoes }) {
         </div>
       )}
 
-      {sugestoes.sugestoes_pendentes.length === 0 ? (
+      {(sugestoes.sugestoes_pendentes?.length ?? 0) === 0 ? (
         <div className="card empty-state py-10">
           <div className="empty-icon"><Brain style={{ width:28, height:28, color:'#4B5768' }} /></div>
           <p className="empty-title">Sem sugestões ainda</p>
@@ -287,7 +287,7 @@ function SugestoesTab({ sugestoes }) {
         </div>
       ) : (
         <div className="space-y-3">
-          {sugestoes.sugestoes_pendentes.map(s => {
+          {(sugestoes.sugestoes_pendentes || []).map(s => {
             const cfg = ACAO_CONFIG[s.acao] || ACAO_CONFIG.manter
             const IconAcao = cfg.icon
             return (

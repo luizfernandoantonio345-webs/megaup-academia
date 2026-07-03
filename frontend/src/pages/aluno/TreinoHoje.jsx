@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '../../contexts/AuthContext'
-import { listarAlunos, treinoDodia, listarExercicios, executarTreino, gamificacaoAluno } from '../../api'
+import { treinoDodia, listarExercicios, executarTreino, gamificacaoAluno } from '../../api'
 import toast from 'react-hot-toast'
 import { Play, Dumbbell, CheckCircle, X, ChevronDown, ChevronUp, Timer, Zap, Check, Pause, Flame } from 'lucide-react'
 import VideoPlayer from '../../components/VideoPlayer'
@@ -393,18 +393,17 @@ export default function TreinoHoje() {
   const { user } = useAuth()
   const [treinoAtivo, setTreinoAtivo] = useState(null)
 
-  const { data: alunos = [] } = useQuery({ queryKey: ['alunos'], queryFn: () => listarAlunos().then(r => r.data) })
-  const aluno = alunos.find(a => a.email === user?.email) || alunos[0]
+  const alunoId = user?.id
 
   const { data: treinosHoje = [], isLoading } = useQuery({
-    queryKey: ['treino-do-dia', aluno?.id],
-    queryFn: () => treinoDodia(aluno.id).then(r => r.data),
-    enabled: !!aluno,
+    queryKey: ['treino-do-dia', alunoId],
+    queryFn: () => treinoDodia(alunoId).then(r => r.data),
+    enabled: !!alunoId,
   })
   const { data: gami } = useQuery({
-    queryKey: ['gamificacao', aluno?.id],
-    queryFn: () => gamificacaoAluno(aluno.id).then(r => r.data),
-    enabled: !!aluno,
+    queryKey: ['gamificacao', alunoId],
+    queryFn: () => gamificacaoAluno(alunoId).then(r => r.data),
+    enabled: !!alunoId,
   })
   const { data: exercicios = [] } = useQuery({ queryKey: ['exercicios'], queryFn: () => listarExercicios().then(r => r.data) })
   const exercicioMap = Object.fromEntries(exercicios.map(e => [e.id, e]))
@@ -415,7 +414,7 @@ export default function TreinoHoje() {
   const hora = new Date().getHours()
   const saudacao = hora < 12 ? 'Bom dia' : hora < 18 ? 'Boa tarde' : 'Boa noite'
 
-  if (isLoading && !aluno) return (
+  if (isLoading) return (
     <div className="flex flex-col items-center justify-center py-20 gap-3">
       <div className="w-14 h-14 rounded-2xl flex items-center justify-center animate-bounce-light" style={{ background:'rgba(99,102,241,0.15)' }}>
         <Dumbbell style={{ width:24, height:24, color:'#818cf8' }} />

@@ -98,7 +98,7 @@ export default function IA() {
               ) : (
                 <div className="space-y-3">
                   <p style={{ fontSize:11, color:'#4B5768', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.07em' }}>
-                    {sugestoes.sugestoes_pendentes.length} sugestão{sugestoes.sugestoes_pendentes.length > 1 ? 'ões' : ''} gerada{sugestoes.sugestoes_pendentes.length > 1 ? 's' : ''}
+                    {sugestoes.sugestoes_pendentes.length === 1 ? '1 sugestão gerada' : `${sugestoes.sugestoes_pendentes.length} sugestões geradas`}
                   </p>
                   {sugestoes.sugestoes_pendentes.map((s) => {
                     const cfg = ACAO_CONFIG[s.acao] || ACAO_CONFIG.manter

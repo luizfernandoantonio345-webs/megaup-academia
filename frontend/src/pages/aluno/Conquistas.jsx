@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '../../contexts/AuthContext'
-import { listarAlunos, gamificacaoAluno } from '../../api'
+import { gamificacaoAluno } from '../../api'
 import { Lock, Star, Zap } from 'lucide-react'
 
 const CONQUISTAS = [
@@ -128,13 +128,12 @@ function ConquistaCard({ conquista: c, gami, desbloqueadas }) {
 
 export default function Conquistas() {
   const { user } = useAuth()
-  const { data: alunos = [] } = useQuery({ queryKey:['alunos'], queryFn: () => listarAlunos().then(r => r.data) })
-  const aluno = alunos.find(a => a.email === user?.email) || alunos[0]
+  const alunoId = user?.id
 
   const { data: gami, isLoading } = useQuery({
-    queryKey: ['gamificacao', aluno?.id],
-    queryFn: () => gamificacaoAluno(aluno.id).then(r => r.data),
-    enabled: !!aluno,
+    queryKey: ['gamificacao', alunoId],
+    queryFn: () => gamificacaoAluno(alunoId).then(r => r.data),
+    enabled: !!alunoId,
   })
 
   if (isLoading) return (

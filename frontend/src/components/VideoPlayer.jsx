@@ -69,8 +69,8 @@ export function VideoThumb({ url, title }) {
   return (
     <details className="group">
       <summary className="cursor-pointer list-none">
-        <div className="flex items-center gap-2 text-blue-600 hover:text-blue-800 text-sm font-medium select-none">
-          <span className="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+        <div className="flex items-center gap-2 text-sm font-medium select-none" style={{ color:'#a5b4fc' }}>
+          <span className="w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0" style={{ background:'rgba(99,102,241,0.2)', color:'#a5b4fc', fontSize:12 }}>
             ▶
           </span>
           Ver demonstração

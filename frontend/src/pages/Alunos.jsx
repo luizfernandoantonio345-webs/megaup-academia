@@ -78,8 +78,8 @@ export default function Alunos() {
   })
 
   const filtered = alunos.filter(
-    (a) => a.nome.toLowerCase().includes(search.toLowerCase()) ||
-            a.email.toLowerCase().includes(search.toLowerCase())
+    (a) => a.nome?.toLowerCase().includes(search.toLowerCase()) ||
+            a.email?.toLowerCase().includes(search.toLowerCase())
   )
 
   return (
