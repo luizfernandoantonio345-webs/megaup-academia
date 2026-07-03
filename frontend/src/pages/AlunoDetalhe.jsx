@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { obterAluno, listarTreinos, gamificacaoAluno, sugestoesAluno, obterAnamnese, salvarAnamnese, criarTreino, atualizarAluno } from '../api'
+import { obterAluno, listarTreinos, gamificacaoAluno, sugestoesAluno, obterAnamnese, salvarAnamnese, criarTreino, atualizarAluno, listarExercicios, historicoCarga } from '../api'
 import toast from 'react-hot-toast'
-import { ArrowLeft, Dumbbell, Flame, Trophy, Brain, ClipboardList, Plus, Loader2, Edit2, Check, X, TrendingUp, TrendingDown, Minus } from 'lucide-react'
+import { ArrowLeft, Dumbbell, Flame, Trophy, Brain, ClipboardList, Plus, Loader2, Edit2, Check, X, TrendingUp, TrendingDown, Minus, BarChart2, ChevronDown } from 'lucide-react'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
 function Avatar({ nome }) {
   const initials = nome?.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
@@ -32,6 +33,7 @@ export default function AlunoDetalhe() {
   const { data: gami }   = useQuery({ queryKey:['gamificacao', id], queryFn: () => gamificacaoAluno(id).then(r => r.data) })
   const { data: sugestoes } = useQuery({ queryKey:['sugestoes', id], queryFn: () => sugestoesAluno(id).then(r => r.data) })
   const { data: anamnese }  = useQuery({ queryKey:['anamnese', id], queryFn: () => obterAnamnese(id).then(r => r.data), enabled: tab === 'anamnese' })
+  const { data: exercicios = [] } = useQuery({ queryKey:['exercicios'], queryFn: () => listarExercicios().then(r => r.data), enabled: tab === 'progresso' })
 
   const { mutate: updateNome } = useMutation({
     mutationFn: data => atualizarAluno(id, data),
@@ -121,7 +123,8 @@ export default function AlunoDetalhe() {
       <div className="tabs">
         {[
           { key:'treinos',     label:'Treinos' },
-          { key:'gamificacao', label:'Gamificação' },
+          { key:'progresso',   label:'Progresso' },
+          { key:'gamificacao', label:'Conquistas' },
           { key:'sugestoes',   label:`IA${nSugestoes ? ` (${nSugestoes})` : ''}` },
           { key:'anamnese',    label:'Anamnese' },
         ].map(({ key, label }) => (
@@ -131,10 +134,165 @@ export default function AlunoDetalhe() {
 
       <div className="animate-fade-in">
         {tab === 'treinos'     && <TreinosTab aluno={aluno} treinos={treinos} onCriar={(nome, dia) => criarT({ aluno_id:Number(id), nome, dia_semana:dia })} />}
+        {tab === 'progresso'   && <ProgresoTab alunoId={id} treinos={treinos} exercicios={exercicios} />}
         {tab === 'gamificacao' && <GamificacaoTab gami={gami} />}
         {tab === 'sugestoes'   && <SugestoesTab sugestoes={sugestoes} />}
         {tab === 'anamnese'    && <AnamneseTab anamnese={anamnese} onSalvar={salvarAnam} saving={savingAnam} />}
       </div>
+    </div>
+  )
+}
+
+function ProgresoTab({ alunoId, treinos, exercicios }) {
+  const exIds = [...new Set((treinos || []).flatMap(t => (t.itens || []).map(i => i.exercicio_id)))]
+  const exMap = Object.fromEntries(exercicios.map(e => [e.id, e]))
+  const availableEx = exIds.map(eid => exMap[eid]).filter(Boolean)
+  const [selectedExId, setSelectedExId] = useState(availableEx[0]?.id || null)
+
+  const { data: hist, isLoading } = useQuery({
+    queryKey: ['historico-carga', alunoId, selectedExId],
+    queryFn: () => historicoCarga(alunoId, selectedExId).then(r => r.data),
+    enabled: !!alunoId && !!selectedExId,
+    retry: false,
+  })
+
+  const sessions = hist?.historico || hist?.execucoes || []
+  const chartData = sessions.map(s => ({
+    data: s.data ? new Date(s.data).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
+      : s.created_at ? new Date(s.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }) : '—',
+    carga: s.carga_realizada != null ? Number(s.carga_realizada) : null,
+    reps: s.repeticoes_realizadas || null,
+  })).filter(d => d.carga != null)
+
+  const maxCarga = chartData.length > 0 ? Math.max(...chartData.map(d => d.carga)) : 0
+  const lastCarga = chartData.length > 0 ? chartData[chartData.length - 1].carga : null
+  const prevCarga = chartData.length > 1 ? chartData[chartData.length - 2].carga : null
+  const delta = lastCarga != null && prevCarga != null ? lastCarga - prevCarga : null
+
+  const DotTooltip = ({ active, payload, label }) => {
+    if (!active || !payload?.length) return null
+    return (
+      <div style={{ background: '#141D30', border: '1px solid rgba(99,102,241,0.3)', borderRadius: 12, padding: '8px 14px', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
+        <p style={{ color: '#64748B', fontSize: 11, fontWeight: 700, marginBottom: 2 }}>{label}</p>
+        <p style={{ color: '#a5b4fc', fontWeight: 700, fontSize: 15, fontFamily: 'Space Grotesk, sans-serif' }}>{payload[0]?.value} kg</p>
+      </div>
+    )
+  }
+
+  if (availableEx.length === 0) return (
+    <div className="card empty-state py-12">
+      <div className="empty-icon"><BarChart2 style={{ width: 28, height: 28, color: '#4B5768' }} /></div>
+      <p className="empty-title">Sem dados de progresso</p>
+      <p className="empty-message">Adicione treinos com exercicios e execute-os para ver a evolucao de carga.</p>
+    </div>
+  )
+
+  return (
+    <div className="space-y-5">
+      {/* Exercise selector */}
+      <div>
+        <label className="label">Exercicio</label>
+        <div style={{ position: 'relative' }}>
+          <select className="input appearance-none" style={{ paddingRight: 36 }}
+            value={selectedExId || ''} onChange={e => setSelectedExId(Number(e.target.value))}>
+            {availableEx.map(ex => (
+              <option key={ex.id} value={ex.id}>{ex.nome}{ex.grupo_muscular ? ` (${ex.grupo_muscular})` : ''}</option>
+            ))}
+          </select>
+          <ChevronDown style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#3D4F6A', pointerEvents: 'none' }} />
+        </div>
+      </div>
+
+      {/* Stats row */}
+      {chartData.length > 0 && (
+        <div className="grid grid-cols-3 gap-3">
+          {[
+            { label: 'Maximo', value: `${maxCarga}kg`, color: '#a5b4fc' },
+            { label: 'Ultima', value: lastCarga != null ? `${lastCarga}kg` : '--', color: '#34d399' },
+            { label: 'Variacao', value: delta != null ? `${delta > 0 ? '+' : ''}${delta}kg` : '--', color: delta == null ? '#3D4F6A' : delta > 0 ? '#34d399' : delta < 0 ? '#f87171' : '#6366f1' },
+          ].map(({ label, value, color }) => (
+            <div key={label} className="card text-center p-3">
+              <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 20, fontWeight: 800, color, letterSpacing: '-0.02em' }}>{value}</div>
+              <div style={{ fontSize: 11, color: '#3D4F6A', fontWeight: 600, marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Chart */}
+      <div className="card">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, color: '#CBD5E1', fontSize: 14 }}>Evolucao de carga</h3>
+            <p style={{ fontSize: 12, color: '#3D4F6A', marginTop: 2 }}>
+              {chartData.length > 0 ? `${chartData.length} sessao${chartData.length !== 1 ? 'es' : ''} registrada${chartData.length !== 1 ? 's' : ''}` : 'Sem execucoes registradas'}
+            </p>
+          </div>
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(99,102,241,0.12)' }}>
+            <TrendingUp style={{ width: 16, height: 16, color: '#818cf8' }} />
+          </div>
+        </div>
+
+        {isLoading ? (
+          <div className="flex justify-center py-10">
+            <Loader2 style={{ width: 22, height: 22, color: '#6366f1', animation: 'spin 1s linear infinite' }} />
+          </div>
+        ) : chartData.length === 0 ? (
+          <div className="empty-state py-10">
+            <div style={{ fontSize: 36, marginBottom: 8 }}>📊</div>
+            <p className="empty-title">Sem dados ainda</p>
+            <p className="empty-message">Execute este exercicio para aparecer o grafico</p>
+          </div>
+        ) : (
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={chartData} margin={{ top: 4, right: 8, left: -12, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
+              <XAxis dataKey="data" tick={{ fontSize: 11, fill: '#3D4F6A' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 11, fill: '#3D4F6A' }} axisLine={false} tickLine={false} width={40} tickFormatter={v => `${v}kg`} />
+              <Tooltip content={<DotTooltip />} />
+              <Line type="monotone" dataKey="carga" stroke="#6366f1" strokeWidth={2.5}
+                dot={{ fill: '#6366f1', r: 4, strokeWidth: 0 }}
+                activeDot={{ r: 6, fill: '#a5b4fc', strokeWidth: 0 }}
+                isAnimationActive={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        )}
+      </div>
+
+      {/* History list */}
+      {sessions.length > 0 && (
+        <div>
+          <p className="section-title">Historico de execucoes</p>
+          <div className="space-y-2">
+            {[...sessions].reverse().slice(0, 8).map((s, i) => {
+              const dateStr = s.data
+                ? new Date(s.data).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: '2-digit' })
+                : s.created_at
+                  ? new Date(s.created_at).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: '2-digit' })
+                  : '—'
+              return (
+                <div key={i} className="rounded-2xl p-3 flex items-center gap-4"
+                  style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
+                    style={{ background: 'rgba(99,102,241,0.12)' }}>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: '#818cf8', fontFamily: 'Space Grotesk, sans-serif' }}>
+                      {sessions.length - i}
+                    </span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p style={{ fontSize: 13, fontWeight: 700, color: '#CBD5E1', fontFamily: 'Space Grotesk, sans-serif' }}>
+                      {s.carga_realizada != null ? `${s.carga_realizada}kg` : '--'}
+                      {s.repeticoes_realizadas ? ` × ${s.repeticoes_realizadas} reps` : ''}
+                      {s.series_realizadas ? ` × ${s.series_realizadas} series` : ''}
+                    </p>
+                    <p style={{ fontSize: 11, color: '#3D4F6A' }}>{dateStr}</p>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
