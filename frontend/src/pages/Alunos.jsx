@@ -8,11 +8,9 @@ import { SkeletonCard } from '../components/ui/Skeleton'
 
 function Avatar({ nome, size = 'md' }) {
   const initials = nome?.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase()
-  const cl = size === 'lg'
-    ? 'w-12 h-12 text-base'
-    : 'w-10 h-10 text-sm'
+  const sz = size === 'lg' ? 'w-12 h-12 text-base' : 'w-10 h-10 text-sm'
   return (
-    <div className={`${cl} bg-gradient-to-br from-primary-500 to-violet-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0`}>
+    <div className={`${sz} rounded-full flex items-center justify-center font-bold text-white flex-shrink-0`} style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)' }}>
       {initials}
     </div>
   )
@@ -25,67 +23,43 @@ function ModalCriar({ onClose }) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: criarAluno,
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['alunos'] })
-      toast.success('Aluno criado com sucesso!')
-      onClose()
-    },
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ['alunos'] }); toast.success('Aluno criado!'); onClose() },
     onError: (err) => toast.error(err.response?.data?.detail || 'Erro ao criar aluno'),
   })
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-3xl p-6 w-full max-w-md shadow-glass animate-scale-in">
+    <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)' }}>
+      <div className="w-full max-w-md rounded-2xl p-6 animate-scale-in" style={{ background: '#0E1525', border: '1px solid rgba(99,102,241,0.25)', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}>
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h3 className="font-bold text-lg text-gray-900">Novo aluno</h3>
-            <p className="text-sm text-gray-500">Preencha as informações básicas</p>
+            <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, color: '#EFF6FF', fontSize: 17 }}>Novo aluno</h3>
+            <p style={{ fontSize: 13, color: '#3D4F6A', marginTop: 2 }}>Preencha as informações básicas</p>
           </div>
-          <button
-            onClick={onClose}
-            className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center transition-colors"
-          >
-            <X className="w-4 h-4 text-gray-500" />
+          <button onClick={onClose} className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors" style={{ background: 'rgba(255,255,255,0.07)', color: '#64748B' }}>
+            <X style={{ width: 15, height: 15 }} />
           </button>
         </div>
 
         <div className="space-y-4">
-          <div>
-            <label className="label">Nome completo *</label>
-            <div className="relative">
-              <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input className="input pl-10" placeholder="João da Silva" value={form.nome} onChange={set('nome')} required />
+          {[
+            { k: 'nome',     icon: User,   type: 'text',  label: 'Nome completo *', ph: 'João da Silva'       },
+            { k: 'email',    icon: Mail,   type: 'email', label: 'E-mail *',         ph: 'joao@email.com'      },
+            { k: 'objetivo', icon: Target, type: 'text',  label: 'Objetivo',         ph: 'Ex: perder peso...'  },
+          ].map(({ k, icon: Icon, type, label, ph }) => (
+            <div key={k}>
+              <label className="label">{label}</label>
+              <div className="relative">
+                <Icon style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#3D4F6A' }} />
+                <input className="input pl-11" type={type} placeholder={ph} value={form[k]} onChange={set(k)} />
+              </div>
             </div>
-          </div>
-          <div>
-            <label className="label">E-mail *</label>
-            <div className="relative">
-              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input className="input pl-10" type="email" placeholder="joao@email.com" value={form.email} onChange={set('email')} required />
-            </div>
-          </div>
-          <div>
-            <label className="label">Objetivo</label>
-            <div className="relative">
-              <Target className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input className="input pl-10" placeholder="Ex: perder peso, ganhar massa..." value={form.objetivo} onChange={set('objetivo')} />
-            </div>
-          </div>
+          ))}
         </div>
 
         <div className="flex gap-3 mt-6">
           <button className="btn-secondary flex-1" onClick={onClose}>Cancelar</button>
-          <button
-            className="btn-gradient flex-1"
-            disabled={isPending || !form.nome || !form.email}
-            onClick={() => mutate(form)}
-          >
-            {isPending ? (
-              <span className="flex items-center gap-2">
-                <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-                Criando...
-              </span>
-            ) : 'Criar aluno'}
+          <button className="btn-gradient flex-1" disabled={isPending || !form.nome || !form.email} onClick={() => mutate(form)}>
+            {isPending ? <span className="w-4 h-4 border-2 rounded-full animate-spin" style={{ borderColor: 'rgba(255,255,255,0.3)', borderTopColor: 'white' }} /> : 'Criar aluno'}
           </button>
         </div>
       </div>
@@ -110,115 +84,73 @@ export default function Alunos() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      {/* Header */}
       <div className="page-header">
         <div>
           <h1 className="page-title">Alunos</h1>
-          <p className="page-subtitle">
-            {alunos.length} aluno{alunos.length !== 1 ? 's' : ''} cadastrado{alunos.length !== 1 ? 's' : ''}
-          </p>
+          <p className="page-subtitle">{alunos.length} aluno{alunos.length !== 1 ? 's' : ''} cadastrado{alunos.length !== 1 ? 's' : ''}</p>
         </div>
         <button className="btn-gradient" onClick={() => setShowModal(true)}>
-          <UserPlus className="w-4 h-4" />
-          Novo aluno
+          <UserPlus style={{ width: 16, height: 16 }} /> Novo aluno
         </button>
       </div>
 
-      {/* Search + view toggle */}
       <div className="flex gap-3">
         <div className="relative flex-1">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-          <input
-            className="input pl-10"
-            placeholder="Buscar por nome ou e-mail..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <Search style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', width: 16, height: 16, color: '#3D4F6A' }} />
+          <input className="input pl-11" placeholder="Buscar por nome ou e-mail..." value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <div className="flex rounded-xl border border-gray-200 overflow-hidden">
-          <button
-            onClick={() => setViewMode('grid')}
-            className={`px-3 py-2 transition-colors ${viewMode === 'grid' ? 'bg-primary-50 text-primary-600' : 'text-gray-400 hover:text-gray-600'}`}
-            title="Visualização em grade"
-          >
-            <LayoutGrid className="w-4 h-4" />
-          </button>
-          <button
-            onClick={() => setViewMode('list')}
-            className={`px-3 py-2 border-l border-gray-200 transition-colors ${viewMode === 'list' ? 'bg-primary-50 text-primary-600' : 'text-gray-400 hover:text-gray-600'}`}
-            title="Visualização em lista"
-          >
-            <List className="w-4 h-4" />
-          </button>
+        <div className="flex rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
+          {[{ mode: 'grid', Icon: LayoutGrid }, { mode: 'list', Icon: List }].map(({ mode, Icon }) => (
+            <button key={mode} onClick={() => setViewMode(mode)} className="px-3 py-2 transition-colors"
+              style={{ background: viewMode === mode ? 'rgba(99,102,241,0.2)' : 'transparent', color: viewMode === mode ? '#a5b4fc' : '#3D4F6A', borderLeft: mode === 'list' ? '1px solid rgba(255,255,255,0.07)' : 'none' }}>
+              <Icon style={{ width: 16, height: 16 }} />
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Results */}
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1,2,3,4,5,6].map(i => <SkeletonCard key={i} />)}
         </div>
       ) : filtered.length === 0 ? (
         <div className="card empty-state">
-          <div className="empty-icon bg-primary-50">
-            <UserPlus className="w-8 h-8 text-primary-400" />
-          </div>
-          <p className="empty-title">
-            {search ? 'Nenhum aluno encontrado' : 'Nenhum aluno ainda'}
-          </p>
-          <p className="empty-message">
-            {search
-              ? `Nenhum aluno com "${search}". Tente outro termo.`
-              : 'Cadastre seu primeiro aluno para começar a prescrever treinos.'}
-          </p>
-          {!search && (
-            <button className="btn-gradient" onClick={() => setShowModal(true)}>
-              Cadastrar primeiro aluno
-            </button>
-          )}
+          <div className="empty-icon"><UserPlus style={{ width: 28, height: 28, color: '#4B5768' }} /></div>
+          <p className="empty-title">{search ? 'Nenhum aluno encontrado' : 'Nenhum aluno ainda'}</p>
+          <p className="empty-message">{search ? `Nenhum resultado para "${search}"` : 'Cadastre seu primeiro aluno para começar.'}</p>
+          {!search && <button className="btn-gradient" onClick={() => setShowModal(true)}>Cadastrar aluno</button>}
         </div>
       ) : viewMode === 'grid' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((a, i) => (
-            <Link
-              key={a.id}
-              to={`/alunos/${a.id}`}
-              className="card group flex flex-col gap-4 hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200"
-              style={{ animationDelay: `${i * 40}ms` }}
-            >
-              <div className="flex items-center gap-3">
+            <Link key={a.id} to={`/alunos/${a.id}`} className="card-interactive group" style={{ animationDelay: `${i * 35}ms` }}>
+              <div className="flex items-center gap-3 mb-3">
                 <Avatar nome={a.nome} />
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-gray-900 truncate">{a.nome}</div>
-                  <div className="text-xs text-gray-400 truncate">{a.email}</div>
+                  <div className="font-semibold truncate" style={{ color: '#CBD5E1', fontFamily: 'Space Grotesk, sans-serif' }}>{a.nome}</div>
+                  <div className="text-xs truncate" style={{ color: '#3D4F6A' }}>{a.email}</div>
                 </div>
-                <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary-500 transition-colors flex-shrink-0" />
+                <ArrowRight style={{ width: 15, height: 15, color: '#1F2D4A', flexShrink: 0, transition: 'all 0.2s' }} className="group-hover:text-indigo-400 group-hover:translate-x-1" />
               </div>
-              {a.objetivo && (
-                <div className="flex">
-                  <span className="badge-blue text-xs truncate max-w-full">{a.objetivo}</span>
-                </div>
-              )}
+              {a.objetivo && <span className="badge-blue text-xs">{a.objetivo}</span>}
             </Link>
           ))}
         </div>
       ) : (
-        <div className="card p-0 overflow-hidden divide-y divide-gray-50">
-          {filtered.map((a) => (
-            <Link
-              key={a.id}
-              to={`/alunos/${a.id}`}
-              className="flex items-center gap-4 px-5 py-4 hover:bg-gray-50 transition-colors group"
+        <div className="card p-0 overflow-hidden">
+          {filtered.map((a, i) => (
+            <Link key={a.id} to={`/alunos/${a.id}`} className="flex items-center gap-4 px-5 py-4 group transition-colors"
+              style={{ borderBottom: i < filtered.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
+              onMouseEnter={e => e.currentTarget.style.background='rgba(255,255,255,0.03)'}
+              onMouseLeave={e => e.currentTarget.style.background='transparent'}
             >
               <Avatar nome={a.nome} />
               <div className="flex-1 min-w-0">
-                <div className="font-semibold text-gray-900 truncate text-sm">{a.nome}</div>
-                <div className="text-xs text-gray-400 truncate">{a.email}</div>
+                <div className="text-sm font-semibold truncate" style={{ color: '#CBD5E1' }}>{a.nome}</div>
+                <div className="text-xs truncate" style={{ color: '#3D4F6A' }}>{a.email}</div>
               </div>
-              {a.objetivo && (
-                <span className="badge-blue hidden sm:inline-flex">{a.objetivo}</span>
-              )}
-              <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-primary-500 transition-colors flex-shrink-0" />
+              {a.objetivo && <span className="badge-blue hidden sm:inline-flex">{a.objetivo}</span>}
+              <ArrowRight style={{ width: 14, height: 14, color: '#1F2D4A', flexShrink: 0 }} />
             </Link>
           ))}
         </div>

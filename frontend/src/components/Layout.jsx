@@ -2,71 +2,83 @@ import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import {
   LayoutDashboard, Users, Dumbbell, Brain, UserPlus, LogOut,
-  Menu, X, DollarSign, ChevronRight, Zap,
+  Menu, X, DollarSign, Zap, ChevronRight,
 } from 'lucide-react'
 import { useState } from 'react'
 
-const navItems = [
-  { to: '/dashboard',  icon: LayoutDashboard, label: 'Dashboard',       color: 'text-indigo-400' },
-  { to: '/alunos',     icon: Users,            label: 'Alunos',          color: 'text-sky-400'    },
-  { to: '/exercicios', icon: Dumbbell,         label: 'Exercícios',      color: 'text-emerald-400'},
-  { to: '/ia',         icon: Brain,            label: 'IA · Progressão', color: 'text-violet-400' },
-  { to: '/financeiro', icon: DollarSign,       label: 'Financeiro',      color: 'text-amber-400'  },
-  { to: '/convites',   icon: UserPlus,         label: 'Convidar alunos', color: 'text-rose-400'   },
+const NAV = [
+  { to: '/dashboard',  icon: LayoutDashboard, label: 'Dashboard',       dot: '#6366f1' },
+  { to: '/alunos',     icon: Users,            label: 'Alunos',          dot: '#38bdf8' },
+  { to: '/exercicios', icon: Dumbbell,         label: 'Exercícios',      dot: '#34d399' },
+  { to: '/ia',         icon: Brain,            label: 'IA · Progressão', dot: '#a78bfa' },
+  { to: '/financeiro', icon: DollarSign,       label: 'Financeiro',      dot: '#fbbf24' },
+  { to: '/convites',   icon: UserPlus,         label: 'Convidar alunos', dot: '#f87171' },
 ]
 
 export default function Layout({ children }) {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const handleLogout = () => { logout(); navigate('/login') }
 
   return (
-    <div className="flex h-screen bg-slate-50">
-      {/* ── Desktop Sidebar ── */}
-      <aside className="hidden lg:flex flex-col w-[260px] flex-shrink-0 bg-brand-sidebar">
-        <SidebarContent navItems={navItems} user={user} onLogout={handleLogout} />
+    <div className="flex h-screen" style={{ background: '#070B14' }}>
+      {/* Desktop Sidebar */}
+      <aside className="hidden lg:flex flex-col w-[264px] flex-shrink-0" style={{
+        background: '#060910',
+        borderRight: '1px solid rgba(255,255,255,0.05)',
+      }}>
+        <SidebarContent user={user} onLogout={handleLogout} />
       </aside>
 
-      {/* ── Mobile Overlay ── */}
-      {sidebarOpen && (
+      {/* Mobile overlay */}
+      {open && (
         <div className="lg:hidden fixed inset-0 z-50 flex">
-          <div
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={() => setSidebarOpen(false)}
-          />
-          <aside className="relative flex flex-col w-[260px] bg-brand-sidebar z-10 animate-slide-down">
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" onClick={() => setOpen(false)} />
+          <aside className="relative flex flex-col w-[264px] z-10 animate-slide-down" style={{
+            background: '#060910',
+            borderRight: '1px solid rgba(255,255,255,0.05)',
+          }}>
             <button
-              className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
-              onClick={() => setSidebarOpen(false)}
+              className="absolute top-4 right-4 w-8 h-8 rounded-lg flex items-center justify-center transition-colors"
+              style={{ background: 'rgba(255,255,255,0.07)', color: '#64748B' }}
+              onClick={() => setOpen(false)}
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4" />
             </button>
-            <SidebarContent navItems={navItems} user={user} onLogout={handleLogout} />
+            <SidebarContent user={user} onLogout={handleLogout} />
           </aside>
         </div>
       )}
 
-      {/* ── Main content ── */}
+      {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-auto">
         {/* Mobile header */}
-        <header className="lg:hidden flex items-center px-4 h-14 bg-brand-sidebar border-b border-white/5 flex-shrink-0">
+        <header className="lg:hidden flex items-center justify-between px-4 h-14 flex-shrink-0" style={{
+          background: '#060910',
+          borderBottom: '1px solid rgba(255,255,255,0.05)',
+        }}>
           <button
-            onClick={() => setSidebarOpen(true)}
-            className="mr-3 text-slate-400 hover:text-white transition-colors"
+            onClick={() => setOpen(true)}
+            className="w-9 h-9 rounded-xl flex items-center justify-center transition-colors"
+            style={{ background: 'rgba(255,255,255,0.06)', color: '#64748B' }}
           >
-            <Menu className="w-5 h-5" />
+            <Menu className="w-4 h-4" />
           </button>
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 bg-gradient-brand rounded-lg flex items-center justify-center">
+            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{
+              background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+              boxShadow: '0 0 12px rgba(99,102,241,0.4)',
+            }}>
               <Zap className="w-3.5 h-3.5 text-white" />
             </div>
-            <span className="font-bold text-white text-sm">FitSaaS</span>
+            <span className="font-bold text-white text-sm" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>FitSaaS</span>
           </div>
+          <div className="w-9" />
         </header>
 
-        <main className="flex-1 p-6 lg:p-8 max-w-7xl w-full mx-auto animate-fade-in">
+        <main className="flex-1 p-5 lg:p-8 max-w-7xl w-full mx-auto animate-fade-in">
           {children}
         </main>
       </div>
@@ -74,73 +86,73 @@ export default function Layout({ children }) {
   )
 }
 
-function SidebarContent({ navItems, user, onLogout }) {
+function SidebarContent({ user, onLogout }) {
   const location = useLocation()
   const initials = user?.nome?.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase() || '??'
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full py-5">
       {/* Logo */}
-      <div className="px-5 pt-6 pb-5">
+      <div className="px-5 mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-gradient-brand rounded-xl flex items-center justify-center flex-shrink-0 shadow-glow-sm">
-            <Zap className="w-4.5 h-4.5 text-white" style={{ width: 18, height: 18 }} />
+          <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{
+            background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
+            boxShadow: '0 0 16px rgba(99,102,241,0.5)',
+          }}>
+            <Zap style={{ width: 17, height: 17, color: 'white' }} />
           </div>
           <div>
-            <div className="font-bold text-white text-sm tracking-wide">FitSaaS</div>
-            <div className="text-xs text-slate-500 font-medium">Pro</div>
+            <div className="font-bold text-white text-sm tracking-wide" style={{ fontFamily: 'Space Grotesk, sans-serif' }}>FitSaaS</div>
+            <div className="text-xs font-semibold" style={{ color: '#6366f1' }}>PRO</div>
           </div>
         </div>
       </div>
 
-      {/* Divider */}
-      <div className="h-px bg-white/5 mx-5" />
+      <div className="glow-divider mx-5 mb-5" />
 
       {/* Nav */}
-      <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto no-scrollbar">
-        <p className="text-xs font-semibold text-slate-600 uppercase tracking-widest px-3 mb-3">Menu</p>
-        {navItems.map(({ to, icon: Icon, label, color }) => {
+      <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto no-scrollbar">
+        <p className="text-xs font-bold uppercase tracking-widest px-3 mb-3" style={{ color: '#1F2D4A', fontFamily: 'Inter, sans-serif' }}>
+          Menu
+        </p>
+        {NAV.map(({ to, icon: Icon, label, dot }) => {
           const isActive = location.pathname.startsWith(to)
           return (
-            <NavLink
-              key={to}
-              to={to}
-              className={isActive ? 'nav-item-active' : 'nav-item-inactive'}
-            >
-              <div className={`w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                isActive ? 'bg-white/20' : 'bg-white/5'
-              }`}>
-                <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-white' : color}`} />
+            <NavLink key={to} to={to} className={isActive ? 'nav-item-active' : 'nav-item-inactive'}>
+              <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style={{
+                background: isActive ? `${dot}25` : 'rgba(255,255,255,0.04)',
+              }}>
+                <Icon className="w-3.5 h-3.5" style={{ color: isActive ? dot : '#3D4F6A' }} />
               </div>
               <span className="flex-1 text-sm">{label}</span>
-              {isActive && <ChevronRight className="w-3.5 h-3.5 text-white/40" />}
+              {isActive && (
+                <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: dot, boxShadow: `0 0 8px ${dot}` }} />
+              )}
             </NavLink>
           )
         })}
       </nav>
 
-      {/* Divider */}
-      <div className="h-px bg-white/5 mx-5" />
+      <div className="glow-divider mx-5 my-4" />
 
-      {/* User + Logout */}
-      <div className="p-4 space-y-1">
-        <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/5">
-          <div className="w-8 h-8 rounded-full bg-gradient-brand flex items-center justify-center text-xs font-bold text-white flex-shrink-0">
+      {/* User + logout */}
+      <div className="px-3 space-y-1">
+        <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl" style={{ background: 'rgba(255,255,255,0.04)' }}>
+          <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white flex-shrink-0" style={{
+            background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+          }}>
             {initials}
           </div>
           <div className="flex-1 min-w-0">
-            <div className="text-sm font-medium text-white truncate">{user?.nome?.split(' ')[0]}</div>
-            <div className="text-xs text-slate-500 truncate">{user?.email}</div>
+            <div className="text-sm font-semibold truncate" style={{ color: '#CBD5E1' }}>{user?.nome?.split(' ')[0]}</div>
+            <div className="text-xs truncate" style={{ color: '#3D4F6A' }}>{user?.email}</div>
           </div>
         </div>
-        <button
-          onClick={onLogout}
-          className="nav-item-inactive w-full mt-1"
-        >
-          <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-white/5 flex-shrink-0">
-            <LogOut className="w-3.5 h-3.5 text-red-400" />
+        <button onClick={onLogout} className="nav-item-inactive w-full group">
+          <div className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(239,68,68,0.1)' }}>
+            <LogOut className="w-3.5 h-3.5" style={{ color: '#f87171' }} />
           </div>
-          <span className="text-sm text-red-400">Sair</span>
+          <span className="text-sm" style={{ color: '#f87171' }}>Sair da conta</span>
         </button>
       </div>
     </div>

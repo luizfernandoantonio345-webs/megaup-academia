@@ -1,30 +1,23 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import {
-  obterAluno, listarTreinos, gamificacaoAluno, sugestoesAluno,
-  obterAnamnese, salvarAnamnese, criarTreino, atualizarAluno,
-} from '../api'
+import { obterAluno, listarTreinos, gamificacaoAluno, sugestoesAluno, obterAnamnese, salvarAnamnese, criarTreino, atualizarAluno } from '../api'
 import toast from 'react-hot-toast'
-import {
-  ArrowLeft, Dumbbell, Flame, Trophy, Brain, ClipboardList,
-  Plus, Loader2, Edit2, Check, X, TrendingUp, TrendingDown, Minus,
-} from 'lucide-react'
+import { ArrowLeft, Dumbbell, Flame, Trophy, Brain, ClipboardList, Plus, Loader2, Edit2, Check, X, TrendingUp, TrendingDown, Minus } from 'lucide-react'
 
-function Avatar({ nome, size = 'lg' }) {
-  const initials = nome?.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase()
-  const cl = size === 'lg' ? 'w-16 h-16 text-xl' : 'w-10 h-10 text-sm'
+function Avatar({ nome }) {
+  const initials = nome?.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
   return (
-    <div className={`${cl} bg-gradient-to-br from-primary-500 to-violet-500 text-white rounded-full flex items-center justify-center font-bold flex-shrink-0`}>
+    <div style={{ width:64, height:64, borderRadius:'50%', background:'linear-gradient(135deg,#4f46e5,#7c3aed)', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, fontWeight:800, flexShrink:0, boxShadow:'0 0 24px rgba(99,102,241,0.4)' }}>
       {initials}
     </div>
   )
 }
 
 const ACAO_CONFIG = {
-  aumentar: { icon: TrendingUp,  badge: 'badge-green',  label: 'Aumentar', bg: 'bg-emerald-50 border-emerald-200', iconColor: 'text-emerald-500' },
-  manter:   { icon: Minus,       badge: 'badge-blue',   label: 'Manter',   bg: 'bg-blue-50 border-blue-200',       iconColor: 'text-blue-500'    },
-  reduzir:  { icon: TrendingDown,badge: 'badge-red',    label: 'Reduzir',  bg: 'bg-red-50 border-red-200',         iconColor: 'text-red-500'     },
+  aumentar: { icon:TrendingUp,  label:'Aumentar', bg:'rgba(16,185,129,0.1)',  border:'rgba(16,185,129,0.25)', text:'#34d399',  iconColor:'#10b981' },
+  manter:   { icon:Minus,       label:'Manter',   bg:'rgba(99,102,241,0.1)', border:'rgba(99,102,241,0.25)',text:'#a5b4fc',  iconColor:'#6366f1' },
+  reduzir:  { icon:TrendingDown,label:'Reduzir',  bg:'rgba(239,68,68,0.1)',  border:'rgba(239,68,68,0.25)',  text:'#f87171',  iconColor:'#ef4444' },
 }
 
 export default function AlunoDetalhe() {
@@ -34,122 +27,90 @@ export default function AlunoDetalhe() {
   const [editNome, setEditNome] = useState(false)
   const [nomeTemp, setNomeTemp] = useState('')
 
-  const { data: aluno, isLoading } = useQuery({
-    queryKey: ['aluno', id],
-    queryFn: () => obterAluno(id).then((r) => r.data),
-  })
-  const { data: treinos = [] } = useQuery({
-    queryKey: ['treinos', id],
-    queryFn: () => listarTreinos(id).then((r) => r.data),
-  })
-  const { data: gami } = useQuery({
-    queryKey: ['gamificacao', id],
-    queryFn: () => gamificacaoAluno(id).then((r) => r.data),
-  })
-  const { data: sugestoes } = useQuery({
-    queryKey: ['sugestoes', id],
-    queryFn: () => sugestoesAluno(id).then((r) => r.data),
-  })
-  const { data: anamnese } = useQuery({
-    queryKey: ['anamnese', id],
-    queryFn: () => obterAnamnese(id).then((r) => r.data),
-    enabled: tab === 'anamnese',
-  })
+  const { data: aluno, isLoading } = useQuery({ queryKey:['aluno', id], queryFn: () => obterAluno(id).then(r => r.data) })
+  const { data: treinos = [] } = useQuery({ queryKey:['treinos', id], queryFn: () => listarTreinos(id).then(r => r.data) })
+  const { data: gami }   = useQuery({ queryKey:['gamificacao', id], queryFn: () => gamificacaoAluno(id).then(r => r.data) })
+  const { data: sugestoes } = useQuery({ queryKey:['sugestoes', id], queryFn: () => sugestoesAluno(id).then(r => r.data) })
+  const { data: anamnese }  = useQuery({ queryKey:['anamnese', id], queryFn: () => obterAnamnese(id).then(r => r.data), enabled: tab === 'anamnese' })
 
   const { mutate: updateNome } = useMutation({
-    mutationFn: (data) => atualizarAluno(id, data),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['aluno', id] }); setEditNome(false) },
+    mutationFn: data => atualizarAluno(id, data),
+    onSuccess: () => { qc.invalidateQueries({ queryKey:['aluno', id] }); setEditNome(false) },
     onError: () => toast.error('Erro ao salvar'),
   })
-
   const { mutate: salvarAnam, isPending: savingAnam } = useMutation({
-    mutationFn: (data) => salvarAnamnese(id, data),
-    onSuccess: () => { toast.success('Anamnese salva!'); qc.invalidateQueries({ queryKey: ['anamnese', id] }) },
+    mutationFn: data => salvarAnamnese(id, data),
+    onSuccess: () => { toast.success('Anamnese salva!'); qc.invalidateQueries({ queryKey:['anamnese', id] }) },
     onError: () => toast.error('Erro ao salvar anamnese'),
   })
-
   const { mutate: criarT } = useMutation({
-    mutationFn: (data) => criarTreino(data),
-    onSuccess: () => { qc.invalidateQueries({ queryKey: ['treinos', id] }); toast.success('Treino criado!') },
-    onError: (err) => toast.error(err.response?.data?.detail || 'Erro'),
+    mutationFn: data => criarTreino(data),
+    onSuccess: () => { qc.invalidateQueries({ queryKey:['treinos', id] }); toast.success('Treino criado!') },
+    onError: err => toast.error(err.response?.data?.detail || 'Erro'),
   })
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-primary-600" />
-      </div>
-    )
-  }
+  if (isLoading) return (
+    <div className="flex items-center justify-center h-64">
+      <Loader2 style={{ width:32, height:32, color:'#6366f1', animation:'spin 1s linear infinite' }} />
+    </div>
+  )
 
   const nSugestoes = sugestoes?.sugestoes_pendentes?.length || 0
 
   return (
     <div className="space-y-6 animate-fade-in">
-      {/* Back */}
-      <Link to="/alunos" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 font-medium transition-colors">
-        <ArrowLeft className="w-4 h-4" />
-        Voltar para alunos
+      <Link to="/alunos" className="inline-flex items-center gap-2 text-sm font-medium transition-colors" style={{ color:'#3D4F6A' }}
+        onMouseEnter={e => e.currentTarget.style.color='#94A3B8'}
+        onMouseLeave={e => e.currentTarget.style.color='#3D4F6A'}>
+        <ArrowLeft style={{ width:15, height:15 }} /> Voltar para alunos
       </Link>
 
-      {/* Student header card */}
+      {/* Student header */}
       <div className="card">
         <div className="flex items-start gap-4">
           <Avatar nome={aluno?.nome} />
           <div className="flex-1 min-w-0">
             {editNome ? (
               <div className="flex items-center gap-2 mb-1">
-                <input
-                  className="input text-lg font-bold py-1.5"
-                  value={nomeTemp}
-                  onChange={(e) => setNomeTemp(e.target.value)}
-                  autoFocus
-                />
-                <button onClick={() => updateNome({ nome: nomeTemp })} className="w-8 h-8 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center hover:bg-emerald-200 transition-colors">
-                  <Check className="w-4 h-4" />
+                <input className="input text-lg font-bold py-1.5" value={nomeTemp} onChange={e => setNomeTemp(e.target.value)} autoFocus style={{ fontFamily:'Space Grotesk, sans-serif' }} />
+                <button onClick={() => updateNome({ nome: nomeTemp })} className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background:'rgba(16,185,129,0.2)', color:'#34d399' }}>
+                  <Check style={{ width:14, height:14 }} />
                 </button>
-                <button onClick={() => setEditNome(false)} className="w-8 h-8 bg-gray-100 text-gray-500 rounded-lg flex items-center justify-center hover:bg-gray-200 transition-colors">
-                  <X className="w-4 h-4" />
+                <button onClick={() => setEditNome(false)} className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background:'rgba(255,255,255,0.07)', color:'#64748B' }}>
+                  <X style={{ width:14, height:14 }} />
                 </button>
               </div>
             ) : (
               <div className="flex items-center gap-2 mb-0.5">
-                <h1 className="text-xl font-bold text-gray-900">{aluno?.nome}</h1>
-                <button
-                  onClick={() => { setNomeTemp(aluno.nome); setEditNome(true) }}
-                  className="text-gray-300 hover:text-gray-500 transition-colors"
-                >
-                  <Edit2 className="w-3.5 h-3.5" />
+                <h1 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:20, fontWeight:800, color:'#EFF6FF', letterSpacing:'-0.02em' }}>{aluno?.nome}</h1>
+                <button onClick={() => { setNomeTemp(aluno.nome); setEditNome(true) }} style={{ color:'#1F2D4A', background:'none', border:'none', cursor:'pointer', padding:2 }}>
+                  <Edit2 style={{ width:13, height:13 }} />
                 </button>
               </div>
             )}
-            <p className="text-sm text-gray-500">{aluno?.email}</p>
-            {aluno?.objetivo && (
-              <span className="badge-blue mt-2 text-xs">{aluno.objetivo}</span>
-            )}
+            <p style={{ fontSize:13, color:'#3D4F6A' }}>{aluno?.email}</p>
+            {aluno?.objetivo && <span className="badge-blue mt-2 text-xs">{aluno.objetivo}</span>}
           </div>
 
-          {/* Streak badge */}
           {gami && gami.streak_atual > 0 && (
-            <div className="flex-shrink-0 flex flex-col items-center gap-1 bg-gradient-to-br from-orange-400 to-red-500 text-white rounded-2xl px-4 py-3 shadow-glow-amber">
-              <Flame className="w-5 h-5" />
-              <div className="text-2xl font-black">{gami.streak_atual}</div>
-              <div className="text-xs text-white/70">streak</div>
+            <div className="flex-shrink-0 flex flex-col items-center gap-1 rounded-2xl px-4 py-3 text-white" style={{ background:'linear-gradient(135deg,#9a3412,#c2410c)', boxShadow:'0 0 20px rgba(249,115,22,0.3)' }}>
+              <Flame style={{ width:18, height:18 }} />
+              <div style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:24, fontWeight:900, lineHeight:1 }}>{gami.streak_atual}</div>
+              <div style={{ fontSize:10, color:'rgba(255,255,255,0.6)', fontWeight:600 }}>streak</div>
             </div>
           )}
         </div>
 
-        {/* Quick stats */}
         {gami && (
-          <div className="grid grid-cols-3 gap-3 mt-5 pt-5 border-t border-gray-100">
+          <div className="grid grid-cols-3 gap-3 mt-5 pt-5" style={{ borderTop:'1px solid rgba(255,255,255,0.05)' }}>
             {[
-              { label: 'Streak atual', value: `${gami.streak_atual}🔥`, color: 'text-orange-600' },
-              { label: 'Recorde', value: `${gami.streak_recorde}🏆`, color: 'text-yellow-600' },
-              { label: 'Total treinos', value: `${gami.total_treinos}💪`, color: 'text-emerald-600' },
+              { label:'Streak', value:`${gami.streak_atual}🔥`, color:'#f97316' },
+              { label:'Recorde', value:`${gami.streak_recorde}🏆`, color:'#fbbf24' },
+              { label:'Treinos', value:`${gami.total_treinos}💪`, color:'#34d399' },
             ].map(({ label, value, color }) => (
               <div key={label} className="text-center">
-                <div className={`text-xl font-bold ${color}`}>{value}</div>
-                <div className="text-xs text-gray-400 mt-0.5">{label}</div>
+                <div style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:20, fontWeight:800, color }}>{value}</div>
+                <div style={{ fontSize:11, color:'#3D4F6A', marginTop:2, fontWeight:600, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
               </div>
             ))}
           </div>
@@ -159,24 +120,17 @@ export default function AlunoDetalhe() {
       {/* Tabs */}
       <div className="tabs">
         {[
-          { key: 'treinos',     icon: Dumbbell,      label: 'Treinos'                                      },
-          { key: 'gamificacao', icon: Trophy,         label: 'Gamificação'                                  },
-          { key: 'sugestoes',   icon: Brain,         label: `IA${nSugestoes ? ` (${nSugestoes})` : ''}`   },
-          { key: 'anamnese',    icon: ClipboardList, label: 'Anamnese'                                     },
+          { key:'treinos',     label:'Treinos' },
+          { key:'gamificacao', label:'Gamificação' },
+          { key:'sugestoes',   label:`IA${nSugestoes ? ` (${nSugestoes})` : ''}` },
+          { key:'anamnese',    label:'Anamnese' },
         ].map(({ key, label }) => (
-          <button
-            key={key}
-            onClick={() => setTab(key)}
-            className={`tab ${tab === key ? 'tab-active' : 'tab-inactive'}`}
-          >
-            {label}
-          </button>
+          <button key={key} onClick={() => setTab(key)} className={`tab ${tab === key ? 'tab-active' : 'tab-inactive'}`}>{label}</button>
         ))}
       </div>
 
-      {/* Tab content */}
       <div className="animate-fade-in">
-        {tab === 'treinos'     && <TreinosTab aluno={aluno} treinos={treinos} onCriar={(nome, dia) => criarT({ aluno_id: Number(id), nome, dia_semana: dia })} />}
+        {tab === 'treinos'     && <TreinosTab aluno={aluno} treinos={treinos} onCriar={(nome, dia) => criarT({ aluno_id:Number(id), nome, dia_semana:dia })} />}
         {tab === 'gamificacao' && <GamificacaoTab gami={gami} />}
         {tab === 'sugestoes'   && <SugestoesTab sugestoes={sugestoes} />}
         {tab === 'anamnese'    && <AnamneseTab anamnese={anamnese} onSalvar={salvarAnam} saving={savingAnam} />}
@@ -195,70 +149,56 @@ function TreinosTab({ aluno, treinos, onCriar }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="font-semibold text-gray-900">Treinos de {aluno?.nome?.split(' ')[0]}</h2>
+        <h2 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#94A3B8', fontSize:13 }}>Treinos de {aluno?.nome?.split(' ')[0]}</h2>
         <button className="btn-gradient btn-sm" onClick={() => setShowForm(!showForm)}>
-          <Plus className="w-3.5 h-3.5" /> Novo treino
+          <Plus style={{ width:12, height:12 }} /> Novo treino
         </button>
       </div>
 
       {showForm && (
-        <div className="card border-2 border-primary-200 animate-slide-down">
-          <h3 className="font-semibold text-gray-900 mb-4">Novo treino</h3>
+        <div className="card animate-slide-down" style={{ border:'1px solid rgba(99,102,241,0.3)' }}>
+          <h3 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#EFF6FF', fontSize:14, marginBottom:16 }}>Novo treino</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             <div>
               <label className="label">Nome do treino *</label>
-              <input className="input" placeholder="Ex: Treino A — Peito e Tríceps" value={nome} onChange={(e) => setNome(e.target.value)} />
+              <input className="input" placeholder="Ex: Treino A — Peito e Tríceps" value={nome} onChange={e => setNome(e.target.value)} />
             </div>
             <div>
               <label className="label">Dia da semana</label>
-              <select className="input" value={dia} onChange={(e) => setDia(e.target.value)}>
-                <option value="">Qualquer dia (sem dia fixo)</option>
-                {DIAS.map((d) => <option key={d} value={d}>{DIAS_LABEL[d]}</option>)}
+              <select className="input" value={dia} onChange={e => setDia(e.target.value)}>
+                <option value="">Qualquer dia</option>
+                {DIAS.map(d => <option key={d} value={d}>{DIAS_LABEL[d]}</option>)}
               </select>
             </div>
           </div>
           <div className="flex gap-2">
             <button className="btn-secondary" onClick={() => setShowForm(false)}>Cancelar</button>
-            <button
-              className="btn-gradient"
-              disabled={!nome}
-              onClick={() => { onCriar(nome, dia); setShowForm(false); setNome(''); setDia('') }}
-            >
-              Criar treino
-            </button>
+            <button className="btn-gradient" disabled={!nome} onClick={() => { onCriar(nome, dia); setShowForm(false); setNome(''); setDia('') }}>Criar treino</button>
           </div>
         </div>
       )}
 
       {treinos.length === 0 ? (
         <div className="card empty-state">
-          <div className="empty-icon bg-primary-50">
-            <Dumbbell className="w-8 h-8 text-primary-400" />
-          </div>
+          <div className="empty-icon"><Dumbbell style={{ width:28, height:28, color:'#4B5768' }} /></div>
           <p className="empty-title">Nenhum treino ainda</p>
           <p className="empty-message">Crie o primeiro treino para {aluno?.nome?.split(' ')[0]}</p>
           <button className="btn-gradient" onClick={() => setShowForm(true)}>Criar primeiro treino</button>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {treinos.map((t) => (
-            <Link
-              key={t.id}
-              to={`/treinos/${t.id}`}
-              className="card hover:shadow-card-hover hover:-translate-y-0.5 transition-all duration-200 group"
-            >
+          {treinos.map(t => (
+            <Link key={t.id} to={`/treinos/${t.id}`} className="card-interactive group">
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <div className="font-bold text-gray-900">{t.nome}</div>
-                  <div className="text-xs text-gray-400 mt-0.5">{t.itens?.length || 0} exercício{t.itens?.length !== 1 ? 's' : ''}</div>
+                  <div style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#CBD5E1', fontSize:14 }}>{t.nome}</div>
+                  <div style={{ fontSize:12, color:'#3D4F6A', marginTop:2 }}>{t.itens?.length || 0} exercício{t.itens?.length !== 1 ? 's' : ''}</div>
                 </div>
-                <div className="w-8 h-8 bg-primary-50 group-hover:bg-primary-100 rounded-xl flex items-center justify-center transition-colors">
-                  <Dumbbell className="w-4 h-4 text-primary-600" />
+                <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background:'rgba(99,102,241,0.12)' }}>
+                  <Dumbbell style={{ width:15, height:15, color:'#818cf8' }} />
                 </div>
               </div>
-              {t.dia_semana && (
-                <span className="badge-blue capitalize">{t.dia_semana}</span>
-              )}
+              {t.dia_semana && <span className="badge-blue capitalize">{t.dia_semana}</span>}
             </Link>
           ))}
         </div>
@@ -268,32 +208,28 @@ function TreinosTab({ aluno, treinos, onCriar }) {
 }
 
 function GamificacaoTab({ gami }) {
-  if (!gami) return (
-    <div className="flex justify-center py-12">
-      <Loader2 className="w-6 h-6 animate-spin text-primary-600" />
-    </div>
-  )
+  if (!gami) return <div className="flex justify-center py-12"><Loader2 style={{ width:24, height:24, color:'#6366f1', animation:'spin 1s linear infinite' }} /></div>
 
   const BADGES = {
-    primeiro_treino: { emoji: '🏋️', label: 'Primeiro treino', color: 'border-gray-200 bg-gray-50' },
-    streak_7:        { emoji: '🔥', label: '7 dias seguidos', color: 'border-orange-200 bg-orange-50' },
-    streak_30:       { emoji: '🏆', label: '30 dias seguidos', color: 'border-yellow-200 bg-yellow-50' },
-    treinos_10:      { emoji: '💪', label: '10 treinos', color: 'border-emerald-200 bg-emerald-50' },
-    treinos_50:      { emoji: '⭐', label: '50 treinos', color: 'border-violet-200 bg-violet-50' },
+    primeiro_treino: { emoji:'🏋️', label:'Primeiro treino', border:'rgba(100,116,139,0.3)', bg:'rgba(100,116,139,0.1)' },
+    streak_7:        { emoji:'🔥', label:'7 dias seguidos', border:'rgba(249,115,22,0.35)', bg:'rgba(249,115,22,0.1)' },
+    streak_30:       { emoji:'🏆', label:'30 dias seguidos', border:'rgba(251,191,36,0.35)',bg:'rgba(251,191,36,0.1)' },
+    treinos_10:      { emoji:'💪', label:'10 treinos', border:'rgba(16,185,129,0.3)',       bg:'rgba(16,185,129,0.08)' },
+    treinos_50:      { emoji:'⭐', label:'50 treinos', border:'rgba(167,139,250,0.35)',     bg:'rgba(167,139,250,0.1)' },
   }
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-3">
         {[
-          { label: 'Streak atual', value: gami.streak_atual, emoji: '🔥', color: 'border-orange-200 bg-orange-50' },
-          { label: 'Recorde',      value: gami.streak_recorde, emoji: '🏆', color: 'border-yellow-200 bg-yellow-50' },
-          { label: 'Total treinos',value: gami.total_treinos, emoji: '💪', color: 'border-emerald-200 bg-emerald-50' },
-        ].map(({ label, value, emoji, color }) => (
-          <div key={label} className={`card border-2 ${color} text-center`}>
-            <div className="text-3xl mb-1">{emoji}</div>
-            <div className="text-2xl font-black text-gray-900">{value}</div>
-            <div className="text-xs text-gray-500 font-medium">{label}</div>
+          { label:'Streak', value:gami.streak_atual, emoji:'🔥', border:'rgba(249,115,22,0.25)', bg:'rgba(249,115,22,0.08)', color:'#f97316' },
+          { label:'Recorde', value:gami.streak_recorde, emoji:'🏆', border:'rgba(251,191,36,0.25)', bg:'rgba(251,191,36,0.08)', color:'#fbbf24' },
+          { label:'Treinos', value:gami.total_treinos, emoji:'💪', border:'rgba(16,185,129,0.25)', bg:'rgba(16,185,129,0.08)', color:'#34d399' },
+        ].map(({ label, value, emoji, border, bg, color }) => (
+          <div key={label} className="card text-center" style={{ border:`1px solid ${border}`, background:bg }}>
+            <div style={{ fontSize:26, marginBottom:4 }}>{emoji}</div>
+            <div style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:24, fontWeight:900, color }}>{value}</div>
+            <div style={{ fontSize:11, color:'#3D4F6A', fontWeight:600, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
           </div>
         ))}
       </div>
@@ -302,20 +238,20 @@ function GamificacaoTab({ gami }) {
         <p className="section-title">Conquistas desbloqueadas</p>
         {gami.conquistas.length === 0 ? (
           <div className="card empty-state py-10">
-            <div className="text-4xl mb-3">🎯</div>
+            <div style={{ fontSize:40, marginBottom:8 }}>🎯</div>
             <p className="empty-title">Nenhuma conquista ainda</p>
             <p className="empty-message">Continue treinando para desbloquear as primeiras conquistas!</p>
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            {gami.conquistas.map((c) => {
-              const b = BADGES[c.codigo] || { emoji: '🎖️', label: c.descricao, color: 'border-gray-200 bg-gray-50' }
+            {gami.conquistas.map(c => {
+              const b = BADGES[c.codigo] || { emoji:'🎖️', label:c.descricao, border:'rgba(100,116,139,0.25)', bg:'rgba(100,116,139,0.08)' }
               return (
-                <div key={c.id} className={`card border-2 ${b.color} text-center p-4`}>
-                  <div className="text-3xl mb-1.5">{b.emoji}</div>
-                  <div className="text-xs font-bold text-gray-700">{b.label}</div>
-                  <div className="text-xs text-gray-400 mt-1">
-                    {new Date(c.desbloqueado_em).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })}
+                <div key={c.id} className="card text-center p-4" style={{ border:`1px solid ${b.border}`, background:b.bg }}>
+                  <div style={{ fontSize:28, marginBottom:6 }}>{b.emoji}</div>
+                  <div style={{ fontSize:11, fontWeight:700, color:'#CBD5E1' }}>{b.label}</div>
+                  <div style={{ fontSize:10, color:'#3D4F6A', marginTop:4 }}>
+                    {new Date(c.desbloqueado_em).toLocaleDateString('pt-BR', { day:'2-digit', month:'short' })}
                   </div>
                 </div>
               )
@@ -328,61 +264,44 @@ function GamificacaoTab({ gami }) {
 }
 
 function SugestoesTab({ sugestoes }) {
-  if (!sugestoes) return (
-    <div className="flex justify-center py-12">
-      <Loader2 className="w-6 h-6 animate-spin text-primary-600" />
-    </div>
-  )
+  if (!sugestoes) return <div className="flex justify-center py-12"><Loader2 style={{ width:24, height:24, color:'#6366f1', animation:'spin 1s linear infinite' }} /></div>
 
   return (
     <div className="space-y-4">
       {sugestoes.dias_sem_treinar !== null && (
-        <div className={`p-4 rounded-2xl border ${
-          sugestoes.dias_sem_treinar === 0
-            ? 'bg-emerald-50 border-emerald-200'
-            : sugestoes.dias_sem_treinar > 7
-              ? 'bg-red-50 border-red-200'
-              : 'bg-amber-50 border-amber-200'
-        }`}>
-          <p className={`font-semibold text-sm ${
-            sugestoes.dias_sem_treinar === 0 ? 'text-emerald-700' : sugestoes.dias_sem_treinar > 7 ? 'text-red-700' : 'text-amber-700'
-          }`}>
-            {sugestoes.dias_sem_treinar === 0
-              ? '✅ Treinou hoje!'
-              : sugestoes.dias_sem_treinar > 7
-                ? `⚠️ ${sugestoes.dias_sem_treinar} dias sem treinar — vale entrar em contato!`
-                : `⏱️ Último treino há ${sugestoes.dias_sem_treinar} dia${sugestoes.dias_sem_treinar > 1 ? 's' : ''}`}
+        <div className="p-4 rounded-2xl" style={{
+          background: sugestoes.dias_sem_treinar === 0 ? 'rgba(16,185,129,0.1)' : sugestoes.dias_sem_treinar > 7 ? 'rgba(239,68,68,0.1)' : 'rgba(245,158,11,0.1)',
+          border: `1px solid ${sugestoes.dias_sem_treinar === 0 ? 'rgba(16,185,129,0.25)' : sugestoes.dias_sem_treinar > 7 ? 'rgba(239,68,68,0.25)' : 'rgba(245,158,11,0.25)'}`,
+        }}>
+          <p style={{ fontWeight:600, fontSize:13, color: sugestoes.dias_sem_treinar === 0 ? '#34d399' : sugestoes.dias_sem_treinar > 7 ? '#f87171' : '#fbbf24' }}>
+            {sugestoes.dias_sem_treinar === 0 ? '✅ Treinou hoje!' : sugestoes.dias_sem_treinar > 7 ? `⚠️ ${sugestoes.dias_sem_treinar} dias sem treinar — vale entrar em contato!` : `⏱️ Último treino há ${sugestoes.dias_sem_treinar} dia${sugestoes.dias_sem_treinar > 1 ? 's' : ''}`}
           </p>
         </div>
       )}
 
       {sugestoes.sugestoes_pendentes.length === 0 ? (
         <div className="card empty-state py-10">
-          <div className="empty-icon bg-violet-50">
-            <Brain className="w-8 h-8 text-violet-400" />
-          </div>
+          <div className="empty-icon"><Brain style={{ width:28, height:28, color:'#4B5768' }} /></div>
           <p className="empty-title">Sem sugestões ainda</p>
           <p className="empty-message">A IA precisa de pelo menos 3 execuções do mesmo exercício.</p>
         </div>
       ) : (
         <div className="space-y-3">
-          {sugestoes.sugestoes_pendentes.map((s) => {
+          {sugestoes.sugestoes_pendentes.map(s => {
             const cfg = ACAO_CONFIG[s.acao] || ACAO_CONFIG.manter
             const IconAcao = cfg.icon
             return (
-              <div key={s.id} className={`rounded-2xl border p-4 ${cfg.bg}`}>
+              <div key={s.id} className="rounded-2xl p-4" style={{ background:cfg.bg, border:`1px solid ${cfg.border}` }}>
                 <div className="flex items-start gap-3">
-                  <div className="w-9 h-9 bg-white/70 rounded-xl flex items-center justify-center flex-shrink-0">
-                    <IconAcao className={`w-4.5 h-4.5 ${cfg.iconColor}`} style={{ width: 18, height: 18 }} />
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background:'rgba(255,255,255,0.07)' }}>
+                    <IconAcao style={{ width:17, height:17, color:cfg.iconColor }} />
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <span className={cfg.badge}>{cfg.label} carga</span>
-                      {s.carga_sugerida && (
-                        <span className="text-sm font-bold text-gray-800">→ {s.carga_sugerida} kg</span>
-                      )}
+                      <span style={{ fontSize:11, fontWeight:700, color:cfg.text, padding:'2px 10px', borderRadius:999, background:'rgba(255,255,255,0.08)', textTransform:'uppercase', letterSpacing:'0.05em' }}>{cfg.label} carga</span>
+                      {s.carga_sugerida && <span style={{ fontSize:14, fontWeight:800, color:'#EFF6FF', fontFamily:'Space Grotesk, sans-serif' }}>→ {s.carga_sugerida} kg</span>}
                     </div>
-                    <p className="text-sm text-gray-700">{s.motivo}</p>
+                    <p style={{ fontSize:13, color:'#94A3B8' }}>{s.motivo}</p>
                   </div>
                 </div>
               </div>
@@ -395,17 +314,8 @@ function SugestoesTab({ sugestoes }) {
 }
 
 function AnamneseTab({ anamnese, onSalvar, saving }) {
-  const [form, setForm] = useState(anamnese || {
-    objetivo: '', historico_medico: '', restricoes: [], medicamentos: [], nivel_atividade: '', lesoes: [], observacoes: '',
-  })
+  const [form, setForm] = useState(anamnese || { objetivo:'', historico_medico:'', restricoes:[], medicamentos:[], nivel_atividade:'', lesoes:[], observacoes:'' })
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
-
-  const fields = [
-    { label: 'Objetivo de saúde/fitness',  key: 'objetivo',         placeholder: 'Ex: perder peso, ganhar massa, condicionamento...' },
-    { label: 'Histórico médico',           key: 'historico_medico', placeholder: 'Cirurgias, doenças crônicas, condições...'          },
-    { label: 'Nível de atividade física',  key: 'nivel_atividade',  placeholder: 'sedentário / ativo / muito ativo'                   },
-    { label: 'Observações adicionais',     key: 'observacoes',      placeholder: 'Qualquer observação relevante...'                   },
-  ]
 
   return (
     <div className="space-y-5">
@@ -414,25 +324,19 @@ function AnamneseTab({ anamnese, onSalvar, saving }) {
         <span>Dados sensíveis — trafegados com criptografia e não são registrados em logs (LGPD Art. 11).</span>
       </div>
       <div className="card space-y-5">
-        {fields.map(({ label, key, placeholder }) => (
+        {[
+          { label:'Objetivo de saúde/fitness',  key:'objetivo',         placeholder:'Ex: perder peso, ganhar massa, condicionamento...' },
+          { label:'Histórico médico',           key:'historico_medico', placeholder:'Cirurgias, doenças crônicas, condições...' },
+          { label:'Nível de atividade física',  key:'nivel_atividade',  placeholder:'sedentário / ativo / muito ativo' },
+          { label:'Observações adicionais',     key:'observacoes',      placeholder:'Qualquer observação relevante...' },
+        ].map(({ label, key, placeholder }) => (
           <div key={key}>
             <label className="label">{label}</label>
-            <textarea
-              className="input resize-none"
-              rows={3}
-              placeholder={placeholder}
-              value={form[key] || ''}
-              onChange={set(key)}
-            />
+            <textarea className="input resize-none" rows={3} placeholder={placeholder} value={form[key] || ''} onChange={set(key)} />
           </div>
         ))}
         <button className="btn-gradient" disabled={saving} onClick={() => onSalvar(form)}>
-          {saving ? (
-            <span className="flex items-center gap-2">
-              <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
-              Salvando...
-            </span>
-          ) : 'Salvar anamnese'}
+          {saving ? <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 rounded-full animate-spin" style={{ borderColor:'rgba(255,255,255,0.3)', borderTopColor:'white' }} />Salvando...</span> : 'Salvar anamnese'}
         </button>
       </div>
     </div>

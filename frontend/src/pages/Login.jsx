@@ -2,7 +2,13 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
-import { Zap, Mail, Lock, ArrowRight, Eye, EyeOff } from 'lucide-react'
+import { Zap, Mail, Lock, ArrowRight, Eye, EyeOff, Dumbbell, TrendingUp, Users } from 'lucide-react'
+
+const FEATURES = [
+  { icon: Dumbbell,   title: 'Treinos personalizados',    desc: 'Monte e prescreva treinos para cada aluno com facilidade.' },
+  { icon: TrendingUp, title: 'IA de progressão de carga', desc: 'Inteligência artificial analisa o histórico e sugere evolução.' },
+  { icon: Users,      title: 'Gestão completa de alunos', desc: 'Acompanhe streak, conquistas e pagamentos em tempo real.' },
+]
 
 export default function Login() {
   const { login } = useAuth()
@@ -10,153 +16,131 @@ export default function Login() {
   const [form, setForm] = useState({ email: '', senha: '' })
   const [loading, setLoading] = useState(false)
   const [showPass, setShowPass] = useState(false)
+  const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
     try {
-      const user = await login(form.email, form.senha)
-      toast.success(`Bem-vindo de volta, ${user.nome.split(' ')[0]}!`)
-      navigate(user.role === 'aluno' ? '/aluno' : '/dashboard')
-    } catch (err) {
-      toast.error(err.response?.data?.detail || 'E-mail ou senha incorretos')
+      await login(form)
+      navigate('/dashboard')
+    } catch {
+      toast.error('E-mail ou senha incorretos')
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="min-h-screen flex bg-brand-sidebar">
-      {/* ── Left panel — brand ── */}
-      <div className="hidden lg:flex flex-col justify-between w-[480px] flex-shrink-0 p-12
-                      bg-gradient-mesh relative overflow-hidden">
-        {/* Blur balls */}
-        <div className="absolute top-20 left-10 w-64 h-64 bg-primary-600/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-32 right-0 w-48 h-48 bg-violet-600/20 rounded-full blur-3xl" />
+    <div className="min-h-screen flex" style={{ background: '#070B14' }}>
+      {/* Left panel — brand */}
+      <div className="hidden lg:flex flex-col justify-between w-[460px] flex-shrink-0 p-12 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div style={{ position:'absolute', top:'10%', left:'-10%', width:340, height:340, borderRadius:'50%', background:'radial-gradient(circle, rgba(79,70,229,0.22) 0%, transparent 70%)' }} />
+          <div style={{ position:'absolute', bottom:'15%', right:'-5%', width:260, height:260, borderRadius:'50%', background:'radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%)' }} />
+          <div style={{ position:'absolute', top:'55%', left:'30%', width:180, height:180, borderRadius:'50%', background:'radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 70%)' }} />
+          <div style={{ position:'absolute', top:0, right:0, bottom:0, width:1, background:'linear-gradient(180deg, transparent, rgba(99,102,241,0.3), transparent)' }} />
+        </div>
 
         <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-12">
-            <div className="w-10 h-10 bg-gradient-brand rounded-2xl flex items-center justify-center shadow-glow">
-              <Zap className="w-5 h-5 text-white" />
+          <div className="flex items-center gap-3 mb-14">
+            <div className="w-11 h-11 rounded-2xl flex items-center justify-center" style={{ background:'linear-gradient(135deg, #4f46e5, #7c3aed)', boxShadow:'0 0 24px rgba(99,102,241,0.6)' }}>
+              <Zap style={{ width:20, height:20, color:'white' }} />
             </div>
             <div>
-              <span className="font-bold text-white text-lg">FitSaaS</span>
-              <span className="ml-2 text-xs bg-white/10 text-white/70 px-2 py-0.5 rounded-full font-medium">Pro</span>
+              <div className="font-bold text-white text-lg" style={{ fontFamily:'Space Grotesk, sans-serif', letterSpacing:'-0.03em' }}>FitSaaS</div>
+              <div className="text-xs font-bold" style={{ color:'#6366f1' }}>ACADEMIA PRO</div>
             </div>
           </div>
-
-          <h1 className="text-4xl font-bold text-white leading-tight mb-4">
-            Gestão inteligente<br />de treinos
+          <h1 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:36, fontWeight:800, color:'#EFF6FF', lineHeight:1.15, letterSpacing:'-0.03em', marginBottom:12 }}>
+            Sua academia<br />
+            <span style={{ background:'linear-gradient(135deg, #a5b4fc, #8b5cf6)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
+              no próximo nível
+            </span>
           </h1>
-          <p className="text-slate-400 text-base leading-relaxed">
-            Plataforma completa para personal trainers gerenciarem alunos,
-            prescreverem treinos e acompanharem evolução com IA.
+          <p style={{ color:'#4B5768', fontSize:14, lineHeight:1.7 }}>
+            Plataforma completa para personal trainers gerenciarem alunos, prescreverem treinos e acompanharem evolução com inteligência artificial.
           </p>
         </div>
 
         <div className="relative z-10 space-y-4">
-          {[
-            { icon: '🏋️', text: 'Gerencie todos os seus alunos em um só lugar' },
-            { icon: '🤖', text: 'IA sugere progressão de carga automaticamente' },
-            { icon: '🏆', text: 'Gamificação mantém alunos motivados e engajados' },
-            { icon: '💰', text: 'Controle financeiro com cobranças e planos' },
-          ].map(({ icon, text }) => (
-            <div key={text} className="flex items-center gap-3 text-sm text-slate-300">
-              <span className="text-base">{icon}</span>
-              <span>{text}</span>
+          {FEATURES.map(({ icon: Icon, title, desc }) => (
+            <div key={title} className="flex items-start gap-3">
+              <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background:'rgba(99,102,241,0.15)', border:'1px solid rgba(99,102,241,0.2)' }}>
+                <Icon style={{ width:16, height:16, color:'#a5b4fc' }} />
+              </div>
+              <div>
+                <div className="text-sm font-semibold" style={{ color:'#CBD5E1', fontFamily:'Space Grotesk, sans-serif' }}>{title}</div>
+                <div className="text-xs mt-0.5" style={{ color:'#3D4F6A' }}>{desc}</div>
+              </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* ── Right panel — form ── */}
-      <div className="flex-1 flex items-center justify-center p-6 bg-white">
+      {/* Right panel — form */}
+      <div className="flex-1 flex items-center justify-center p-6">
         <div className="w-full max-w-md animate-fade-in">
-          {/* Mobile logo */}
-          <div className="flex items-center gap-2 mb-8 lg:hidden">
-            <div className="w-8 h-8 bg-gradient-brand rounded-xl flex items-center justify-center">
-              <Zap className="w-4 h-4 text-white" />
+          <div className="flex items-center gap-2.5 mb-8 lg:hidden">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background:'linear-gradient(135deg, #4f46e5, #7c3aed)', boxShadow:'0 0 16px rgba(99,102,241,0.5)' }}>
+              <Zap style={{ width:16, height:16, color:'white' }} />
             </div>
-            <span className="font-bold text-gray-900">FitSaaS</span>
+            <span className="font-bold text-white" style={{ fontFamily:'Space Grotesk, sans-serif' }}>FitSaaS</span>
           </div>
 
           <div className="mb-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">Entrar na plataforma</h2>
-            <p className="text-sm text-gray-500">
+            <h2 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:28, fontWeight:800, color:'#EFF6FF', letterSpacing:'-0.03em', marginBottom:6 }}>
+              Bem-vindo de volta
+            </h2>
+            <p style={{ fontSize:14, color:'#4B5768' }}>
               Não tem conta?{' '}
-              <Link to="/registrar" className="text-primary-600 hover:text-primary-700 font-semibold">
-                Criar conta grátis
-              </Link>
+              <Link to="/registrar" style={{ color:'#818cf8', fontWeight:600 }}>Criar conta grátis</Link>
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Email */}
             <div>
               <label className="label">E-mail</label>
               <div className="relative">
-                <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  type="email"
-                  className="input pl-10"
-                  placeholder="seu@email.com"
-                  value={form.email}
-                  onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  required
-                  autoComplete="email"
-                />
+                <Mail style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', width:16, height:16, color:'#3D4F6A' }} />
+                <input className="input pl-11" type="email" placeholder="seu@email.com" value={form.email} onChange={set('email')} required autoComplete="email" />
               </div>
             </div>
 
-            {/* Password */}
             <div>
               <label className="label">Senha</label>
               <div className="relative">
-                <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <input
-                  type={showPass ? 'text' : 'password'}
-                  className="input pl-10 pr-10"
-                  placeholder="••••••••"
-                  value={form.senha}
-                  onChange={(e) => setForm({ ...form, senha: e.target.value })}
-                  required
-                  autoComplete="current-password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPass(!showPass)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                >
-                  {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                <Lock style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', width:16, height:16, color:'#3D4F6A' }} />
+                <input className="input pl-11 pr-11" type={showPass ? 'text' : 'password'} placeholder="Sua senha" value={form.senha} onChange={set('senha')} required autoComplete="current-password" />
+                <button type="button" onClick={() => setShowPass(!showPass)} style={{ position:'absolute', right:12, top:'50%', transform:'translateY(-50%)', color:'#3D4F6A', background:'none', border:'none', cursor:'pointer' }}>
+                  {showPass ? <EyeOff style={{ width:16, height:16 }} /> : <Eye style={{ width:16, height:16 }} />}
                 </button>
               </div>
             </div>
 
-            <button
-              type="submit"
-              className="btn-gradient w-full py-3 text-base mt-2"
-              disabled={loading}
-            >
+            <button type="submit" className="btn-gradient w-full py-3.5 text-base mt-2" disabled={loading}>
               {loading ? (
-                <span className="flex items-center gap-2">
-                  <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
+                <span className="flex items-center gap-2 justify-center">
+                  <span className="w-4 h-4 border-2 rounded-full animate-spin" style={{ borderColor:'rgba(255,255,255,0.3)', borderTopColor:'white' }} />
                   Entrando...
                 </span>
               ) : (
-                <span className="flex items-center gap-2">
-                  Entrar
-                  <ArrowRight className="w-4 h-4" />
+                <span className="flex items-center gap-2 justify-center">
+                  Entrar na plataforma
+                  <ArrowRight style={{ width:16, height:16 }} />
                 </span>
               )}
             </button>
           </form>
 
-          <p className="text-center text-xs text-gray-400 mt-8">
-            Ao entrar, você concorda com os{' '}
-            <span className="text-gray-600 underline cursor-pointer">Termos de Uso</span>{' '}
-            e{' '}
-            <span className="text-gray-600 underline cursor-pointer">Política de Privacidade</span>.
-          </p>
+          <div className="mt-8 p-4 rounded-xl" style={{ background:'rgba(99,102,241,0.08)', border:'1px solid rgba(99,102,241,0.15)' }}>
+            <p style={{ fontSize:11, color:'#4B5768', marginBottom:8, fontWeight:700, textTransform:'uppercase', letterSpacing:'0.07em' }}>
+              Acesso de demonstração
+            </p>
+            <p style={{ fontSize:12, color:'#3D4F6A' }}>Personal: <span style={{ color:'#818cf8', fontWeight:600 }}>trainer@demo.com</span></p>
+            <p style={{ fontSize:12, color:'#3D4F6A', marginTop:2 }}>Aluno: <span style={{ color:'#818cf8', fontWeight:600 }}>aluno@demo.com</span></p>
+            <p style={{ fontSize:12, color:'#3D4F6A', marginTop:2 }}>Senha: <span style={{ color:'#818cf8', fontWeight:600 }}>demo123</span></p>
+          </div>
         </div>
       </div>
     </div>
