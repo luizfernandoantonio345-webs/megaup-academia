@@ -52,7 +52,7 @@ export default function Login() {
               <Zap style={{ width:20, height:20, color:'white' }} />
             </div>
             <div>
-              <div className="font-bold text-white text-lg" style={{ fontFamily:'Space Grotesk, sans-serif', letterSpacing:'-0.03em' }}>FitSaaS</div>
+              <div className="font-bold text-white text-lg" style={{ fontFamily:'Space Grotesk, sans-serif', letterSpacing:'-0.03em' }}>GymPro</div>
               <div className="text-xs font-bold" style={{ color:'#6366f1' }}>ACADEMIA PRO</div>
             </div>
           </div>
@@ -89,7 +89,7 @@ export default function Login() {
             <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background:'linear-gradient(135deg, #4f46e5, #7c3aed)', boxShadow:'0 0 16px rgba(99,102,241,0.5)' }}>
               <Zap style={{ width:16, height:16, color:'white' }} />
             </div>
-            <span className="font-bold text-white" style={{ fontFamily:'Space Grotesk, sans-serif' }}>FitSaaS</span>
+            <span className="font-bold text-white" style={{ fontFamily:'Space Grotesk, sans-serif' }}>GymPro</span>
           </div>
 
           <div className="mb-8">

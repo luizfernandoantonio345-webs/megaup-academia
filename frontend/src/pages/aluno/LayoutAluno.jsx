@@ -31,7 +31,7 @@ export default function LayoutAluno({ children }) {
               <Zap style={{ width: 14, height: 14, color: 'white' }} />
             </div>
             <div>
-              <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 900, color: 'white', fontSize: 15, letterSpacing: '-0.02em' }}>FitSaaS</span>
+              <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 900, color: 'white', fontSize: 15, letterSpacing: '-0.02em' }}>GymPro</span>
             </div>
           </div>
 

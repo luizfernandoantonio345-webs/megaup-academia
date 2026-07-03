@@ -40,7 +40,7 @@ export default function Convites() {
   }
 
   const compartilharWhatsApp = () => {
-    const msg = `Ola! Voce foi convidado para acompanhar seus treinos no FitSaaS. Clique no link para criar sua conta: ${linkConvite}`
+    const msg = `Ola! Voce foi convidado para acompanhar seus treinos no GymPro. Clique no link para criar sua conta: ${linkConvite}`
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank')
   }
 

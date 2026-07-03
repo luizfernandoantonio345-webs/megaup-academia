@@ -72,7 +72,7 @@ function SidebarContent({ user, onLogout }) {
             <Zap style={{ width: 18, height: 18, color: 'white' }} />
           </div>
           <div>
-            <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 900, color: 'white', fontSize: 16, letterSpacing: '-0.02em', lineHeight: 1.1 }}>FitSaaS</div>
+            <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 900, color: 'white', fontSize: 16, letterSpacing: '-0.02em', lineHeight: 1.1 }}>GymPro</div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginTop: 1 }}>
               <span style={{ fontSize: 10, fontWeight: 800, color: '#6366f1', letterSpacing: '0.05em' }}>PRO</span>
               <span style={{ width: 3, height: 3, borderRadius: '50%', background: '#1A2540', display: 'inline-block' }} />
@@ -268,7 +268,7 @@ export default function Layout({ children }) {
             <div style={{ width: 26, height: 26, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #4f46e5, #7c3aed)', boxShadow: '0 0 12px rgba(99,102,241,0.45)' }}>
               <Zap style={{ width: 12, height: 12, color: 'white' }} />
             </div>
-            <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 900, color: 'white', fontSize: 15, letterSpacing: '-0.02em' }}>FitSaaS</span>
+            <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 900, color: 'white', fontSize: 15, letterSpacing: '-0.02em' }}>GymPro</span>
             <span style={{ fontSize: 10, fontWeight: 800, color: '#6366f1', letterSpacing: '0.05em' }}>PRO</span>
           </div>
         </header>

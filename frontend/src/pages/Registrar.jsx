@@ -24,7 +24,7 @@ export default function Registrar() {
     setLoading(true)
     try {
       await registrar(form)
-      toast.success('Conta criada! Bem-vindo ao FitSaaS. 🎉')
+      toast.success('Conta criada! Bem-vindo ao GymPro. 🎉')
       navigate('/dashboard')
     } catch (err) {
       toast.error(err.response?.data?.detail || 'Erro ao criar conta')
@@ -48,7 +48,7 @@ export default function Registrar() {
             <div className="w-11 h-11 rounded-2xl flex items-center justify-center" style={{ background:'linear-gradient(135deg,#4f46e5,#7c3aed)', boxShadow:'0 0 24px rgba(99,102,241,0.5)' }}>
               <Zap style={{ width:20, height:20, color:'white' }} />
             </div>
-            <span style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:800, fontSize:18, color:'#EFF6FF', letterSpacing:'-0.02em' }}>FitSaaS</span>
+            <span style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:800, fontSize:18, color:'#EFF6FF', letterSpacing:'-0.02em' }}>GymPro</span>
           </div>
 
           <h1 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:36, fontWeight:900, lineHeight:1.1, letterSpacing:'-0.03em', marginBottom:16, color:'#EFF6FF' }}>
@@ -89,7 +89,7 @@ export default function Registrar() {
             <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background:'linear-gradient(135deg,#4f46e5,#7c3aed)', boxShadow:'0 0 16px rgba(99,102,241,0.4)' }}>
               <Zap style={{ width:16, height:16, color:'white' }} />
             </div>
-            <span style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:800, color:'#EFF6FF' }}>FitSaaS</span>
+            <span style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:800, color:'#EFF6FF' }}>GymPro</span>
           </div>
 
           <div className="mb-8">

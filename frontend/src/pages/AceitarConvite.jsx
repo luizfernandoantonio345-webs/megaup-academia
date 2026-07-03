@@ -71,7 +71,7 @@ export default function AceitarConvite() {
           <div style={{ width:40, height:40, borderRadius:14, background:'linear-gradient(135deg,#4f46e5,#7c3aed)', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 0 20px rgba(99,102,241,0.45)' }}>
             <Zap style={{ width:18, height:18, color:'white' }} />
           </div>
-          <span style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:800, fontSize:17, color:'#EFF6FF' }}>FitSaaS</span>
+          <span style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:800, fontSize:17, color:'#EFF6FF' }}>GymPro</span>
         </div>
 
         {/* Header */}
