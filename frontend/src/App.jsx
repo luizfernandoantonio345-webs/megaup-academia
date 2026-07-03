@@ -57,11 +57,12 @@ export default function App() {
             </Route>
 
             <Route path="/unauthorized" element={
-              <div className="min-h-screen flex items-center justify-center text-center px-4">
+              <div style={{ minHeight:'100vh', background:'#070B14', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center', padding:24 }}>
                 <div>
-                  <h1 className="text-2xl font-bold text-gray-900 mb-2">Acesso negado</h1>
-                  <p className="text-gray-500 mb-4">Você não tem permissão para acessar esta página.</p>
-                  <a href="/login" className="text-primary-600 hover:underline">Voltar ao login</a>
+                  <div style={{ fontSize:48, marginBottom:16 }}>🔒</div>
+                  <h1 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:24, fontWeight:800, color:'#EFF6FF', marginBottom:8 }}>Acesso negado</h1>
+                  <p style={{ color:'#4B5768', marginBottom:24, fontSize:14 }}>Você não tem permissão para acessar esta página.</p>
+                  <a href="/login" style={{ color:'#818cf8', fontWeight:600, fontSize:14 }}>Voltar ao login</a>
                 </div>
               </div>
             } />

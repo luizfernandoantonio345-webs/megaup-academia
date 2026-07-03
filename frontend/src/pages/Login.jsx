@@ -22,8 +22,12 @@ export default function Login() {
     e.preventDefault()
     setLoading(true)
     try {
-      await login(form)
-      navigate('/dashboard')
+      const user = await login(form.email, form.senha)
+      if (user?.role === 'aluno') {
+        navigate('/aluno')
+      } else {
+        navigate('/dashboard')
+      }
     } catch {
       toast.error('E-mail ou senha incorretos')
     } finally {
