@@ -84,6 +84,17 @@ def atualizar_aluno(
     return aluno
 
 
+@router.delete("/{aluno_id}", status_code=204)
+def deletar_aluno(
+    aluno_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    aluno = _get_aluno_or_404(aluno_id, current_user.tenant_id, db)
+    db.delete(aluno)
+    db.commit()
+
+
 @router.get("/{aluno_id}", response_model=AlunoResponse)
 def obter_aluno(
     aluno_id: int,
