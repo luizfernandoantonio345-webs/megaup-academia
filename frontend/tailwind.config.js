@@ -1,19 +1,91 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+  darkMode: 'class',
   theme: {
     extend: {
       colors: {
         primary: {
-          50: "#eef2ff",
+          50:  "#eef2ff",
           100: "#e0e7ff",
+          200: "#c7d2fe",
+          300: "#a5b4fc",
+          400: "#818cf8",
           500: "#6366f1",
           600: "#4f46e5",
           700: "#4338ca",
+          800: "#3730a3",
+          900: "#312e81",
         },
+        violet: {
+          50:  "#f5f3ff",
+          100: "#ede9fe",
+          500: "#8b5cf6",
+          600: "#7c3aed",
+          700: "#6d28d9",
+        },
+        brand: {
+          sidebar: "#0f172a",
+          "sidebar-hover": "#1e293b",
+          "sidebar-active": "#1e293b",
+          "sidebar-border": "#1e293b",
+        },
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+      },
+      animation: {
+        'fade-in':      'fadeIn 0.35s ease-out',
+        'slide-up':     'slideUp 0.35s ease-out',
+        'slide-down':   'slideDown 0.25s ease-out',
+        'scale-in':     'scaleIn 0.2s ease-out',
+        'shimmer':      'shimmer 1.8s linear infinite',
+        'bounce-light': 'bounceLight 0.6s ease-out',
+        'ping-once':    'ping 0.6s ease-out 1',
+        'spin-slow':    'spin 3s linear infinite',
+        'progress':     'progressBar 1s ease-out forwards',
+        'glow-pulse':   'glowPulse 2s ease-in-out infinite',
+        'count-up':     'countUp 0.5s ease-out',
+        'float':        'float 3s ease-in-out infinite',
+        'number-in':    'numberIn 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+      },
+      keyframes: {
+        fadeIn:      { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+        slideUp:     { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        slideDown:   { '0%': { opacity: '0', transform: 'translateY(-10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        scaleIn:     { '0%': { opacity: '0', transform: 'scale(0.92)' }, '100%': { opacity: '1', transform: 'scale(1)' } },
+        shimmer:     { '0%': { backgroundPosition: '-200% 0' }, '100%': { backgroundPosition: '200% 0' } },
+        bounceLight: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-6px)' } },
+        progressBar: { '0%': { width: '0%' }, '100%': { width: 'var(--progress-width)' } },
+        glowPulse:   { '0%, 100%': { opacity: '1' }, '50%': { opacity: '0.6' } },
+        float:       { '0%, 100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-8px)' } },
+        numberIn:    { '0%': { opacity: '0', transform: 'translateY(10px) scale(0.9)' }, '100%': { opacity: '1', transform: 'translateY(0) scale(1)' } },
+        countUp:     { '0%': { opacity: '0', transform: 'translateY(8px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+      },
+      boxShadow: {
+        'xs':         '0 1px 2px rgba(0,0,0,0.05)',
+        'card':       '0 1px 3px rgba(0,0,0,0.04), 0 8px 20px rgba(0,0,0,0.04)',
+        'card-hover': '0 4px 8px rgba(0,0,0,0.06), 0 16px 32px rgba(0,0,0,0.08)',
+        'glow':       '0 0 24px rgba(79, 70, 229, 0.25)',
+        'glow-sm':    '0 0 12px rgba(79, 70, 229, 0.15)',
+        'glow-amber': '0 0 24px rgba(245, 158, 11, 0.3)',
+        'glow-green': '0 0 20px rgba(16, 185, 129, 0.25)',
+        'glass':      '0 8px 32px rgba(0,0,0,0.08)',
+        'inner':      'inset 0 1px 3px rgba(0,0,0,0.1)',
+        'none':       'none',
+      },
+      borderRadius: {
+        '2xl': '1rem',
+        '3xl': '1.25rem',
+        '4xl': '1.5rem',
+      },
+      backdropBlur: {
+        xs: '2px',
+      },
+      transitionDuration: {
+        '400': '400ms',
       },
     },
   },
   plugins: [],
 }
-
