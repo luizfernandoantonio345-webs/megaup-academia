@@ -57,6 +57,16 @@ export const billingPlanos    = ()       => api.get('/billing/planos')
 export const billingCheckout  = (plano)  => api.post('/billing/checkout', { plano })
 export const billingPortal    = ()       => api.post('/billing/portal')
 
+// Chat
+export const chatMensagens  = (alunoId, desdeId = 0) => api.get(`/chat/${alunoId}?desde_id=${desdeId}`)
+export const chatEnviar     = (alunoId, texto)        => api.post(`/chat/${alunoId}`, { texto })
+export const chatNaoLidas   = (alunoId)               => api.get(`/chat/${alunoId}/nao-lidas`)
+
+// Avaliações físicas
+export const listarAvaliacoes = (alunoId)       => api.get(`/alunos/${alunoId}/avaliacoes`)
+export const criarAvaliacao   = (alunoId, data) => api.post(`/alunos/${alunoId}/avaliacoes`, data)
+export const deletarAvaliacao = (alunoId, avId) => api.delete(`/alunos/${alunoId}/avaliacoes/${avId}`)
+
 // Academia (admin)
 export const listarPersonais = () => api.get('/academia/personais/')
 export const adicionarPersonal = (data) => api.post('/academia/personais/', data)

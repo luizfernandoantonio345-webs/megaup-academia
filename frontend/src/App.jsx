@@ -20,6 +20,7 @@ import Convites from './pages/Convites'
 import Financeiro from './pages/Financeiro'
 import Planos from './pages/Planos'
 import TreinoHoje from './pages/aluno/TreinoHoje'
+import ChatAluno from './pages/aluno/ChatAluno'
 import SemanaTreinos from './pages/aluno/SemanaTreinos'
 import Conquistas from './pages/aluno/Conquistas'
 
@@ -90,6 +91,7 @@ export default function App() {
                 <Route path="/aluno" element={<LayoutAluno><TreinoHoje /></LayoutAluno>} />
                 <Route path="/aluno/semana" element={<LayoutAluno><SemanaTreinos /></LayoutAluno>} />
                 <Route path="/aluno/conquistas" element={<LayoutAluno><Conquistas /></LayoutAluno>} />
+                <Route path="/aluno/chat" element={<LayoutAluno><ChatAluno /></LayoutAluno>} />
               </Route>
 
               <Route path="/unauthorized" element={

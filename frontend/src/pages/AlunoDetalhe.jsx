@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { obterAluno, listarTreinos, gamificacaoAluno, sugestoesAluno, obterAnamnese, salvarAnamnese, criarTreino, atualizarAluno, listarExercicios, historicoCarga } from '../api'
+import { obterAluno, listarTreinos, gamificacaoAluno, sugestoesAluno, obterAnamnese, salvarAnamnese, criarTreino, atualizarAluno, listarExercicios, historicoCarga, listarAvaliacoes, criarAvaliacao, deletarAvaliacao } from '../api'
 import toast from 'react-hot-toast'
-import { ArrowLeft, Dumbbell, Flame, Trophy, Brain, ClipboardList, Plus, Loader2, Edit2, Check, X, TrendingUp, TrendingDown, Minus, BarChart2, ChevronDown } from 'lucide-react'
+import { ArrowLeft, Dumbbell, Flame, Trophy, Brain, ClipboardList, Plus, Loader2, Edit2, Check, X, TrendingUp, TrendingDown, Minus, BarChart2, ChevronDown, MessageCircle, Scale, Trash2 } from 'lucide-react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import ChatBox from '../components/ChatBox'
 
 function Avatar({ nome }) {
   const initials = nome?.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
@@ -34,6 +35,7 @@ export default function AlunoDetalhe() {
   const { data: sugestoes } = useQuery({ queryKey:['sugestoes', id], queryFn: () => sugestoesAluno(id).then(r => r.data) })
   const { data: anamnese }  = useQuery({ queryKey:['anamnese', id], queryFn: () => obterAnamnese(id).then(r => r.data), enabled: tab === 'anamnese' })
   const { data: exercicios = [] } = useQuery({ queryKey:['exercicios'], queryFn: () => listarExercicios().then(r => r.data), enabled: tab === 'progresso' })
+  const { data: avaliacoes = [], refetch: refetchAv } = useQuery({ queryKey:['avaliacoes', id], queryFn: () => listarAvaliacoes(id).then(r => r.data), enabled: tab === 'avaliacao' })
 
   const { mutate: updateNome } = useMutation({
     mutationFn: data => atualizarAluno(id, data),
@@ -124,9 +126,11 @@ export default function AlunoDetalhe() {
         {[
           { key:'treinos',     label:'Treinos' },
           { key:'progresso',   label:'Progresso' },
+          { key:'avaliacao',   label:'Avaliação' },
           { key:'gamificacao', label:'Conquistas' },
           { key:'sugestoes',   label:`IA${nSugestoes ? ` (${nSugestoes})` : ''}` },
           { key:'anamnese',    label:'Anamnese' },
+          { key:'chat',        label:'Chat' },
         ].map(({ key, label }) => (
           <button key={key} onClick={() => setTab(key)} className={`tab ${tab === key ? 'tab-active' : 'tab-inactive'}`}>{label}</button>
         ))}
@@ -135,9 +139,24 @@ export default function AlunoDetalhe() {
       <div className="animate-fade-in">
         {tab === 'treinos'     && <TreinosTab aluno={aluno} treinos={treinos} onCriar={(nome, dia) => criarT({ aluno_id:Number(id), nome, dia_semana:dia })} />}
         {tab === 'progresso'   && <ProgresoTab alunoId={id} treinos={treinos} exercicios={exercicios} />}
+        {tab === 'avaliacao'   && <AvaliacaoTab alunoId={id} avaliacoes={avaliacoes} onRefresh={refetchAv} />}
         {tab === 'gamificacao' && <GamificacaoTab gami={gami} />}
         {tab === 'sugestoes'   && <SugestoesTab sugestoes={sugestoes} />}
         {tab === 'anamnese'    && <AnamneseTab anamnese={anamnese} onSalvar={salvarAnam} saving={savingAnam} />}
+        {tab === 'chat'        && (
+          <div className="card" style={{ height: 520 }}>
+            <div className="flex items-center gap-2 mb-4" style={{ borderBottom:'1px solid rgba(255,255,255,0.06)', paddingBottom:14 }}>
+              <div style={{ width:32, height:32, borderRadius:10, background:'rgba(99,102,241,0.15)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                <MessageCircle style={{ width:14, height:14, color:'#818cf8' }} />
+              </div>
+              <div>
+                <p style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#CBD5E1', fontSize:14, lineHeight:1 }}>Chat com {aluno?.nome?.split(' ')[0]}</p>
+                <p style={{ fontSize:11, color:'#3D4F6A', marginTop:2 }}>As mensagens são privadas entre você e o aluno</p>
+              </div>
+            </div>
+            <ChatBox alunoId={Number(id)} outroNome={aluno?.nome?.split(' ')[0]} />
+          </div>
+        )}
       </div>
     </div>
   )
@@ -465,6 +484,180 @@ function SugestoesTab({ sugestoes }) {
               </div>
             )
           })}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
+  const qc = useQueryClient()
+  const [showForm, setShowForm] = useState(false)
+  const [form, setForm] = useState({ peso: '', percentual_gordura: '', cintura: '', quadril: '', braco: '', perna: '' })
+
+  const { mutate: salvar, isPending: saving } = useMutation({
+    mutationFn: () => criarAvaliacao(alunoId, {
+      peso: form.peso ? Number(form.peso) : null,
+      percentual_gordura: form.percentual_gordura ? Number(form.percentual_gordura) : null,
+      medidas: {
+        ...(form.cintura  ? { cintura:  Number(form.cintura)  } : {}),
+        ...(form.quadril  ? { quadril:  Number(form.quadril)  } : {}),
+        ...(form.braco    ? { braco:    Number(form.braco)    } : {}),
+        ...(form.perna    ? { perna:    Number(form.perna)    } : {}),
+      },
+    }),
+    onSuccess: () => { toast.success('Avaliação registrada!'); setShowForm(false); setForm({ peso:'', percentual_gordura:'', cintura:'', quadril:'', braco:'', perna:'' }); onRefresh() },
+    onError: () => toast.error('Erro ao salvar avaliação'),
+  })
+
+  const { mutate: excluir } = useMutation({
+    mutationFn: (avId) => deletarAvaliacao(alunoId, avId),
+    onSuccess: () => { toast.success('Removida'); onRefresh() },
+    onError: () => toast.error('Erro ao remover'),
+  })
+
+  // Chart data
+  const chartPeso = avaliacoes.filter(a => a.peso).map(a => ({
+    data: new Date(a.data).toLocaleDateString('pt-BR', { day:'2-digit', month:'short' }),
+    peso: a.peso,
+  }))
+  const chartGordura = avaliacoes.filter(a => a.percentual_gordura).map(a => ({
+    data: new Date(a.data).toLocaleDateString('pt-BR', { day:'2-digit', month:'short' }),
+    gordura: a.percentual_gordura,
+  }))
+
+  const last = avaliacoes[avaliacoes.length - 1]
+  const prev = avaliacoes[avaliacoes.length - 2]
+  const deltaPeso = last?.peso && prev?.peso ? (last.peso - prev.peso).toFixed(1) : null
+
+  const TooltipPeso = ({ active, payload, label }) => {
+    if (!active || !payload?.length) return null
+    return <div style={{ background:'#141D30', border:'1px solid rgba(99,102,241,0.3)', borderRadius:10, padding:'8px 12px', fontSize:13 }}><span style={{ color:'#94A3B8' }}>{label}: </span><span style={{ color:'#34d399', fontWeight:700 }}>{payload[0].value}kg</span></div>
+  }
+  const TooltipGord = ({ active, payload, label }) => {
+    if (!active || !payload?.length) return null
+    return <div style={{ background:'#141D30', border:'1px solid rgba(251,191,36,0.3)', borderRadius:10, padding:'8px 12px', fontSize:13 }}><span style={{ color:'#94A3B8' }}>{label}: </span><span style={{ color:'#fbbf24', fontWeight:700 }}>{payload[0].value}%</span></div>
+  }
+
+  return (
+    <div className="space-y-5">
+      <div className="flex items-center justify-between">
+        <h2 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#94A3B8', fontSize:13 }}>Histórico de avaliações</h2>
+        <button className="btn-gradient btn-sm" onClick={() => setShowForm(!showForm)}>
+          <Plus style={{ width:12, height:12 }} /> Nova avaliação
+        </button>
+      </div>
+
+      {showForm && (
+        <div className="card animate-slide-down" style={{ border:'1px solid rgba(99,102,241,0.3)' }}>
+          <h3 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#EFF6FF', fontSize:14, marginBottom:16 }}>Registro de avaliação</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
+            {[
+              { key:'peso',               label:'Peso (kg)',        placeholder:'Ex: 75.5' },
+              { key:'percentual_gordura', label:'% Gordura',        placeholder:'Ex: 18.2' },
+              { key:'cintura',            label:'Cintura (cm)',     placeholder:'Ex: 82' },
+              { key:'quadril',            label:'Quadril (cm)',     placeholder:'Ex: 96' },
+              { key:'braco',              label:'Braço (cm)',       placeholder:'Ex: 34' },
+              { key:'perna',              label:'Coxa (cm)',        placeholder:'Ex: 56' },
+            ].map(({ key, label, placeholder }) => (
+              <div key={key}>
+                <label className="label">{label}</label>
+                <input className="input" type="number" step="0.1" placeholder={placeholder}
+                  value={form[key]} onChange={e => setForm({ ...form, [key]: e.target.value })} />
+              </div>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <button className="btn-secondary" onClick={() => setShowForm(false)}>Cancelar</button>
+            <button className="btn-gradient" disabled={saving} onClick={salvar}>
+              {saving ? 'Salvando...' : 'Registrar avaliação'}
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Latest stats */}
+      {last && (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          {[
+            { label:'Peso', value: last.peso ? `${last.peso}kg` : '--', color:'#34d399', sub: deltaPeso ? `${deltaPeso > 0 ? '+' : ''}${deltaPeso}kg vs anterior` : null },
+            { label:'% Gordura', value: last.percentual_gordura ? `${last.percentual_gordura}%` : '--', color:'#fbbf24' },
+            { label:'Cintura', value: last.medidas?.cintura ? `${last.medidas.cintura}cm` : '--', color:'#818cf8' },
+            { label:'Avaliações', value: avaliacoes.length, color:'#f9a8d4' },
+          ].map(({ label, value, color, sub }) => (
+            <div key={label} className="card text-center p-3">
+              <div style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:20, fontWeight:800, color, letterSpacing:'-0.02em' }}>{value}</div>
+              <div style={{ fontSize:11, color:'#3D4F6A', fontWeight:600, marginTop:2, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
+              {sub && <div style={{ fontSize:10, color: Number(deltaPeso) < 0 ? '#34d399' : '#f87171', marginTop:3 }}>{sub}</div>}
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Peso chart */}
+      {chartPeso.length >= 2 && (
+        <div className="card">
+          <p style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#CBD5E1', fontSize:13, marginBottom:12 }}>Evolução de peso</p>
+          <ResponsiveContainer width="100%" height={160}>
+            <LineChart data={chartPeso} margin={{ top:4, right:8, left:-12, bottom:0 }}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
+              <XAxis dataKey="data" tick={{ fontSize:11, fill:'#3D4F6A' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize:11, fill:'#3D4F6A' }} axisLine={false} tickLine={false} width={40} tickFormatter={v => `${v}kg`} />
+              <Tooltip content={<TooltipPeso />} />
+              <Line type="monotone" dataKey="peso" stroke="#34d399" strokeWidth={2.5}
+                dot={{ fill:'#34d399', r:4, strokeWidth:0 }} activeDot={{ r:6, fill:'#6ee7b7', strokeWidth:0 }} isAnimationActive={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* Gordura chart */}
+      {chartGordura.length >= 2 && (
+        <div className="card">
+          <p style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#CBD5E1', fontSize:13, marginBottom:12 }}>% Gordura corporal</p>
+          <ResponsiveContainer width="100%" height={140}>
+            <LineChart data={chartGordura} margin={{ top:4, right:8, left:-12, bottom:0 }}>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
+              <XAxis dataKey="data" tick={{ fontSize:11, fill:'#3D4F6A' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize:11, fill:'#3D4F6A' }} axisLine={false} tickLine={false} width={36} tickFormatter={v => `${v}%`} />
+              <Tooltip content={<TooltipGord />} />
+              <Line type="monotone" dataKey="gordura" stroke="#fbbf24" strokeWidth={2.5}
+                dot={{ fill:'#fbbf24', r:4, strokeWidth:0 }} activeDot={{ r:6, fill:'#fde68a', strokeWidth:0 }} isAnimationActive={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      )}
+
+      {/* History table */}
+      {avaliacoes.length === 0 ? (
+        <div className="card empty-state py-10">
+          <div className="empty-icon"><Scale style={{ width:28, height:28, color:'#4B5768' }} /></div>
+          <p className="empty-title">Sem avaliações ainda</p>
+          <p className="empty-message">Registre a primeira avaliação para acompanhar a evolução física</p>
+          <button className="btn-gradient" onClick={() => setShowForm(true)}>Registrar avaliação</button>
+        </div>
+      ) : (
+        <div className="space-y-2">
+          <p className="section-title">Histórico completo</p>
+          {[...avaliacoes].reverse().map(av => (
+            <div key={av.id} className="rounded-2xl p-3 flex items-center gap-3"
+              style={{ background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.05)' }}>
+              <div style={{ flex:1 }}>
+                <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
+                  {av.peso && <span style={{ fontSize:13, fontWeight:700, color:'#34d399' }}>{av.peso}kg</span>}
+                  {av.percentual_gordura && <span style={{ fontSize:13, fontWeight:700, color:'#fbbf24' }}>{av.percentual_gordura}% gordura</span>}
+                  {av.medidas?.cintura && <span style={{ fontSize:12, color:'#94A3B8' }}>Cintura {av.medidas.cintura}cm</span>}
+                  {av.medidas?.quadril && <span style={{ fontSize:12, color:'#94A3B8' }}>Quadril {av.medidas.quadril}cm</span>}
+                </div>
+                <p style={{ fontSize:11, color:'#3D4F6A', marginTop:3 }}>
+                  {new Date(av.data).toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' })}
+                </p>
+              </div>
+              <button onClick={() => excluir(av.id)} style={{ background:'none', border:'none', cursor:'pointer', color:'#2A3A56', padding:6, borderRadius:8 }}>
+                <Trash2 style={{ width:13, height:13 }} />
+              </button>
+            </div>
+          ))}
         </div>
       )}
     </div>

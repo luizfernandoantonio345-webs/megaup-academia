@@ -1,11 +1,12 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
-import { Dumbbell, Trophy, LogOut, Zap, CalendarDays } from 'lucide-react'
+import { Dumbbell, Trophy, LogOut, Zap, CalendarDays, MessageCircle } from 'lucide-react'
 
 const TABS = [
-  { to: '/aluno',          icon: Dumbbell,     label: 'Treino',   end: true,  color: '#34d399', glow: 'rgba(52,211,153,0.35)'  },
-  { to: '/aluno/semana',   icon: CalendarDays, label: 'Semana',   end: false, color: '#818cf8', glow: 'rgba(129,140,248,0.35)' },
-  { to: '/aluno/conquistas', icon: Trophy,     label: 'Conquistas', end: false, color: '#fbbf24', glow: 'rgba(251,191,36,0.35)' },
+  { to: '/aluno',            icon: Dumbbell,       label: 'Treino',    end: true,  color: '#34d399', glow: 'rgba(52,211,153,0.35)'  },
+  { to: '/aluno/semana',     icon: CalendarDays,   label: 'Semana',    end: false, color: '#818cf8', glow: 'rgba(129,140,248,0.35)' },
+  { to: '/aluno/conquistas', icon: Trophy,         label: 'Conquistas',end: false, color: '#fbbf24', glow: 'rgba(251,191,36,0.35)' },
+  { to: '/aluno/chat',       icon: MessageCircle,  label: 'Chat',      end: false, color: '#f9a8d4', glow: 'rgba(249,168,212,0.35)' },
 ]
 
 export default function LayoutAluno({ children }) {

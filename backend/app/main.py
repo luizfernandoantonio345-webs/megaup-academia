@@ -8,6 +8,31 @@ from app.core.config import settings
 from app.core.db import engine
 
 
+def _sprint_b_migration():
+    """Cria tabela mensagens se não existir."""
+    try:
+        inspector = inspect(engine)
+        tables = inspector.get_table_names()
+        if "mensagens" not in tables:
+            with engine.connect() as conn:
+                conn.execute(text("""
+                    CREATE TABLE IF NOT EXISTS mensagens (
+                        id SERIAL PRIMARY KEY,
+                        tenant_id INTEGER NOT NULL REFERENCES tenants(id),
+                        aluno_id INTEGER NOT NULL REFERENCES alunos(id),
+                        remetente_id INTEGER NOT NULL REFERENCES users(id),
+                        texto TEXT NOT NULL,
+                        lido BOOLEAN DEFAULT FALSE,
+                        criado_em TIMESTAMP DEFAULT NOW()
+                    )
+                """))
+                conn.execute(text("CREATE INDEX IF NOT EXISTS ix_mensagens_aluno ON mensagens(aluno_id, criado_em)"))
+                conn.commit()
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("sprint_b_migration: %s", exc)
+
+
 def _billing_migration():
     """Adiciona colunas de billing ao tenant se não existirem (sem Alembic)."""
     try:
@@ -40,6 +65,7 @@ def _billing_migration():
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     _billing_migration()
+    _sprint_b_migration()
     if settings.ENABLE_SCHEDULER:
         from apscheduler.schedulers.background import BackgroundScheduler
         from app.ai.scheduler import tarefa_progressao
@@ -63,7 +89,7 @@ app.add_middleware(
 )
 
 from app.api.routes import auth, alunos, treinos, ia, convites, exercicios  # noqa: E402
-from app.api.routes import pagamentos, academia, billing  # noqa: E402
+from app.api.routes import pagamentos, academia, billing, chat, avaliacoes   # noqa: E402
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(convites.router, prefix="/convites", tags=["convites"])
@@ -74,6 +100,8 @@ app.include_router(ia.router, prefix="/ia", tags=["ia"])
 app.include_router(pagamentos.router, prefix="/pagamentos", tags=["pagamentos"])
 app.include_router(academia.router, prefix="/academia", tags=["academia"])
 app.include_router(billing.router, prefix="/billing", tags=["billing"])
+app.include_router(chat.router, prefix="/chat", tags=["chat"])
+app.include_router(avaliacoes.router, prefix="/alunos", tags=["avaliacoes"])
 
 
 @app.get("/health")

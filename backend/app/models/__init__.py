@@ -247,3 +247,19 @@ class PersonalTenant(Base):
     __table_args__ = (
         UniqueConstraint("tenant_id", "user_id", name="uq_personal_tenant"),
     )
+
+
+class Mensagem(Base):
+    """Chat entre personal e aluno."""
+    __tablename__ = "mensagens"
+    id = Column(Integer, primary_key=True)
+    tenant_id = Column(Integer, ForeignKey("tenants.id"), nullable=False)
+    aluno_id = Column(Integer, ForeignKey("alunos.id"), nullable=False)
+    remetente_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    texto = Column(Text, nullable=False)
+    lido = Column(Boolean, default=False)
+    criado_em = Column(DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        Index("ix_mensagens_aluno", "aluno_id", "criado_em"),
+    )
