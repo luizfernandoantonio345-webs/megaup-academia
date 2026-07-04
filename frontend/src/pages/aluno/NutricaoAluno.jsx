@@ -63,7 +63,7 @@ export default function NutricaoAluno() {
     return (
       <div style={{ textAlign: 'center', padding: '60px 24px' }}>
         <div style={{ fontSize: 48, marginBottom: 16 }}>🥗</div>
-        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800, color: '#F4F4F5', marginBottom: 8 }}>Nenhum plano ainda</div>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color: '#F4F4F5', marginBottom: 8 }}>Nenhum plano ainda</p>
         <p style={{ fontSize: 14, color: '#71717A' }}>Seu personal ainda não criou um plano alimentar para você.</p>
       </div>
     )
