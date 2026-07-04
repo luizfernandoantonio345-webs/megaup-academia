@@ -91,8 +91,8 @@ export default function PlanBanner() {
         <Icon style={{ width: 14, height: 14, color: config.iconColor }} />
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ fontSize: 13, fontWeight: 700, color: '#CBD5E1', margin: 0, lineHeight: 1.2 }}>{config.text}</p>
-        <p style={{ fontSize: 11, color: '#4B5768', margin: '2px 0 0', lineHeight: 1.3 }}>{config.sub}</p>
+        <p style={{ fontSize: 13, fontWeight: 700, color: '#F4F4F5', margin: 0, lineHeight: 1.2 }}>{config.text}</p>
+        <p style={{ fontSize: 11, color: '#71717A', margin: '2px 0 0', lineHeight: 1.3 }}>{config.sub}</p>
       </div>
       <button
         onClick={() => navigate('/planos')}

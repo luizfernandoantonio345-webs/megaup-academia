@@ -8,9 +8,9 @@ import { SkeletonCard } from '../components/ui/Skeleton'
 
 function Avatar({ nome, size = 'md' }) {
   const initials = nome?.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase()
-  const sz = size === 'lg' ? 'w-12 h-12 text-base' : 'w-10 h-10 text-sm'
+  const px = size === 'lg' ? 48 : 40
   return (
-    <div className={`${sz} rounded-full flex items-center justify-center font-bold text-white flex-shrink-0`} style={{ background: 'linear-gradient(135deg, #4f46e5, #7c3aed)' }}>
+    <div style={{ width: px, height: px, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: px * 0.36, fontWeight: 600, color: '#A1A1AA', flexShrink: 0 }}>
       {initials}
     </div>
   )
@@ -40,38 +40,38 @@ function ModalCriar({ onClose }) {
   })
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50 p-4" style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)' }}>
-      <div className="w-full max-w-md rounded-2xl p-6 animate-scale-in" style={{ background: '#0E1525', border: '1px solid rgba(99,102,241,0.25)', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}>
-        <div className="flex items-center justify-between mb-6">
+    <div style={{ position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, padding: 16, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}>
+      <div style={{ width: '100%', maxWidth: 400, background: '#111113', border: '1px solid #27272A', borderRadius: 12, padding: 24, boxShadow: '0 20px 40px rgba(0,0,0,0.6)' }} className="animate-scale-in">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
           <div>
-            <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, color: '#EFF6FF', fontSize: 17 }}>Novo aluno</h3>
-            <p style={{ fontSize: 13, color: '#3D4F6A', marginTop: 2 }}>Preencha as informações básicas</p>
+            <h3 style={{ fontSize: 15, fontWeight: 600, color: '#F4F4F5', margin: 0 }}>Novo aluno</h3>
+            <p style={{ fontSize: 12, color: '#71717A', marginTop: 3 }}>Preencha as informações básicas</p>
           </div>
-          <button onClick={onClose} className="w-8 h-8 rounded-lg flex items-center justify-center transition-colors" style={{ background: 'rgba(255,255,255,0.07)', color: '#64748B' }}>
-            <X style={{ width: 15, height: 15 }} />
+          <button onClick={onClose} style={{ width: 28, height: 28, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1C1C1E', border: '1px solid #27272A', cursor: 'pointer', color: '#71717A' }}>
+            <X style={{ width: 14, height: 14 }} />
           </button>
         </div>
 
-        <div className="space-y-4">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {[
-            { k: 'nome',     icon: User,   type: 'text',  label: 'Nome completo *', ph: 'João da Silva'       },
-            { k: 'email',    icon: Mail,   type: 'email', label: 'E-mail *',         ph: 'joao@email.com'      },
-            { k: 'objetivo', icon: Target, type: 'text',  label: 'Objetivo',         ph: 'Ex: perder peso...'  },
+            { k: 'nome',     icon: User,   type: 'text',  label: 'Nome completo *', ph: 'João da Silva'      },
+            { k: 'email',    icon: Mail,   type: 'email', label: 'E-mail *',         ph: 'joao@email.com'     },
+            { k: 'objetivo', icon: Target, type: 'text',  label: 'Objetivo',         ph: 'Ex: perder peso...' },
           ].map(({ k, icon: Icon, type, label, ph }) => (
             <div key={k}>
               <label className="label">{label}</label>
-              <div className="relative">
-                <Icon style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#3D4F6A' }} />
-                <input className="input pl-11" type={type} placeholder={ph} value={form[k]} onChange={set(k)} />
+              <div style={{ position: 'relative' }}>
+                <Icon style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, color: '#52525B' }} />
+                <input className="input" style={{ paddingLeft: 36 }} type={type} placeholder={ph} value={form[k]} onChange={set(k)} />
               </div>
             </div>
           ))}
         </div>
 
-        <div className="flex gap-3 mt-6">
-          <button className="btn-secondary flex-1" onClick={onClose}>Cancelar</button>
-          <button className="btn-gradient flex-1" disabled={isPending || !form.nome || !form.email} onClick={() => mutate(form)}>
-            {isPending ? <span className="w-4 h-4 border-2 rounded-full animate-spin" style={{ borderColor: 'rgba(255,255,255,0.3)', borderTopColor: 'white' }} /> : 'Criar aluno'}
+        <div style={{ display: 'flex', gap: 10, marginTop: 20 }}>
+          <button className="btn-secondary" style={{ flex: 1 }} onClick={onClose}>Cancelar</button>
+          <button className="btn-primary" style={{ flex: 1 }} disabled={isPending || !form.nome || !form.email} onClick={() => mutate(form)}>
+            {isPending ? <span style={{ width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} /> : 'Criar aluno'}
           </button>
         </div>
       </div>
@@ -107,48 +107,43 @@ export default function Alunos() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <div className="page-header">
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
         <div>
-          <h1 className="page-title">Alunos</h1>
-          <p className="page-subtitle">{alunos.length} aluno{alunos.length !== 1 ? 's' : ''} cadastrado{alunos.length !== 1 ? 's' : ''}</p>
+          <h1 style={{ fontSize: 18, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em', marginBottom: 2 }}>Alunos</h1>
+          <p style={{ fontSize: 13, color: '#71717A' }}>{alunos.length} aluno{alunos.length !== 1 ? 's' : ''} cadastrado{alunos.length !== 1 ? 's' : ''}</p>
         </div>
-        <button className="btn-gradient" onClick={() => setShowModal(true)}>
-          <UserPlus style={{ width: 16, height: 16 }} /> Novo aluno
+        <button className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }} onClick={() => setShowModal(true)}>
+          <UserPlus style={{ width: 14, height: 14 }} /> Novo aluno
         </button>
       </div>
 
-      <div className="flex gap-3">
-        <div className="relative flex-1">
-          <Search style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', width: 16, height: 16, color: '#3D4F6A' }} />
-          <input className="input pl-11" placeholder="Buscar por nome ou e-mail..." value={search} onChange={(e) => setSearch(e.target.value)} />
+      <div style={{ display: 'flex', gap: 10 }}>
+        <div style={{ position: 'relative', flex: 1 }}>
+          <Search style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#52525B' }} />
+          <input className="input" style={{ paddingLeft: 36 }} placeholder="Buscar por nome ou e-mail..." value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <div className="flex rounded-xl overflow-hidden" style={{ border: '1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ display: 'flex', borderRadius: 8, overflow: 'hidden', border: '1px solid #27272A' }}>
           {[{ mode: 'grid', Icon: LayoutGrid }, { mode: 'list', Icon: List }].map(({ mode, Icon }) => (
-            <button key={mode} onClick={() => setViewMode(mode)} className="px-3 py-2 transition-colors"
-              style={{ background: viewMode === mode ? 'rgba(99,102,241,0.2)' : 'transparent', color: viewMode === mode ? '#a5b4fc' : '#3D4F6A', borderLeft: mode === 'list' ? '1px solid rgba(255,255,255,0.07)' : 'none' }}>
-              <Icon style={{ width: 16, height: 16 }} />
+            <button key={mode} onClick={() => setViewMode(mode)}
+              style={{ padding: '0 10px', background: viewMode === mode ? '#1C1C1E' : 'transparent', color: viewMode === mode ? '#A1A1AA' : '#52525B', cursor: 'pointer', border: 'none', borderLeft: mode === 'list' ? '1px solid #27272A' : 'none', display: 'flex', alignItems: 'center' }}>
+              <Icon style={{ width: 15, height: 15 }} />
             </button>
           ))}
         </div>
       </div>
 
       {chipsObjetivo.length > 0 && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-          <button
-            onClick={() => setFiltroObjetivo('')}
-            style={{ padding: '5px 14px', borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: 'pointer', border: '1px solid', transition: 'all 0.15s', borderColor: !filtroObjetivo ? '#6366f1' : 'rgba(255,255,255,0.08)', background: !filtroObjetivo ? 'rgba(99,102,241,0.15)' : 'transparent', color: !filtroObjetivo ? '#a5b4fc' : '#3D4F6A' }}
-          >
-            Todos
-          </button>
-          {chipsObjetivo.map(obj => (
-            <button
-              key={obj}
-              onClick={() => setFiltroObjetivo(filtroObjetivo === obj ? '' : obj)}
-              style={{ padding: '5px 14px', borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: 'pointer', border: '1px solid', transition: 'all 0.15s', borderColor: filtroObjetivo === obj ? '#6366f1' : 'rgba(255,255,255,0.08)', background: filtroObjetivo === obj ? 'rgba(99,102,241,0.15)' : 'transparent', color: filtroObjetivo === obj ? '#a5b4fc' : '#3D4F6A' }}
-            >
-              {obj}
-            </button>
-          ))}
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+          {['Todos', ...chipsObjetivo].map(obj => {
+            const active = obj === 'Todos' ? !filtroObjetivo : filtroObjetivo === obj
+            return (
+              <button key={obj}
+                onClick={() => setFiltroObjetivo(obj === 'Todos' ? '' : (filtroObjetivo === obj ? '' : obj))}
+                style={{ padding: '4px 12px', borderRadius: 6, fontSize: 12, fontWeight: 500, cursor: 'pointer', border: '1px solid', transition: 'all 0.1s', borderColor: active ? '#6366f1' : '#27272A', background: active ? 'rgba(99,102,241,0.12)' : 'transparent', color: active ? '#a5b4fc' : '#71717A' }}>
+                {obj}
+              </button>
+            )
+          })}
         </div>
       )}
 
@@ -158,42 +153,43 @@ export default function Alunos() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="card empty-state">
-          <div className="empty-icon"><UserPlus style={{ width: 28, height: 28, color: '#4B5768' }} /></div>
+          <div className="empty-icon"><UserPlus style={{ width: 28, height: 28, color: '#71717A' }} /></div>
           <p className="empty-title">{search ? 'Nenhum aluno encontrado' : 'Nenhum aluno ainda'}</p>
           <p className="empty-message">{search ? `Nenhum resultado para "${search}"` : 'Cadastre seu primeiro aluno para começar.'}</p>
-          {!search && <button className="btn-gradient" onClick={() => setShowModal(true)}>Cadastrar aluno</button>}
+          {!search && <button className="btn-primary" onClick={() => setShowModal(true)}>Cadastrar aluno</button>}
         </div>
       ) : viewMode === 'grid' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((a, i) => (
-            <Link key={a.id} to={`/alunos/${a.id}`} className="card-interactive group" style={{ animationDelay: `${i * 35}ms` }}>
-              <div className="flex items-center gap-3 mb-3">
+            <Link key={a.id} to={`/alunos/${a.id}`} className="card-interactive" style={{ textDecoration: 'none', animationDelay: `${i * 35}ms` }}
+              onMouseEnter={e => { e.currentTarget.querySelector('.arrow-icon').style.color='#6366f1' }}
+              onMouseLeave={e => { e.currentTarget.querySelector('.arrow-icon').style.color='#52525B' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
                 <Avatar nome={a.nome} />
-                <div className="flex-1 min-w-0">
-                  <div className="font-semibold truncate" style={{ color: '#CBD5E1', fontFamily: 'Space Grotesk, sans-serif' }}>{a.nome}</div>
-                  <div className="text-xs truncate" style={{ color: '#3D4F6A' }}>{a.email}</div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 13, fontWeight: 500, color: '#F4F4F5', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</div>
+                  <div style={{ fontSize: 11, color: '#71717A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{a.email}</div>
                 </div>
-                <ArrowRight style={{ width: 15, height: 15, color: '#1F2D4A', flexShrink: 0, transition: 'all 0.2s' }} className="group-hover:text-indigo-400 group-hover:translate-x-1" />
+                <ArrowRight className="arrow-icon" style={{ width: 14, height: 14, color: '#52525B', flexShrink: 0, transition: 'color 0.1s' }} />
               </div>
-              {a.objetivo && <span className="badge-blue text-xs">{a.objetivo}</span>}
+              {a.objetivo && <span className="badge-blue" style={{ fontSize: 11 }}>{a.objetivo}</span>}
             </Link>
           ))}
         </div>
       ) : (
-        <div className="card p-0 overflow-hidden">
+        <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
           {filtered.map((a, i) => (
-            <Link key={a.id} to={`/alunos/${a.id}`} className="flex items-center gap-4 px-5 py-4 group transition-colors"
-              style={{ borderBottom: i < filtered.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
-              onMouseEnter={e => e.currentTarget.style.background='rgba(255,255,255,0.03)'}
-              onMouseLeave={e => e.currentTarget.style.background='transparent'}
-            >
+            <Link key={a.id} to={`/alunos/${a.id}`}
+              style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', textDecoration: 'none', borderBottom: i < filtered.length - 1 ? '1px solid #1C1C1E' : 'none', transition: 'background 0.1s' }}
+              onMouseEnter={e => { e.currentTarget.style.background='#161618' }}
+              onMouseLeave={e => { e.currentTarget.style.background='transparent' }}>
               <Avatar nome={a.nome} />
-              <div className="flex-1 min-w-0">
-                <div className="text-sm font-semibold truncate" style={{ color: '#CBD5E1' }}>{a.nome}</div>
-                <div className="text-xs truncate" style={{ color: '#3D4F6A' }}>{a.email}</div>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 13, fontWeight: 500, color: '#F4F4F5', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</div>
+                <div style={{ fontSize: 11, color: '#71717A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{a.email}</div>
               </div>
-              {a.objetivo && <span className="badge-blue hidden sm:inline-flex">{a.objetivo}</span>}
-              <ArrowRight style={{ width: 14, height: 14, color: '#1F2D4A', flexShrink: 0 }} />
+              {a.objetivo && <span className="badge-blue" style={{ fontSize: 11 }}>{a.objetivo}</span>}
+              <ArrowRight style={{ width: 13, height: 13, color: '#52525B', flexShrink: 0 }} />
             </Link>
           ))}
         </div>

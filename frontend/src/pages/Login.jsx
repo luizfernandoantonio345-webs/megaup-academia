@@ -32,11 +32,7 @@ export default function Login() {
     setLoading(true)
     try {
       const user = await login(form.email, form.senha)
-      if (user?.role === 'aluno') {
-        navigate('/aluno')
-      } else {
-        navigate('/dashboard')
-      }
+      navigate(user?.role === 'aluno' ? '/aluno' : '/dashboard')
     } catch {
       toast.error('E-mail ou senha incorretos. Verifique suas credenciais.')
     } finally {
@@ -45,80 +41,79 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen flex" style={{ background: '#070B14' }}>
-      {/* Left panel — brand */}
-      <div className="hidden lg:flex flex-col justify-between w-[460px] flex-shrink-0 p-12 relative overflow-hidden">
-        <div className="absolute inset-0 pointer-events-none">
-          <div style={{ position:'absolute', top:'10%', left:'-10%', width:340, height:340, borderRadius:'50%', background:'radial-gradient(circle, rgba(79,70,229,0.22) 0%, transparent 70%)' }} />
-          <div style={{ position:'absolute', bottom:'15%', right:'-5%', width:260, height:260, borderRadius:'50%', background:'radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 70%)' }} />
-          <div style={{ position:'absolute', top:'55%', left:'30%', width:180, height:180, borderRadius:'50%', background:'radial-gradient(circle, rgba(245,158,11,0.08) 0%, transparent 70%)' }} />
-          <div style={{ position:'absolute', top:0, right:0, bottom:0, width:1, background:'linear-gradient(180deg, transparent, rgba(99,102,241,0.3), transparent)' }} />
-        </div>
-
-        <div className="relative z-10">
-          <div className="flex items-center gap-3 mb-14">
-            <div className="w-11 h-11 rounded-2xl flex items-center justify-center" style={{ background:'linear-gradient(135deg, #4f46e5, #7c3aed)', boxShadow:'0 0 24px rgba(99,102,241,0.6)' }}>
-              <Zap style={{ width:20, height:20, color:'white' }} />
+    <div style={{ minHeight: '100vh', display: 'flex', background: '#0C0C0D' }}>
+      {/* Left panel */}
+      <div style={{ display: 'none', width: 440, flexShrink: 0, padding: '48px 40px', flexDirection: 'column', justifyContent: 'space-between', background: '#0A0A0B', borderRight: '1px solid #1C1C1E' }} className="lg:flex">
+        <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 48 }}>
+            <div style={{ width: 28, height: 28, borderRadius: 8, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Zap style={{ width: 14, height: 14, color: 'white' }} />
             </div>
-            <div>
-              <div className="font-bold text-white text-lg" style={{ fontFamily:'Space Grotesk, sans-serif', letterSpacing:'-0.03em' }}>GymPro</div>
-              <div className="text-xs font-bold" style={{ color:'#6366f1' }}>ACADEMIA PRO</div>
-            </div>
-          </div>
-          <h1 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:36, fontWeight:800, color:'#EFF6FF', lineHeight:1.15, letterSpacing:'-0.03em', marginBottom:12 }}>
-            Sua academia<br />
-            <span style={{ background:'linear-gradient(135deg, #a5b4fc, #8b5cf6)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
-              no próximo nível
-            </span>
-          </h1>
-          <p style={{ color:'#4B5768', fontSize:14, lineHeight:1.7 }}>
-            Plataforma completa para personal trainers gerenciarem alunos, prescreverem treinos e acompanharem evolução com inteligência artificial.
-          </p>
-        </div>
-
-        <div className="relative z-10 space-y-4">
-          {FEATURES.map(({ icon: Icon, title, desc }) => (
-            <div key={title} className="flex items-start gap-3">
-              <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background:'rgba(99,102,241,0.15)', border:'1px solid rgba(99,102,241,0.2)' }}>
-                <Icon style={{ width:16, height:16, color:'#a5b4fc' }} />
-              </div>
-              <div>
-                <div className="text-sm font-semibold" style={{ color:'#CBD5E1', fontFamily:'Space Grotesk, sans-serif' }}>{title}</div>
-                <div className="text-xs mt-0.5" style={{ color:'#3D4F6A' }}>{desc}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Right panel — form */}
-      <div className="flex-1 flex items-center justify-center p-6">
-        <div className="w-full max-w-md animate-fade-in">
-          <div className="flex items-center gap-2.5 mb-8 lg:hidden">
-            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background:'linear-gradient(135deg, #4f46e5, #7c3aed)', boxShadow:'0 0 16px rgba(99,102,241,0.5)' }}>
-              <Zap style={{ width:16, height:16, color:'white' }} />
-            </div>
-            <span className="font-bold text-white" style={{ fontFamily:'Space Grotesk, sans-serif' }}>GymPro</span>
+            <span style={{ fontSize: 15, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em' }}>GymPro</span>
           </div>
 
-          <div className="mb-8">
-            <h2 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:28, fontWeight:800, color:'#EFF6FF', letterSpacing:'-0.03em', marginBottom:6 }}>
-              Bem-vindo de volta
-            </h2>
-            <p style={{ fontSize:14, color:'#4B5768' }}>
-              Não tem conta?{' '}
-              <Link to="/registrar" style={{ color:'#818cf8', fontWeight:600 }}>Criar conta grátis</Link>
+          <div style={{ marginBottom: 40 }}>
+            <h1 style={{ fontSize: 26, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: 10 }}>
+              Plataforma para<br />personal trainers
+            </h1>
+            <p style={{ fontSize: 13, color: '#71717A', lineHeight: 1.7 }}>
+              Gerencie alunos, prescreva treinos e acompanhe evolução com inteligência artificial.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+            {FEATURES.map(({ icon: Icon, title, desc }) => (
+              <div key={title} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                <div style={{ width: 32, height: 32, borderRadius: 8, background: '#1C1C1E', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Icon style={{ width: 14, height: 14, color: '#71717A' }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: 13, fontWeight: 500, color: '#A1A1AA', marginBottom: 2 }}>{title}</div>
+                  <div style={{ fontSize: 12, color: '#52525B', lineHeight: 1.5 }}>{desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <p style={{ fontSize: 11, color: '#3F3F46' }}>
+          Desenvolvido por{' '}
+          <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer"
+            style={{ color: '#71717A', textDecoration: 'none' }}>@luuiz.dev</a>
+        </p>
+      </div>
+
+      {/* Right panel — form */}
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+        <div style={{ width: '100%', maxWidth: 360 }} className="animate-fade-in">
+          {/* Mobile logo */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 32 }} className="lg:hidden">
+            <div style={{ width: 26, height: 26, borderRadius: 7, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Zap style={{ width: 13, height: 13, color: 'white' }} />
+            </div>
+            <span style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5' }}>GymPro</span>
+          </div>
+
+          <div style={{ marginBottom: 28 }}>
+            <h2 style={{ fontSize: 20, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em', marginBottom: 6 }}>
+              Entrar na conta
+            </h2>
+            <p style={{ fontSize: 13, color: '#71717A' }}>
+              Não tem conta?{' '}
+              <Link to="/registrar" style={{ color: '#6366f1', fontWeight: 500, textDecoration: 'none' }}>
+                Criar conta grátis
+              </Link>
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             <div>
               <label htmlFor="login-email" className="label">E-mail</label>
-              <div className="relative">
-                <Mail style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', width:16, height:16, color:'#3D4F6A' }} aria-hidden="true" />
+              <div style={{ position: 'relative' }}>
+                <Mail style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#52525B' }} aria-hidden="true" />
                 <input
                   id="login-email"
-                  className={`input pl-11 ${errors.email ? 'input-error' : touched.email && form.email ? 'input-success' : ''}`}
+                  className={`input pl-10 ${errors.email ? 'input-error' : touched.email && form.email ? 'input-success' : ''}`}
                   type="email" placeholder="seu@email.com"
                   value={form.email} onChange={set('email')} onBlur={touch('email')}
                   required autoComplete="email" aria-describedby={errors.email ? 'email-error' : undefined}
@@ -128,57 +123,50 @@ export default function Login() {
             </div>
 
             <div>
-              <label htmlFor="login-senha" className="label">Senha</label>
-              <div className="relative">
-                <Lock style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', width:16, height:16, color:'#3D4F6A' }} aria-hidden="true" />
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                <label htmlFor="login-senha" className="label" style={{ margin: 0 }}>Senha</label>
+                <Link to="/esqueci-senha" style={{ fontSize: 11, color: '#6366f1', textDecoration: 'none' }}>
+                  Esqueci minha senha
+                </Link>
+              </div>
+              <div style={{ position: 'relative' }}>
+                <Lock style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#52525B' }} aria-hidden="true" />
                 <input
                   id="login-senha"
-                  className={`input pl-11 pr-11 ${errors.senha ? 'input-error' : ''}`}
+                  className={`input pl-10 pr-10 ${errors.senha ? 'input-error' : ''}`}
                   type={showPass ? 'text' : 'password'} placeholder="Sua senha"
                   value={form.senha} onChange={set('senha')} onBlur={touch('senha')}
                   required autoComplete="current-password" aria-describedby={errors.senha ? 'senha-error' : undefined}
                 />
-                <button type="button" onClick={() => setShowPass(!showPass)} aria-label={showPass ? 'Ocultar senha' : 'Mostrar senha'} style={{ position:'absolute', right:12, top:'50%', transform:'translateY(-50%)', color:'#3D4F6A', background:'none', border:'none', cursor:'pointer' }}>
-                  {showPass ? <EyeOff style={{ width:16, height:16 }} /> : <Eye style={{ width:16, height:16 }} />}
+                <button type="button" onClick={() => setShowPass(!showPass)}
+                  aria-label={showPass ? 'Ocultar senha' : 'Mostrar senha'}
+                  style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', color: '#52525B', background: 'none', border: 'none', cursor: 'pointer', padding: 2 }}>
+                  {showPass ? <EyeOff style={{ width: 15, height: 15 }} /> : <Eye style={{ width: 15, height: 15 }} />}
                 </button>
               </div>
               {errors.senha && <p id="senha-error" className="field-error" role="alert">{errors.senha}</p>}
             </div>
 
-            <div style={{ textAlign: 'right', marginTop: -8 }}>
-              <Link to="/esqueci-senha" style={{ fontSize: 13, color: '#818cf8', fontWeight: 600, textDecoration: 'none' }}>
-                Esqueci minha senha
-              </Link>
-            </div>
-
-            <button type="submit" className="btn-gradient w-full py-3.5 text-base mt-2" disabled={loading}>
+            <button type="submit" className="btn-primary btn-xl w-full" style={{ marginTop: 4 }} disabled={loading}>
               {loading ? (
-                <span className="flex items-center gap-2 justify-center">
-                  <span className="w-4 h-4 border-2 rounded-full animate-spin" style={{ borderColor:'rgba(255,255,255,0.3)', borderTopColor:'white' }} />
+                <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <span style={{ width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} />
                   Entrando...
                 </span>
               ) : (
-                <span className="flex items-center gap-2 justify-center">
-                  Entrar na plataforma
-                  <ArrowRight style={{ width:16, height:16 }} />
+                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  Entrar
+                  <ArrowRight style={{ width: 15, height: 15 }} />
                 </span>
               )}
             </button>
           </form>
 
-          <div className="mt-8 text-center">
-            <p style={{ fontSize:11, color:'#1F2D4A' }}>
-              Desenvolvido por{' '}
-              <a
-                href="https://www.instagram.com/luuiz.dev"
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color:'#6366f1', fontWeight:700, textDecoration:'none' }}
-              >
-                @luuiz.dev
-              </a>
-            </p>
-          </div>
+          <p style={{ marginTop: 24, textAlign: 'center', fontSize: 11, color: '#3F3F46' }}>
+            Desenvolvido por{' '}
+            <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer"
+              style={{ color: '#52525B', textDecoration: 'none' }}>@luuiz.dev</a>
+          </p>
         </div>
       </div>
     </div>

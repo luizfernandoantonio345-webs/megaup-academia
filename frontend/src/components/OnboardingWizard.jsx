@@ -114,7 +114,7 @@ export default function OnboardingWizard() {
       {/* Modal */}
       <div style={{
         position: 'fixed', bottom: 32, right: 32, zIndex: 201,
-        width: 360, background: '#0E1525',
+        width: 360, background: '#111113',
         border: '1px solid rgba(255,255,255,0.1)',
         borderRadius: 24, overflow: 'hidden',
         boxShadow: '0 32px 80px rgba(0,0,0,0.6)',
@@ -138,7 +138,7 @@ export default function OnboardingWizard() {
               }} />
             ))}
           </div>
-          <button onClick={close} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#3D4F6A', padding: 4 }}>
+          <button onClick={close} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#71717A', padding: 4 }}>
             <X style={{ width: 16, height: 16 }} />
           </button>
         </div>
@@ -154,13 +154,13 @@ export default function OnboardingWizard() {
             <Icon style={{ width: 26, height: 26, color: current.color }} />
           </div>
 
-          <p style={{ fontSize: 11, fontWeight: 700, color: '#3D4F6A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
+          <p style={{ fontSize: 11, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
             Passo {step + 1} de {STEPS.length}
           </p>
-          <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 20, fontWeight: 800, color: '#EFF6FF', lineHeight: 1.2, marginBottom: 10 }}>
+          <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 800, color: '#F4F4F5', lineHeight: 1.2, marginBottom: 10 }}>
             {current.title}
           </h3>
-          <p style={{ fontSize: 14, color: '#4B5768', lineHeight: 1.6, marginBottom: 22 }}>
+          <p style={{ fontSize: 14, color: '#71717A', lineHeight: 1.6, marginBottom: 22 }}>
             {current.desc}
           </p>
 
@@ -170,7 +170,7 @@ export default function OnboardingWizard() {
               {STEPS.slice(0, step).map(s => (
                 <div key={s.id} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <CheckCircle style={{ width: 14, height: 14, color: '#34d399', flexShrink: 0 }} />
-                  <span style={{ fontSize: 12, color: '#3D4F6A' }}>{s.title}</span>
+                  <span style={{ fontSize: 12, color: '#71717A' }}>{s.title}</span>
                 </div>
               ))}
             </div>
@@ -181,7 +181,7 @@ export default function OnboardingWizard() {
               onClick={handleCta}
               style={{
                 flex: 1, background: `linear-gradient(135deg, ${current.color}cc, ${current.color})`,
-                border: 'none', borderRadius: 14, color: step === 0 ? '#070B14' : 'white',
+                border: 'none', borderRadius: 14, color: step === 0 ? '#0C0C0D' : 'white',
                 cursor: 'pointer', fontWeight: 800, fontSize: 14, padding: '13px 16px',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
                 boxShadow: `0 4px 20px ${current.color}40`,
@@ -193,7 +193,7 @@ export default function OnboardingWizard() {
             {step > 0 && !isLast && (
               <button
                 onClick={advance}
-                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, color: '#4B5768', cursor: 'pointer', fontWeight: 700, fontSize: 13, padding: '13px 14px' }}
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, color: '#71717A', cursor: 'pointer', fontWeight: 700, fontSize: 13, padding: '13px 14px' }}
               >
                 Pular
               </button>
@@ -201,7 +201,7 @@ export default function OnboardingWizard() {
             {isLast && (
               <button
                 onClick={close}
-                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, color: '#4B5768', cursor: 'pointer', fontWeight: 700, fontSize: 13, padding: '13px 14px' }}
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, color: '#71717A', cursor: 'pointer', fontWeight: 700, fontSize: 13, padding: '13px 14px' }}
               >
                 Concluir
               </button>

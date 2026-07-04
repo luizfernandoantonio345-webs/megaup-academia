@@ -63,28 +63,28 @@ function RestTimer({ seconds = 60, autoStart = false, onDismiss }) {
         </svg>
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-xs font-bold tabular-nums"
-            style={{ color: ringColor, fontFamily: 'Space Grotesk, sans-serif' }}>
+            style={{ color: ringColor, fontFamily: 'Inter, sans-serif' }}>
             {remaining <= 0 ? 'OK!' : min > 0 ? `${min}:${String(sec).padStart(2, '0')}` : sec}
           </span>
         </div>
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold" style={{ color: '#CBD5E1' }}>Descanso entre series</p>
-        <p className="text-xs truncate" style={{ color: '#3D4F6A' }}>
+        <p className="text-sm font-semibold" style={{ color: '#F4F4F5' }}>Descanso entre series</p>
+        <p className="text-xs truncate" style={{ color: '#71717A' }}>
           {remaining <= 0 ? 'Pronto para proxima serie!' : running ? `${remaining}s restando...` : 'Pausado — pressione play'}
         </p>
       </div>
       <div className="flex items-center gap-1.5">
         <button onClick={reset} className="w-9 h-9 rounded-full flex items-center justify-center transition-all"
-          style={{ background: 'rgba(255,255,255,0.07)', color: '#64748B' }}>
+          style={{ background: 'rgba(255,255,255,0.07)', color: '#71717A' }}>
           <RotateCcw style={{ width: 13, height: 13 }} />
         </button>
         <button onClick={toggle} className="w-9 h-9 rounded-full flex items-center justify-center text-white transition-all"
-          style={{ background: running ? 'rgba(245,158,11,0.85)' : 'linear-gradient(135deg,#4f46e5,#7c3aed)', boxShadow: running ? '' : '0 0 16px rgba(99,102,241,0.4)' }}>
+          style={{ background: running ? 'rgba(245,158,11,0.85)' : 'linear-gradient(135deg,#4f46e5,#7c3aed)',  }}>
           {running ? <Pause style={{ width: 14, height: 14 }} /> : <Play style={{ width: 14, height: 14, marginLeft: 1 }} />}
         </button>
         <button onClick={onDismiss} className="w-9 h-9 rounded-full flex items-center justify-center transition-colors"
-          style={{ background: 'rgba(255,255,255,0.07)', color: '#64748B' }}>
+          style={{ background: 'rgba(255,255,255,0.07)', color: '#71717A' }}>
           <X style={{ width: 14, height: 14 }} />
         </button>
       </div>
@@ -97,14 +97,14 @@ function SetTracker({ count, completedSets, onToggle }) {
   if (!count) return null
   return (
     <div className="flex items-center gap-2 flex-wrap">
-      <span className="text-xs font-bold uppercase tracking-wider flex-shrink-0" style={{ color: '#3D4F6A' }}>Series:</span>
+      <span className="text-xs font-bold uppercase tracking-wider flex-shrink-0" style={{ color: '#71717A' }}>Series:</span>
       {Array.from({ length: count }).map((_, i) => (
         <button key={i} onClick={() => onToggle(i)}
           className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all"
           style={{
             background: completedSets.includes(i) ? 'linear-gradient(135deg,#059669,#10b981)' : 'rgba(255,255,255,0.06)',
             border: `2px solid ${completedSets.includes(i) ? '#10b981' : 'rgba(255,255,255,0.1)'}`,
-            color: completedSets.includes(i) ? 'white' : '#4B5768',
+            color: completedSets.includes(i) ? 'white' : '#71717A',
             transform: completedSets.includes(i) ? 'scale(1.1)' : 'scale(1)',
             boxShadow: completedSets.includes(i) ? '0 0 12px rgba(16,185,129,0.4)' : 'none',
           }}>
@@ -155,11 +155,11 @@ function ExerciseExCard({ item, idx, ex, alunoId, completedSets, onToggle, video
             {allDone ? <Check style={{ width: 15, height: 15 }} /> : idx + 1}
           </div>
           <div>
-            <p className="font-bold text-sm leading-tight" style={{ color: '#EFF6FF', fontFamily: 'Space Grotesk, sans-serif' }}>
+            <p className="font-bold text-sm leading-tight" style={{ color: '#F4F4F5', fontFamily: 'Inter, sans-serif' }}>
               {ex?.nome || `Exercicio ${idx + 1}`}
             </p>
             {ex?.grupo_muscular && (
-              <p className="text-xs mt-0.5" style={{ color: '#3D4F6A' }}>
+              <p className="text-xs mt-0.5" style={{ color: '#71717A' }}>
                 {ex.grupo_muscular}{ex.equipamento ? ` · ${ex.equipamento}` : ''}
               </p>
             )}
@@ -177,7 +177,7 @@ function ExerciseExCard({ item, idx, ex, alunoId, completedSets, onToggle, video
         {ex?.video_url && (
           <button onClick={onToggleVideo}
             className="flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-full transition-all flex-shrink-0"
-            style={{ background: videoAberto ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.07)', color: videoAberto ? '#a5b4fc' : '#4B5768' }}>
+            style={{ background: videoAberto ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.07)', color: videoAberto ? '#a5b4fc' : '#71717A' }}>
             {videoAberto ? <ChevronUp style={{ width: 11, height: 11 }} /> : <ChevronDown style={{ width: 11, height: 11 }} />}
             {videoAberto ? 'Fechar' : 'Como fazer'}
           </button>
@@ -199,7 +199,7 @@ function ExerciseExCard({ item, idx, ex, alunoId, completedSets, onToggle, video
           { key: 'series_realizadas',     label: 'Series',      type: 'number', hint: null },
         ].map(({ key, label, type, hint }) => (
           <div key={key}>
-            <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: '#3D4F6A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>
+            <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>
               {label}
               {hint && (
                 <span style={{ display: 'block', color: '#6366f1', fontSize: 9, fontWeight: 700, textTransform: 'none', letterSpacing: 0, marginTop: 1 }}>
@@ -214,7 +214,7 @@ function ExerciseExCard({ item, idx, ex, alunoId, completedSets, onToggle, video
               onChange={e => onChange(key, e.target.value)}
               placeholder="--"
               inputMode={type === 'number' ? 'decimal' : 'text'}
-              style={{ fontFamily: 'Space Grotesk, sans-serif' }}
+              style={{ fontFamily: 'Inter, sans-serif' }}
             />
           </div>
         ))}
@@ -297,29 +297,29 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
   ]
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col" style={{ background: '#070B14' }}>
+    <div className="fixed inset-0 z-50 flex flex-col" style={{ background: '#0C0C0D' }}>
       {/* Header */}
       <div style={{ background: 'rgba(6,9,16,0.98)', borderBottom: '1px solid rgba(255,255,255,0.06)', flexShrink: 0, padding: '16px 16px 12px' }}>
         <div className="flex items-center justify-between mb-3 max-w-lg mx-auto">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl flex items-center justify-center"
-              style={{ background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', boxShadow: '0 0 12px rgba(99,102,241,0.4)' }}>
+              style={{ background: '#6366f1', boxShadow: '0 0 12px rgba(99,102,241,0.4)' }}>
               <Zap style={{ width: 14, height: 14, color: 'white' }} />
             </div>
             <div>
-              <p style={{ fontSize: 11, color: '#3D4F6A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>EXECUTANDO</p>
-              <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, color: '#EFF6FF', fontSize: 14, lineHeight: 1.2 }}>{treino.nome}</h3>
+              <p style={{ fontSize: 11, color: '#71717A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>EXECUTANDO</p>
+              <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#F4F4F5', fontSize: 14, lineHeight: 1.2 }}>{treino.nome}</h3>
             </div>
           </div>
           <button onClick={onClose} className="w-8 h-8 rounded-full flex items-center justify-center"
-            style={{ background: 'rgba(255,255,255,0.08)', color: '#64748B' }}>
+            style={{ background: 'rgba(255,255,255,0.08)', color: '#71717A' }}>
             <X style={{ width: 15, height: 15 }} />
           </button>
         </div>
 
         {totalSeries > 0 && (
           <div className="max-w-lg mx-auto space-y-1">
-            <div className="flex justify-between items-center" style={{ fontSize: 11, color: '#3D4F6A' }}>
+            <div className="flex justify-between items-center" style={{ fontSize: 11, color: '#71717A' }}>
               <span>{completedTotal} de {totalSeries} series</span>
               <span style={{ color: pct === 100 ? '#10b981' : '#6366f1', fontWeight: 700 }}>{pct}%</span>
             </div>
@@ -339,7 +339,7 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
 
           {/* Difficulty selector */}
           <div className="card p-4">
-            <p className="text-sm font-semibold mb-3" style={{ color: '#94A3B8' }}>Como esta o treino?</p>
+            <p className="text-sm font-semibold mb-3" style={{ color: '#A1A1AA' }}>Como esta o treino?</p>
             <div className="grid grid-cols-3 gap-2">
               {DIFF.map(({ key, emoji, label, bg, border, text }) => (
                 <button key={key} onClick={() => setDificuldade(key)}
@@ -347,7 +347,7 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
                   style={{
                     background: dificuldade === key ? bg : 'rgba(255,255,255,0.04)',
                     border: `2px solid ${dificuldade === key ? border : 'rgba(255,255,255,0.07)'}`,
-                    color: dificuldade === key ? text : '#3D4F6A',
+                    color: dificuldade === key ? text : '#71717A',
                   }}>
                   <div className="text-2xl mb-0.5">{emoji}</div>
                   {label}
@@ -362,7 +362,7 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
             style={{
               background: showTimer ? 'rgba(99,102,241,0.08)' : 'rgba(255,255,255,0.04)',
               border: `1px solid ${showTimer ? 'rgba(99,102,241,0.3)' : 'rgba(255,255,255,0.07)'}`,
-              color: '#64748B',
+              color: '#71717A',
             }}>
             <span className="flex items-center gap-2">
               <Timer style={{ width: 15, height: 15, color: '#6366f1' }} />
@@ -407,8 +407,8 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
               border: '1px solid rgba(16,185,129,0.3)',
             }}>
               <div style={{ fontSize: 40, marginBottom: 8 }}>🏆</div>
-              <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, color: '#34d399', fontSize: 16 }}>Todas as series concluidas!</p>
-              <p style={{ fontSize: 12, color: '#3D4F6A', marginTop: 4 }}>Finalize para registrar o progresso</p>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, color: '#34d399', fontSize: 16 }}>Todas as series concluidas!</p>
+              <p style={{ fontSize: 12, color: '#71717A', marginTop: 4 }}>Finalize para registrar o progresso</p>
             </div>
           )}
         </div>
@@ -417,7 +417,7 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
       {/* Footer CTA */}
       <div className="flex-shrink-0 p-4" style={{ background: 'rgba(6,9,16,0.98)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="max-w-lg mx-auto">
-          <button className="btn-gradient w-full py-4 text-base" disabled={isPending} onClick={() => mutate()}>
+          <button className="btn-primary w-full py-4 text-base" disabled={isPending} onClick={() => mutate()}>
             {isPending ? (
               <span className="flex items-center gap-2 justify-center">
                 <span className="w-5 h-5 border-2 rounded-full animate-spin" style={{ borderColor: 'rgba(255,255,255,0.3)', borderTopColor: 'white' }} />
@@ -453,13 +453,13 @@ function TreinoCard({ treino, exercicioMap, onStart }) {
     <div className="card space-y-4" style={{ border: '1px solid rgba(99,102,241,0.18)' }}>
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
-          <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, color: '#EFF6FF', fontSize: 18, letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+          <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, color: '#F4F4F5', fontSize: 18, letterSpacing: '-0.02em', lineHeight: 1.2 }}>
             {treino.nome}
           </h3>
           <div className="flex items-center gap-3 mt-1.5 flex-wrap">
-            <span style={{ fontSize: 12, color: '#3D4F6A' }}>{totalEx} exercicio{totalEx !== 1 ? 's' : ''}</span>
-            {totalSeries > 0 && <span style={{ fontSize: 12, color: '#3D4F6A' }}>{totalSeries} series</span>}
-            {totalVol > 0 && <span style={{ fontSize: 12, color: '#3D4F6A' }}>{totalVol.toFixed(0)}kg vol</span>}
+            <span style={{ fontSize: 12, color: '#71717A' }}>{totalEx} exercicio{totalEx !== 1 ? 's' : ''}</span>
+            {totalSeries > 0 && <span style={{ fontSize: 12, color: '#71717A' }}>{totalSeries} series</span>}
+            {totalVol > 0 && <span style={{ fontSize: 12, color: '#71717A' }}>{totalVol.toFixed(0)}kg vol</span>}
           </div>
         </div>
         <div className="w-11 h-11 rounded-2xl flex items-center justify-center flex-shrink-0"
@@ -472,11 +472,11 @@ function TreinoCard({ treino, exercicioMap, onStart }) {
         {preview.map((item, idx) => (
           <div key={idx} className="flex items-center gap-3">
             <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
-              style={{ background: 'rgba(255,255,255,0.07)', color: '#4B5768' }}>{idx + 1}</span>
-            <span className="text-sm flex-1 truncate" style={{ color: '#94A3B8' }}>
+              style={{ background: 'rgba(255,255,255,0.07)', color: '#71717A' }}>{idx + 1}</span>
+            <span className="text-sm flex-1 truncate" style={{ color: '#A1A1AA' }}>
               {exercicioMap[item.exercicio_id]?.nome || `Exercicio ${idx + 1}`}
             </span>
-            <span className="text-xs font-semibold flex-shrink-0" style={{ color: '#3D4F6A' }}>
+            <span className="text-xs font-semibold flex-shrink-0" style={{ color: '#71717A' }}>
               {item.series}x{item.repeticoes}{item.carga ? ` ${item.carga}kg` : ''}
             </span>
           </div>
@@ -491,18 +491,18 @@ function TreinoCard({ treino, exercicioMap, onStart }) {
         {expanded && (treino.itens || []).slice(3).map((item, idx) => (
           <div key={idx + 3} className="flex items-center gap-3 animate-slide-down">
             <span className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0"
-              style={{ background: 'rgba(255,255,255,0.07)', color: '#4B5768' }}>{idx + 4}</span>
-            <span className="text-sm flex-1 truncate" style={{ color: '#94A3B8' }}>
+              style={{ background: 'rgba(255,255,255,0.07)', color: '#71717A' }}>{idx + 4}</span>
+            <span className="text-sm flex-1 truncate" style={{ color: '#A1A1AA' }}>
               {exercicioMap[item.exercicio_id]?.nome || `Exercicio ${idx + 4}`}
             </span>
-            <span className="text-xs font-semibold flex-shrink-0" style={{ color: '#3D4F6A' }}>
+            <span className="text-xs font-semibold flex-shrink-0" style={{ color: '#71717A' }}>
               {item.series}x{item.repeticoes}
             </span>
           </div>
         ))}
       </div>
 
-      <button className="btn-gradient w-full py-3.5" onClick={() => onStart(treino)}>
+      <button className="btn-primary w-full py-3.5" onClick={() => onStart(treino)}>
         <Play style={{ width: 16, height: 16 }} />
         Iniciar treino
       </button>
@@ -526,7 +526,7 @@ function StreakCard({ gami }) {
         <div>
           <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)', fontWeight: 700, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Sequencia atual</p>
           <div className="flex items-end gap-2">
-            <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 56, fontWeight: 900, lineHeight: 1, letterSpacing: '-0.03em' }}>{gami.streak_atual}</span>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 56, fontWeight: 600, lineHeight: 1, letterSpacing: '-0.03em' }}>{gami.streak_atual}</span>
             <Flame style={{ width: 32, height: 32, marginBottom: 8, color: '#fbbf24' }} />
           </div>
           <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.5)' }}>dias consecutivos</p>
@@ -534,11 +534,11 @@ function StreakCard({ gami }) {
         <div className="space-y-3 text-right">
           <div>
             <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Recorde</p>
-            <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 22, fontWeight: 800 }}>🏆 {gami.streak_recorde}</p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 800 }}>🏆 {gami.streak_recorde}</p>
           </div>
           <div>
             <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Treinos</p>
-            <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 22, fontWeight: 800 }}>💪 {gami.total_treinos}</p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 800 }}>💪 {gami.total_treinos}</p>
           </div>
         </div>
       </div>
@@ -590,17 +590,17 @@ export default function TreinoHoje() {
         style={{ background: 'rgba(99,102,241,0.15)' }}>
         <Dumbbell style={{ width: 24, height: 24, color: '#818cf8' }} />
       </div>
-      <p style={{ fontSize: 13, color: '#3D4F6A' }}>Carregando seus treinos...</p>
+      <p style={{ fontSize: 13, color: '#71717A' }}>Carregando seus treinos...</p>
     </div>
   )
 
   return (
     <div className="space-y-5 animate-fade-in">
       <div>
-        <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 22, fontWeight: 800, color: '#EFF6FF', letterSpacing: '-0.02em' }}>
+        <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 800, color: '#F4F4F5', letterSpacing: '-0.02em' }}>
           {saudacao}, {user?.nome?.split(' ')[0]}
         </h1>
-        <p className="text-sm mt-0.5" style={{ color: '#3D4F6A' }}>Treinos de {hojeLabel}</p>
+        <p className="text-sm mt-0.5" style={{ color: '#71717A' }}>Treinos de {hojeLabel}</p>
       </div>
 
       <StreakCard gami={gami} />
@@ -609,8 +609,8 @@ export default function TreinoHoje() {
         <div className="card text-center py-12 space-y-4">
           <div style={{ fontSize: 56 }}>😴</div>
           <div>
-            <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 800, color: '#EFF6FF', fontSize: 18 }}>Dia de descanso!</p>
-            <p style={{ fontSize: 13, color: '#3D4F6A', marginTop: 6 }}>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, color: '#F4F4F5', fontSize: 18 }}>Dia de descanso!</p>
+            <p style={{ fontSize: 13, color: '#71717A', marginTop: 6 }}>
               Nao ha treinos para hoje. Aproveite para recuperar.
             </p>
           </div>
@@ -618,7 +618,7 @@ export default function TreinoHoje() {
             {[{ icon: '💧', label: 'Hidratacao' }, { icon: '🥗', label: 'Nutricao' }, { icon: '😴', label: 'Descanso' }].map(({ icon, label }) => (
               <div key={label} className="flex flex-col items-center gap-1">
                 <span style={{ fontSize: 28 }}>{icon}</span>
-                <span style={{ fontSize: 11, color: '#3D4F6A', fontWeight: 600 }}>{label}</span>
+                <span style={{ fontSize: 11, color: '#71717A', fontWeight: 600 }}>{label}</span>
               </div>
             ))}
           </div>
@@ -626,7 +626,7 @@ export default function TreinoHoje() {
       ) : (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <p style={{ fontSize: 13, fontWeight: 700, color: '#3D4F6A', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+            <p style={{ fontSize: 13, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
               {treinosHoje.length} treino{treinosHoje.length !== 1 ? 's' : ''} para hoje
             </p>
             {gami && gami.total_treinos > 0 && (

@@ -17,7 +17,7 @@ const STEPS = [
 ]
 
 const PLANOS_PREVIEW = [
-  { tier: 'Free',    preco: 0,   alunos: 3,   color: '#64748B' },
+  { tier: 'Free',    preco: 0,   alunos: 3,   color: '#71717A' },
   { tier: 'Starter', preco: 49,  alunos: 15,  color: '#38bdf8' },
   { tier: 'Pro',     preco: 129, alunos: 50,  color: '#a78bfa', destaque: true },
   { tier: 'Elite',   preco: 249, alunos: '∞', color: '#fbbf24' },
@@ -38,7 +38,7 @@ const STATS = [
 
 export default function Landing() {
   return (
-    <div style={{ minHeight: '100vh', background: '#070B14', color: '#EFF6FF', fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
+    <div style={{ minHeight: '100vh', background: '#0C0C0D', color: '#F4F4F5', fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
       <style>{`
         @keyframes float { 0%,100% { transform:translateY(0) } 50% { transform:translateY(-18px) } }
         @keyframes pulse-slow { 0%,100% { opacity:0.6 } 50% { opacity:1 } }
@@ -52,7 +52,7 @@ export default function Landing() {
         .btn-cta:hover { transform:translateY(-2px); box-shadow:0 8px 40px rgba(99,102,241,0.6); }
         .btn-ghost { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:16px; color:#CBD5E1; cursor:pointer; font-weight:700; font-size:15px; padding:15px 28px; transition:all 0.15s; }
         .btn-ghost:hover { background:rgba(255,255,255,0.12); }
-        .feature-card { background:#0E1525; border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:24px; transition:all 0.25s; }
+        .feature-card { background:#111113; border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:24px; transition:all 0.25s; }
         .feature-card:hover { transform:translateY(-4px); border-color:rgba(99,102,241,0.25); box-shadow:0 20px 48px rgba(0,0,0,0.4); }
       `}</style>
 
@@ -60,16 +60,16 @@ export default function Landing() {
       <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(7,11,20,0.88)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 11, background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', boxShadow: '0 0 16px rgba(99,102,241,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 34, height: 34, borderRadius: 11, background: '#6366f1', boxShadow: '0 0 16px rgba(99,102,241,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 16, height: 16, color: 'white' }} />
             </div>
-            <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 900, fontSize: 18, letterSpacing: '-0.02em' }}>GymPro</span>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 18, letterSpacing: '-0.02em' }}>GymPro</span>
             <span style={{ fontSize: 10, fontWeight: 800, color: '#6366f1', letterSpacing: '0.05em' }}>PRO</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-            <a href="#features" className="link-hover" style={{ color: '#4B5768', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>Recursos</a>
-            <a href="#preco" className="link-hover" style={{ color: '#4B5768', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>Preços</a>
-            <Link to="/login" style={{ color: '#94A3B8', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>Entrar</Link>
+            <a href="#features" className="link-hover" style={{ color: '#71717A', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>Recursos</a>
+            <a href="#preco" className="link-hover" style={{ color: '#71717A', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>Preços</a>
+            <Link to="/login" style={{ color: '#A1A1AA', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>Entrar</Link>
             <Link to="/registrar">
               <button className="btn-cta" style={{ fontSize: 13, padding: '9px 20px', borderRadius: 12 }}>
                 Começar grátis <ArrowRight style={{ width: 14, height: 14 }} />
@@ -94,12 +94,12 @@ export default function Landing() {
             <span style={{ fontSize: 12, fontWeight: 700, color: '#818cf8', letterSpacing: '0.04em' }}>PLATAFORMA #1 PARA PERSONAL TRAINERS</span>
           </div>
 
-          <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(36px,6vw,72px)', fontWeight: 900, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: 24 }}>
+          <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(36px,6vw,72px)', fontWeight: 600, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: 24 }}>
             Gerencie seus alunos<br />
             com <span className="gradient-text">inteligência artificial</span>
           </h1>
 
-          <p style={{ fontSize: 'clamp(16px,2.5vw,20px)', color: '#4B5768', lineHeight: 1.6, maxWidth: 600, margin: '0 auto 40px', fontWeight: 400 }}>
+          <p style={{ fontSize: 'clamp(16px,2.5vw,20px)', color: '#71717A', lineHeight: 1.6, maxWidth: 600, margin: '0 auto 40px', fontWeight: 400 }}>
             Prescreva treinos, acompanhe progresso, receba sugestões de IA e mantenha seus alunos engajados — tudo em um único app.
           </p>
 
@@ -114,7 +114,7 @@ export default function Landing() {
             </Link>
           </div>
 
-          <p style={{ fontSize: 12, color: '#1F2D4A', marginTop: 16 }}>Sem cartão de crédito · Cancele quando quiser</p>
+          <p style={{ fontSize: 12, color: '#52525B', marginTop: 16 }}>Sem cartão de crédito · Cancele quando quiser</p>
         </div>
 
         {/* Floating mock cards */}
@@ -125,8 +125,8 @@ export default function Landing() {
             { label: 'Alunos ativos', value: '📊 23 / 50', color: '#818cf8', bg: 'rgba(99,102,241,0.1)', border: 'rgba(99,102,241,0.2)' },
           ].map(c => (
             <div key={c.label} className="hero-card" style={{ padding: '16px 22px', borderRadius: 18, background: c.bg, border: `1px solid ${c.border}`, backdropFilter: 'blur(12px)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)', minWidth: 200 }}>
-              <p style={{ fontSize: 11, color: '#4B5768', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{c.label}</p>
-              <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 20, fontWeight: 800, color: c.color }}>{c.value}</p>
+              <p style={{ fontSize: 11, color: '#71717A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{c.label}</p>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 800, color: c.color }}>{c.value}</p>
             </div>
           ))}
         </div>
@@ -136,9 +136,9 @@ export default function Landing() {
       <section style={{ padding: '20px 24px 60px' }}>
         <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 1, background: 'rgba(255,255,255,0.05)', borderRadius: 24, overflow: 'hidden', border: '1px solid rgba(255,255,255,0.07)' }}>
           {STATS.map(s => (
-            <div key={s.label} style={{ padding: '28px 24px', textAlign: 'center', background: '#0E1525' }}>
-              <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 36, fontWeight: 900, color: '#EFF6FF', letterSpacing: '-0.03em', lineHeight: 1 }}>{s.value}</div>
-              <div style={{ fontSize: 12, color: '#3D4F6A', fontWeight: 600, marginTop: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{s.label}</div>
+            <div key={s.label} style={{ padding: '28px 24px', textAlign: 'center', background: '#111113' }}>
+              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 36, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.03em', lineHeight: 1 }}>{s.value}</div>
+              <div style={{ fontSize: 12, color: '#71717A', fontWeight: 600, marginTop: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{s.label}</div>
             </div>
           ))}
         </div>
@@ -148,10 +148,10 @@ export default function Landing() {
       <section id="features" style={{ padding: '60px 24px 80px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
-            <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(28px,4vw,44px)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 14 }}>
+            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(28px,4vw,44px)', fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 14 }}>
               Tudo que você precisa,<br /><span className="gradient-text">num só lugar</span>
             </h2>
-            <p style={{ fontSize: 16, color: '#4B5768', maxWidth: 500, margin: '0 auto' }}>De treinos a pagamentos, do chat à IA — o GymPro é a plataforma completa para o personal moderno.</p>
+            <p style={{ fontSize: 16, color: '#71717A', maxWidth: 500, margin: '0 auto' }}>De treinos a pagamentos, do chat à IA — o GymPro é a plataforma completa para o personal moderno.</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(300px,1fr))', gap: 20 }}>
             {FEATURES.map(f => (
@@ -159,8 +159,8 @@ export default function Landing() {
                 <div style={{ width: 48, height: 48, borderRadius: 15, background: f.bg, border: `1px solid ${f.color}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16, boxShadow: `0 0 20px ${f.color}20` }}>
                   <f.icon style={{ width: 22, height: 22, color: f.color }} />
                 </div>
-                <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 17, fontWeight: 800, color: '#EFF6FF', marginBottom: 8 }}>{f.title}</h3>
-                <p style={{ fontSize: 14, color: '#4B5768', lineHeight: 1.6, margin: 0 }}>{f.desc}</p>
+                <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 17, fontWeight: 800, color: '#F4F4F5', marginBottom: 8 }}>{f.title}</h3>
+                <p style={{ fontSize: 14, color: '#71717A', lineHeight: 1.6, margin: 0 }}>{f.desc}</p>
               </div>
             ))}
           </div>
@@ -171,8 +171,8 @@ export default function Landing() {
       <section style={{ padding: '60px 24px 80px', background: 'rgba(14,21,37,0.5)' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
-            <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(28px,4vw,40px)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 12 }}>Como funciona</h2>
-            <p style={{ fontSize: 15, color: '#4B5768' }}>Comece em minutos, não em dias</p>
+            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(28px,4vw,40px)', fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 12 }}>Como funciona</h2>
+            <p style={{ fontSize: 15, color: '#71717A' }}>Comece em minutos, não em dias</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 32 }}>
             {STEPS.map((s, i) => (
@@ -181,10 +181,10 @@ export default function Landing() {
                   <div style={{ position: 'absolute', top: 24, left: 'calc(50% + 48px)', width: 'calc(100% - 96px)', height: 1, background: `linear-gradient(90deg, ${s.color}60, transparent)`, display: 'none' }} className="step-line" />
                 )}
                 <div style={{ width: 52, height: 52, borderRadius: '50%', background: `${s.color}18`, border: `2px solid ${s.color}50`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', boxShadow: `0 0 24px ${s.color}30` }}>
-                  <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 16, fontWeight: 900, color: s.color }}>{s.n}</span>
+                  <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: s.color }}>{s.n}</span>
                 </div>
-                <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 18, fontWeight: 800, color: '#EFF6FF', marginBottom: 10 }}>{s.title}</h3>
-                <p style={{ fontSize: 14, color: '#4B5768', lineHeight: 1.6 }}>{s.desc}</p>
+                <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800, color: '#F4F4F5', marginBottom: 10 }}>{s.title}</h3>
+                <p style={{ fontSize: 14, color: '#71717A', lineHeight: 1.6 }}>{s.desc}</p>
               </div>
             ))}
           </div>
@@ -194,21 +194,21 @@ export default function Landing() {
       {/* ── DEPOIMENTOS ── */}
       <section style={{ padding: '60px 24px 80px' }}>
         <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-          <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(28px,4vw,40px)', fontWeight: 900, letterSpacing: '-0.03em', textAlign: 'center', marginBottom: 48 }}>
+          <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(28px,4vw,40px)', fontWeight: 600, letterSpacing: '-0.03em', textAlign: 'center', marginBottom: 48 }}>
             O que nossos personals dizem
           </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(280px,1fr))', gap: 20 }}>
             {DEPOIMENTOS.map(d => (
-              <div key={d.nome} style={{ background: '#0E1525', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '24px' }}>
+              <div key={d.nome} style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '24px' }}>
                 <div style={{ display: 'flex', gap: 2, marginBottom: 16 }}>
                   {Array.from({ length: d.estrelas }).map((_, i) => (
                     <Star key={i} style={{ width: 14, height: 14, color: '#fbbf24', fill: '#fbbf24' }} />
                   ))}
                 </div>
-                <p style={{ fontSize: 15, color: '#94A3B8', lineHeight: 1.6, marginBottom: 20, fontStyle: 'italic' }}>"{d.texto}"</p>
+                <p style={{ fontSize: 15, color: '#A1A1AA', lineHeight: 1.6, marginBottom: 20, fontStyle: 'italic' }}>"{d.texto}"</p>
                 <div>
-                  <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 14, fontWeight: 700, color: '#EFF6FF' }}>{d.nome}</p>
-                  <p style={{ fontSize: 12, color: '#3D4F6A', marginTop: 2 }}>{d.cargo}</p>
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 700, color: '#F4F4F5' }}>{d.nome}</p>
+                  <p style={{ fontSize: 12, color: '#71717A', marginTop: 2 }}>{d.cargo}</p>
                 </div>
               </div>
             ))}
@@ -220,21 +220,21 @@ export default function Landing() {
       <section id="preco" style={{ padding: '60px 24px 80px', background: 'rgba(14,21,37,0.5)' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(28px,4vw,40px)', fontWeight: 900, letterSpacing: '-0.03em', marginBottom: 12 }}>
+            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(28px,4vw,40px)', fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 12 }}>
               Preço justo para cada fase
             </h2>
-            <p style={{ fontSize: 15, color: '#4B5768' }}>Comece grátis e escale conforme sua base cresce</p>
+            <p style={{ fontSize: 15, color: '#71717A' }}>Comece grátis e escale conforme sua base cresce</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 16 }}>
             {PLANOS_PREVIEW.map(p => (
-              <div key={p.tier} style={{ background: p.destaque ? `${p.color}12` : '#0E1525', border: `1px solid ${p.destaque ? p.color + '50' : 'rgba(255,255,255,0.07)'}`, borderRadius: 20, padding: '22px 20px', textAlign: 'center', transform: p.destaque ? 'scale(1.04)' : 'scale(1)', boxShadow: p.destaque ? `0 0 40px ${p.color}25` : 'none' }}>
+              <div key={p.tier} style={{ background: p.destaque ? `${p.color}12` : '#111113', border: `1px solid ${p.destaque ? p.color + '50' : 'rgba(255,255,255,0.07)'}`, borderRadius: 20, padding: '22px 20px', textAlign: 'center', transform: p.destaque ? 'scale(1.04)' : 'scale(1)', boxShadow: p.destaque ? `0 0 40px ${p.color}25` : 'none' }}>
                 {p.destaque && <div style={{ fontSize: 10, fontWeight: 800, color: p.color, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>⭐ Recomendado</div>}
-                <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 18, fontWeight: 800, color: p.color, marginBottom: 10 }}>{p.tier}</div>
-                <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 36, fontWeight: 900, color: '#EFF6FF', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 4 }}>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800, color: p.color, marginBottom: 10 }}>{p.tier}</div>
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 36, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 4 }}>
                   {p.preco === 0 ? 'Grátis' : `R$${p.preco}`}
                 </div>
-                {p.preco > 0 && <div style={{ fontSize: 11, color: '#3D4F6A', marginBottom: 16 }}>/mês</div>}
-                <div style={{ fontSize: 13, color: '#4B5768', marginTop: 14 }}>{p.alunos === '∞' ? 'Ilimitados' : `Até ${p.alunos}`} alunos</div>
+                {p.preco > 0 && <div style={{ fontSize: 11, color: '#71717A', marginBottom: 16 }}>/mês</div>}
+                <div style={{ fontSize: 13, color: '#71717A', marginTop: 14 }}>{p.alunos === '∞' ? 'Ilimitados' : `Até ${p.alunos}`} alunos</div>
               </div>
             ))}
           </div>
@@ -252,10 +252,10 @@ export default function Landing() {
       <section style={{ padding: '80px 24px 100px', textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at 50% 50%, rgba(99,102,241,0.1) 0%, transparent 70%)', pointerEvents: 'none' }} />
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 600, margin: '0 auto' }}>
-          <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 'clamp(28px,5vw,52px)', fontWeight: 900, letterSpacing: '-0.04em', lineHeight: 1.05, marginBottom: 20 }}>
+          <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(28px,5vw,52px)', fontWeight: 600, letterSpacing: '-0.04em', lineHeight: 1.05, marginBottom: 20 }}>
             Pronto para transformar<br />sua carreira como personal?
           </h2>
-          <p style={{ fontSize: 16, color: '#4B5768', marginBottom: 36 }}>
+          <p style={{ fontSize: 16, color: '#71717A', marginBottom: 36 }}>
             Junte-se a centenas de personal trainers que já usam o GymPro para crescer.
           </p>
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap', marginBottom: 20 }}>
@@ -267,7 +267,7 @@ export default function Landing() {
           </div>
           <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' }}>
             {['14 dias de trial', 'Sem cartão de crédito', 'Cancele quando quiser'].map(t => (
-              <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#3D4F6A' }}>
+              <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#71717A' }}>
                 <Check style={{ width: 13, height: 13, color: '#34d399' }} /> {t}
               </div>
             ))}
@@ -278,12 +278,12 @@ export default function Landing() {
       {/* ── FOOTER ── */}
       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '32px 24px', textAlign: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 16 }}>
-          <div style={{ width: 28, height: 28, borderRadius: 9, background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 28, height: 28, borderRadius: 9, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Zap style={{ width: 13, height: 13, color: 'white' }} />
           </div>
-          <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 900, fontSize: 15, letterSpacing: '-0.02em' }}>GymPro</span>
+          <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 15, letterSpacing: '-0.02em' }}>GymPro</span>
         </div>
-        <p style={{ fontSize: 12, color: '#1F2D4A' }}>
+        <p style={{ fontSize: 12, color: '#52525B' }}>
           Desenvolvido por{' '}
           <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer" style={{ color: '#6366f1', fontWeight: 700, textDecoration: 'none' }}>
             @luuiz.dev

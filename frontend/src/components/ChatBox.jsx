@@ -95,8 +95,8 @@ export default function ChatBox({ alunoId, outroNome }) {
             <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(99,102,241,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
               <MessageCircle style={{ width: 22, height: 22, color: '#6366f1' }} />
             </div>
-            <p style={{ color: '#4B5768', fontSize: 13, fontWeight: 600 }}>Nenhuma mensagem ainda</p>
-            <p style={{ color: '#1F2D4A', fontSize: 12, marginTop: 4 }}>Envie a primeira mensagem para {outroNome}</p>
+            <p style={{ color: '#71717A', fontSize: 13, fontWeight: 600 }}>Nenhuma mensagem ainda</p>
+            <p style={{ color: '#52525B', fontSize: 12, marginTop: 4 }}>Envie a primeira mensagem para {outroNome}</p>
           </div>
         )}
         {groups.map((item, i) => {
@@ -116,7 +116,7 @@ export default function ChatBox({ alunoId, outroNome }) {
                 border: item.meu ? 'none' : '1px solid rgba(255,255,255,0.08)',
                 boxShadow: item.meu ? '0 4px 16px rgba(99,102,241,0.3)' : 'none',
               }}>
-                <p style={{ fontSize: 14, color: item.meu ? 'white' : '#CBD5E1', lineHeight: 1.45, margin: 0, wordBreak: 'break-word' }}>
+                <p style={{ fontSize: 14, color: item.meu ? 'white' : '#F4F4F5', lineHeight: 1.45, margin: 0, wordBreak: 'break-word' }}>
                   {item.texto}
                 </p>
                 <p style={{ fontSize: 10, color: item.meu ? 'rgba(255,255,255,0.5)' : '#2A3A56', margin: '4px 0 0', textAlign: 'right' }}>
@@ -140,7 +140,7 @@ export default function ChatBox({ alunoId, outroNome }) {
           style={{
             flex: 1, resize: 'none',
             background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 16, padding: '10px 14px', color: '#EFF6FF', fontSize: 14,
+            borderRadius: 16, padding: '10px 14px', color: '#F4F4F5', fontSize: 14,
             fontFamily: 'Inter, sans-serif', outline: 'none', lineHeight: 1.5,
             maxHeight: 100, overflowY: 'auto',
           }}
@@ -158,7 +158,7 @@ export default function ChatBox({ alunoId, outroNome }) {
         >
           {sending
             ? <span style={{ width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.8s linear infinite' }} />
-            : <Send style={{ width: 16, height: 16, color: texto.trim() ? 'white' : '#3D4F6A' }} />
+            : <Send style={{ width: 16, height: 16, color: texto.trim() ? 'white' : '#71717A' }} />
           }
         </button>
       </div>

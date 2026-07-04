@@ -49,14 +49,14 @@ function ModalExecutar({ treino, onClose }) {
 
   return (
     <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.75)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:50, padding:16 }}>
-      <div className="animate-scale-in" style={{ background:'#0E1525', border:'1px solid rgba(99,102,241,0.2)', borderRadius:24, width:'100%', maxWidth:520, maxHeight:'88vh', overflow:'hidden', display:'flex', flexDirection:'column', boxShadow:'0 0 60px rgba(0,0,0,0.6)' }}>
+      <div className="animate-scale-in" style={{ background:'#111113', border:'1px solid rgba(99,102,241,0.2)', borderRadius:24, width:'100%', maxWidth:520, maxHeight:'88vh', overflow:'hidden', display:'flex', flexDirection:'column', boxShadow:'0 0 60px rgba(0,0,0,0.6)' }}>
         {/* Modal header */}
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'18px 24px', borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
           <div>
-            <h3 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, fontSize:16, color:'#EFF6FF' }}>Registrar execução</h3>
-            <p style={{ fontSize:12, color:'#3D4F6A', marginTop:2 }}>{treino.nome}</p>
+            <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, fontSize:16, color:'#F4F4F5' }}>Registrar execução</h3>
+            <p style={{ fontSize:12, color:'#71717A', marginTop:2 }}>{treino.nome}</p>
           </div>
-          <button onClick={onClose} style={{ width:32, height:32, borderRadius:10, background:'rgba(255,255,255,0.07)', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'#4B5768' }}>
+          <button onClick={onClose} style={{ width:32, height:32, borderRadius:10, background:'rgba(255,255,255,0.07)', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'#71717A' }}>
             <X style={{ width:15, height:15 }} />
           </button>
         </div>
@@ -71,7 +71,7 @@ function ModalExecutar({ treino, onClose }) {
                 <button key={key} onClick={() => setDificuldade(key)} style={{
                   padding:'12px 8px', borderRadius:16, border:`2px solid ${dificuldade === key ? border : 'rgba(255,255,255,0.07)'}`,
                   background: dificuldade === key ? bg : 'rgba(255,255,255,0.03)',
-                  color: dificuldade === key ? text : '#3D4F6A',
+                  color: dificuldade === key ? text : '#71717A',
                   fontWeight:700, fontSize:13, cursor:'pointer', transition:'all 0.15s',
                 }}>
                   <div style={{ fontSize:22, marginBottom:4 }}>{emoji}</div>
@@ -88,7 +88,7 @@ function ModalExecutar({ treino, onClose }) {
               <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
                 {itens.map((item, idx) => (
                   <div key={idx} style={{ background:'rgba(255,255,255,0.03)', borderRadius:16, padding:14, border:'1px solid rgba(255,255,255,0.05)' }}>
-                    <p style={{ fontSize:11, fontWeight:700, color:'#3D4F6A', textTransform:'uppercase', letterSpacing:'0.07em', marginBottom:10 }}>
+                    <p style={{ fontSize:11, fontWeight:700, color:'#71717A', textTransform:'uppercase', letterSpacing:'0.07em', marginBottom:10 }}>
                       Exercício {idx + 1}
                     </p>
                     <div className="grid grid-cols-3 gap-2">
@@ -98,7 +98,7 @@ function ModalExecutar({ treino, onClose }) {
                         { key:'series_realizadas',      label:'Séries',     type:'number' },
                       ].map(({ key, label, type }) => (
                         <div key={key}>
-                          <label style={{ fontSize:10, color:'#3D4F6A', display:'block', marginBottom:4, fontWeight:600 }}>{label}</label>
+                          <label style={{ fontSize:10, color:'#71717A', display:'block', marginBottom:4, fontWeight:600 }}>{label}</label>
                           <input type={type} className="input text-center font-semibold" style={{ padding:'8px 4px', fontSize:13 }} value={item[key]} onChange={e => setItem(idx, key, e.target.value)} placeholder="—" />
                         </div>
                       ))}
@@ -119,7 +119,7 @@ function ModalExecutar({ treino, onClose }) {
         {/* Modal footer */}
         <div style={{ borderTop:'1px solid rgba(255,255,255,0.05)', padding:'14px 24px', display:'flex', gap:10 }}>
           <button className="btn-secondary flex-1" onClick={onClose}>Cancelar</button>
-          <button className="btn-gradient flex-1" disabled={isPending} onClick={() => mutate()}>
+          <button className="btn-primary flex-1" disabled={isPending} onClick={() => mutate()}>
             {isPending ? (
               <span style={{ display:'flex', alignItems:'center', gap:8 }}>
                 <span style={{ width:14, height:14, border:'2px solid rgba(255,255,255,0.3)', borderTopColor:'white', borderRadius:'50%', display:'inline-block', animation:'spin 1s linear infinite' }} />
@@ -142,7 +142,7 @@ const GRUPO_COLORS = {
   Tríceps:  { bg:'rgba(124,58,237,0.1)',   text:'#c084fc' },
   Abdômen:  { bg:'rgba(249,115,22,0.1)',   text:'#fb923c' },
   Glúteos:  { bg:'rgba(236,72,153,0.1)',   text:'#f472b6' },
-  default:  { bg:'rgba(100,116,139,0.1)',  text:'#94A3B8' },
+  default:  { bg:'rgba(100,116,139,0.1)',  text:'#A1A1AA' },
 }
 
 export default function TreinoDetalhe() {
@@ -179,23 +179,23 @@ export default function TreinoDetalhe() {
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Back link */}
-      <Link to={`/alunos/${treino?.aluno_id}`} className="inline-flex items-center gap-2 text-sm font-medium transition-colors" style={{ color:'#3D4F6A' }}
-        onMouseEnter={e => e.currentTarget.style.color='#94A3B8'}
-        onMouseLeave={e => e.currentTarget.style.color='#3D4F6A'}>
+      <Link to={`/alunos/${treino?.aluno_id}`} className="inline-flex items-center gap-2 text-sm font-medium transition-colors" style={{ color:'#71717A' }}
+        onMouseEnter={e => e.currentTarget.style.color='#A1A1AA'}
+        onMouseLeave={e => e.currentTarget.style.color='#71717A'}>
         <ArrowLeft style={{ width:15, height:15 }} /> Voltar para o aluno
       </Link>
 
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:26, fontWeight:900, color:'#EFF6FF', letterSpacing:'-0.025em' }}>{treino?.nome}</h1>
+          <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:26, fontWeight:600, color:'#F4F4F5', letterSpacing:'-0.025em' }}>{treino?.nome}</h1>
           <div className="flex items-center gap-3 mt-2 flex-wrap">
             {treino?.dia_semana && <span className="badge-blue capitalize">{treino.dia_semana}</span>}
-            <span style={{ fontSize:13, color:'#3D4F6A' }}>{treino?.itens?.length || 0} exercício{treino?.itens?.length !== 1 ? 's' : ''}</span>
-            {totalVolume > 0 && <span style={{ fontSize:13, color:'#3D4F6A' }}>{totalVolume.toFixed(0)} kg volume total</span>}
+            <span style={{ fontSize:13, color:'#71717A' }}>{treino?.itens?.length || 0} exercício{treino?.itens?.length !== 1 ? 's' : ''}</span>
+            {totalVolume > 0 && <span style={{ fontSize:13, color:'#71717A' }}>{totalVolume.toFixed(0)} kg volume total</span>}
           </div>
         </div>
-        <button className="btn-gradient flex-shrink-0" onClick={() => setShowExecutar(true)}>
+        <button className="btn-primary flex-shrink-0" onClick={() => setShowExecutar(true)}>
           <Play style={{ width:15, height:15 }} />
           Registrar execução
         </button>
@@ -204,7 +204,7 @@ export default function TreinoDetalhe() {
       {/* Exercise list card */}
       <div className="card">
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:20 }}>
-          <h2 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#CBD5E1', fontSize:15 }}>Exercícios do treino</h2>
+          <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:15 }}>Exercícios do treino</h2>
           <button className="btn-secondary btn-sm" onClick={() => setShowAddItem(!showAddItem)}>
             <Plus style={{ width:13, height:13 }} /> Adicionar
           </button>
@@ -213,7 +213,7 @@ export default function TreinoDetalhe() {
         {/* Add form */}
         {showAddItem && (
           <div className="animate-slide-down mb-5 rounded-2xl p-4" style={{ background:'rgba(99,102,241,0.06)', border:'1px solid rgba(99,102,241,0.2)' }}>
-            <h3 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#EFF6FF', fontSize:14, marginBottom:16 }}>Adicionar exercício</h3>
+            <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14, marginBottom:16 }}>Adicionar exercício</h3>
             <div className="space-y-3">
               <div>
                 <label className="label">Exercício *</label>
@@ -222,7 +222,7 @@ export default function TreinoDetalhe() {
                     <option value="">Selecionar exercício...</option>
                     {exercicios.map(e => <option key={e.id} value={e.id}>{e.nome}{e.grupo_muscular ? ` (${e.grupo_muscular})` : ''}</option>)}
                   </select>
-                  <ChevronDown style={{ position:'absolute', right:14, top:'50%', transform:'translateY(-50%)', width:15, height:15, color:'#3D4F6A', pointerEvents:'none' }} />
+                  <ChevronDown style={{ position:'absolute', right:14, top:'50%', transform:'translateY(-50%)', width:15, height:15, color:'#71717A', pointerEvents:'none' }} />
                 </div>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -243,7 +243,7 @@ export default function TreinoDetalhe() {
             </div>
             <div className="flex gap-2 mt-4">
               <button className="btn-secondary" onClick={() => setShowAddItem(false)}>Cancelar</button>
-              <button className="btn-gradient" disabled={!itemForm.exercicio_id || addingItem}
+              <button className="btn-primary" disabled={!itemForm.exercicio_id || addingItem}
                 onClick={() => addItem({ exercicio_id:Number(itemForm.exercicio_id), series:itemForm.series, repeticoes:itemForm.repeticoes, carga:itemForm.carga ? Number(itemForm.carga) : null, descanso_seg:itemForm.descanso_seg, ordem:treino?.itens?.length || 0 })}>
                 {addingItem ? 'Adicionando...' : 'Adicionar'}
               </button>
@@ -254,10 +254,10 @@ export default function TreinoDetalhe() {
         {/* Item list */}
         {!treino?.itens?.length ? (
           <div className="empty-state py-10">
-            <div className="empty-icon"><Dumbbell style={{ width:28, height:28, color:'#4B5768' }} /></div>
+            <div className="empty-icon"><Dumbbell style={{ width:28, height:28, color:'#71717A' }} /></div>
             <p className="empty-title">Nenhum exercício ainda</p>
             <p className="empty-message">Adicione exercícios para montar este treino</p>
-            <button className="btn-gradient" onClick={() => setShowAddItem(true)}>Adicionar exercício</button>
+            <button className="btn-primary" onClick={() => setShowAddItem(true)}>Adicionar exercício</button>
           </div>
         ) : (
           <div className="space-y-2">
@@ -269,29 +269,29 @@ export default function TreinoDetalhe() {
                 <div key={item.id} className="group flex items-start gap-3 rounded-2xl p-4 transition-all duration-150" style={{ background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.05)' }}
                   onMouseEnter={e => { e.currentTarget.style.background='rgba(99,102,241,0.06)'; e.currentTarget.style.border='1px solid rgba(99,102,241,0.12)' }}
                   onMouseLeave={e => { e.currentTarget.style.background='rgba(255,255,255,0.03)'; e.currentTarget.style.border='1px solid rgba(255,255,255,0.05)' }}>
-                  <div style={{ color:'#1F2D4A', marginTop:2, cursor:'grab' }}>
+                  <div style={{ color:'#52525B', marginTop:2, cursor:'grab' }}>
                     <GripVertical style={{ width:15, height:15 }} />
                   </div>
-                  <div style={{ width:26, height:26, background:'linear-gradient(135deg,#4f46e5,#7c3aed)', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontSize:11, fontWeight:800, flexShrink:0, marginTop:2 }}>
+                  <div style={{ width:26, height:26, background:'#6366f1', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontSize:11, fontWeight:800, flexShrink:0, marginTop:2 }}>
                     {idx + 1}
                   </div>
                   <div style={{ flex:1, minWidth:0 }}>
                     <div style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap', marginBottom:4 }}>
-                      <span style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, fontSize:14, color:'#CBD5E1' }}>{ex?.nome || `Exercício #${item.exercicio_id}`}</span>
+                      <span style={{ fontFamily:'Inter, sans-serif', fontWeight:700, fontSize:14, color:'#F4F4F5' }}>{ex?.nome || `Exercício #${item.exercicio_id}`}</span>
                       {grupo && <span style={{ fontSize:10, fontWeight:700, padding:'2px 8px', borderRadius:999, background:gc.bg, color:gc.text }}>{grupo}</span>}
                       {ex?.video_url && <Video style={{ width:13, height:13, color:'#a78bfa' }} />}
                     </div>
-                    <div style={{ display:'flex', alignItems:'center', gap:12, fontSize:12, color:'#4B5768', flexWrap:'wrap' }}>
-                      <span style={{ fontWeight:700, color:'#94A3B8' }}>{item.series} × {item.repeticoes}</span>
+                    <div style={{ display:'flex', alignItems:'center', gap:12, fontSize:12, color:'#71717A', flexWrap:'wrap' }}>
+                      <span style={{ fontWeight:700, color:'#A1A1AA' }}>{item.series} × {item.repeticoes}</span>
                       {item.carga     && <span>{item.carga} kg</span>}
                       {item.descanso_seg && <span style={{ display:'flex', alignItems:'center', gap:4 }}><Clock style={{ width:11, height:11 }} />{item.descanso_seg}s</span>}
                     </div>
                     {ex?.video_url && <VideoThumb url={ex.video_url} title={ex.nome} />}
                   </div>
-                  <button onClick={() => removeItem(item.id)} style={{ flexShrink:0, width:30, height:30, borderRadius:10, border:'none', background:'rgba(239,68,68,0)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'#1F2D4A', transition:'all 0.15s', opacity:0 }}
+                  <button onClick={() => removeItem(item.id)} style={{ flexShrink:0, width:30, height:30, borderRadius:10, border:'none', background:'rgba(239,68,68,0)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'#52525B', transition:'all 0.15s', opacity:0 }}
                     className="group-hover:opacity-100"
                     onMouseEnter={e => { e.currentTarget.style.background='rgba(239,68,68,0.15)'; e.currentTarget.style.color='#f87171'; e.currentTarget.style.opacity=1 }}
-                    onMouseLeave={e => { e.currentTarget.style.background='rgba(239,68,68,0)'; e.currentTarget.style.color='#1F2D4A' }}
+                    onMouseLeave={e => { e.currentTarget.style.background='rgba(239,68,68,0)'; e.currentTarget.style.color='#52525B' }}
                     title="Remover exercício">
                     <Trash2 style={{ width:13, height:13 }} />
                   </button>

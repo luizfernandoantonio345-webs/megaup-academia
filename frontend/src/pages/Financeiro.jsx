@@ -18,9 +18,9 @@ function StatusBadge({ status }) {
 const DarkTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
-    <div style={{ background:'#141D30', border:'1px solid rgba(16,185,129,0.3)', borderRadius:12, padding:'10px 14px', boxShadow:'0 8px 24px rgba(0,0,0,0.4)' }}>
-      <p style={{ color:'#64748B', fontSize:11, fontWeight:700, marginBottom:4 }}>{label}</p>
-      <p style={{ color:'#34d399', fontWeight:700, fontSize:15, fontFamily:'Space Grotesk, sans-serif' }}>{fmt(payload[0]?.value)}</p>
+    <div style={{ background:'#111113', border:'1px solid rgba(16,185,129,0.3)', borderRadius:12, padding:'10px 14px', boxShadow:'0 8px 24px rgba(0,0,0,0.4)' }}>
+      <p style={{ color:'#71717A', fontSize:11, fontWeight:700, marginBottom:4 }}>{label}</p>
+      <p style={{ color:'#34d399', fontWeight:700, fontSize:15, fontFamily:'Inter, sans-serif' }}>{fmt(payload[0]?.value)}</p>
     </div>
   )
 }
@@ -80,8 +80,8 @@ export default function Financeiro() {
                 <Icon style={{ width:20, height:20, color:'white' }} />
               </div>
               <div>
-                <div style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:20, fontWeight:800, color:'#EFF6FF', letterSpacing:'-0.02em' }}>{value}</div>
-                <div style={{ fontSize:11, color:'#3D4F6A', fontWeight:600 }}>{label}</div>
+                <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:800, color:'#F4F4F5', letterSpacing:'-0.02em' }}>{value}</div>
+                <div style={{ fontSize:11, color:'#71717A', fontWeight:600 }}>{label}</div>
               </div>
             </div>
           )
@@ -93,8 +93,8 @@ export default function Financeiro() {
         <div className="card">
           <div className="flex items-center justify-between mb-5">
             <div>
-              <h2 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#CBD5E1', fontSize:15 }}>Receita por mês</h2>
-              <p style={{ fontSize:12, color:'#3D4F6A', marginTop:2 }}>Cobranças pagas nos últimos 6 meses</p>
+              <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:15 }}>Receita por mês</h2>
+              <p style={{ fontSize:12, color:'#71717A', marginTop:2 }}>Cobranças pagas nos últimos 6 meses</p>
             </div>
             <TrendingUp style={{ width:16, height:16, color:'#10b981' }} />
           </div>
@@ -107,8 +107,8 @@ export default function Financeiro() {
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="mes" tick={{ fontSize:11, fill:'#3D4F6A' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize:11, fill:'#3D4F6A' }} axisLine={false} tickLine={false} tickFormatter={v => `R$${v}`} width={50} />
+              <XAxis dataKey="mes" tick={{ fontSize:11, fill:'#71717A' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize:11, fill:'#71717A' }} axisLine={false} tickLine={false} tickFormatter={v => `R$${v}`} width={50} />
               <Tooltip content={<DarkTooltip />} />
               <Area type="monotone" dataKey="valor" stroke="#10b981" strokeWidth={2} fill="url(#revGrad)" dot={{ fill:'#10b981', r:3 }} />
             </AreaChart>
@@ -127,7 +127,7 @@ export default function Financeiro() {
       {tab === 'cobrancas' && (
         <div className="space-y-4">
           <div className="flex justify-end">
-            <button className="btn-gradient btn-sm" onClick={() => setShowCobForm(!showCobForm)}>
+            <button className="btn-primary btn-sm" onClick={() => setShowCobForm(!showCobForm)}>
               <Plus style={{ width:13, height:13 }} /> Nova cobrança
             </button>
           </div>
@@ -135,8 +135,8 @@ export default function Financeiro() {
           {showCobForm && (
             <div className="card animate-slide-down" style={{ border:'1px solid rgba(99,102,241,0.3)' }}>
               <div className="flex justify-between items-center mb-4">
-                <h3 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#EFF6FF', fontSize:14 }}>Gerar cobrança</h3>
-                <button onClick={() => setShowCobForm(false)} className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background:'rgba(255,255,255,0.07)', color:'#64748B' }}>
+                <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14 }}>Gerar cobrança</h3>
+                <button onClick={() => setShowCobForm(false)} className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background:'rgba(255,255,255,0.07)', color:'#71717A' }}>
                   <X style={{ width:13, height:13 }} />
                 </button>
               </div>
@@ -154,7 +154,7 @@ export default function Financeiro() {
                 </div>
                 <div className="flex gap-3">
                   <button type="button" className="btn-secondary" onClick={() => setShowCobForm(false)}>Cancelar</button>
-                  <button type="submit" className="btn-gradient" disabled={mutCriarCob.isPending}>{mutCriarCob.isPending ? 'Gerando...' : 'Gerar cobrança'}</button>
+                  <button type="submit" className="btn-primary" disabled={mutCriarCob.isPending}>{mutCriarCob.isPending ? 'Gerando...' : 'Gerar cobrança'}</button>
                 </div>
               </form>
             </div>
@@ -162,7 +162,7 @@ export default function Financeiro() {
 
           {cobrancas.length === 0 ? (
             <div className="card empty-state">
-              <div className="empty-icon"><DollarSign style={{ width:28, height:28, color:'#4B5768' }} /></div>
+              <div className="empty-icon"><DollarSign style={{ width:28, height:28, color:'#71717A' }} /></div>
               <p className="empty-title">Nenhuma cobrança ainda</p>
               <p className="empty-message">Crie um plano para um aluno e gere a primeira cobrança.</p>
             </div>
@@ -173,7 +173,7 @@ export default function Financeiro() {
                   <thead>
                     <tr style={{ borderBottom:'1px solid rgba(255,255,255,0.05)' }}>
                       {['Aluno','Valor','Vencimento','Pago em','Status','PIX','Ação'].map(h => (
-                        <th key={h} className="px-4 py-3 text-left" style={{ fontSize:11, fontWeight:700, color:'#3D4F6A', textTransform:'uppercase', letterSpacing:'0.06em', whiteSpace:'nowrap' }}>{h}</th>
+                        <th key={h} className="px-4 py-3 text-left" style={{ fontSize:11, fontWeight:700, color:'#71717A', textTransform:'uppercase', letterSpacing:'0.06em', whiteSpace:'nowrap' }}>{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -184,17 +184,17 @@ export default function Financeiro() {
                         <tr key={c.id} style={{ borderTop: i > 0 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}
                           onMouseEnter={e => e.currentTarget.style.background='rgba(255,255,255,0.02)'}
                           onMouseLeave={e => e.currentTarget.style.background='transparent'}>
-                          <td className="px-4 py-3 font-semibold whitespace-nowrap" style={{ color:'#CBD5E1' }}>{aluno?.nome ?? `#${c.aluno_id}`}</td>
-                          <td className="px-4 py-3 font-bold whitespace-nowrap" style={{ color:'#EFF6FF', fontFamily:'Space Grotesk, sans-serif' }}>{fmt(c.valor)}</td>
-                          <td className="px-4 py-3 whitespace-nowrap" style={{ color:'#64748B' }}>{fmtDate(c.vencimento)}</td>
-                          <td className="px-4 py-3 whitespace-nowrap" style={{ color:'#64748B' }}>{fmtDate(c.pago_em)}</td>
+                          <td className="px-4 py-3 font-semibold whitespace-nowrap" style={{ color:'#F4F4F5' }}>{aluno?.nome ?? `#${c.aluno_id}`}</td>
+                          <td className="px-4 py-3 font-bold whitespace-nowrap" style={{ color:'#F4F4F5', fontFamily:'Inter, sans-serif' }}>{fmt(c.valor)}</td>
+                          <td className="px-4 py-3 whitespace-nowrap" style={{ color:'#71717A' }}>{fmtDate(c.vencimento)}</td>
+                          <td className="px-4 py-3 whitespace-nowrap" style={{ color:'#71717A' }}>{fmtDate(c.pago_em)}</td>
                           <td className="px-4 py-3 whitespace-nowrap"><StatusBadge status={c.status} /></td>
                           <td className="px-4 py-3">
                             {c.link_pagamento ? (
                               <a href={c.link_pagamento} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-semibold" style={{ color:'#818cf8' }}>
                                 <ExternalLink style={{ width:12, height:12 }} /> PIX
                               </a>
-                            ) : <span style={{ color:'#1F2D4A', fontSize:12 }}>—</span>}
+                            ) : <span style={{ color:'#52525B', fontSize:12 }}>—</span>}
                           </td>
                           <td className="px-4 py-3">
                             {c.status !== 'pago' && (
@@ -218,7 +218,7 @@ export default function Financeiro() {
       {tab === 'planos' && (
         <div className="space-y-4">
           <div className="flex justify-end">
-            <button className="btn-gradient btn-sm" onClick={() => setShowPlanoForm(!showPlanoForm)}>
+            <button className="btn-primary btn-sm" onClick={() => setShowPlanoForm(!showPlanoForm)}>
               <Plus style={{ width:13, height:13 }} /> Novo plano
             </button>
           </div>
@@ -226,8 +226,8 @@ export default function Financeiro() {
           {showPlanoForm && (
             <div className="card animate-slide-down" style={{ border:'1px solid rgba(99,102,241,0.3)' }}>
               <div className="flex justify-between items-center mb-4">
-                <h3 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#EFF6FF', fontSize:14 }}>Criar plano</h3>
-                <button onClick={() => setShowPlanoForm(false)} className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background:'rgba(255,255,255,0.07)', color:'#64748B' }}>
+                <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14 }}>Criar plano</h3>
+                <button onClick={() => setShowPlanoForm(false)} className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background:'rgba(255,255,255,0.07)', color:'#71717A' }}>
                   <X style={{ width:13, height:13 }} />
                 </button>
               </div>
@@ -255,7 +255,7 @@ export default function Financeiro() {
                 </div>
                 <div className="flex gap-3">
                   <button type="button" className="btn-secondary" onClick={() => setShowPlanoForm(false)}>Cancelar</button>
-                  <button type="submit" className="btn-gradient" disabled={mutCriarPlano.isPending}>{mutCriarPlano.isPending ? 'Criando...' : 'Criar plano'}</button>
+                  <button type="submit" className="btn-primary" disabled={mutCriarPlano.isPending}>{mutCriarPlano.isPending ? 'Criando...' : 'Criar plano'}</button>
                 </div>
               </form>
             </div>
@@ -263,10 +263,10 @@ export default function Financeiro() {
 
           {planos.length === 0 ? (
             <div className="card empty-state">
-              <div className="empty-icon"><DollarSign style={{ width:28, height:28, color:'#4B5768' }} /></div>
+              <div className="empty-icon"><DollarSign style={{ width:28, height:28, color:'#71717A' }} /></div>
               <p className="empty-title">Nenhum plano ainda</p>
               <p className="empty-message">Crie o primeiro plano para começar a cobrar seus alunos.</p>
-              <button className="btn-gradient" onClick={() => setShowPlanoForm(true)}>Criar primeiro plano</button>
+              <button className="btn-primary" onClick={() => setShowPlanoForm(true)}>Criar primeiro plano</button>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -276,17 +276,17 @@ export default function Financeiro() {
                   <div key={p.id} className="card">
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <p style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#CBD5E1', fontSize:14 }}>{p.nome}</p>
-                        <p style={{ fontSize:12, color:'#3D4F6A', marginTop:2 }}>{aluno?.nome ?? `Aluno #${p.aluno_id}`}</p>
+                        <p style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14 }}>{p.nome}</p>
+                        <p style={{ fontSize:12, color:'#71717A', marginTop:2 }}>{aluno?.nome ?? `Aluno #${p.aluno_id}`}</p>
                       </div>
                       <StatusBadge status={p.status} />
                     </div>
                     <div className="flex items-end justify-between">
                       <div>
-                        <p style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:24, fontWeight:900, color:'#EFF6FF', letterSpacing:'-0.02em' }}>
-                          {fmt(p.valor)}<span style={{ fontSize:13, fontWeight:400, color:'#3D4F6A' }}>/mês</span>
+                        <p style={{ fontFamily:'Inter, sans-serif', fontSize:24, fontWeight:600, color:'#F4F4F5', letterSpacing:'-0.02em' }}>
+                          {fmt(p.valor)}<span style={{ fontSize:13, fontWeight:400, color:'#71717A' }}>/mês</span>
                         </p>
-                        <p style={{ fontSize:11, color:'#3D4F6A', marginTop:2 }}>Vence dia {p.dia_vencimento}</p>
+                        <p style={{ fontSize:11, color:'#71717A', marginTop:2 }}>Vence dia {p.dia_vencimento}</p>
                       </div>
                       {p.status === 'ativo' && (
                         <button onClick={() => mutInativarPlano.mutate(p.id)} className="flex items-center gap-1 text-xs font-semibold" style={{ color:'#f87171' }}>

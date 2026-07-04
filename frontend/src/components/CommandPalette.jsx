@@ -117,16 +117,16 @@ export default function CommandPalette() {
           background: 'rgba(255,255,255,0.04)',
           border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: 12, padding: '7px 14px',
-          color: '#3D4F6A', cursor: 'pointer',
+          color: '#71717A', cursor: 'pointer',
           fontSize: 13, fontFamily: 'Inter, sans-serif',
           transition: 'all 0.15s',
         }}
-        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; e.currentTarget.style.color = '#64748B' }}
-        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#3D4F6A' }}
+        onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.07)'; e.currentTarget.style.color = '#71717A' }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#71717A' }}
       >
         <Search style={{ width: 14, height: 14 }} aria-hidden="true" />
         <span>Buscar...</span>
-        <kbd style={{ fontSize: 10, fontWeight: 700, padding: '1px 6px', borderRadius: 5, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', color: '#3D4F6A', fontFamily: 'Inter, sans-serif' }}>
+        <kbd style={{ fontSize: 10, fontWeight: 700, padding: '1px 6px', borderRadius: 5, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', color: '#71717A', fontFamily: 'Inter, sans-serif' }}>
           ⌘K
         </kbd>
       </button>
@@ -157,7 +157,7 @@ export default function CommandPalette() {
               style={{
                 position: 'fixed', top: '12vh', left: '50%', transform: 'translateX(-50%)',
                 width: '100%', maxWidth: 580, zIndex: 71,
-                background: '#0E1525',
+                background: '#111113',
                 border: '1px solid rgba(99,102,241,0.3)',
                 borderRadius: 20,
                 boxShadow: '0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(99,102,241,0.1)',
@@ -176,15 +176,15 @@ export default function CommandPalette() {
                   aria-label="Buscar"
                   style={{
                     flex: 1, background: 'none', border: 'none', outline: 'none',
-                    color: '#EFF6FF', fontSize: 16, fontFamily: 'Inter, sans-serif',
+                    color: '#F4F4F5', fontSize: 16, fontFamily: 'Inter, sans-serif',
                   }}
                 />
                 {query && (
-                  <button onClick={() => setQuery('')} aria-label="Limpar busca" style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#3D4F6A', padding: 2 }}>
+                  <button onClick={() => setQuery('')} aria-label="Limpar busca" style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#71717A', padding: 2 }}>
                     <X style={{ width: 14, height: 14 }} />
                   </button>
                 )}
-                <kbd onClick={closePalette} style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', color: '#3D4F6A', fontFamily: 'Inter, sans-serif', cursor: 'pointer' }}>
+                <kbd onClick={closePalette} style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', color: '#71717A', fontFamily: 'Inter, sans-serif', cursor: 'pointer' }}>
                   ESC
                 </kbd>
               </div>
@@ -193,12 +193,12 @@ export default function CommandPalette() {
               <div ref={listRef} style={{ maxHeight: 420, overflowY: 'auto', padding: '8px 0' }} role="listbox">
                 {allItems.length === 0 ? (
                   <div style={{ padding: '40px 20px', textAlign: 'center' }}>
-                    <p style={{ color: '#3D4F6A', fontSize: 14 }}>Nenhum resultado para "<strong style={{ color: '#64748B' }}>{query}</strong>"</p>
+                    <p style={{ color: '#71717A', fontSize: 14 }}>Nenhum resultado para "<strong style={{ color: '#71717A' }}>{query}</strong>"</p>
                   </div>
                 ) : (
                   Object.entries(groups).map(([group, items]) => (
                     <div key={group}>
-                      <p style={{ fontSize: 10, fontWeight: 800, color: '#1F2D4A', textTransform: 'uppercase', letterSpacing: '0.1em', padding: '8px 18px 4px', fontFamily: 'Inter, sans-serif' }}>
+                      <p style={{ fontSize: 10, fontWeight: 800, color: '#52525B', textTransform: 'uppercase', letterSpacing: '0.1em', padding: '8px 18px 4px', fontFamily: 'Inter, sans-serif' }}>
                         {group}
                       </p>
                       {items.map((item) => {
@@ -220,14 +220,14 @@ export default function CommandPalette() {
                             }}
                           >
                             <div style={{ width: 34, height: 34, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: isActive ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)' }}>
-                              <item.icon style={{ width: 15, height: 15, color: isActive ? '#818cf8' : '#3D4F6A' }} aria-hidden="true" />
+                              <item.icon style={{ width: 15, height: 15, color: isActive ? '#818cf8' : '#71717A' }} aria-hidden="true" />
                             </div>
                             <div style={{ flex: 1, minWidth: 0 }}>
-                              <div style={{ fontSize: 14, fontWeight: 600, color: isActive ? '#EFF6FF' : '#94A3B8', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                              <div style={{ fontSize: 14, fontWeight: 600, color: isActive ? '#F4F4F5' : '#A1A1AA', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                                 {highlight(item.label, query)}
                               </div>
                               {item.sub && (
-                                <div style={{ fontSize: 11, color: '#3D4F6A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>
+                                <div style={{ fontSize: 11, color: '#71717A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>
                                   {item.sub}
                                 </div>
                               )}
@@ -250,9 +250,9 @@ export default function CommandPalette() {
                 ].map(({ keys, label }) => (
                   <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
                     {keys.map(k => (
-                      <kbd key={k} style={{ fontSize: 10, padding: '1px 5px', borderRadius: 4, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', color: '#3D4F6A', fontFamily: 'Inter, sans-serif' }}>{k}</kbd>
+                      <kbd key={k} style={{ fontSize: 10, padding: '1px 5px', borderRadius: 4, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', color: '#71717A', fontFamily: 'Inter, sans-serif' }}>{k}</kbd>
                     ))}
-                    <span style={{ fontSize: 11, color: '#1F2D4A' }}>{label}</span>
+                    <span style={{ fontSize: 11, color: '#52525B' }}>{label}</span>
                   </div>
                 ))}
               </div>

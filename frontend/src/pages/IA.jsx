@@ -7,7 +7,7 @@ import { Brain, Zap, TrendingUp, TrendingDown, Minus, ChevronDown, Sparkles, Ale
 function Avatar({ nome, size = 28 }) {
   const initials = (nome || '?').split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
   return (
-    <div style={{ width: size, height: size, borderRadius: '50%', background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.38, fontWeight: 700, flexShrink: 0, boxShadow: '0 0 8px rgba(99,102,241,0.3)' }}>
+    <div style={{ width: size, height: size, borderRadius: '50%', background: '#6366f1', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.38, fontWeight: 700, flexShrink: 0, boxShadow: '0 0 8px rgba(99,102,241,0.3)' }}>
       {initials}
     </div>
   )
@@ -25,22 +25,22 @@ function AlunoContextBanner({ aluno, gami, dias }) {
     <div className="rounded-2xl p-4 flex items-center gap-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
       <Avatar nome={aluno.nome} size={44} />
       <div className="flex-1 min-w-0">
-        <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, color: '#EFF6FF', fontSize: 15, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#F4F4F5', fontSize: 15, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {aluno.nome}
         </p>
-        <p style={{ fontSize: 12, color: '#3D4F6A', marginTop: 2 }}>{aluno.email}</p>
+        <p style={{ fontSize: 12, color: '#71717A', marginTop: 2 }}>{aluno.email}</p>
       </div>
       <div className="flex items-center gap-3 flex-shrink-0">
         {dias !== null && (
           <div className="text-center">
-            <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 16, fontWeight: 800, color: dias === 0 ? '#34d399' : dias > 7 ? '#f87171' : '#fbbf24' }}>{dias === 0 ? 'Hoje' : `${dias}d`}</div>
-            <div style={{ fontSize: 10, color: '#3D4F6A', fontWeight: 600 }}>Ultimo</div>
+            <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 800, color: dias === 0 ? '#34d399' : dias > 7 ? '#f87171' : '#fbbf24' }}>{dias === 0 ? 'Hoje' : `${dias}d`}</div>
+            <div style={{ fontSize: 10, color: '#71717A', fontWeight: 600 }}>Ultimo</div>
           </div>
         )}
         {gami && (
           <div className="text-center">
-            <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 16, fontWeight: 800, color: '#f97316' }}>{gami.streak_atual}🔥</div>
-            <div style={{ fontSize: 10, color: '#3D4F6A', fontWeight: 600 }}>Streak</div>
+            <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 800, color: '#f97316' }}>{gami.streak_atual}🔥</div>
+            <div style={{ fontSize: 10, color: '#71717A', fontWeight: 600 }}>Streak</div>
           </div>
         )}
       </div>
@@ -81,7 +81,7 @@ export default function IA() {
             style={{ background: 'linear-gradient(135deg,#7c3aed,#a78bfa)', boxShadow: '0 0 24px rgba(124,58,237,0.5)' }}>
             <Brain style={{ width: 22, height: 22, color: 'white' }} />
           </div>
-          <div style={{ position: 'absolute', top: -2, right: -2, width: 12, height: 12, borderRadius: '50%', background: '#34d399', border: '2px solid #070B14', boxShadow: '0 0 8px #34d399' }} />
+          <div style={{ position: 'absolute', top: -2, right: -2, width: 12, height: 12, borderRadius: '50%', background: '#34d399', border: '2px solid #0C0C0D', boxShadow: '0 0 8px #34d399' }} />
         </div>
       </div>
 
@@ -91,8 +91,8 @@ export default function IA() {
           <Sparkles style={{ width: 16, height: 16, color: '#a78bfa', flexShrink: 0, marginTop: 1 }} />
           <div>
             <p style={{ fontSize: 13, fontWeight: 700, color: '#a78bfa', marginBottom: 4 }}>Como funciona a IA de progressao</p>
-            <p style={{ fontSize: 12, color: '#4B5768', lineHeight: 1.6 }}>
-              Apos <strong style={{ color: '#CBD5E1' }}>3 ou mais execucoes</strong> do mesmo exercicio, a IA analisa o historico de carga e performance para sugerir se deve aumentar, manter ou reduzir o peso — tudo baseado nos dados reais do aluno.
+            <p style={{ fontSize: 12, color: '#71717A', lineHeight: 1.6 }}>
+              Apos <strong style={{ color: '#F4F4F5' }}>3 ou mais execucoes</strong> do mesmo exercicio, a IA analisa o historico de carga e performance para sugerir se deve aumentar, manter ou reduzir o peso — tudo baseado nos dados reais do aluno.
             </p>
           </div>
         </div>
@@ -115,13 +115,13 @@ export default function IA() {
             <label className="label">Selecionar aluno</label>
             <div className="relative">
               <div className="absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none">
-                {alunoSelecionado ? <Avatar nome={alunoSelecionado.nome} /> : <Brain style={{ width: 16, height: 16, color: '#3D4F6A' }} />}
+                {alunoSelecionado ? <Avatar nome={alunoSelecionado.nome} /> : <Brain style={{ width: 16, height: 16, color: '#71717A' }} />}
               </div>
               <select className="input pl-12 appearance-none" value={alunoSel} onChange={e => setAlunoSel(e.target.value)}>
                 <option value="">Escolher aluno para ver sugestoes...</option>
                 {alunos.map(a => <option key={a.id} value={a.id}>{a.nome}</option>)}
               </select>
-              <ChevronDown style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#3D4F6A', pointerEvents: 'none' }} />
+              <ChevronDown style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#71717A', pointerEvents: 'none' }} />
             </div>
           </div>
 
@@ -161,7 +161,7 @@ export default function IA() {
                 </div>
                 <div style={{ position: 'absolute', top: -4, right: -4, width: 14, height: 14, borderRadius: '50%', background: '#6366f1', animation: 'ping 1s cubic-bezier(0,0,0.2,1) infinite' }} />
               </div>
-              <p style={{ fontSize: 14, color: '#4B5768', fontWeight: 500 }}>A IA esta analisando o historico...</p>
+              <p style={{ fontSize: 14, color: '#71717A', fontWeight: 500 }}>A IA esta analisando o historico...</p>
             </div>
           )}
 
@@ -169,14 +169,14 @@ export default function IA() {
           {sugestoes && !loadingSug && (
             nPendentes === 0 ? (
               <div className="card empty-state">
-                <div className="empty-icon"><Brain style={{ width: 28, height: 28, color: '#4B5768' }} /></div>
+                <div className="empty-icon"><Brain style={{ width: 28, height: 28, color: '#71717A' }} /></div>
                 <p className="empty-title">Sem sugestoes ainda</p>
                 <p className="empty-message">A IA precisa de pelo menos 3 execucoes do mesmo exercicio para gerar sugestoes automaticas de progressao.</p>
               </div>
             ) : (
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <p style={{ fontSize: 11, color: '#4B5768', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+                  <p style={{ fontSize: 11, color: '#71717A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
                     {nPendentes} sugestao{nPendentes !== 1 ? 'es' : ''} gerada{nPendentes !== 1 ? 's' : ''}
                   </p>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#a78bfa', fontWeight: 700 }}>
@@ -193,7 +193,7 @@ export default function IA() {
                         <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
                           style={{ background: 'rgba(255,255,255,0.07)', position: 'relative' }}>
                           <IconAcao style={{ width: 18, height: 18, color: cfg.iconColor }} />
-                          <div style={{ position: 'absolute', top: -3, right: -3, width: 10, height: 10, borderRadius: '50%', background: cfg.dot, border: '2px solid #0E1525' }} />
+                          <div style={{ position: 'absolute', top: -3, right: -3, width: 10, height: 10, borderRadius: '50%', background: cfg.dot, border: '2px solid #111113' }} />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap mb-1.5">
@@ -201,13 +201,13 @@ export default function IA() {
                               {cfg.label}
                             </span>
                             {s.carga_sugerida && (
-                              <span style={{ fontSize: 16, fontWeight: 900, color: '#EFF6FF', fontFamily: 'Space Grotesk, sans-serif' }}>
+                              <span style={{ fontSize: 16, fontWeight: 600, color: '#F4F4F5', fontFamily: 'Inter, sans-serif' }}>
                                 {s.carga_sugerida} kg
                               </span>
                             )}
                           </div>
-                          <p style={{ fontSize: 13, color: '#94A3B8', lineHeight: 1.5 }}>{s.motivo}</p>
-                          <p style={{ fontSize: 11, color: '#3D4F6A', marginTop: 6 }}>
+                          <p style={{ fontSize: 13, color: '#A1A1AA', lineHeight: 1.5 }}>{s.motivo}</p>
+                          <p style={{ fontSize: 11, color: '#71717A', marginTop: 6 }}>
                             Gerado {new Date(s.gerado_em).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
                           </p>
                         </div>
@@ -223,7 +223,7 @@ export default function IA() {
           {!alunoSel && (
             <div className="space-y-4">
               <div className="card empty-state">
-                <div className="empty-icon"><Brain style={{ width: 28, height: 28, color: '#4B5768' }} /></div>
+                <div className="empty-icon"><Brain style={{ width: 28, height: 28, color: '#71717A' }} /></div>
                 <p className="empty-title">Selecione um aluno</p>
                 <p className="empty-message">Escolha um aluno acima para visualizar as sugestoes de progressao geradas automaticamente pela IA.</p>
               </div>
@@ -235,8 +235,8 @@ export default function IA() {
                 ].map(({ icon, title, desc }) => (
                   <div key={title} className="card p-4 text-center" style={{ border: '1px solid rgba(124,58,237,0.12)' }}>
                     <div style={{ fontSize: 28, marginBottom: 8 }}>{icon}</div>
-                    <p style={{ fontSize: 12, fontWeight: 700, color: '#CBD5E1', marginBottom: 4 }}>{title}</p>
-                    <p style={{ fontSize: 11, color: '#3D4F6A', lineHeight: 1.5 }}>{desc}</p>
+                    <p style={{ fontSize: 12, fontWeight: 700, color: '#F4F4F5', marginBottom: 4 }}>{title}</p>
+                    <p style={{ fontSize: 11, color: '#71717A', lineHeight: 1.5 }}>{desc}</p>
                   </div>
                 ))}
               </div>
@@ -272,8 +272,8 @@ function TreinoAlternativoTab() {
             <Zap style={{ width: 18, height: 18, color: '#fbbf24' }} />
           </div>
           <div>
-            <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, color: '#CBD5E1', fontSize: 15 }}>Treino alternativo por IA</h3>
-            <p style={{ fontSize: 12, color: '#3D4F6A', marginTop: 1 }}>Informe o equipamento indisponivel</p>
+            <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#F4F4F5', fontSize: 15 }}>Treino alternativo por IA</h3>
+            <p style={{ fontSize: 12, color: '#71717A', marginTop: 1 }}>Informe o equipamento indisponivel</p>
           </div>
         </div>
 
@@ -285,13 +285,13 @@ function TreinoAlternativoTab() {
             onChange={e => setEquipamento(e.target.value)}
             onKeyDown={e => e.key === 'Enter' && equipamento && !isPending && mutate()}
           />
-          <button className="btn-gradient px-5" disabled={isPending || !equipamento} onClick={() => mutate()}>
+          <button className="btn-primary px-5" disabled={isPending || !equipamento} onClick={() => mutate()}>
             {isPending
               ? <span className="w-4 h-4 border-2 rounded-full animate-spin" style={{ borderColor: 'rgba(255,255,255,0.3)', borderTopColor: 'white' }} />
               : <Zap style={{ width: 16, height: 16 }} />}
           </button>
         </div>
-        <p style={{ fontSize: 12, color: '#3D4F6A', marginTop: 10, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 12, color: '#71717A', marginTop: 10, lineHeight: 1.5 }}>
           A IA sugerira exercicios alternativos que preservam o grupo muscular, adaptados para o equipamento disponivel.
         </p>
       </div>
@@ -302,8 +302,8 @@ function TreinoAlternativoTab() {
             style={{ background: 'rgba(124,58,237,0.15)' }}>
             <Brain style={{ width: 26, height: 26, color: '#a78bfa' }} />
           </div>
-          <p style={{ fontSize: 13, color: '#4B5768', fontWeight: 500 }}>Gerando alternativas com IA...</p>
-          <p style={{ fontSize: 11, color: '#3D4F6A' }}>Isso pode levar alguns segundos</p>
+          <p style={{ fontSize: 13, color: '#71717A', fontWeight: 500 }}>Gerando alternativas com IA...</p>
+          <p style={{ fontSize: 11, color: '#71717A' }}>Isso pode levar alguns segundos</p>
         </div>
       )}
 
@@ -311,27 +311,27 @@ function TreinoAlternativoTab() {
         <div className="card space-y-4">
           <div className="flex items-center gap-2 mb-1">
             <Sparkles style={{ width: 15, height: 15, color: '#a78bfa' }} />
-            <h4 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, color: '#CBD5E1', fontSize: 15 }}>Sugestoes da IA</h4>
+            <h4 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#F4F4F5', fontSize: 15 }}>Sugestoes da IA</h4>
           </div>
 
           {resultado.itens?.length === 0 ? (
-            <p style={{ fontSize: 13, color: '#4B5768' }}>Nenhum exercicio precisa de substituicao para esse equipamento.</p>
+            <p style={{ fontSize: 13, color: '#71717A' }}>Nenhum exercicio precisa de substituicao para esse equipamento.</p>
           ) : (
             <div className="space-y-3">
               {(resultado.itens || []).map((item, idx) => (
                 <div key={idx} className="flex items-start gap-3 p-4 rounded-2xl animate-slide-up"
                   style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.06)' }}>
                   <span className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
-                    style={{ background: 'rgba(99,102,241,0.2)', color: '#a5b4fc', fontFamily: 'Space Grotesk, sans-serif' }}>
+                    style={{ background: 'rgba(99,102,241,0.2)', color: '#a5b4fc', fontFamily: 'Inter, sans-serif' }}>
                     {idx + 1}
                   </span>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 flex-wrap text-sm mb-1.5">
                       <span style={{ color: '#f87171', textDecoration: 'line-through', fontWeight: 500 }}>{item.exercicio_original}</span>
-                      <span style={{ color: '#3D4F6A', fontSize: 16 }}>→</span>
-                      <span style={{ color: '#34d399', fontWeight: 700, fontFamily: 'Space Grotesk, sans-serif' }}>{item.exercicio_alternativo}</span>
+                      <span style={{ color: '#71717A', fontSize: 16 }}>→</span>
+                      <span style={{ color: '#34d399', fontWeight: 700, fontFamily: 'Inter, sans-serif' }}>{item.exercicio_alternativo}</span>
                     </div>
-                    <p style={{ fontSize: 12, color: '#64748B', lineHeight: 1.5 }}>{item.motivo}</p>
+                    <p style={{ fontSize: 12, color: '#71717A', lineHeight: 1.5 }}>{item.motivo}</p>
                   </div>
                 </div>
               ))}

@@ -52,16 +52,16 @@ class ErrorBoundary extends Component {
   render() {
     if (this.state.error) {
       return (
-        <div style={{ minHeight:'100vh', background:'#070B14', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center', padding:24 }}>
+        <div style={{ minHeight:'100vh', background:'#0C0C0D', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center', padding:24 }}>
           <div>
             <div style={{ fontSize:48, marginBottom:16 }}>⚡</div>
-            <h1 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:22, fontWeight:800, color:'#EFF6FF', marginBottom:8 }}>Algo deu errado</h1>
-            <p style={{ color:'#4B5768', fontSize:13, marginBottom:8, maxWidth:340, margin:'0 auto 16px' }}>
+            <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:22, fontWeight:800, color:'#F4F4F5', marginBottom:8 }}>Algo deu errado</h1>
+            <p style={{ color:'#71717A', fontSize:13, marginBottom:8, maxWidth:340, margin:'0 auto 16px' }}>
               {this.state.error?.message || 'Erro desconhecido'}
             </p>
             <button
               onClick={() => { this.setState({ error: null }); window.location.href = '/login' }}
-              style={{ background:'linear-gradient(135deg,#4f46e5,#7c3aed)', color:'white', border:'none', borderRadius:12, padding:'10px 24px', fontWeight:700, cursor:'pointer', fontSize:14 }}
+              style={{ background:'#6366f1', color:'white', border:'none', borderRadius:12, padding:'10px 24px', fontWeight:700, cursor:'pointer', fontSize:14 }}
             >
               Voltar ao início
             </button>
@@ -121,11 +121,11 @@ function AnimatedRoutes() {
 
         <Route path="/unauthorized" element={
           <P>
-            <div style={{ minHeight:'100vh', background:'#070B14', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center', padding:24 }}>
+            <div style={{ minHeight:'100vh', background:'#0C0C0D', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center', padding:24 }}>
               <div>
                 <div style={{ fontSize:48, marginBottom:16 }}>🔒</div>
-                <h1 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:24, fontWeight:800, color:'#EFF6FF', marginBottom:8 }}>Acesso negado</h1>
-                <p style={{ color:'#4B5768', marginBottom:24, fontSize:14 }}>Você não tem permissão para acessar esta página.</p>
+                <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:24, fontWeight:800, color:'#F4F4F5', marginBottom:8 }}>Acesso negado</h1>
+                <p style={{ color:'#71717A', marginBottom:24, fontSize:14 }}>Você não tem permissão para acessar esta página.</p>
                 <a href="/login" style={{ color:'#818cf8', fontWeight:600, fontSize:14 }}>Voltar ao login</a>
               </div>
             </div>

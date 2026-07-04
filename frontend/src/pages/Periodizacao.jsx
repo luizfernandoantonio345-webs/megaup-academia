@@ -56,7 +56,7 @@ function ProgramaCard({ programa, alunos, onDelete }) {
   })
 
   return (
-    <div style={{ background: '#0E1525', borderRadius: 20, border: `1px solid ${obj.border}`, overflow: 'hidden' }}>
+    <div style={{ background: '#111113', borderRadius: 20, border: `1px solid ${obj.border}`, overflow: 'hidden' }}>
       <div style={{ height: 3, background: `linear-gradient(90deg, transparent, ${obj.color}, transparent)` }} />
       <div style={{ padding: '20px 22px' }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12, marginBottom: 14 }}>
@@ -64,12 +64,12 @@ function ProgramaCard({ programa, alunos, onDelete }) {
             {obj.emoji}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 16, fontWeight: 800, color: '#EFF6FF', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+            <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 800, color: '#F4F4F5', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
               {programa.nome}
             </h3>
             <div style={{ display: 'flex', gap: 10, marginTop: 5, flexWrap: 'wrap' }}>
               <span style={{ fontSize: 11, fontWeight: 700, color: obj.color, background: obj.bg, padding: '2px 8px', borderRadius: 999 }}>{obj.label}</span>
-              <span style={{ fontSize: 11, color: '#3D4F6A' }}>{semanas} semanas · {fases.length} fases</span>
+              <span style={{ fontSize: 11, color: '#71717A' }}>{semanas} semanas · {fases.length} fases</span>
             </div>
           </div>
           <button onClick={() => onDelete(programa.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#2A3A56', padding: 6 }}>
@@ -78,11 +78,11 @@ function ProgramaCard({ programa, alunos, onDelete }) {
         </div>
 
         {programa.descricao && (
-          <p style={{ fontSize: 12, color: '#4B5768', marginBottom: 14, lineHeight: 1.5 }}>{programa.descricao}</p>
+          <p style={{ fontSize: 12, color: '#71717A', marginBottom: 14, lineHeight: 1.5 }}>{programa.descricao}</p>
         )}
 
         {/* Fases */}
-        <button onClick={() => setExpanded(!expanded)} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', color: '#3D4F6A', fontSize: 12, fontWeight: 600, padding: '6px 0', marginBottom: expanded ? 12 : 0 }}>
+        <button onClick={() => setExpanded(!expanded)} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: 'none', cursor: 'pointer', color: '#71717A', fontSize: 12, fontWeight: 600, padding: '6px 0', marginBottom: expanded ? 12 : 0 }}>
           {expanded ? <ChevronUp style={{ width: 13, height: 13 }} /> : <ChevronDown style={{ width: 13, height: 13 }} />}
           {expanded ? 'Ocultar fases' : 'Ver fases'}
         </button>
@@ -95,13 +95,13 @@ function ProgramaCard({ programa, alunos, onDelete }) {
                 <div key={i} style={{ padding: '10px 12px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                     <span style={{ width: 18, height: 18, borderRadius: '50%', background: fObj.bg, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 800, color: fObj.color, flexShrink: 0 }}>{i + 1}</span>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: '#CBD5E1' }}>{f.nome}</span>
-                    <span style={{ fontSize: 11, color: '#3D4F6A', marginLeft: 'auto' }}>{f.semanas}sem</span>
+                    <span style={{ fontSize: 13, fontWeight: 700, color: '#F4F4F5' }}>{f.nome}</span>
+                    <span style={{ fontSize: 11, color: '#71717A', marginLeft: 'auto' }}>{f.semanas}sem</span>
                   </div>
                   <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', paddingLeft: 26 }}>
-                    <span style={{ fontSize: 11, color: '#4B5768' }}>{f.series_por_exercicio}x{f.repeticoes} reps</span>
-                    <span style={{ fontSize: 11, color: '#4B5768' }}>{f.intensidade_pct}% 1RM</span>
-                    <span style={{ fontSize: 11, color: '#4B5768' }}>{f.descanso_seg}s descanso</span>
+                    <span style={{ fontSize: 11, color: '#71717A' }}>{f.series_por_exercicio}x{f.repeticoes} reps</span>
+                    <span style={{ fontSize: 11, color: '#71717A' }}>{f.intensidade_pct}% 1RM</span>
+                    <span style={{ fontSize: 11, color: '#71717A' }}>{f.descanso_seg}s descanso</span>
                   </div>
                   {f.descricao && <p style={{ fontSize: 11, color: '#2A3A56', marginTop: 5, paddingLeft: 26 }}>{f.descricao}</p>}
                 </div>
@@ -122,11 +122,11 @@ function ProgramaCard({ programa, alunos, onDelete }) {
               <option value="">Selecionar aluno...</option>
               {(alunos || []).map(a => <option key={a.id} value={a.id}>{a.nome}</option>)}
             </select>
-            <button onClick={() => aplicar()} disabled={!alunoId || aplicandoMut} style={{ padding: '8px 14px', borderRadius: 10, background: 'linear-gradient(135deg,#4f46e5,#7c3aed)', border: 'none', color: 'white', fontSize: 12, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
+            <button onClick={() => aplicar()} disabled={!alunoId || aplicandoMut} style={{ padding: '8px 14px', borderRadius: 10, background: '#6366f1', border: 'none', color: 'white', fontSize: 12, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
               {aplicandoMut ? <Loader2 style={{ width: 12, height: 12, animation: 'spin 0.8s linear infinite' }} /> : <ArrowRight style={{ width: 12, height: 12 }} />}
               Aplicar
             </button>
-            <button onClick={() => setAplicando(false)} style={{ background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: 10, padding: '8px 10px', color: '#4B5768', cursor: 'pointer', fontSize: 12 }}>✕</button>
+            <button onClick={() => setAplicando(false)} style={{ background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: 10, padding: '8px 10px', color: '#71717A', cursor: 'pointer', fontSize: 12 }}>✕</button>
           </div>
         )}
       </div>
@@ -163,11 +163,11 @@ function NovoPrograma({ alunos, onClose }) {
 
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 60, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(6px)', padding: '16px' }}>
-      <div style={{ background: '#0E1525', borderRadius: 24, border: '1px solid rgba(99,102,241,0.25)', width: '100%', maxWidth: 700, maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div style={{ background: '#111113', borderRadius: 24, border: '1px solid rgba(99,102,241,0.25)', width: '100%', maxWidth: 700, maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <div style={{ padding: '22px 24px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <h2 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 18, fontWeight: 800, color: '#EFF6FF', letterSpacing: '-0.02em' }}>Novo Programa de Treino</h2>
-            <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.07)', border: 'none', borderRadius: 10, color: '#64748B', cursor: 'pointer', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>✕</button>
+            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800, color: '#F4F4F5', letterSpacing: '-0.02em' }}>Novo Programa de Treino</h2>
+            <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.07)', border: 'none', borderRadius: 10, color: '#71717A', cursor: 'pointer', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>✕</button>
           </div>
         </div>
 
@@ -182,7 +182,7 @@ function NovoPrograma({ alunos, onClose }) {
               <label className="label">Objetivo principal</label>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 {OBJETIVOS.slice(0, 4).map(o => (
-                  <button key={o.key} onClick={() => { setObjetivo(o.key); if (usandoPreset && FASES_PRESET[o.key]) setFases(FASES_PRESET[o.key]) }} style={{ padding: '6px 12px', borderRadius: 10, border: `1px solid ${objetivo === o.key ? o.border : 'rgba(255,255,255,0.08)'}`, background: objetivo === o.key ? o.bg : 'rgba(255,255,255,0.04)', color: objetivo === o.key ? o.color : '#4B5768', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
+                  <button key={o.key} onClick={() => { setObjetivo(o.key); if (usandoPreset && FASES_PRESET[o.key]) setFases(FASES_PRESET[o.key]) }} style={{ padding: '6px 12px', borderRadius: 10, border: `1px solid ${objetivo === o.key ? o.border : 'rgba(255,255,255,0.08)'}`, background: objetivo === o.key ? o.bg : 'rgba(255,255,255,0.04)', color: objetivo === o.key ? o.color : '#71717A', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
                     {o.emoji} {o.label}
                   </button>
                 ))}
@@ -196,7 +196,7 @@ function NovoPrograma({ alunos, onClose }) {
 
           {/* Preset toggle */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-            <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 13, fontWeight: 700, color: '#94A3B8' }}>Fases ({fases.length})</p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 700, color: '#A1A1AA' }}>Fases ({fases.length})</p>
             <div style={{ display: 'flex', gap: 8 }}>
               {FASES_PRESET[objetivo] && (
                 <button onClick={() => { setFases(FASES_PRESET[objetivo]); setUsandoPreset(true) }} style={{ fontSize: 11, fontWeight: 700, color: '#6366f1', background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: 8, padding: '5px 10px', cursor: 'pointer' }}>
@@ -216,7 +216,7 @@ function NovoPrograma({ alunos, onClose }) {
                 <div key={i} style={{ padding: '14px', borderRadius: 14, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
                     <span style={{ width: 22, height: 22, borderRadius: '50%', background: fObj.bg, border: `1px solid ${fObj.border}`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: fObj.color, flexShrink: 0 }}>{i + 1}</span>
-                    <input value={f.nome} onChange={e => { setUsandoPreset(false); setFase(i, 'nome', e.target.value) }} style={{ flex: 1, background: 'none', border: 'none', color: '#CBD5E1', fontSize: 14, fontWeight: 700, fontFamily: 'Space Grotesk, sans-serif', outline: 'none' }} />
+                    <input value={f.nome} onChange={e => { setUsandoPreset(false); setFase(i, 'nome', e.target.value) }} style={{ flex: 1, background: 'none', border: 'none', color: '#F4F4F5', fontSize: 14, fontWeight: 700, fontFamily: 'Inter, sans-serif', outline: 'none' }} />
                     {fases.length > 1 && (
                       <button onClick={() => removeFase(i)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#2A3A56' }}>
                         <Trash2 style={{ width: 12, height: 12 }} />
@@ -232,7 +232,7 @@ function NovoPrograma({ alunos, onClose }) {
                       { key: 'descanso_seg',         label: 'Descanso (s)', type: 'number' },
                     ].map(({ key, label, type }) => (
                       <div key={key}>
-                        <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: '#3D4F6A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>{label}</label>
+                        <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>{label}</label>
                         <input type={type} className="input text-center" style={{ fontSize: 13, padding: '8px' }}
                           value={f[key]} onChange={e => { setUsandoPreset(false); setFase(i, key, e.target.value) }} />
                       </div>
@@ -246,7 +246,7 @@ function NovoPrograma({ alunos, onClose }) {
 
         <div style={{ padding: '16px 24px', borderTop: '1px solid rgba(255,255,255,0.06)', display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
           <button onClick={onClose} className="btn-secondary">Cancelar</button>
-          <button onClick={() => mutate()} disabled={isPending || !nome || fases.length === 0} className="btn-gradient">
+          <button onClick={() => mutate()} disabled={isPending || !nome || fases.length === 0} className="btn-primary">
             {isPending ? <Loader2 style={{ width: 14, height: 14, animation: 'spin 0.8s linear infinite' }} /> : <Plus style={{ width: 14, height: 14 }} />}
             Criar programa
           </button>
@@ -297,12 +297,12 @@ export default function Periodizacao() {
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20, position: 'relative', zIndex: 1 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-              <div style={{ width: 36, height: 36, borderRadius: 12, background: 'linear-gradient(135deg,#7c3aed,#4f46e5)', boxShadow: '0 0 20px rgba(124,58,237,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 36, height: 36, borderRadius: 12, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <BarChart2 style={{ width: 17, height: 17, color: 'white' }} />
               </div>
-              <h1 style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 26, fontWeight: 900, color: '#EFF6FF', letterSpacing: '-0.03em', margin: 0 }}>Periodização</h1>
+              <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 26, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.03em', margin: 0 }}>Periodização</h1>
             </div>
-            <p style={{ fontSize: 13, color: '#3D4F6A', margin: 0 }}>Crie programas estruturados com fases de hipertrofia, força e deload</p>
+            <p style={{ fontSize: 13, color: '#71717A', margin: 0 }}>Crie programas estruturados com fases de hipertrofia, força e deload</p>
             {programas.length > 0 && (
               <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
                 <span style={{ padding: '4px 12px', borderRadius: 999, fontSize: 11, fontWeight: 700, background: 'rgba(167,139,250,0.12)', color: '#c4b5fd', border: '1px solid rgba(167,139,250,0.25)' }}>
@@ -316,7 +316,7 @@ export default function Periodizacao() {
               {seedingEx ? <Loader2 style={{ width: 13, height: 13, animation: 'spin 0.8s linear infinite' }} /> : <Download style={{ width: 13, height: 13 }} />}
               {seedingEx ? 'Importando...' : 'Importar exercícios'}
             </button>
-            <button onClick={() => setShowForm(true)} className="btn-gradient">
+            <button onClick={() => setShowForm(true)} className="btn-primary">
               <Plus style={{ width: 15, height: 15 }} /> Novo programa
             </button>
           </div>
@@ -327,16 +327,16 @@ export default function Periodizacao() {
       {/* Presets info */}
       {programas.length === 0 && !isLoading && (
         <div style={{ background: 'rgba(99,102,241,0.07)', border: '1px solid rgba(99,102,241,0.18)', borderRadius: 18, padding: '20px 24px' }}>
-          <p style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 15, fontWeight: 700, color: '#c7d2fe', marginBottom: 8 }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 700, color: '#c7d2fe', marginBottom: 8 }}>
             Presets prontos para começar
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             {['💪 Hipertrofia 10 semanas', '🏋️ Força 10 semanas', '🔥 Emagrecimento 12 semanas'].map(p => (
-              <span key={p} style={{ padding: '6px 12px', borderRadius: 10, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', fontSize: 12, color: '#94A3B8' }}>{p}</span>
+              <span key={p} style={{ padding: '6px 12px', borderRadius: 10, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', fontSize: 12, color: '#A1A1AA' }}>{p}</span>
             ))}
           </div>
-          <p style={{ fontSize: 12, color: '#3D4F6A', marginTop: 10 }}>Clique em "Novo programa" e selecione o objetivo para carregar automaticamente as fases recomendadas.</p>
-          <button onClick={() => setShowForm(true)} className="btn-gradient" style={{ marginTop: 14 }}>
+          <p style={{ fontSize: 12, color: '#71717A', marginTop: 10 }}>Clique em "Novo programa" e selecione o objetivo para carregar automaticamente as fases recomendadas.</p>
+          <button onClick={() => setShowForm(true)} className="btn-primary" style={{ marginTop: 14 }}>
             <Plus style={{ width: 14, height: 14 }} /> Criar primeiro programa
           </button>
         </div>

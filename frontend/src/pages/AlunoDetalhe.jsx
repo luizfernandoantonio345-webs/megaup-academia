@@ -11,7 +11,7 @@ import NutricaoTab from '../components/NutricaoTab'
 function Avatar({ nome }) {
   const initials = nome?.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
   return (
-    <div style={{ width:64, height:64, borderRadius:'50%', background:'linear-gradient(135deg,#4f46e5,#7c3aed)', color:'white', display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, fontWeight:800, flexShrink:0, boxShadow:'0 0 24px rgba(99,102,241,0.4)' }}>
+    <div style={{ width:64, height:64, borderRadius:'50%', background:'#1C1C1E', border:'1px solid #27272A', display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, fontWeight:600, color:'#A1A1AA', flexShrink:0 }}>
       {initials}
     </div>
   )
@@ -66,9 +66,9 @@ export default function AlunoDetalhe() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link to="/alunos" className="inline-flex items-center gap-2 text-sm font-medium transition-colors" style={{ color:'#3D4F6A' }}
-          onMouseEnter={e => e.currentTarget.style.color='#94A3B8'}
-          onMouseLeave={e => e.currentTarget.style.color='#3D4F6A'}>
+        <Link to="/alunos" className="inline-flex items-center gap-2 text-sm font-medium transition-colors" style={{ color:'#71717A' }}
+          onMouseEnter={e => e.currentTarget.style.color='#A1A1AA'}
+          onMouseLeave={e => e.currentTarget.style.color='#71717A'}>
           <ArrowLeft style={{ width:15, height:15 }} /> Voltar para alunos
         </Link>
         <button
@@ -86,30 +86,30 @@ export default function AlunoDetalhe() {
           <div className="flex-1 min-w-0">
             {editNome ? (
               <div className="flex items-center gap-2 mb-1">
-                <input className="input text-lg font-bold py-1.5" value={nomeTemp} onChange={e => setNomeTemp(e.target.value)} autoFocus style={{ fontFamily:'Space Grotesk, sans-serif' }} />
+                <input className="input text-lg font-bold py-1.5" value={nomeTemp} onChange={e => setNomeTemp(e.target.value)} autoFocus style={{ fontFamily:'Inter, sans-serif' }} />
                 <button onClick={() => updateNome({ nome: nomeTemp })} className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background:'rgba(16,185,129,0.2)', color:'#34d399' }}>
                   <Check style={{ width:14, height:14 }} />
                 </button>
-                <button onClick={() => setEditNome(false)} className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background:'rgba(255,255,255,0.07)', color:'#64748B' }}>
+                <button onClick={() => setEditNome(false)} className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background:'rgba(255,255,255,0.07)', color:'#71717A' }}>
                   <X style={{ width:14, height:14 }} />
                 </button>
               </div>
             ) : (
               <div className="flex items-center gap-2 mb-0.5">
-                <h1 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:20, fontWeight:800, color:'#EFF6FF', letterSpacing:'-0.02em' }}>{aluno?.nome}</h1>
-                <button onClick={() => { setNomeTemp(aluno?.nome || ''); setEditNome(true) }} style={{ color:'#1F2D4A', background:'none', border:'none', cursor:'pointer', padding:2 }}>
+                <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:800, color:'#F4F4F5', letterSpacing:'-0.02em' }}>{aluno?.nome}</h1>
+                <button onClick={() => { setNomeTemp(aluno?.nome || ''); setEditNome(true) }} style={{ color:'#52525B', background:'none', border:'none', cursor:'pointer', padding:2 }}>
                   <Edit2 style={{ width:13, height:13 }} />
                 </button>
               </div>
             )}
-            <p style={{ fontSize:13, color:'#3D4F6A' }}>{aluno?.email}</p>
+            <p style={{ fontSize:13, color:'#71717A' }}>{aluno?.email}</p>
             {aluno?.objetivo && <span className="badge-blue mt-2 text-xs">{aluno.objetivo}</span>}
           </div>
 
           {gami && gami.streak_atual > 0 && (
             <div className="flex-shrink-0 flex flex-col items-center gap-1 rounded-2xl px-4 py-3 text-white" style={{ background:'linear-gradient(135deg,#9a3412,#c2410c)', boxShadow:'0 0 20px rgba(249,115,22,0.3)' }}>
               <Flame style={{ width:18, height:18 }} />
-              <div style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:24, fontWeight:900, lineHeight:1 }}>{gami.streak_atual}</div>
+              <div style={{ fontFamily:'Inter, sans-serif', fontSize:24, fontWeight:600, lineHeight:1 }}>{gami.streak_atual}</div>
               <div style={{ fontSize:10, color:'rgba(255,255,255,0.6)', fontWeight:600 }}>streak</div>
             </div>
           )}
@@ -123,8 +123,8 @@ export default function AlunoDetalhe() {
               { label:'Treinos', value:`${gami.total_treinos}💪`, color:'#34d399' },
             ].map(({ label, value, color }) => (
               <div key={label} className="text-center">
-                <div style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:20, fontWeight:800, color }}>{value}</div>
-                <div style={{ fontSize:11, color:'#3D4F6A', marginTop:2, fontWeight:600, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
+                <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:800, color }}>{value}</div>
+                <div style={{ fontSize:11, color:'#71717A', marginTop:2, fontWeight:600, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
               </div>
             ))}
           </div>
@@ -162,8 +162,8 @@ export default function AlunoDetalhe() {
                 <MessageCircle style={{ width:14, height:14, color:'#818cf8' }} />
               </div>
               <div>
-                <p style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#CBD5E1', fontSize:14, lineHeight:1 }}>Chat com {aluno?.nome?.split(' ')[0]}</p>
-                <p style={{ fontSize:11, color:'#3D4F6A', marginTop:2 }}>As mensagens são privadas entre você e o aluno</p>
+                <p style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14, lineHeight:1 }}>Chat com {aluno?.nome?.split(' ')[0]}</p>
+                <p style={{ fontSize:11, color:'#71717A', marginTop:2 }}>As mensagens são privadas entre você e o aluno</p>
               </div>
             </div>
             <ChatBox alunoId={Number(id)} outroNome={aluno?.nome?.split(' ')[0]} />
@@ -203,16 +203,16 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
   const DotTooltip = ({ active, payload, label }) => {
     if (!active || !payload?.length) return null
     return (
-      <div style={{ background: '#141D30', border: '1px solid rgba(99,102,241,0.3)', borderRadius: 12, padding: '8px 14px', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
-        <p style={{ color: '#64748B', fontSize: 11, fontWeight: 700, marginBottom: 2 }}>{label}</p>
-        <p style={{ color: '#a5b4fc', fontWeight: 700, fontSize: 15, fontFamily: 'Space Grotesk, sans-serif' }}>{payload[0]?.value} kg</p>
+      <div style={{ background: '#111113', border: '1px solid rgba(99,102,241,0.3)', borderRadius: 12, padding: '8px 14px', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
+        <p style={{ color: '#71717A', fontSize: 11, fontWeight: 700, marginBottom: 2 }}>{label}</p>
+        <p style={{ color: '#a5b4fc', fontWeight: 700, fontSize: 15, fontFamily: 'Inter, sans-serif' }}>{payload[0]?.value} kg</p>
       </div>
     )
   }
 
   if (availableEx.length === 0) return (
     <div className="card empty-state py-12">
-      <div className="empty-icon"><BarChart2 style={{ width: 28, height: 28, color: '#4B5768' }} /></div>
+      <div className="empty-icon"><BarChart2 style={{ width: 28, height: 28, color: '#71717A' }} /></div>
       <p className="empty-title">Sem dados de progresso</p>
       <p className="empty-message">Adicione treinos com exercicios e execute-os para ver a evolucao de carga.</p>
     </div>
@@ -230,7 +230,7 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
               <option key={ex.id} value={ex.id}>{ex.nome}{ex.grupo_muscular ? ` (${ex.grupo_muscular})` : ''}</option>
             ))}
           </select>
-          <ChevronDown style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#3D4F6A', pointerEvents: 'none' }} />
+          <ChevronDown style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#71717A', pointerEvents: 'none' }} />
         </div>
       </div>
 
@@ -240,11 +240,11 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
           {[
             { label: 'Maximo', value: `${maxCarga}kg`, color: '#a5b4fc' },
             { label: 'Ultima', value: lastCarga != null ? `${lastCarga}kg` : '--', color: '#34d399' },
-            { label: 'Variacao', value: delta != null ? `${delta > 0 ? '+' : ''}${delta}kg` : '--', color: delta == null ? '#3D4F6A' : delta > 0 ? '#34d399' : delta < 0 ? '#f87171' : '#6366f1' },
+            { label: 'Variacao', value: delta != null ? `${delta > 0 ? '+' : ''}${delta}kg` : '--', color: delta == null ? '#71717A' : delta > 0 ? '#34d399' : delta < 0 ? '#f87171' : '#6366f1' },
           ].map(({ label, value, color }) => (
             <div key={label} className="card text-center p-3">
-              <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 20, fontWeight: 800, color, letterSpacing: '-0.02em' }}>{value}</div>
-              <div style={{ fontSize: 11, color: '#3D4F6A', fontWeight: 600, marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
+              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 800, color, letterSpacing: '-0.02em' }}>{value}</div>
+              <div style={{ fontSize: 11, color: '#71717A', fontWeight: 600, marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
             </div>
           ))}
         </div>
@@ -254,8 +254,8 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
       <div className="card">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 700, color: '#CBD5E1', fontSize: 14 }}>Evolucao de carga</h3>
-            <p style={{ fontSize: 12, color: '#3D4F6A', marginTop: 2 }}>
+            <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#F4F4F5', fontSize: 14 }}>Evolucao de carga</h3>
+            <p style={{ fontSize: 12, color: '#71717A', marginTop: 2 }}>
               {chartData.length > 0 ? `${chartData.length} sessao${chartData.length !== 1 ? 'es' : ''} registrada${chartData.length !== 1 ? 's' : ''}` : 'Sem execucoes registradas'}
             </p>
           </div>
@@ -278,8 +278,8 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={chartData} margin={{ top: 4, right: 8, left: -12, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="data" tick={{ fontSize: 11, fill: '#3D4F6A' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 11, fill: '#3D4F6A' }} axisLine={false} tickLine={false} width={40} tickFormatter={v => `${v}kg`} />
+              <XAxis dataKey="data" tick={{ fontSize: 11, fill: '#71717A' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 11, fill: '#71717A' }} axisLine={false} tickLine={false} width={40} tickFormatter={v => `${v}kg`} />
               <Tooltip content={<DotTooltip />} />
               <Line type="monotone" dataKey="carga" stroke="#6366f1" strokeWidth={2.5}
                 dot={{ fill: '#6366f1', r: 4, strokeWidth: 0 }}
@@ -306,17 +306,17 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
                   style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
                   <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ background: 'rgba(99,102,241,0.12)' }}>
-                    <span style={{ fontSize: 12, fontWeight: 800, color: '#818cf8', fontFamily: 'Space Grotesk, sans-serif' }}>
+                    <span style={{ fontSize: 12, fontWeight: 800, color: '#818cf8', fontFamily: 'Inter, sans-serif' }}>
                       {sessions.length - i}
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p style={{ fontSize: 13, fontWeight: 700, color: '#CBD5E1', fontFamily: 'Space Grotesk, sans-serif' }}>
+                    <p style={{ fontSize: 13, fontWeight: 700, color: '#F4F4F5', fontFamily: 'Inter, sans-serif' }}>
                       {s.carga_realizada != null ? `${s.carga_realizada}kg` : '--'}
                       {s.repeticoes_realizadas ? ` × ${s.repeticoes_realizadas} reps` : ''}
                       {s.series_realizadas ? ` × ${s.series_realizadas} series` : ''}
                     </p>
-                    <p style={{ fontSize: 11, color: '#3D4F6A' }}>{dateStr}</p>
+                    <p style={{ fontSize: 11, color: '#71717A' }}>{dateStr}</p>
                   </div>
                 </div>
               )
@@ -338,15 +338,15 @@ function TreinosTab({ aluno, treinos, onCriar }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#94A3B8', fontSize:13 }}>Treinos de {aluno?.nome?.split(' ')[0]}</h2>
-        <button className="btn-gradient btn-sm" onClick={() => setShowForm(!showForm)}>
+        <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#A1A1AA', fontSize:13 }}>Treinos de {aluno?.nome?.split(' ')[0]}</h2>
+        <button className="btn-primary btn-sm" onClick={() => setShowForm(!showForm)}>
           <Plus style={{ width:12, height:12 }} /> Novo treino
         </button>
       </div>
 
       {showForm && (
         <div className="card animate-slide-down" style={{ border:'1px solid rgba(99,102,241,0.3)' }}>
-          <h3 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#EFF6FF', fontSize:14, marginBottom:16 }}>Novo treino</h3>
+          <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14, marginBottom:16 }}>Novo treino</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             <div>
               <label className="label">Nome do treino *</label>
@@ -362,17 +362,17 @@ function TreinosTab({ aluno, treinos, onCriar }) {
           </div>
           <div className="flex gap-2">
             <button className="btn-secondary" onClick={() => setShowForm(false)}>Cancelar</button>
-            <button className="btn-gradient" disabled={!nome} onClick={() => { onCriar(nome, dia); setShowForm(false); setNome(''); setDia('') }}>Criar treino</button>
+            <button className="btn-primary" disabled={!nome} onClick={() => { onCriar(nome, dia); setShowForm(false); setNome(''); setDia('') }}>Criar treino</button>
           </div>
         </div>
       )}
 
       {treinos.length === 0 ? (
         <div className="card empty-state">
-          <div className="empty-icon"><Dumbbell style={{ width:28, height:28, color:'#4B5768' }} /></div>
+          <div className="empty-icon"><Dumbbell style={{ width:28, height:28, color:'#71717A' }} /></div>
           <p className="empty-title">Nenhum treino ainda</p>
           <p className="empty-message">Crie o primeiro treino para {aluno?.nome?.split(' ')[0]}</p>
-          <button className="btn-gradient" onClick={() => setShowForm(true)}>Criar primeiro treino</button>
+          <button className="btn-primary" onClick={() => setShowForm(true)}>Criar primeiro treino</button>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -380,8 +380,8 @@ function TreinosTab({ aluno, treinos, onCriar }) {
             <Link key={t.id} to={`/treinos/${t.id}`} className="card-interactive group">
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <div style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#CBD5E1', fontSize:14 }}>{t.nome}</div>
-                  <div style={{ fontSize:12, color:'#3D4F6A', marginTop:2 }}>{t.itens?.length || 0} exercício{t.itens?.length !== 1 ? 's' : ''}</div>
+                  <div style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14 }}>{t.nome}</div>
+                  <div style={{ fontSize:12, color:'#71717A', marginTop:2 }}>{t.itens?.length || 0} exercício{t.itens?.length !== 1 ? 's' : ''}</div>
                 </div>
                 <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background:'rgba(99,102,241,0.12)' }}>
                   <Dumbbell style={{ width:15, height:15, color:'#818cf8' }} />
@@ -417,8 +417,8 @@ function GamificacaoTab({ gami }) {
         ].map(({ label, value, emoji, border, bg, color }) => (
           <div key={label} className="card text-center" style={{ border:`1px solid ${border}`, background:bg }}>
             <div style={{ fontSize:26, marginBottom:4 }}>{emoji}</div>
-            <div style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:24, fontWeight:900, color }}>{value}</div>
-            <div style={{ fontSize:11, color:'#3D4F6A', fontWeight:600, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
+            <div style={{ fontFamily:'Inter, sans-serif', fontSize:24, fontWeight:600, color }}>{value}</div>
+            <div style={{ fontSize:11, color:'#71717A', fontWeight:600, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
           </div>
         ))}
       </div>
@@ -438,8 +438,8 @@ function GamificacaoTab({ gami }) {
               return (
                 <div key={c.id} className="card text-center p-4" style={{ border:`1px solid ${b.border}`, background:b.bg }}>
                   <div style={{ fontSize:28, marginBottom:6 }}>{b.emoji}</div>
-                  <div style={{ fontSize:11, fontWeight:700, color:'#CBD5E1' }}>{b.label}</div>
-                  <div style={{ fontSize:10, color:'#3D4F6A', marginTop:4 }}>
+                  <div style={{ fontSize:11, fontWeight:700, color:'#F4F4F5' }}>{b.label}</div>
+                  <div style={{ fontSize:10, color:'#71717A', marginTop:4 }}>
                     {new Date(c.desbloqueado_em).toLocaleDateString('pt-BR', { day:'2-digit', month:'short' })}
                   </div>
                 </div>
@@ -470,7 +470,7 @@ function SugestoesTab({ sugestoes }) {
 
       {(sugestoes.sugestoes_pendentes?.length ?? 0) === 0 ? (
         <div className="card empty-state py-10">
-          <div className="empty-icon"><Brain style={{ width:28, height:28, color:'#4B5768' }} /></div>
+          <div className="empty-icon"><Brain style={{ width:28, height:28, color:'#71717A' }} /></div>
           <p className="empty-title">Sem sugestões ainda</p>
           <p className="empty-message">A IA precisa de pelo menos 3 execuções do mesmo exercício.</p>
         </div>
@@ -488,9 +488,9 @@ function SugestoesTab({ sugestoes }) {
                   <div>
                     <div className="flex items-center gap-2 flex-wrap mb-1">
                       <span style={{ fontSize:11, fontWeight:700, color:cfg.text, padding:'2px 10px', borderRadius:999, background:'rgba(255,255,255,0.08)', textTransform:'uppercase', letterSpacing:'0.05em' }}>{cfg.label} carga</span>
-                      {s.carga_sugerida && <span style={{ fontSize:14, fontWeight:800, color:'#EFF6FF', fontFamily:'Space Grotesk, sans-serif' }}>→ {s.carga_sugerida} kg</span>}
+                      {s.carga_sugerida && <span style={{ fontSize:14, fontWeight:800, color:'#F4F4F5', fontFamily:'Inter, sans-serif' }}>→ {s.carga_sugerida} kg</span>}
                     </div>
-                    <p style={{ fontSize:13, color:'#94A3B8' }}>{s.motivo}</p>
+                    <p style={{ fontSize:13, color:'#A1A1AA' }}>{s.motivo}</p>
                   </div>
                 </div>
               </div>
@@ -544,25 +544,25 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
 
   const TooltipPeso = ({ active, payload, label }) => {
     if (!active || !payload?.length) return null
-    return <div style={{ background:'#141D30', border:'1px solid rgba(99,102,241,0.3)', borderRadius:10, padding:'8px 12px', fontSize:13 }}><span style={{ color:'#94A3B8' }}>{label}: </span><span style={{ color:'#34d399', fontWeight:700 }}>{payload[0].value}kg</span></div>
+    return <div style={{ background:'#111113', border:'1px solid rgba(99,102,241,0.3)', borderRadius:10, padding:'8px 12px', fontSize:13 }}><span style={{ color:'#A1A1AA' }}>{label}: </span><span style={{ color:'#34d399', fontWeight:700 }}>{payload[0].value}kg</span></div>
   }
   const TooltipGord = ({ active, payload, label }) => {
     if (!active || !payload?.length) return null
-    return <div style={{ background:'#141D30', border:'1px solid rgba(251,191,36,0.3)', borderRadius:10, padding:'8px 12px', fontSize:13 }}><span style={{ color:'#94A3B8' }}>{label}: </span><span style={{ color:'#fbbf24', fontWeight:700 }}>{payload[0].value}%</span></div>
+    return <div style={{ background:'#111113', border:'1px solid rgba(251,191,36,0.3)', borderRadius:10, padding:'8px 12px', fontSize:13 }}><span style={{ color:'#A1A1AA' }}>{label}: </span><span style={{ color:'#fbbf24', fontWeight:700 }}>{payload[0].value}%</span></div>
   }
 
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h2 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#94A3B8', fontSize:13 }}>Histórico de avaliações</h2>
-        <button className="btn-gradient btn-sm" onClick={() => setShowForm(!showForm)}>
+        <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#A1A1AA', fontSize:13 }}>Histórico de avaliações</h2>
+        <button className="btn-primary btn-sm" onClick={() => setShowForm(!showForm)}>
           <Plus style={{ width:12, height:12 }} /> Nova avaliação
         </button>
       </div>
 
       {showForm && (
         <div className="card animate-slide-down" style={{ border:'1px solid rgba(99,102,241,0.3)' }}>
-          <h3 style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#EFF6FF', fontSize:14, marginBottom:16 }}>Registro de avaliação</h3>
+          <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14, marginBottom:16 }}>Registro de avaliação</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
             {[
               { key:'peso',               label:'Peso (kg)',        placeholder:'Ex: 75.5' },
@@ -581,7 +581,7 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
           </div>
           <div className="flex gap-2">
             <button className="btn-secondary" onClick={() => setShowForm(false)}>Cancelar</button>
-            <button className="btn-gradient" disabled={saving} onClick={salvar}>
+            <button className="btn-primary" disabled={saving} onClick={salvar}>
               {saving ? 'Salvando...' : 'Registrar avaliação'}
             </button>
           </div>
@@ -598,8 +598,8 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
             { label:'Avaliações', value: avaliacoes.length, color:'#f9a8d4' },
           ].map(({ label, value, color, sub }) => (
             <div key={label} className="card text-center p-3">
-              <div style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:20, fontWeight:800, color, letterSpacing:'-0.02em' }}>{value}</div>
-              <div style={{ fontSize:11, color:'#3D4F6A', fontWeight:600, marginTop:2, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
+              <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:800, color, letterSpacing:'-0.02em' }}>{value}</div>
+              <div style={{ fontSize:11, color:'#71717A', fontWeight:600, marginTop:2, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
               {sub && <div style={{ fontSize:10, color: Number(deltaPeso) < 0 ? '#34d399' : '#f87171', marginTop:3 }}>{sub}</div>}
             </div>
           ))}
@@ -609,12 +609,12 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
       {/* Peso chart */}
       {chartPeso.length >= 2 && (
         <div className="card">
-          <p style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#CBD5E1', fontSize:13, marginBottom:12 }}>Evolução de peso</p>
+          <p style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:13, marginBottom:12 }}>Evolução de peso</p>
           <ResponsiveContainer width="100%" height={160}>
             <LineChart data={chartPeso} margin={{ top:4, right:8, left:-12, bottom:0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="data" tick={{ fontSize:11, fill:'#3D4F6A' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize:11, fill:'#3D4F6A' }} axisLine={false} tickLine={false} width={40} tickFormatter={v => `${v}kg`} />
+              <XAxis dataKey="data" tick={{ fontSize:11, fill:'#71717A' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize:11, fill:'#71717A' }} axisLine={false} tickLine={false} width={40} tickFormatter={v => `${v}kg`} />
               <Tooltip content={<TooltipPeso />} />
               <Line type="monotone" dataKey="peso" stroke="#34d399" strokeWidth={2.5}
                 dot={{ fill:'#34d399', r:4, strokeWidth:0 }} activeDot={{ r:6, fill:'#6ee7b7', strokeWidth:0 }} isAnimationActive={false} />
@@ -626,12 +626,12 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
       {/* Gordura chart */}
       {chartGordura.length >= 2 && (
         <div className="card">
-          <p style={{ fontFamily:'Space Grotesk, sans-serif', fontWeight:700, color:'#CBD5E1', fontSize:13, marginBottom:12 }}>% Gordura corporal</p>
+          <p style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:13, marginBottom:12 }}>% Gordura corporal</p>
           <ResponsiveContainer width="100%" height={140}>
             <LineChart data={chartGordura} margin={{ top:4, right:8, left:-12, bottom:0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="data" tick={{ fontSize:11, fill:'#3D4F6A' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize:11, fill:'#3D4F6A' }} axisLine={false} tickLine={false} width={36} tickFormatter={v => `${v}%`} />
+              <XAxis dataKey="data" tick={{ fontSize:11, fill:'#71717A' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize:11, fill:'#71717A' }} axisLine={false} tickLine={false} width={36} tickFormatter={v => `${v}%`} />
               <Tooltip content={<TooltipGord />} />
               <Line type="monotone" dataKey="gordura" stroke="#fbbf24" strokeWidth={2.5}
                 dot={{ fill:'#fbbf24', r:4, strokeWidth:0 }} activeDot={{ r:6, fill:'#fde68a', strokeWidth:0 }} isAnimationActive={false} />
@@ -643,10 +643,10 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
       {/* History table */}
       {avaliacoes.length === 0 ? (
         <div className="card empty-state py-10">
-          <div className="empty-icon"><Scale style={{ width:28, height:28, color:'#4B5768' }} /></div>
+          <div className="empty-icon"><Scale style={{ width:28, height:28, color:'#71717A' }} /></div>
           <p className="empty-title">Sem avaliações ainda</p>
           <p className="empty-message">Registre a primeira avaliação para acompanhar a evolução física</p>
-          <button className="btn-gradient" onClick={() => setShowForm(true)}>Registrar avaliação</button>
+          <button className="btn-primary" onClick={() => setShowForm(true)}>Registrar avaliação</button>
         </div>
       ) : (
         <div className="space-y-2">
@@ -658,10 +658,10 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
                 <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
                   {av.peso && <span style={{ fontSize:13, fontWeight:700, color:'#34d399' }}>{av.peso}kg</span>}
                   {av.percentual_gordura && <span style={{ fontSize:13, fontWeight:700, color:'#fbbf24' }}>{av.percentual_gordura}% gordura</span>}
-                  {av.medidas?.cintura && <span style={{ fontSize:12, color:'#94A3B8' }}>Cintura {av.medidas.cintura}cm</span>}
-                  {av.medidas?.quadril && <span style={{ fontSize:12, color:'#94A3B8' }}>Quadril {av.medidas.quadril}cm</span>}
+                  {av.medidas?.cintura && <span style={{ fontSize:12, color:'#A1A1AA' }}>Cintura {av.medidas.cintura}cm</span>}
+                  {av.medidas?.quadril && <span style={{ fontSize:12, color:'#A1A1AA' }}>Quadril {av.medidas.quadril}cm</span>}
                 </div>
-                <p style={{ fontSize:11, color:'#3D4F6A', marginTop:3 }}>
+                <p style={{ fontSize:11, color:'#71717A', marginTop:3 }}>
                   {new Date(av.data).toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' })}
                 </p>
               </div>
@@ -698,7 +698,7 @@ function AnamneseTab({ anamnese, onSalvar, saving }) {
             <textarea className="input resize-none" rows={3} placeholder={placeholder} value={form[key] || ''} onChange={set(key)} />
           </div>
         ))}
-        <button className="btn-gradient" disabled={saving} onClick={() => onSalvar(form)}>
+        <button className="btn-primary" disabled={saving} onClick={() => onSalvar(form)}>
           {saving ? <span className="flex items-center gap-2"><span className="w-4 h-4 border-2 rounded-full animate-spin" style={{ borderColor:'rgba(255,255,255,0.3)', borderTopColor:'white' }} />Salvando...</span> : 'Salvar anamnese'}
         </button>
       </div>

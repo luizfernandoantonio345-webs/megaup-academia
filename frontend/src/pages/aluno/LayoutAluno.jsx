@@ -16,13 +16,13 @@ export default function LayoutAluno({ children }) {
   const initials = (user?.nome || '??').split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
 
   return (
-    <div style={{ minHeight: '100vh', background: '#070B14', display: 'flex', flexDirection: 'column' }}>
+    <div style={{ minHeight: '100vh', background: '#0C0C0D', display: 'flex', flexDirection: 'column' }}>
 
       {/* Aurora blobs — decorative background */}
       <div style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '-8%', right: '-15%', width: 420, height: 420, borderRadius: '50%', background: 'radial-gradient(circle, rgba(79,70,229,0.09) 0%, transparent 70%)' }} />
-        <div style={{ position: 'absolute', bottom: '10%', left: '-12%', width: 340, height: 340, borderRadius: '50%', background: 'radial-gradient(circle, rgba(124,58,237,0.07) 0%, transparent 70%)' }} />
-        <div style={{ position: 'absolute', top: '45%', left: '40%', width: 250, height: 250, borderRadius: '50%', background: 'radial-gradient(circle, rgba(99,102,241,0.05) 0%, transparent 70%)' }} />
+        
+        
+        
       </div>
 
       {/* ── Sticky header ── */}
@@ -43,14 +43,14 @@ export default function LayoutAluno({ children }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
             <div style={{
               width: 32, height: 32, borderRadius: 11,
-              background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+              background: '#6366f1',
               boxShadow: '0 0 14px rgba(99,102,241,0.5)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
               <Zap style={{ width: 15, height: 15, color: 'white' }} />
             </div>
             <div>
-              <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontWeight: 900, color: 'white', fontSize: 16, letterSpacing: '-0.03em' }}>
+              <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: 'white', fontSize: 16, letterSpacing: '-0.03em' }}>
                 GymPro
               </span>
             </div>
@@ -59,7 +59,7 @@ export default function LayoutAluno({ children }) {
           {/* User + logout */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 13, fontWeight: 700, color: '#CBD5E1' }}>{user?.nome?.split(' ')[0]}</div>
+              <div style={{ fontSize: 13, fontWeight: 700, color: '#F4F4F5' }}>{user?.nome?.split(' ')[0]}</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 4, justifyContent: 'flex-end', marginTop: 1 }}>
                 <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#10b981', boxShadow: '0 0 6px #10b981', animation: 'pulse-dot 2s infinite' }} />
                 <span style={{ fontSize: 10, color: '#10b981', fontWeight: 600 }}>Online</span>
@@ -67,7 +67,7 @@ export default function LayoutAluno({ children }) {
             </div>
             <div style={{
               width: 36, height: 36, borderRadius: '50%',
-              background: 'linear-gradient(135deg, #4f46e5, #7c3aed)',
+              background: '#6366f1',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 13, fontWeight: 800, color: 'white',
               boxShadow: '0 0 12px rgba(99,102,241,0.4)',
