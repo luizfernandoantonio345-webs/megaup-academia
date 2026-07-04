@@ -1,5 +1,8 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+
+# Brasil padrão: UTC-3 (sem horário de verão em Jul/Ago/Set)
+BRT = timezone(timedelta(hours=-3))
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
@@ -162,7 +165,7 @@ def treino_do_dia(
     """
     _get_aluno_or_404(aluno_id, current_user.tenant_id, db)
 
-    dia_hoje = _DIAS_SEMANA[datetime.utcnow().weekday()]
+    dia_hoje = _DIAS_SEMANA[datetime.now(BRT).weekday()]
 
     return (
         db.query(Treino)
@@ -251,7 +254,7 @@ def sugestoes_aluno(
 
     dias_sem_treinar: int | None = None
     if ultima_exec:
-        dias_sem_treinar = (datetime.utcnow() - ultima_exec.data).days
+        dias_sem_treinar = (datetime.now(BRT).replace(tzinfo=None) - ultima_exec.data).days
 
     return StatusAlunoSugestoesResponse(
         aluno_id=aluno_id,
