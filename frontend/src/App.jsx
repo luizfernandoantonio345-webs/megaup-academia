@@ -12,6 +12,8 @@ import Login from './pages/Login'
 import Registrar from './pages/Registrar'
 import AceitarConvite from './pages/AceitarConvite'
 import Referral from './pages/Referral'
+import Analytics from './pages/Analytics'
+import RelatorioAluno from './pages/RelatorioAluno'
 import Dashboard from './pages/Dashboard'
 import Alunos from './pages/Alunos'
 import AlunoDetalhe from './pages/AlunoDetalhe'
@@ -89,6 +91,8 @@ export default function App() {
                 <Route path="/planos" element={<Layout><Planos /></Layout>} />
                 <Route path="/periodizacao" element={<Layout><Periodizacao /></Layout>} />
                 <Route path="/referral" element={<Layout><Referral /></Layout>} />
+                <Route path="/analytics" element={<Layout><Analytics /></Layout>} />
+                <Route path="/alunos/:id/relatorio" element={<Layout><RelatorioAluno /></Layout>} />
               </Route>
 
               {/* Aluno */}

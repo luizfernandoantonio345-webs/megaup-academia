@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { obterAluno, listarTreinos, gamificacaoAluno, sugestoesAluno, obterAnamnese, salvarAnamnese, criarTreino, atualizarAluno, listarExercicios, historicoCarga, listarAvaliacoes, criarAvaliacao, deletarAvaliacao } from '../api'
 import toast from 'react-hot-toast'
-import { ArrowLeft, Dumbbell, Flame, Trophy, Brain, ClipboardList, Plus, Loader2, Edit2, Check, X, TrendingUp, TrendingDown, Minus, BarChart2, ChevronDown, MessageCircle, Scale, Trash2 } from 'lucide-react'
+import { ArrowLeft, Dumbbell, Flame, Trophy, Brain, ClipboardList, Plus, Loader2, Edit2, Check, X, TrendingUp, TrendingDown, Minus, BarChart2, ChevronDown, MessageCircle, Scale, Trash2, FileText } from 'lucide-react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import ChatBox from '../components/ChatBox'
 
@@ -24,6 +24,7 @@ const ACAO_CONFIG = {
 
 export default function AlunoDetalhe() {
   const { id } = useParams()
+  const navigate = useNavigate()
   const qc = useQueryClient()
   const [tab, setTab] = useState('treinos')
   const [editNome, setEditNome] = useState(false)
@@ -63,11 +64,19 @@ export default function AlunoDetalhe() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <Link to="/alunos" className="inline-flex items-center gap-2 text-sm font-medium transition-colors" style={{ color:'#3D4F6A' }}
-        onMouseEnter={e => e.currentTarget.style.color='#94A3B8'}
-        onMouseLeave={e => e.currentTarget.style.color='#3D4F6A'}>
-        <ArrowLeft style={{ width:15, height:15 }} /> Voltar para alunos
-      </Link>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Link to="/alunos" className="inline-flex items-center gap-2 text-sm font-medium transition-colors" style={{ color:'#3D4F6A' }}
+          onMouseEnter={e => e.currentTarget.style.color='#94A3B8'}
+          onMouseLeave={e => e.currentTarget.style.color='#3D4F6A'}>
+          <ArrowLeft style={{ width:15, height:15 }} /> Voltar para alunos
+        </Link>
+        <button
+          onClick={() => navigate(`/alunos/${id}/relatorio`)}
+          style={{ background:'rgba(99,102,241,0.12)', border:'1px solid rgba(99,102,241,0.25)', borderRadius:12, color:'#818cf8', cursor:'pointer', fontWeight:700, fontSize:13, padding:'8px 16px', display:'flex', alignItems:'center', gap:6 }}
+        >
+          <FileText style={{ width:14, height:14 }} /> Relatório PDF
+        </button>
+      </div>
 
       {/* Student header */}
       <div className="card">

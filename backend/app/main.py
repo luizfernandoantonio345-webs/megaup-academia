@@ -148,7 +148,7 @@ app.add_middleware(
 )
 
 from app.api.routes import auth, alunos, treinos, ia, convites, exercicios  # noqa: E402
-from app.api.routes import pagamentos, academia, billing, chat, avaliacoes, periodizacao, referral  # noqa: E402
+from app.api.routes import pagamentos, academia, billing, chat, avaliacoes, periodizacao, referral, analytics  # noqa: E402
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(convites.router, prefix="/convites", tags=["convites"])
@@ -163,6 +163,7 @@ app.include_router(chat.router, prefix="/chat", tags=["chat"])
 app.include_router(avaliacoes.router, prefix="/alunos", tags=["avaliacoes"])
 app.include_router(periodizacao.router, prefix="/periodizacao", tags=["periodizacao"])
 app.include_router(referral.router, prefix="/referral", tags=["referral"])
+app.include_router(analytics.router, prefix="/analytics", tags=["analytics"])
 
 
 @app.get("/health")

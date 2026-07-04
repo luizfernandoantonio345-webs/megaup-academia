@@ -10,6 +10,7 @@ import PlanBanner from './PlanBanner'
 const NAV_MAIN = [
   { to: '/dashboard',  icon: LayoutDashboard, label: 'Dashboard',       accent: '#818cf8', dot: '#6366f1' },
   { to: '/alunos',     icon: Users,            label: 'Alunos',          accent: '#7dd3fc', dot: '#38bdf8' },
+  { to: '/analytics',  icon: BarChart2,        label: 'Analytics',       accent: '#818cf8', dot: '#6366f1' },
   { to: '/exercicios', icon: Dumbbell,         label: 'Exercicios',      accent: '#34d399', dot: '#10b981' },
 ]
 const NAV_TOOLS = [

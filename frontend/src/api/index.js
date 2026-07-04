@@ -75,6 +75,10 @@ export const listarAvaliacoes = (alunoId)       => api.get(`/alunos/${alunoId}/a
 export const criarAvaliacao   = (alunoId, data) => api.post(`/alunos/${alunoId}/avaliacoes`, data)
 export const deletarAvaliacao = (alunoId, avId) => api.delete(`/alunos/${alunoId}/avaliacoes/${avId}`)
 
+// Analytics
+export const analyticsResumo = ()           => api.get('/analytics/resumo')
+export const analyticsAluno  = (alunoId)    => api.get(`/analytics/aluno/${alunoId}`)
+
 // Referral
 export const referralStatus = () => api.get('/referral/status')
 
