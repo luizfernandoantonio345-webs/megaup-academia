@@ -8,6 +8,26 @@ from app.core.config import settings
 from app.core.db import engine
 
 
+def _sprint_d_migration():
+    """Adiciona colunas de referral ao tenant se não existirem."""
+    try:
+        inspector = inspect(engine)
+        cols = {c["name"] for c in inspector.get_columns("tenants")}
+        stmts = []
+        if "referral_code" not in cols:
+            stmts.append("ALTER TABLE tenants ADD COLUMN referral_code VARCHAR UNIQUE")
+        if "referred_by" not in cols:
+            stmts.append("ALTER TABLE tenants ADD COLUMN referred_by VARCHAR")
+        if stmts:
+            with engine.connect() as conn:
+                for s in stmts:
+                    conn.execute(text(s))
+                conn.commit()
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("sprint_d_migration: %s", exc)
+
+
 def _sprint_c_migration():
     """Cria tabelas de periodização se não existirem."""
     try:
@@ -104,6 +124,7 @@ async def lifespan(app: FastAPI):
     _billing_migration()
     _sprint_b_migration()
     _sprint_c_migration()
+    _sprint_d_migration()
     if settings.ENABLE_SCHEDULER:
         from apscheduler.schedulers.background import BackgroundScheduler
         from app.ai.scheduler import tarefa_progressao
@@ -127,7 +148,7 @@ app.add_middleware(
 )
 
 from app.api.routes import auth, alunos, treinos, ia, convites, exercicios  # noqa: E402
-from app.api.routes import pagamentos, academia, billing, chat, avaliacoes, periodizacao  # noqa: E402
+from app.api.routes import pagamentos, academia, billing, chat, avaliacoes, periodizacao, referral  # noqa: E402
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(convites.router, prefix="/convites", tags=["convites"])
@@ -141,6 +162,7 @@ app.include_router(billing.router, prefix="/billing", tags=["billing"])
 app.include_router(chat.router, prefix="/chat", tags=["chat"])
 app.include_router(avaliacoes.router, prefix="/alunos", tags=["avaliacoes"])
 app.include_router(periodizacao.router, prefix="/periodizacao", tags=["periodizacao"])
+app.include_router(referral.router, prefix="/referral", tags=["referral"])
 
 
 @app.get("/health")

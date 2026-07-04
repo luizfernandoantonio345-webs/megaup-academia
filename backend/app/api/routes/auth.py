@@ -60,7 +60,7 @@ def registrar_personal(body: RegisterPersonalRequest, db: Session = Depends(get_
         raise HTTPException(status_code=409, detail="E-mail já cadastrado")
 
     from app.services.billing import inicializar_trial
-    tenant = Tenant(nome=body.nome_academia)
+    tenant = Tenant(nome=body.nome_academia, referred_by=body.ref_code or None)
     db.add(tenant)
     db.flush()
     inicializar_trial(tenant, db)

@@ -11,6 +11,7 @@ class RegisterPersonalRequest(BaseModel):
     email: str
     senha: str
     nome_academia: str
+    ref_code: str | None = None
 
 
 class UserInfo(BaseModel):

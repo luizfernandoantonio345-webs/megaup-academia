@@ -2,7 +2,7 @@ import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import {
   LayoutDashboard, Users, Dumbbell, Brain, UserPlus, LogOut,
-  X, DollarSign, Zap, MoreHorizontal, ChevronRight, CreditCard, BarChart2,
+  X, DollarSign, Zap, MoreHorizontal, ChevronRight, CreditCard, BarChart2, Gift,
 } from 'lucide-react'
 import { useState } from 'react'
 import PlanBanner from './PlanBanner'
@@ -18,6 +18,7 @@ const NAV_TOOLS = [
   { to: '/convites',   icon: UserPlus,    label: 'Convidar alunos', accent: '#f9a8d4', dot: '#ec4899' },
   { to: '/periodizacao', icon: BarChart2,  label: 'Periodização',     accent: '#c4b5fd', dot: '#a78bfa' },
   { to: '/planos',     icon: CreditCard,  label: 'Planos & Billing', accent: '#34d399', dot: '#10b981' },
+  { to: '/referral',   icon: Gift,        label: 'Indique e Ganhe',  accent: '#fbbf24', dot: '#f59e0b' },
 ]
 const ALL_NAV = [...NAV_MAIN, ...NAV_TOOLS]
 const MOBILE_TABS = NAV_MAIN  // bottom bar tabs

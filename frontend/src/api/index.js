@@ -75,6 +75,9 @@ export const listarAvaliacoes = (alunoId)       => api.get(`/alunos/${alunoId}/a
 export const criarAvaliacao   = (alunoId, data) => api.post(`/alunos/${alunoId}/avaliacoes`, data)
 export const deletarAvaliacao = (alunoId, avId) => api.delete(`/alunos/${alunoId}/avaliacoes/${avId}`)
 
+// Referral
+export const referralStatus = () => api.get('/referral/status')
+
 // Academia (admin)
 export const listarPersonais = () => api.get('/academia/personais/')
 export const adicionarPersonal = (data) => api.post('/academia/personais/', data)

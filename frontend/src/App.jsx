@@ -7,9 +7,11 @@ import { ProtectedRoute } from './components/ProtectedRoute'
 import Layout from './components/Layout'
 import LayoutAluno from './pages/aluno/LayoutAluno'
 
+import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Registrar from './pages/Registrar'
 import AceitarConvite from './pages/AceitarConvite'
+import Referral from './pages/Referral'
 import Dashboard from './pages/Dashboard'
 import Alunos from './pages/Alunos'
 import AlunoDetalhe from './pages/AlunoDetalhe'
@@ -69,10 +71,10 @@ export default function App() {
           <BrowserRouter>
             <Routes>
               {/* Públicas */}
+              <Route path="/" element={<Landing />} />
               <Route path="/login" element={<Login />} />
               <Route path="/registrar" element={<Registrar />} />
               <Route path="/registro" element={<AceitarConvite />} />
-              <Route path="/" element={<Navigate to="/login" replace />} />
 
               {/* Personal trainer / Admin */}
               <Route element={<ProtectedRoute roles={['personal', 'admin_academia']} />}>
@@ -86,6 +88,7 @@ export default function App() {
                 <Route path="/financeiro" element={<Layout><Financeiro /></Layout>} />
                 <Route path="/planos" element={<Layout><Planos /></Layout>} />
                 <Route path="/periodizacao" element={<Layout><Periodizacao /></Layout>} />
+                <Route path="/referral" element={<Layout><Referral /></Layout>} />
               </Route>
 
               {/* Aluno */}

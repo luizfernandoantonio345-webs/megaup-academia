@@ -28,6 +28,9 @@ class Tenant(Base):
     trial_ends_at = Column(DateTime, nullable=True)
     stripe_customer_id = Column(String, nullable=True)
     stripe_subscription_id = Column(String, nullable=True)
+    # Referral
+    referral_code = Column(String, nullable=True, unique=True)
+    referred_by = Column(String, nullable=True)
 
 
 class User(Base):

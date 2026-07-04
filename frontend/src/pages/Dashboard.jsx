@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { Users, Dumbbell, Brain, UserPlus, ArrowRight, BarChart2, TrendingUp, Zap, Activity } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 import { SkeletonPage } from '../components/ui/Skeleton'
+import OnboardingWizard from '../components/OnboardingWizard'
 
 const DIAS = ['Dom','Seg','Ter','Qua','Qui','Sex','Sab']
 const DIAS_API = ['domingo','segunda','terca','quarta','quinta','sexta','sabado']
@@ -104,6 +105,7 @@ export default function Dashboard() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 28 }} className="animate-fade-in">
+      <OnboardingWizard />
 
       {/* Hero banner */}
       <div style={{

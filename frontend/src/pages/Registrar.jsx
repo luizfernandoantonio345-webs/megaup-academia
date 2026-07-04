@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
 import { Zap, User, Mail, Lock, Building2, ArrowRight, Eye, EyeOff, Check, Dumbbell, Brain, TrendingUp, Shield } from 'lucide-react'
@@ -14,6 +14,8 @@ const BENEFITS = [
 export default function Registrar() {
   const { registrar } = useAuth()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const refCode = searchParams.get('ref') || ''
   const [form, setForm] = useState({ nome: '', email: '', senha: '', nome_academia: '' })
   const [loading, setLoading] = useState(false)
   const [showPass, setShowPass] = useState(false)
@@ -23,7 +25,7 @@ export default function Registrar() {
     e.preventDefault()
     setLoading(true)
     try {
-      await registrar(form)
+      await registrar({ ...form, ref_code: refCode || undefined })
       toast.success('Conta criada! Bem-vindo ao GymPro. 🎉')
       navigate('/dashboard')
     } catch (err) {
