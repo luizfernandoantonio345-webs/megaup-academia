@@ -30,12 +30,12 @@ services:
     name: fitsaas-frontend
     runtime: static
     rootDir: frontend
-    buildCommand: npm install && npm run build
+    buildCommand: npm install && NODE_OPTIONS="--max-old-space-size=1536" npm run build
     staticPublishPath: dist
     pullRequestPreviewsEnabled: false
     envVars:
       - key: VITE_API_URL
-        sync: false        # preencher com a URL do backend após criar o serviço
+        value: https://fitsaas.onrender.com
     headers:
       - path: /*
         name: Cache-Control
