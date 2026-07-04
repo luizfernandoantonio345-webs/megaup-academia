@@ -23,6 +23,11 @@ class Tenant(Base):
     id = Column(Integer, primary_key=True)
     nome = Column(String, nullable=False)
     criado_em = Column(DateTime, default=datetime.utcnow)
+    # Billing (plataforma GymPro)
+    plan_tier = Column(String, default="trial")          # trial/free/starter/pro/elite
+    trial_ends_at = Column(DateTime, nullable=True)
+    stripe_customer_id = Column(String, nullable=True)
+    stripe_subscription_id = Column(String, nullable=True)
 
 
 class User(Base):

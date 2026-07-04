@@ -76,6 +76,9 @@ def criar_aluno(
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
+    from app.services.billing import checar_limite_alunos
+    checar_limite_alunos(current_user.tenant_id, db)
+
     aluno = Aluno(
         tenant_id=current_user.tenant_id,
         personal_id=current_user.id,

@@ -2,9 +2,10 @@ import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import {
   LayoutDashboard, Users, Dumbbell, Brain, UserPlus, LogOut,
-  Menu, X, DollarSign, Zap, MoreHorizontal, ChevronRight,
+  X, DollarSign, Zap, MoreHorizontal, ChevronRight, CreditCard,
 } from 'lucide-react'
 import { useState } from 'react'
+import PlanBanner from './PlanBanner'
 
 const NAV_MAIN = [
   { to: '/dashboard',  icon: LayoutDashboard, label: 'Dashboard',       accent: '#818cf8', dot: '#6366f1' },
@@ -12,9 +13,10 @@ const NAV_MAIN = [
   { to: '/exercicios', icon: Dumbbell,         label: 'Exercicios',      accent: '#34d399', dot: '#10b981' },
 ]
 const NAV_TOOLS = [
-  { to: '/ia',         icon: Brain,            label: 'IA - Progressao', accent: '#c4b5fd', dot: '#a78bfa' },
-  { to: '/financeiro', icon: DollarSign,       label: 'Financeiro',      accent: '#fbbf24', dot: '#f59e0b' },
-  { to: '/convites',   icon: UserPlus,         label: 'Convidar alunos', accent: '#f9a8d4', dot: '#ec4899' },
+  { to: '/ia',         icon: Brain,       label: 'IA - Progressao', accent: '#c4b5fd', dot: '#a78bfa' },
+  { to: '/financeiro', icon: DollarSign,  label: 'Financeiro',      accent: '#fbbf24', dot: '#f59e0b' },
+  { to: '/convites',   icon: UserPlus,    label: 'Convidar alunos', accent: '#f9a8d4', dot: '#ec4899' },
+  { to: '/planos',     icon: CreditCard,  label: 'Planos & Billing', accent: '#34d399', dot: '#10b981' },
 ]
 const ALL_NAV = [...NAV_MAIN, ...NAV_TOOLS]
 const MOBILE_TABS = NAV_MAIN  // bottom bar tabs
@@ -275,6 +277,7 @@ export default function Layout({ children }) {
 
         {/* Main content — extra bottom padding on mobile for bottom nav */}
         <main className="flex-1 p-4 lg:p-8 pb-24 lg:pb-8 max-w-7xl w-full mx-auto animate-fade-in">
+          <PlanBanner />
           {children}
         </main>
       </div>

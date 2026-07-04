@@ -51,6 +51,12 @@ export const criarCobranca = (data) => api.post('/pagamentos/cobrancas/', data)
 export const marcarPago = (id, data) => api.patch(`/pagamentos/cobrancas/${id}/pagar`, data || {})
 export const resumoFinanceiro = () => api.get('/pagamentos/resumo')
 
+// Billing (plataforma GymPro)
+export const billingStatus    = ()       => api.get('/billing/status')
+export const billingPlanos    = ()       => api.get('/billing/planos')
+export const billingCheckout  = (plano)  => api.post('/billing/checkout', { plano })
+export const billingPortal    = ()       => api.post('/billing/portal')
+
 // Academia (admin)
 export const listarPersonais = () => api.get('/academia/personais/')
 export const adicionarPersonal = (data) => api.post('/academia/personais/', data)

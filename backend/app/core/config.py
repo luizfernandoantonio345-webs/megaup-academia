@@ -18,6 +18,14 @@ class Settings(BaseSettings):
     # Asaas (gateway de pagamento) — opcional
     ASAAS_API_KEY: str = ""
     ASAAS_SANDBOX: bool = True  # False em produção
+    # Stripe — plataforma SaaS (personal paga pelo GymPro)
+    STRIPE_SECRET_KEY: str = ""
+    STRIPE_PUBLISHABLE_KEY: str = ""
+    STRIPE_WEBHOOK_SECRET: str = ""
+    STRIPE_PRICE_STARTER: str = ""   # price_xxx do Stripe Dashboard
+    STRIPE_PRICE_PRO: str = ""
+    STRIPE_PRICE_ELITE: str = ""
+    APP_URL: str = "https://fitsaas-frontend.onrender.com"
 
     class Config:
         env_file = ".env"
