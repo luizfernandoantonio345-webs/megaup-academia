@@ -19,6 +19,7 @@ import IA from './pages/IA'
 import Convites from './pages/Convites'
 import Financeiro from './pages/Financeiro'
 import TreinoHoje from './pages/aluno/TreinoHoje'
+import SemanaTreinos from './pages/aluno/SemanaTreinos'
 import Conquistas from './pages/aluno/Conquistas'
 
 const qc = new QueryClient({
@@ -85,6 +86,7 @@ export default function App() {
               {/* Aluno */}
               <Route element={<ProtectedRoute roles={['aluno']} />}>
                 <Route path="/aluno" element={<LayoutAluno><TreinoHoje /></LayoutAluno>} />
+                <Route path="/aluno/semana" element={<LayoutAluno><SemanaTreinos /></LayoutAluno>} />
                 <Route path="/aluno/conquistas" element={<LayoutAluno><Conquistas /></LayoutAluno>} />
               </Route>
 
