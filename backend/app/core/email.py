@@ -1,9 +1,20 @@
 """
-Envio de e-mail via SMTP (smtplib nativo).
-Se SMTP_HOST não estiver configurado, loga o e-mail e retorna sem enviar.
+Envio de e-mail via SMTP (smtplib) ou Resend HTTP API.
+
+Prioridade:
+  1. Se RESEND_API_KEY estiver definida → usa Resend (mais simples, sem config SMTP)
+  2. Se SMTP_HOST estiver definida → usa smtplib
+  3. Nenhuma das duas → loga e não envia (modo dev)
+
+Serviços gratuitos recomendados:
+  - Resend: resend.com  → 3 000 emails/mês grátis, só precisa de RESEND_API_KEY
+  - Brevo : brevo.com   → 300 emails/dia  grátis, usa SMTP (smtp-relay.brevo.com:587)
 """
 import logging
 import smtplib
+import urllib.request
+import urllib.error
+import json
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -11,18 +22,91 @@ from app.core.config import settings
 
 logger = logging.getLogger(__name__)
 
+# ── Templates ──────────────────────────────────────────────────────────────
 
-def _send(to: str, subject: str, html: str) -> None:
-    if not settings.SMTP_HOST:
-        logger.info("SMTP não configurado — e-mail para %s não enviado: %s", to, subject)
-        return
+def _base(content: str) -> str:
+    return f"""<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+<body style="margin:0;padding:0;background:#f4f4f5;font-family:Inter,system-ui,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f4f5;padding:40px 16px;">
+    <tr><td align="center">
+      <table width="100%" style="max-width:520px;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e4e4e7;">
+        <!-- Header -->
+        <tr>
+          <td style="background:#6366f1;padding:24px 32px;">
+            <span style="font-size:18px;font-weight:600;color:#ffffff;letter-spacing:-0.02em;">GymPro</span>
+          </td>
+        </tr>
+        <!-- Body -->
+        <tr>
+          <td style="padding:32px;">
+            {content}
+          </td>
+        </tr>
+        <!-- Footer -->
+        <tr>
+          <td style="padding:20px 32px;border-top:1px solid #f4f4f5;">
+            <p style="margin:0;font-size:12px;color:#71717a;">
+              GymPro · Plataforma para Personal Trainers<br>
+              <a href="https://fitsaas-frontend.onrender.com" style="color:#6366f1;text-decoration:none;">fitsaas-frontend.onrender.com</a>
+            </p>
+          </td>
+        </tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>"""
 
+
+def _btn(href: str, label: str) -> str:
+    return f'<a href="{href}" style="display:inline-block;background:#6366f1;color:#ffffff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;margin:20px 0;">{label}</a>'
+
+
+def _h2(text: str) -> str:
+    return f'<h2 style="margin:0 0 12px;font-size:20px;font-weight:600;color:#09090b;letter-spacing:-0.02em;">{text}</h2>'
+
+
+def _p(text: str, muted: bool = False) -> str:
+    color = "#71717a" if muted else "#3f3f46"
+    return f'<p style="margin:0 0 12px;font-size:14px;color:{color};line-height:1.6;">{text}</p>'
+
+
+# ── Transport ───────────────────────────────────────────────────────────────
+
+def _send_via_resend(to: str, subject: str, html: str) -> None:
+    payload = json.dumps({
+        "from": settings.EMAIL_FROM,
+        "to": [to],
+        "subject": subject,
+        "html": html,
+    }).encode()
+    req = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=payload,
+        headers={
+            "Authorization": f"Bearer {settings.RESEND_API_KEY}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            if resp.status not in (200, 201):
+                logger.error("Resend retornou status %s para %s", resp.status, to)
+    except urllib.error.HTTPError as e:
+        logger.error("Resend erro %s: %s", e.code, e.read())
+    except Exception:
+        logger.exception("Falha ao enviar via Resend para %s", to)
+
+
+def _send_via_smtp(to: str, subject: str, html: str) -> None:
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
     msg["From"] = settings.EMAIL_FROM
     msg["To"] = to
     msg.attach(MIMEText(html, "html"))
-
     try:
         with smtplib.SMTP(settings.SMTP_HOST, settings.SMTP_PORT) as s:
             s.ehlo()
@@ -30,40 +114,45 @@ def _send(to: str, subject: str, html: str) -> None:
             s.login(settings.SMTP_USER, settings.SMTP_PASSWORD)
             s.sendmail(settings.EMAIL_FROM, to, msg.as_string())
     except Exception:
-        logger.exception("Falha ao enviar e-mail para %s", to)
+        logger.exception("Falha ao enviar via SMTP para %s", to)
 
+
+def _send(to: str, subject: str, html: str) -> None:
+    if settings.RESEND_API_KEY:
+        _send_via_resend(to, subject, html)
+    elif settings.SMTP_HOST:
+        _send_via_smtp(to, subject, html)
+    else:
+        logger.info("Email não enviado (sem SMTP/Resend): %s → %s", subject, to)
+
+
+# ── Emails ──────────────────────────────────────────────────────────────────
 
 def enviar_reset_senha(email: str, nome: str, link: str) -> None:
-    html = f"""
-    <div style="font-family:Inter,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;background:#070B14;color:#EFF6FF;border-radius:16px;">
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:900;color:#EFF6FF;margin-bottom:12px;">Redefinir sua senha</h2>
-      <p style="color:#94A3B8;margin-bottom:24px;">Olá, <strong>{nome}</strong>! Recebemos uma solicitação para redefinir sua senha no GymPro.</p>
-      <a href="{link}" style="display:inline-block;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;padding:14px 28px;border-radius:12px;text-decoration:none;font-weight:800;font-size:15px;margin-bottom:24px;">Redefinir senha</a>
-      <p style="color:#4B5768;font-size:13px;">Este link expira em <strong>1 hora</strong>. Se não foi você, ignore este email.</p>
-    </div>
-    """
-    _send(email, "Redefinição de senha — GymPro", html)
+    content = (
+        _h2("Redefinir sua senha")
+        + _p(f"Olá, <strong>{nome}</strong>! Recebemos uma solicitação para redefinir sua senha.")
+        + _btn(link, "Redefinir senha")
+        + _p("Este link expira em <strong>1 hora</strong>. Se não foi você, ignore este e-mail.", muted=True)
+    )
+    _send(email, "Redefinição de senha — GymPro", _base(content))
 
 
 def enviar_boas_vindas(email: str, nome: str) -> None:
-    html = f"""
-    <div style="font-family:Inter,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;background:#070B14;color:#EFF6FF;border-radius:16px;">
-      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:900;color:#EFF6FF;margin-bottom:12px;">⚡ Bem-vindo ao GymPro!</h2>
-      <p style="color:#94A3B8;margin-bottom:16px;">Olá, <strong>{nome}</strong>! Sua conta foi criada com sucesso.</p>
-      <p style="color:#94A3B8;margin-bottom:24px;">Você tem <strong>14 dias</strong> de acesso completo à plataforma para explorar todas as funcionalidades.</p>
-      <a href="https://fitsaas-frontend.onrender.com/dashboard" style="display:inline-block;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;padding:14px 28px;border-radius:12px;text-decoration:none;font-weight:800;font-size:15px;">Acessar plataforma</a>
-    </div>
-    """
-    _send(email, "Bem-vindo ao GymPro! 🎉", html)
+    content = (
+        _h2(f"Bem-vindo ao GymPro, {nome}!")
+        + _p("Sua conta foi criada com sucesso. Você tem <strong>14 dias</strong> de acesso completo para explorar todas as funcionalidades.")
+        + _btn("https://fitsaas-frontend.onrender.com/dashboard", "Acessar plataforma")
+        + _p("Qualquer dúvida, basta responder este e-mail.", muted=True)
+    )
+    _send(email, "Bem-vindo ao GymPro!", _base(content))
 
 
 def enviar_convite(email_aluno: str, nome_personal: str, nome_academia: str, link: str) -> None:
-    html = f"""
-    <h2>Você foi convidado para {nome_academia}!</h2>
-    <p>Olá! <strong>{nome_personal}</strong> te convidou para acompanhar seus treinos no FitSaaS.</p>
-    <p>Clique no link abaixo para criar sua conta:</p>
-    <p><a href="{link}" style="background:#6366f1;color:#fff;padding:12px 24px;border-radius:8px;
-       text-decoration:none;font-weight:bold;">Aceitar convite</a></p>
-    <p style="color:#888;font-size:12px;">O link expira em 7 dias.</p>
-    """
-    _send(email_aluno, f"Convite de {nome_personal} — FitSaaS", html)
+    content = (
+        _h2(f"Você foi convidado para {nome_academia}")
+        + _p(f"<strong>{nome_personal}</strong> te convidou para acompanhar seus treinos no GymPro.")
+        + _btn(link, "Aceitar convite")
+        + _p("O link expira em 7 dias.", muted=True)
+    )
+    _send(email_aluno, f"Convite de {nome_personal} — GymPro", _base(content))

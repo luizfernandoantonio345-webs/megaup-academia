@@ -8,12 +8,15 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ANTHROPIC_API_KEY: str = ""
     ENABLE_SCHEDULER: bool = False  # habilitar via .env em produção
-    # E-mail (SMTP) — opcional; convites sem SMTP apenas retornam o link
+    # E-mail — usa Resend (recomendado) ou SMTP puro
+    # Resend: crie conta em resend.com → gera RESEND_API_KEY → 3 000 emails/mês grátis
+    RESEND_API_KEY: str = ""
+    # SMTP alternativo (ex: Brevo smtp-relay.brevo.com:587)
     SMTP_HOST: str = ""
     SMTP_PORT: int = 587
     SMTP_USER: str = ""
     SMTP_PASSWORD: str = ""
-    EMAIL_FROM: str = "noreply@fitsaas.com"
+    EMAIL_FROM: str = "GymPro <noreply@gympr.app>"
     FRONTEND_BASE_URL: str = "http://localhost:5173"
     # Asaas (gateway de pagamento) — opcional
     ASAAS_API_KEY: str = ""

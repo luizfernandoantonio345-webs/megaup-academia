@@ -14,6 +14,8 @@ services:
         generateValue: true
       - key: ANTHROPIC_API_KEY
         sync: false        # preencher manualmente no dashboard
+      - key: RESEND_API_KEY
+        sync: false        # resend.com → free plan → 3 000 emails/mês
       - key: PYTHON_VERSION
         value: "3.11.9"
       - key: ENABLE_SCHEDULER
