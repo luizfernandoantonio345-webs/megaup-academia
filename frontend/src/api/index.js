@@ -57,6 +57,14 @@ export const billingPlanos    = ()       => api.get('/billing/planos')
 export const billingCheckout  = (plano)  => api.post('/billing/checkout', { plano })
 export const billingPortal    = ()       => api.post('/billing/portal')
 
+// Periodização
+export const listarProgramas    = ()            => api.get('/periodizacao/')
+export const criarPrograma      = (data)        => api.post('/periodizacao/', data)
+export const deletarPrograma    = (id)          => api.delete(`/periodizacao/${id}`)
+export const aplicarPrograma    = (data)        => api.post('/periodizacao/aplicar', data)
+export const programaDoAluno    = (alunoId)     => api.get(`/periodizacao/aluno/${alunoId}`)
+export const seedExercicios     = ()            => api.post('/exercicios/seed-global')
+
 // Chat
 export const chatMensagens  = (alunoId, desdeId = 0) => api.get(`/chat/${alunoId}?desde_id=${desdeId}`)
 export const chatEnviar     = (alunoId, texto)        => api.post(`/chat/${alunoId}`, { texto })

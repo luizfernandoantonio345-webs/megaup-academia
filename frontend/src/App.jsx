@@ -19,6 +19,7 @@ import IA from './pages/IA'
 import Convites from './pages/Convites'
 import Financeiro from './pages/Financeiro'
 import Planos from './pages/Planos'
+import Periodizacao from './pages/Periodizacao'
 import TreinoHoje from './pages/aluno/TreinoHoje'
 import ChatAluno from './pages/aluno/ChatAluno'
 import SemanaTreinos from './pages/aluno/SemanaTreinos'
@@ -84,6 +85,7 @@ export default function App() {
                 <Route path="/convites" element={<Layout><Convites /></Layout>} />
                 <Route path="/financeiro" element={<Layout><Financeiro /></Layout>} />
                 <Route path="/planos" element={<Layout><Planos /></Layout>} />
+                <Route path="/periodizacao" element={<Layout><Periodizacao /></Layout>} />
               </Route>
 
               {/* Aluno */}

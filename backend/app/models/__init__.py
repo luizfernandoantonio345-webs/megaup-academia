@@ -249,6 +249,33 @@ class PersonalTenant(Base):
     )
 
 
+class ProgramaTreino(Base):
+    """Programa de periodização criado pelo personal."""
+    __tablename__ = "programas_treino"
+    id = Column(Integer, primary_key=True)
+    tenant_id = Column(Integer, ForeignKey("tenants.id"), nullable=False)
+    personal_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    nome = Column(String, nullable=False)
+    objetivo = Column(String, nullable=True)      # hipertrofia/forca/emagrecimento/condicionamento
+    semanas_total = Column(Integer, default=12)
+    fases = Column(Text, nullable=True)           # JSON array de fases
+    descricao = Column(Text, nullable=True)
+    criado_em = Column(DateTime, default=datetime.utcnow)
+    aplicacoes = relationship("AplicacaoPrograma", back_populates="programa")
+
+
+class AplicacaoPrograma(Base):
+    """Vinculação de um programa a um aluno (com data de início)."""
+    __tablename__ = "aplicacoes_programa"
+    id = Column(Integer, primary_key=True)
+    tenant_id = Column(Integer, ForeignKey("tenants.id"), nullable=False)
+    aluno_id = Column(Integer, ForeignKey("alunos.id"), nullable=False)
+    programa_id = Column(Integer, ForeignKey("programas_treino.id"), nullable=False)
+    iniciado_em = Column(DateTime, nullable=False)
+    ativo = Column(Boolean, default=True)
+    programa = relationship("ProgramaTreino", back_populates="aplicacoes")
+
+
 class Mensagem(Base):
     """Chat entre personal e aluno."""
     __tablename__ = "mensagens"

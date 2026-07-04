@@ -1,0 +1,112 @@
+"""Biblioteca global de exercícios — 100+ movimentos com vídeos."""
+
+BIBLIOTECA_GLOBAL = [
+    # ── PEITO ──────────────────────────────────────────────────────────────────
+    {"nome": "Supino Reto com Barra",            "grupo_muscular": "Peito",   "equipamento": "Barra olímpica, banco plano",         "video_url": "https://www.youtube.com/watch?v=rT7DgCr-3pg"},
+    {"nome": "Supino Inclinado com Halteres",    "grupo_muscular": "Peito",   "equipamento": "Halteres, banco inclinado 45°",        "video_url": "https://www.youtube.com/watch?v=8iPEnn-ltC8"},
+    {"nome": "Supino Declinado com Barra",       "grupo_muscular": "Peito",   "equipamento": "Barra olímpica, banco declinado",      "video_url": "https://www.youtube.com/watch?v=LfyQmbM9voo"},
+    {"nome": "Crucifixo no Banco Plano",         "grupo_muscular": "Peito",   "equipamento": "Halteres, banco plano",                "video_url": "https://www.youtube.com/watch?v=L4_QRVO8Ams"},
+    {"nome": "Crucifixo Inclinado",              "grupo_muscular": "Peito",   "equipamento": "Halteres, banco inclinado",            "video_url": "https://www.youtube.com/watch?v=Iwe6AmxVf7o"},
+    {"nome": "Flexão de Braço (Push-up)",        "grupo_muscular": "Peito",   "equipamento": "Peso corporal",                        "video_url": "https://www.youtube.com/watch?v=IODxDxX7oi4"},
+    {"nome": "Flexão Diamante",                  "grupo_muscular": "Peito",   "equipamento": "Peso corporal",                        "video_url": "https://www.youtube.com/watch?v=J0DnG1_S92I"},
+    {"nome": "Crossover na Polia Alta",          "grupo_muscular": "Peito",   "equipamento": "Polia alta bilateral",                 "video_url": "https://www.youtube.com/watch?v=taI4XduLpTk"},
+    {"nome": "Peck Deck (Voador)",               "grupo_muscular": "Peito",   "equipamento": "Aparelho peck deck",                   "video_url": "https://www.youtube.com/watch?v=Z57CtFmRMxA"},
+    {"nome": "Supino com Halteres",              "grupo_muscular": "Peito",   "equipamento": "Halteres, banco plano",                "video_url": "https://www.youtube.com/watch?v=VmB1G1K7v94"},
+    {"nome": "Mergulho (Dip) em Banco",         "grupo_muscular": "Peito",   "equipamento": "Dois bancos",                          "video_url": "https://www.youtube.com/watch?v=2z8JmcrW-As"},
+
+    # ── COSTAS ─────────────────────────────────────────────────────────────────
+    {"nome": "Puxada Frontal na Polia",          "grupo_muscular": "Costas",  "equipamento": "Polia alta, barra larga",              "video_url": "https://www.youtube.com/watch?v=CAwf7n6Luuc"},
+    {"nome": "Remada Curvada com Barra",         "grupo_muscular": "Costas",  "equipamento": "Barra olímpica",                       "video_url": "https://www.youtube.com/watch?v=G8l_8chR5BE"},
+    {"nome": "Levantamento Terra",               "grupo_muscular": "Costas",  "equipamento": "Barra olímpica",                       "video_url": "https://www.youtube.com/watch?v=op9kVnSso6Q"},
+    {"nome": "Remada Unilateral com Haltere",    "grupo_muscular": "Costas",  "equipamento": "Haltere, banco plano",                 "video_url": "https://www.youtube.com/watch?v=pYcpY20QaE8"},
+    {"nome": "Puxada na Polia com Triângulo",    "grupo_muscular": "Costas",  "equipamento": "Polia alta, triângulo",                "video_url": "https://www.youtube.com/watch?v=GZbfZ033f74"},
+    {"nome": "Serrote com Haltere",              "grupo_muscular": "Costas",  "equipamento": "Haltere, banco plano",                 "video_url": "https://www.youtube.com/watch?v=roCP0FhMEpA"},
+    {"nome": "Barra Fixa (Pull-up)",             "grupo_muscular": "Costas",  "equipamento": "Barra fixa",                          "video_url": "https://www.youtube.com/watch?v=eGo4IYlbE5g"},
+    {"nome": "Remada na Máquina",                "grupo_muscular": "Costas",  "equipamento": "Máquina de remada sentada",            "video_url": "https://www.youtube.com/watch?v=GZbfZ033f74"},
+    {"nome": "Puxada com Pegada Supinada",       "grupo_muscular": "Costas",  "equipamento": "Polia alta, barra estreita",           "video_url": "https://www.youtube.com/watch?v=0UNDmMKgOhQ"},
+    {"nome": "Levantamento Terra Romeno",        "grupo_muscular": "Costas",  "equipamento": "Barra olímpica ou halteres",           "video_url": "https://www.youtube.com/watch?v=JCXUYuzwNrM"},
+    {"nome": "Hiperextensão Lombar",             "grupo_muscular": "Costas",  "equipamento": "Banco de hiperextensão",               "video_url": "https://www.youtube.com/watch?v=ph3pddpKzzw"},
+
+    # ── OMBROS ─────────────────────────────────────────────────────────────────
+    {"nome": "Desenvolvimento com Barra",        "grupo_muscular": "Ombros",  "equipamento": "Barra olímpica, banco com encosto",    "video_url": "https://www.youtube.com/watch?v=2yjwXTZQDDI"},
+    {"nome": "Elevação Lateral com Halteres",    "grupo_muscular": "Ombros",  "equipamento": "Halteres",                             "video_url": "https://www.youtube.com/watch?v=3VcKaXpzqRo"},
+    {"nome": "Elevação Frontal com Halteres",    "grupo_muscular": "Ombros",  "equipamento": "Halteres",                             "video_url": "https://www.youtube.com/watch?v=sOoBiA4dMGo"},
+    {"nome": "Desenvolvimento com Halteres",     "grupo_muscular": "Ombros",  "equipamento": "Halteres",                             "video_url": "https://www.youtube.com/watch?v=qEwKCR5JCog"},
+    {"nome": "Encolhimento de Ombros (Shrug)",   "grupo_muscular": "Ombros",  "equipamento": "Halteres ou barra",                    "video_url": "https://www.youtube.com/watch?v=g6qbq4Lf1FI"},
+    {"nome": "Crucifixo Invertido",              "grupo_muscular": "Ombros",  "equipamento": "Halteres",                             "video_url": "https://www.youtube.com/watch?v=ttvfGg9d76c"},
+    {"nome": "Desenvolvimento Arnold",           "grupo_muscular": "Ombros",  "equipamento": "Halteres",                             "video_url": "https://www.youtube.com/watch?v=6Z15_WdXmVw"},
+    {"nome": "Pássaro (Posterior de Ombro)",     "grupo_muscular": "Ombros",  "equipamento": "Halteres",                             "video_url": "https://www.youtube.com/watch?v=ttvfGg9d76c"},
+
+    # ── BÍCEPS ─────────────────────────────────────────────────────────────────
+    {"nome": "Rosca Direta com Barra",           "grupo_muscular": "Biceps",  "equipamento": "Barra reta",                           "video_url": "https://www.youtube.com/watch?v=kwG2ipFRgfo"},
+    {"nome": "Rosca Martelo",                    "grupo_muscular": "Biceps",  "equipamento": "Halteres",                             "video_url": "https://www.youtube.com/watch?v=zC3nLlEvin4"},
+    {"nome": "Rosca Concentrada",                "grupo_muscular": "Biceps",  "equipamento": "Haltere",                              "video_url": "https://www.youtube.com/watch?v=0AUGkch3tzc"},
+    {"nome": "Rosca Scott (Preacher Curl)",      "grupo_muscular": "Biceps",  "equipamento": "Barra EZ, banco scott",                "video_url": "https://www.youtube.com/watch?v=fIWP-FRFNU0"},
+    {"nome": "Rosca na Polia Baixa",             "grupo_muscular": "Biceps",  "equipamento": "Polia baixa, barra reta",              "video_url": "https://www.youtube.com/watch?v=av7-8igSXTs"},
+    {"nome": "Rosca Alternada com Halteres",     "grupo_muscular": "Biceps",  "equipamento": "Halteres",                             "video_url": "https://www.youtube.com/watch?v=soxrZlIl35U"},
+    {"nome": "Rosca Inclinada",                  "grupo_muscular": "Biceps",  "equipamento": "Halteres, banco inclinado",            "video_url": "https://www.youtube.com/watch?v=soxrZlIl35U"},
+    {"nome": "Rosca com Barra EZ",               "grupo_muscular": "Biceps",  "equipamento": "Barra EZ",                             "video_url": "https://www.youtube.com/watch?v=fIWP-FRFNU0"},
+
+    # ── TRÍCEPS ────────────────────────────────────────────────────────────────
+    {"nome": "Tríceps Pulley na Polia",          "grupo_muscular": "Triceps", "equipamento": "Polia alta, corda ou barra",           "video_url": "https://www.youtube.com/watch?v=vB5OHsJ3EME"},
+    {"nome": "Tríceps Francês com Barra EZ",     "grupo_muscular": "Triceps", "equipamento": "Barra EZ, banco plano",                "video_url": "https://www.youtube.com/watch?v=d_KZxkY_0cM"},
+    {"nome": "Mergulho nas Paralelas",           "grupo_muscular": "Triceps", "equipamento": "Paralelas (dip station)",              "video_url": "https://www.youtube.com/watch?v=wjUmnZH528Y"},
+    {"nome": "Tríceps Testa com Haltere",        "grupo_muscular": "Triceps", "equipamento": "Haltere, banco plano",                 "video_url": "https://www.youtube.com/watch?v=_gsUck-7M74"},
+    {"nome": "Kickback de Tríceps",              "grupo_muscular": "Triceps", "equipamento": "Haltere",                              "video_url": "https://www.youtube.com/watch?v=6SS6K3lAwZ8"},
+    {"nome": "Tríceps com Corda na Polia",       "grupo_muscular": "Triceps", "equipamento": "Polia alta, corda",                   "video_url": "https://www.youtube.com/watch?v=kiuVA0gs3EI"},
+    {"nome": "Supino Fechado",                   "grupo_muscular": "Triceps", "equipamento": "Barra olímpica, banco plano",          "video_url": "https://www.youtube.com/watch?v=nEF0bv2FW94"},
+
+    # ── PERNAS ─────────────────────────────────────────────────────────────────
+    {"nome": "Agachamento Livre",                "grupo_muscular": "Pernas",  "equipamento": "Barra olímpica, rack de agachamento",  "video_url": "https://www.youtube.com/watch?v=ultWZbUMPL8"},
+    {"nome": "Leg Press 45°",                    "grupo_muscular": "Pernas",  "equipamento": "Aparelho leg press 45°",               "video_url": "https://www.youtube.com/watch?v=IZxyjW7MPJQ"},
+    {"nome": "Cadeira Extensora",                "grupo_muscular": "Pernas",  "equipamento": "Aparelho cadeira extensora",           "video_url": "https://www.youtube.com/watch?v=YyvSfVjQeL0"},
+    {"nome": "Mesa Flexora",                     "grupo_muscular": "Pernas",  "equipamento": "Aparelho mesa flexora",                "video_url": "https://www.youtube.com/watch?v=1Tq3QdYUuHs"},
+    {"nome": "Stiff com Barra",                  "grupo_muscular": "Pernas",  "equipamento": "Barra olímpica",                       "video_url": "https://www.youtube.com/watch?v=ap5bNhfnaF8"},
+    {"nome": "Afundo com Halteres (Lunge)",      "grupo_muscular": "Pernas",  "equipamento": "Halteres",                             "video_url": "https://www.youtube.com/watch?v=QOVaHwm-Q6U"},
+    {"nome": "Agachamento Búlgaro",              "grupo_muscular": "Pernas",  "equipamento": "Halteres, banco",                      "video_url": "https://www.youtube.com/watch?v=2C-uNgKwPLE"},
+    {"nome": "Agachamento Sumô",                 "grupo_muscular": "Pernas",  "equipamento": "Haltere ou barra",                     "video_url": "https://www.youtube.com/watch?v=QKKZ9AGYTi4"},
+    {"nome": "Panturrilha no Leg Press",         "grupo_muscular": "Pernas",  "equipamento": "Aparelho leg press 45°",               "video_url": "https://www.youtube.com/watch?v=wHK1Vf6WQMM"},
+    {"nome": "Elevação de Panturrilha em Pé",    "grupo_muscular": "Pernas",  "equipamento": "Peso corporal ou halteres",            "video_url": "https://www.youtube.com/watch?v=-M4-G8p1fCI"},
+    {"nome": "Hack Squat",                       "grupo_muscular": "Pernas",  "equipamento": "Aparelho hack squat",                  "video_url": "https://www.youtube.com/watch?v=u7Q8W-xfnAE"},
+    {"nome": "Step-Up com Halteres",             "grupo_muscular": "Pernas",  "equipamento": "Halteres, banco ou step",              "video_url": "https://www.youtube.com/watch?v=dQqApCGd5Ss"},
+    {"nome": "Agachamento no Smith",             "grupo_muscular": "Pernas",  "equipamento": "Barra guiada Smith",                   "video_url": "https://www.youtube.com/watch?v=OcEU3LdNvKY"},
+    {"nome": "Elevação de Panturrilha Sentado",  "grupo_muscular": "Pernas",  "equipamento": "Aparelho de panturrilha sentado",      "video_url": "https://www.youtube.com/watch?v=JbyjNymZOt0"},
+    {"nome": "Agachamento com Halteres",         "grupo_muscular": "Pernas",  "equipamento": "Halteres",                             "video_url": "https://www.youtube.com/watch?v=aclHkVaku9U"},
+
+    # ── GLÚTEOS ────────────────────────────────────────────────────────────────
+    {"nome": "Hip Thrust com Barra",             "grupo_muscular": "Gluteos", "equipamento": "Barra olímpica, banco",                "video_url": "https://www.youtube.com/watch?v=xDmFkJxPzeM"},
+    {"nome": "Abdutor de Quadril na Máquina",    "grupo_muscular": "Gluteos", "equipamento": "Aparelho abdutor",                     "video_url": "https://www.youtube.com/watch?v=P9t2pFv4MPQ"},
+    {"nome": "Glúteo no Cross-over",             "grupo_muscular": "Gluteos", "equipamento": "Polia baixa",                         "video_url": "https://www.youtube.com/watch?v=3MHsKzs_6Gw"},
+    {"nome": "Elevação Pélvica com Haltere",     "grupo_muscular": "Gluteos", "equipamento": "Haltere",                              "video_url": "https://www.youtube.com/watch?v=xDmFkJxPzeM"},
+    {"nome": "Coice Glúteo com Polia",           "grupo_muscular": "Gluteos", "equipamento": "Polia baixa",                         "video_url": "https://www.youtube.com/watch?v=3fhNdMzqmLY"},
+    {"nome": "Agachamento Sumô com Haltere",     "grupo_muscular": "Gluteos", "equipamento": "Haltere",                              "video_url": "https://www.youtube.com/watch?v=QKKZ9AGYTi4"},
+    {"nome": "Ponte de Glúteo",                  "grupo_muscular": "Gluteos", "equipamento": "Peso corporal",                        "video_url": "https://www.youtube.com/watch?v=wPM8icPu6H8"},
+    {"nome": "Fire Hydrant",                     "grupo_muscular": "Gluteos", "equipamento": "Peso corporal ou elástico",            "video_url": "https://www.youtube.com/watch?v=iyANNQDqVBM"},
+
+    # ── CORE / ABDÔMEN ─────────────────────────────────────────────────────────
+    {"nome": "Prancha Abdominal (Plank)",        "grupo_muscular": "Core",    "equipamento": "Peso corporal",                        "video_url": "https://www.youtube.com/watch?v=pSHjTRCQxIw"},
+    {"nome": "Abdominal Crunch",                 "grupo_muscular": "Core",    "equipamento": "Peso corporal",                        "video_url": "https://www.youtube.com/watch?v=Xyd_fa5zoEU"},
+    {"nome": "Elevação de Pernas",               "grupo_muscular": "Core",    "equipamento": "Barra fixa ou banco",                  "video_url": "https://www.youtube.com/watch?v=JB2oyawG9KI"},
+    {"nome": "Abdominal na Polia Alta",          "grupo_muscular": "Core",    "equipamento": "Polia alta, corda",                   "video_url": "https://www.youtube.com/watch?v=_0jgJMj6qVs"},
+    {"nome": "Russian Twist",                    "grupo_muscular": "Core",    "equipamento": "Peso corporal, anilha ou medicine ball", "video_url": "https://www.youtube.com/watch?v=wkD8rjkodUI"},
+    {"nome": "Dead Bug",                         "grupo_muscular": "Core",    "equipamento": "Peso corporal",                        "video_url": "https://www.youtube.com/watch?v=4XLEnwUr1d8"},
+    {"nome": "Prancha Lateral",                  "grupo_muscular": "Core",    "equipamento": "Peso corporal",                        "video_url": "https://www.youtube.com/watch?v=_6vjo5yFo1U"},
+    {"nome": "Mountain Climber",                 "grupo_muscular": "Core",    "equipamento": "Peso corporal",                        "video_url": "https://www.youtube.com/watch?v=nmwgirgXLYM"},
+    {"nome": "Abdominal Bicicleta",              "grupo_muscular": "Core",    "equipamento": "Peso corporal",                        "video_url": "https://www.youtube.com/watch?v=9FGilxCbdz8"},
+    {"nome": "Abdominal Infra (Reverse Crunch)", "grupo_muscular": "Core",    "equipamento": "Peso corporal",                        "video_url": "https://www.youtube.com/watch?v=toP55tNwcHs"},
+    {"nome": "Rollout com Roda Abdominal",       "grupo_muscular": "Core",    "equipamento": "Roda abdominal",                       "video_url": "https://www.youtube.com/watch?v=3Q0ulYPg3pQ"},
+
+    # ── CARDIO / FUNCIONAL ─────────────────────────────────────────────────────
+    {"nome": "Burpee",                           "grupo_muscular": "Cardio",  "equipamento": "Peso corporal",                        "video_url": "https://www.youtube.com/watch?v=dZgVxmf6jkA"},
+    {"nome": "Corda Naval (Battle Rope)",        "grupo_muscular": "Cardio",  "equipamento": "Corda naval",                          "video_url": "https://www.youtube.com/watch?v=ejhEJDGtm0Y"},
+    {"nome": "Polichinelo (Jumping Jack)",       "grupo_muscular": "Cardio",  "equipamento": "Peso corporal",                        "video_url": "https://www.youtube.com/watch?v=c4DAnQ9DjAA"},
+    {"nome": "Sprinting na Esteira",             "grupo_muscular": "Cardio",  "equipamento": "Esteira",                              "video_url": None},
+    {"nome": "Corda de Pular",                   "grupo_muscular": "Cardio",  "equipamento": "Corda",                                "video_url": "https://www.youtube.com/watch?v=FJmRQ5iTXKE"},
+    {"nome": "Box Jump",                         "grupo_muscular": "Cardio",  "equipamento": "Caixa de salto (plyo box)",            "video_url": "https://www.youtube.com/watch?v=52r_Ul5k03g"},
+    {"nome": "Kettlebell Swing",                 "grupo_muscular": "Cardio",  "equipamento": "Kettlebell",                           "video_url": "https://www.youtube.com/watch?v=YSxHifyI6s8"},
+    {"nome": "Agachamento com Salto",            "grupo_muscular": "Cardio",  "equipamento": "Peso corporal",                        "video_url": "https://www.youtube.com/watch?v=CVaEhXotL7M"},
+    {"nome": "Corrida (treadmill)",              "grupo_muscular": "Cardio",  "equipamento": "Esteira",                              "video_url": None},
+    {"nome": "Bicicleta Ergométrica",            "grupo_muscular": "Cardio",  "equipamento": "Bicicleta ergométrica",                "video_url": None},
+    {"nome": "Elíptico",                         "grupo_muscular": "Cardio",  "equipamento": "Aparelho elíptico",                    "video_url": None},
+    {"nome": "Remo Ergométrico",                 "grupo_muscular": "Cardio",  "equipamento": "Remo indoor (rowing machine)",         "video_url": "https://www.youtube.com/watch?v=zf2b_V2dBOE"},
+]

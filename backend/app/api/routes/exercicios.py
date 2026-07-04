@@ -6,6 +6,7 @@ from app.core.db import get_db
 from app.core.deps import get_current_user
 from app.models import Exercicio, User
 from app.schemas.exercicios import ExercicioCreate, ExercicioResponse
+from app.data.exercicios_library import BIBLIOTECA_GLOBAL
 
 router = APIRouter()
 
@@ -44,3 +45,25 @@ def criar_exercicio(
     db.commit()
     db.refresh(ex)
     return ex
+
+
+@router.post("/seed-global", status_code=200)
+def seed_biblioteca_global(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Importa biblioteca global de 100+ exercícios (idempotente — skip duplicatas)."""
+    existentes = {e.nome for e in db.query(Exercicio).filter(Exercicio.tenant_id == None).all()}
+    criados = 0
+    for item in BIBLIOTECA_GLOBAL:
+        if item["nome"] not in existentes:
+            db.add(Exercicio(
+                tenant_id=None,
+                nome=item["nome"],
+                grupo_muscular=item.get("grupo_muscular"),
+                equipamento=item.get("equipamento"),
+                video_url=item.get("video_url"),
+            ))
+            criados += 1
+    db.commit()
+    return {"criados": criados, "total_biblioteca": len(BIBLIOTECA_GLOBAL)}

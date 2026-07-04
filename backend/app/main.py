@@ -8,6 +8,43 @@ from app.core.config import settings
 from app.core.db import engine
 
 
+def _sprint_c_migration():
+    """Cria tabelas de periodização se não existirem."""
+    try:
+        inspector = inspect(engine)
+        tables = inspector.get_table_names()
+        with engine.connect() as conn:
+            if "programas_treino" not in tables:
+                conn.execute(text("""
+                    CREATE TABLE IF NOT EXISTS programas_treino (
+                        id SERIAL PRIMARY KEY,
+                        tenant_id INTEGER NOT NULL REFERENCES tenants(id),
+                        personal_id INTEGER NOT NULL REFERENCES users(id),
+                        nome VARCHAR NOT NULL,
+                        objetivo VARCHAR,
+                        semanas_total INTEGER DEFAULT 12,
+                        fases TEXT,
+                        descricao TEXT,
+                        criado_em TIMESTAMP DEFAULT NOW()
+                    )
+                """))
+            if "aplicacoes_programa" not in tables:
+                conn.execute(text("""
+                    CREATE TABLE IF NOT EXISTS aplicacoes_programa (
+                        id SERIAL PRIMARY KEY,
+                        tenant_id INTEGER NOT NULL REFERENCES tenants(id),
+                        aluno_id INTEGER NOT NULL REFERENCES alunos(id),
+                        programa_id INTEGER NOT NULL REFERENCES programas_treino(id),
+                        iniciado_em TIMESTAMP NOT NULL,
+                        ativo BOOLEAN DEFAULT TRUE
+                    )
+                """))
+            conn.commit()
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("sprint_c_migration: %s", exc)
+
+
 def _sprint_b_migration():
     """Cria tabela mensagens se não existir."""
     try:
@@ -66,6 +103,7 @@ def _billing_migration():
 async def lifespan(app: FastAPI):
     _billing_migration()
     _sprint_b_migration()
+    _sprint_c_migration()
     if settings.ENABLE_SCHEDULER:
         from apscheduler.schedulers.background import BackgroundScheduler
         from app.ai.scheduler import tarefa_progressao
@@ -89,7 +127,7 @@ app.add_middleware(
 )
 
 from app.api.routes import auth, alunos, treinos, ia, convites, exercicios  # noqa: E402
-from app.api.routes import pagamentos, academia, billing, chat, avaliacoes   # noqa: E402
+from app.api.routes import pagamentos, academia, billing, chat, avaliacoes, periodizacao  # noqa: E402
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(convites.router, prefix="/convites", tags=["convites"])
@@ -102,6 +140,7 @@ app.include_router(academia.router, prefix="/academia", tags=["academia"])
 app.include_router(billing.router, prefix="/billing", tags=["billing"])
 app.include_router(chat.router, prefix="/chat", tags=["chat"])
 app.include_router(avaliacoes.router, prefix="/alunos", tags=["avaliacoes"])
+app.include_router(periodizacao.router, prefix="/periodizacao", tags=["periodizacao"])
 
 
 @app.get("/health")
