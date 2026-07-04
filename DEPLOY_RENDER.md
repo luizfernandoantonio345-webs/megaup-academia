@@ -1,130 +1,94 @@
-# Deploy no Render — Passo a Passo
+# Deploy — GymPro no Render
 
-## Pré-requisitos
-- Conta no [Render](https://render.com) (gratuita)
-- Repositório no GitHub com o código do FitSaaS
+## URLs de produção
 
-## 1. Subir o código para o GitHub
-
-Se ainda não tem repositório:
-```bash
-cd fitsaas
-git init
-git add .
-git commit -m "FitSaaS v1.0 — deploy inicial"
-```
-
-Crie um repositório no GitHub (pode ser privado) e:
-```bash
-git remote add origin https://github.com/SEU_USUARIO/fitsaas.git
-git push -u origin main
-```
-
-> **Atenção:** Certifique-se de que o arquivo `.gitignore` exclui `venv/`, `__pycache__/`, `.env` e `node_modules/`.
+| Serviço  | URL |
+|----------|-----|
+| Frontend | https://fitsaas-frontend.onrender.com |
+| Backend  | https://fitsaas.onrender.com |
+| API Docs | https://fitsaas.onrender.com/docs |
+| Health   | https://fitsaas.onrender.com/health |
 
 ---
 
-## 2. Criar o .gitignore (se não existir)
+## Deploy automático
 
-```
-# backend
-backend/venv/
-backend/__pycache__/
-backend/**/__pycache__/
-backend/.env
-backend/*.pyc
-
-# frontend
-frontend/node_modules/
-frontend/dist/
-frontend/.env
-```
+O Render faz deploy automático toda vez que há um `git push` para o branch `master`.  
+Se o deploy não atualizar, vá em: **Dashboard → fitsaas-frontend → Manual Deploy → Deploy latest commit**
 
 ---
 
-## 3. Deploy via Blueprint (render.yaml)
+## Variáveis de ambiente — Backend (`fitsaas-api`)
 
-O projeto já tem `render.yaml` na raiz. O Render lê esse arquivo e cria tudo automaticamente.
+Configure em: Dashboard → fitsaas-api → Environment
 
-1. Acesse [dashboard.render.com](https://dashboard.render.com)
-2. Clique em **New → Blueprint**
-3. Conecte seu repositório GitHub
-4. Render vai detectar o `render.yaml` e criar os 3 serviços automaticamente:
-   - `fitsaas-db` — PostgreSQL
-   - `fitsaas-api` — Backend FastAPI
-   - `fitsaas-frontend` — Frontend React
-
-5. Clique em **Apply**
-
----
-
-## 4. Configurar variáveis de ambiente manualmente
-
-Após o deploy inicial, acesse cada serviço e configure:
-
-### Backend (`fitsaas-api`) → Environment
 | Variável | Valor |
 |----------|-------|
-| `ANTHROPIC_API_KEY` | `sk-ant-...` (obtenha em console.anthropic.com) |
-| `FRONTEND_BASE_URL` | URL do frontend (ex: `https://fitsaas-frontend.onrender.com`) |
-| `SMTP_HOST` | `smtp.gmail.com` (opcional — para e-mails de convite) |
-| `SMTP_PORT` | `587` |
-| `SMTP_USER` | seu@gmail.com |
-| `SMTP_PASSWORD` | senha de app do Gmail |
+| `DATABASE_URL` | Vem automaticamente do banco Render |
+| `ANTHROPIC_API_KEY` | `sk-ant-...` (console.anthropic.com) |
+| `FRONTEND_BASE_URL` | `https://fitsaas-frontend.onrender.com` |
+| `RESEND_API_KEY` | `re_...` (resend.com — gratuito, 3k emails/mês) |
 
-### Frontend (`fitsaas-frontend`) → Environment
+### Configurar o Resend (email — obrigatório para reset de senha e convites)
+
+1. Acesse [resend.com](https://resend.com) → crie conta grátis
+2. Vá em **API Keys → Create API Key**
+3. Copie a chave e cole em `RESEND_API_KEY` no Render
+4. *(Opcional)* Adicione e verifique um domínio próprio para o remetente
+
+> Sem `RESEND_API_KEY`, emails de reset de senha e convites **não são enviados** (apenas logados no servidor).
+
+---
+
+## Variáveis de ambiente — Frontend (`fitsaas-frontend`)
+
 | Variável | Valor |
 |----------|-------|
-| `VITE_API_URL` | URL do backend (ex: `https://fitsaas-api.onrender.com`) |
+| `VITE_API_URL` | `https://fitsaas.onrender.com` |
 
-> **IMPORTANTE:** Após salvar `VITE_API_URL`, clique em **Manual Deploy → Deploy latest commit** no serviço do frontend para rebuildar com a URL correta.
-
----
-
-## 5. Verificar
-
-Após o deploy (pode levar 3–5 min):
-
-```
-Backend:  https://fitsaas-api.onrender.com/health
-Docs API: https://fitsaas-api.onrender.com/docs
-Frontend: https://fitsaas-frontend.onrender.com
-```
+> Após salvar, clique em **Manual Deploy** para rebuildar o frontend com a URL correta.
 
 ---
 
-## 6. Primeiro acesso
+## Primeiro acesso
 
-1. Acesse o frontend
-2. Clique em "Criar conta" → preencha seus dados de personal e nome da academia
+1. Acesse https://fitsaas-frontend.onrender.com
+2. Clique em **Criar conta** → preencha nome, email, senha e nome da academia
 3. Faça login
-4. Crie seu primeiro aluno e treino
+4. Crie um aluno, monte um treino, veja o Dashboard
 
 ---
 
 ## Limites do plano gratuito do Render
 
-| Recurso | Limite |
-|---------|--------|
-| Web Services | Ficam em "sleep" após 15 min de inatividade (cold start ~30s) |
-| PostgreSQL | 1 GB de armazenamento, expira após 90 dias no plano gratuito |
+| Recurso | Detalhe |
+|---------|---------|
+| Cold start | Backend dorme após 15 min de inatividade → primeira req leva ~30s |
+| PostgreSQL | 1 GB, expira após 90 dias |
 | Banda | 100 GB/mês |
 
-**Recomendação:** Para uso com clientes reais, atualize para o plano **Starter** (~$7/mês backend + $7/mês banco). Remove o sleep e mantém o banco permanentemente.
+**Para clientes reais:** atualize para o plano **Starter** (~$7/mês backend + $7/mês banco). Remove o sleep.
 
 ---
 
 ## Troubleshooting
 
-**Backend não inicia:**
-- Verifique os logs em Render → `fitsaas-api` → Logs
-- Certifique-se que `DATABASE_URL` está setado (vem do banco automaticamente via blueprint)
+### Deploy não atualiza após push
+→ Vá em Dashboard → fitsaas-frontend → **Manual Deploy → Deploy latest commit**  
+→ Veja os logs de build para identificar falha
 
-**Frontend mostra erro de CORS ou "Network Error":**
-- `VITE_API_URL` provavelmente está errado ou faltando
-- Lembre de fazer redeploy do frontend após mudar a variável
+### Build falha com "out of memory"
+O `render.yaml` já configura `NODE_OPTIONS="--max-old-space-size=1536"`.  
+Se ainda falhar, aumente para `2048` no campo `buildCommand`.
 
-**Tabelas não criadas:**
-- O sistema cria automaticamente no primeiro start via `create_all`
-- Se der erro, verifique se o `DATABASE_URL` do Render começa com `postgresql://` (não `postgres://`)
-- Se começar com `postgres://`, adicione a var `DATABASE_URL` manualmente substituindo `postgres://` por `postgresql://`
+### Frontend mostra "Network Error" ou não carrega dados
+→ Verifique se `VITE_API_URL=https://fitsaas.onrender.com` está setado  
+→ Após setar, faça **Manual Deploy** no frontend
+
+### Banco não inicia
+→ `DATABASE_URL` deve começar com `postgresql://` (não `postgres://`)  
+→ Se começar com `postgres://`, substitua manualmente
+
+### Email não chega
+→ `RESEND_API_KEY` não está configurado ou está errado  
+→ Verifique logs do backend: `fitsaas-api → Logs → grep "email"`
