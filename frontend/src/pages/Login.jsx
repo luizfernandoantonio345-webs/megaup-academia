@@ -122,6 +122,12 @@ export default function Login() {
               </div>
             </div>
 
+            <div style={{ textAlign: 'right', marginTop: -8 }}>
+              <Link to="/esqueci-senha" style={{ fontSize: 13, color: '#818cf8', fontWeight: 600, textDecoration: 'none' }}>
+                Esqueci minha senha
+              </Link>
+            </div>
+
             <button type="submit" className="btn-gradient w-full py-3.5 text-base mt-2" disabled={loading}>
               {loading ? (
                 <span className="flex items-center gap-2 justify-center">

@@ -11,6 +11,9 @@ import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Registrar from './pages/Registrar'
 import AceitarConvite from './pages/AceitarConvite'
+import EsqueciSenha from './pages/EsqueciSenha'
+import RedefinirSenha from './pages/RedefinirSenha'
+import PerfilPublico from './pages/PerfilPublico'
 import Referral from './pages/Referral'
 import Analytics from './pages/Analytics'
 import RelatorioAluno from './pages/RelatorioAluno'
@@ -80,6 +83,9 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/registrar" element={<Registrar />} />
               <Route path="/registro" element={<AceitarConvite />} />
+              <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+              <Route path="/redefinir-senha" element={<RedefinirSenha />} />
+              <Route path="/p/:code" element={<PerfilPublico />} />
 
               {/* Personal trainer / Admin */}
               <Route element={<ProtectedRoute roles={['personal', 'admin_academia']} />}>

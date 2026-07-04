@@ -41,8 +41,22 @@ class User(Base):
     email = Column(String, unique=True, nullable=False)
     senha_hash = Column(String, nullable=False)
     role = Column(Enum(Role), nullable=False)
-    cref = Column(String, nullable=True)  # só personal
+    cref = Column(String, nullable=True)
     ativo = Column(Boolean, default=True)
+    criado_em = Column(DateTime, default=datetime.utcnow)
+    # Perfil público
+    bio = Column(Text, nullable=True)
+    especialidades = Column(String, nullable=True)  # ex: "Musculação, Emagrecimento"
+    foto_url = Column(String, nullable=True)
+
+
+class PasswordResetToken(Base):
+    __tablename__ = "password_reset_tokens"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    token = Column(String, unique=True, nullable=False)
+    expires_at = Column(DateTime, nullable=False)
+    used = Column(Boolean, default=False)
     criado_em = Column(DateTime, default=datetime.utcnow)
 
 

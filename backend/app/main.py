@@ -8,6 +8,40 @@ from app.core.config import settings
 from app.core.db import engine
 
 
+def _sprint_j_migration():
+    """Password reset tokens + colunas de perfil público no user."""
+    try:
+        inspector = inspect(engine)
+        tables = inspector.get_table_names()
+        user_cols = {c["name"] for c in inspector.get_columns("users")}
+        stmts = []
+        if "bio" not in user_cols:
+            stmts.append("ALTER TABLE users ADD COLUMN bio TEXT")
+        if "especialidades" not in user_cols:
+            stmts.append("ALTER TABLE users ADD COLUMN especialidades VARCHAR")
+        if "foto_url" not in user_cols:
+            stmts.append("ALTER TABLE users ADD COLUMN foto_url VARCHAR")
+        if "password_reset_tokens" not in tables:
+            stmts.append("""
+                CREATE TABLE IF NOT EXISTS password_reset_tokens (
+                    id SERIAL PRIMARY KEY,
+                    user_id INTEGER NOT NULL REFERENCES users(id),
+                    token VARCHAR UNIQUE NOT NULL,
+                    expires_at TIMESTAMP NOT NULL,
+                    used BOOLEAN DEFAULT FALSE,
+                    criado_em TIMESTAMP DEFAULT NOW()
+                )
+            """)
+        if stmts:
+            with engine.connect() as conn:
+                for s in stmts:
+                    conn.execute(text(s))
+                conn.commit()
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("sprint_j_migration: %s", exc)
+
+
 def _sprint_g_migration():
     """Cria tabelas de nutrição se não existirem."""
     try:
@@ -192,6 +226,7 @@ async def lifespan(app: FastAPI):
     _sprint_d_migration()
     _sprint_f_migration()
     _sprint_g_migration()
+    _sprint_j_migration()
     if settings.ENABLE_SCHEDULER:
         from apscheduler.schedulers.background import BackgroundScheduler
         from app.ai.scheduler import tarefa_progressao
@@ -215,7 +250,7 @@ app.add_middleware(
 )
 
 from app.api.routes import auth, alunos, treinos, ia, convites, exercicios  # noqa: E402
-from app.api.routes import pagamentos, academia, billing, chat, avaliacoes, periodizacao, referral, analytics, agenda, nutricao, notificacoes  # noqa: E402
+from app.api.routes import pagamentos, academia, billing, chat, avaliacoes, periodizacao, referral, analytics, agenda, nutricao, notificacoes, public  # noqa: E402
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(convites.router, prefix="/convites", tags=["convites"])
@@ -234,6 +269,7 @@ app.include_router(analytics.router, prefix="/analytics", tags=["analytics"])
 app.include_router(agenda.router, prefix="/agenda", tags=["agenda"])
 app.include_router(nutricao.router, prefix="/nutricao", tags=["nutricao"])
 app.include_router(notificacoes.router, prefix="/notificacoes", tags=["notificacoes"])
+app.include_router(public.router, prefix="/public", tags=["public"])
 
 
 @app.get("/health")

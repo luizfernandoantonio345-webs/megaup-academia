@@ -33,6 +33,30 @@ def _send(to: str, subject: str, html: str) -> None:
         logger.exception("Falha ao enviar e-mail para %s", to)
 
 
+def enviar_reset_senha(email: str, nome: str, link: str) -> None:
+    html = f"""
+    <div style="font-family:Inter,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;background:#070B14;color:#EFF6FF;border-radius:16px;">
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:900;color:#EFF6FF;margin-bottom:12px;">Redefinir sua senha</h2>
+      <p style="color:#94A3B8;margin-bottom:24px;">Olá, <strong>{nome}</strong>! Recebemos uma solicitação para redefinir sua senha no GymPro.</p>
+      <a href="{link}" style="display:inline-block;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;padding:14px 28px;border-radius:12px;text-decoration:none;font-weight:800;font-size:15px;margin-bottom:24px;">Redefinir senha</a>
+      <p style="color:#4B5768;font-size:13px;">Este link expira em <strong>1 hora</strong>. Se não foi você, ignore este email.</p>
+    </div>
+    """
+    _send(email, "Redefinição de senha — GymPro", html)
+
+
+def enviar_boas_vindas(email: str, nome: str) -> None:
+    html = f"""
+    <div style="font-family:Inter,sans-serif;max-width:480px;margin:0 auto;padding:32px 24px;background:#070B14;color:#EFF6FF;border-radius:16px;">
+      <h2 style="font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:900;color:#EFF6FF;margin-bottom:12px;">⚡ Bem-vindo ao GymPro!</h2>
+      <p style="color:#94A3B8;margin-bottom:16px;">Olá, <strong>{nome}</strong>! Sua conta foi criada com sucesso.</p>
+      <p style="color:#94A3B8;margin-bottom:24px;">Você tem <strong>14 dias</strong> de acesso completo à plataforma para explorar todas as funcionalidades.</p>
+      <a href="https://fitsaas-frontend.onrender.com/dashboard" style="display:inline-block;background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;padding:14px 28px;border-radius:12px;text-decoration:none;font-weight:800;font-size:15px;">Acessar plataforma</a>
+    </div>
+    """
+    _send(email, "Bem-vindo ao GymPro! 🎉", html)
+
+
 def enviar_convite(email_aluno: str, nome_personal: str, nome_academia: str, link: str) -> None:
     html = f"""
     <h2>Você foi convidado para {nome_academia}!</h2>

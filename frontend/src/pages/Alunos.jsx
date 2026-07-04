@@ -67,8 +67,11 @@ function ModalCriar({ onClose }) {
   )
 }
 
+const OBJETIVOS_LABELS = ['Perder peso', 'Ganhar massa', 'Condicionamento', 'Reabilitação', 'Definição', 'Saúde']
+
 export default function Alunos() {
   const [search, setSearch] = useState('')
+  const [filtroObjetivo, setFiltroObjetivo] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [viewMode, setViewMode] = useState('grid')
 
@@ -77,10 +80,18 @@ export default function Alunos() {
     queryFn: () => listarAlunos().then((r) => r.data),
   })
 
-  const filtered = alunos.filter(
-    (a) => a.nome?.toLowerCase().includes(search.toLowerCase()) ||
-            a.email?.toLowerCase().includes(search.toLowerCase())
+  const objetivosUsados = [...new Set(alunos.map(a => a.objetivo).filter(Boolean))]
+  const chipsObjetivo = OBJETIVOS_LABELS.filter(l =>
+    objetivosUsados.some(o => o.toLowerCase().includes(l.toLowerCase()))
   )
+
+  const filtered = alunos.filter((a) => {
+    const matchSearch = a.nome?.toLowerCase().includes(search.toLowerCase()) ||
+                        a.email?.toLowerCase().includes(search.toLowerCase())
+    const matchObjetivo = !filtroObjetivo ||
+      a.objetivo?.toLowerCase().includes(filtroObjetivo.toLowerCase())
+    return matchSearch && matchObjetivo
+  })
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -108,6 +119,26 @@ export default function Alunos() {
           ))}
         </div>
       </div>
+
+      {chipsObjetivo.length > 0 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          <button
+            onClick={() => setFiltroObjetivo('')}
+            style={{ padding: '5px 14px', borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: 'pointer', border: '1px solid', transition: 'all 0.15s', borderColor: !filtroObjetivo ? '#6366f1' : 'rgba(255,255,255,0.08)', background: !filtroObjetivo ? 'rgba(99,102,241,0.15)' : 'transparent', color: !filtroObjetivo ? '#a5b4fc' : '#3D4F6A' }}
+          >
+            Todos
+          </button>
+          {chipsObjetivo.map(obj => (
+            <button
+              key={obj}
+              onClick={() => setFiltroObjetivo(filtroObjetivo === obj ? '' : obj)}
+              style={{ padding: '5px 14px', borderRadius: 999, fontSize: 12, fontWeight: 700, cursor: 'pointer', border: '1px solid', transition: 'all 0.15s', borderColor: filtroObjetivo === obj ? '#6366f1' : 'rgba(255,255,255,0.08)', background: filtroObjetivo === obj ? 'rgba(99,102,241,0.15)' : 'transparent', color: filtroObjetivo === obj ? '#a5b4fc' : '#3D4F6A' }}
+            >
+              {obj}
+            </button>
+          ))}
+        </div>
+      )}
 
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
