@@ -6,6 +6,7 @@ import toast from 'react-hot-toast'
 import { ArrowLeft, Dumbbell, Flame, Trophy, Brain, ClipboardList, Plus, Loader2, Edit2, Check, X, TrendingUp, TrendingDown, Minus, BarChart2, ChevronDown, MessageCircle, Scale, Trash2, FileText } from 'lucide-react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import ChatBox from '../components/ChatBox'
+import NutricaoTab from '../components/NutricaoTab'
 
 function Avatar({ nome }) {
   const initials = nome?.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
@@ -139,6 +140,7 @@ export default function AlunoDetalhe() {
           { key:'gamificacao', label:'Conquistas' },
           { key:'sugestoes',   label:`IA${nSugestoes ? ` (${nSugestoes})` : ''}` },
           { key:'anamnese',    label:'Anamnese' },
+          { key:'nutricao',    label:'Nutrição' },
           { key:'chat',        label:'Chat' },
         ].map(({ key, label }) => (
           <button key={key} onClick={() => setTab(key)} className={`tab ${tab === key ? 'tab-active' : 'tab-inactive'}`}>{label}</button>
@@ -152,6 +154,7 @@ export default function AlunoDetalhe() {
         {tab === 'gamificacao' && <GamificacaoTab gami={gami} />}
         {tab === 'sugestoes'   && <SugestoesTab sugestoes={sugestoes} />}
         {tab === 'anamnese'    && <AnamneseTab anamnese={anamnese} onSalvar={salvarAnam} saving={savingAnam} />}
+        {tab === 'nutricao'    && <NutricaoTab alunoId={Number(id)} />}
         {tab === 'chat'        && (
           <div className="card" style={{ height: 520 }}>
             <div className="flex items-center gap-2 mb-4" style={{ borderBottom:'1px solid rgba(255,255,255,0.06)', paddingBottom:14 }}>

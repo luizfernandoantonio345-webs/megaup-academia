@@ -252,6 +252,49 @@ class PersonalTenant(Base):
     )
 
 
+class Sessao(Base):
+    """Sessão agendada entre personal e aluno."""
+    __tablename__ = "sessoes"
+    id = Column(Integer, primary_key=True)
+    tenant_id = Column(Integer, ForeignKey("tenants.id"), nullable=False)
+    personal_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    aluno_id = Column(Integer, ForeignKey("alunos.id"), nullable=False)
+    data_hora = Column(DateTime, nullable=False)
+    duracao_min = Column(Integer, default=60)
+    tipo = Column(String, default="presencial")   # presencial / online
+    status = Column(String, default="agendada")    # agendada / confirmada / cancelada / concluida
+    notas = Column(Text, nullable=True)
+    criado_em = Column(DateTime, default=datetime.utcnow)
+    __table_args__ = (Index("ix_sessoes_aluno_data", "tenant_id", "data_hora"),)
+
+
+class PlanoNutricao(Base):
+    """Plano alimentar prescrito pelo personal para um aluno."""
+    __tablename__ = "planos_nutricao"
+    id = Column(Integer, primary_key=True)
+    tenant_id = Column(Integer, ForeignKey("tenants.id"), nullable=False)
+    aluno_id = Column(Integer, ForeignKey("alunos.id"), nullable=False)
+    nome = Column(String, nullable=False, default="Plano Alimentar")
+    objetivo_kcal = Column(Integer, nullable=True)
+    objetivo_proteina = Column(Integer, nullable=True)
+    objetivo_carbo = Column(Integer, nullable=True)
+    objetivo_gordura = Column(Integer, nullable=True)
+    observacoes = Column(Text, nullable=True)
+    criado_em = Column(DateTime, default=datetime.utcnow)
+    refeicoes = relationship("Refeicao", back_populates="plano", cascade="all, delete-orphan")
+
+
+class Refeicao(Base):
+    """Refeição dentro de um plano nutricional."""
+    __tablename__ = "refeicoes"
+    id = Column(Integer, primary_key=True)
+    plano_id = Column(Integer, ForeignKey("planos_nutricao.id"), nullable=False)
+    nome = Column(String, nullable=False)       # Café da manhã / Almoço / etc.
+    horario = Column(String, nullable=True)     # "07:00"
+    alimentos = Column(Text, nullable=True)     # JSON: [{nome, qtd, kcal, prot, carbo, gord}]
+    plano = relationship("PlanoNutricao", back_populates="refeicoes")
+
+
 class ProgramaTreino(Base):
     """Programa de periodização criado pelo personal."""
     __tablename__ = "programas_treino"

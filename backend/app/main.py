@@ -8,6 +8,71 @@ from app.core.config import settings
 from app.core.db import engine
 
 
+def _sprint_g_migration():
+    """Cria tabelas de nutrição se não existirem."""
+    try:
+        inspector = inspect(engine)
+        tables = inspector.get_table_names()
+        with engine.connect() as conn:
+            if "planos_nutricao" not in tables:
+                conn.execute(text("""
+                    CREATE TABLE IF NOT EXISTS planos_nutricao (
+                        id SERIAL PRIMARY KEY,
+                        tenant_id INTEGER NOT NULL REFERENCES tenants(id),
+                        aluno_id INTEGER NOT NULL REFERENCES alunos(id),
+                        nome VARCHAR NOT NULL DEFAULT 'Plano Alimentar',
+                        objetivo_kcal INTEGER,
+                        objetivo_proteina INTEGER,
+                        objetivo_carbo INTEGER,
+                        objetivo_gordura INTEGER,
+                        observacoes TEXT,
+                        criado_em TIMESTAMP DEFAULT NOW()
+                    )
+                """))
+            if "refeicoes" not in tables:
+                conn.execute(text("""
+                    CREATE TABLE IF NOT EXISTS refeicoes (
+                        id SERIAL PRIMARY KEY,
+                        plano_id INTEGER NOT NULL REFERENCES planos_nutricao(id) ON DELETE CASCADE,
+                        nome VARCHAR NOT NULL,
+                        horario VARCHAR,
+                        alimentos TEXT
+                    )
+                """))
+            conn.commit()
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("sprint_g_migration: %s", exc)
+
+
+def _sprint_f_migration():
+    """Cria tabela sessoes se não existir."""
+    try:
+        inspector = inspect(engine)
+        tables = inspector.get_table_names()
+        if "sessoes" not in tables:
+            with engine.connect() as conn:
+                conn.execute(text("""
+                    CREATE TABLE IF NOT EXISTS sessoes (
+                        id SERIAL PRIMARY KEY,
+                        tenant_id INTEGER NOT NULL REFERENCES tenants(id),
+                        personal_id INTEGER NOT NULL REFERENCES users(id),
+                        aluno_id INTEGER NOT NULL REFERENCES alunos(id),
+                        data_hora TIMESTAMP NOT NULL,
+                        duracao_min INTEGER DEFAULT 60,
+                        tipo VARCHAR DEFAULT 'presencial',
+                        status VARCHAR DEFAULT 'agendada',
+                        notas TEXT,
+                        criado_em TIMESTAMP DEFAULT NOW()
+                    )
+                """))
+                conn.execute(text("CREATE INDEX IF NOT EXISTS ix_sessoes_aluno_data ON sessoes(tenant_id, data_hora)"))
+                conn.commit()
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("sprint_f_migration: %s", exc)
+
+
 def _sprint_d_migration():
     """Adiciona colunas de referral ao tenant se não existirem."""
     try:
@@ -125,6 +190,8 @@ async def lifespan(app: FastAPI):
     _sprint_b_migration()
     _sprint_c_migration()
     _sprint_d_migration()
+    _sprint_f_migration()
+    _sprint_g_migration()
     if settings.ENABLE_SCHEDULER:
         from apscheduler.schedulers.background import BackgroundScheduler
         from app.ai.scheduler import tarefa_progressao
@@ -148,7 +215,7 @@ app.add_middleware(
 )
 
 from app.api.routes import auth, alunos, treinos, ia, convites, exercicios  # noqa: E402
-from app.api.routes import pagamentos, academia, billing, chat, avaliacoes, periodizacao, referral, analytics  # noqa: E402
+from app.api.routes import pagamentos, academia, billing, chat, avaliacoes, periodizacao, referral, analytics, agenda, nutricao, notificacoes  # noqa: E402
 
 app.include_router(auth.router, prefix="/auth", tags=["auth"])
 app.include_router(convites.router, prefix="/convites", tags=["convites"])
@@ -164,6 +231,9 @@ app.include_router(avaliacoes.router, prefix="/alunos", tags=["avaliacoes"])
 app.include_router(periodizacao.router, prefix="/periodizacao", tags=["periodizacao"])
 app.include_router(referral.router, prefix="/referral", tags=["referral"])
 app.include_router(analytics.router, prefix="/analytics", tags=["analytics"])
+app.include_router(agenda.router, prefix="/agenda", tags=["agenda"])
+app.include_router(nutricao.router, prefix="/nutricao", tags=["nutricao"])
+app.include_router(notificacoes.router, prefix="/notificacoes", tags=["notificacoes"])
 
 
 @app.get("/health")

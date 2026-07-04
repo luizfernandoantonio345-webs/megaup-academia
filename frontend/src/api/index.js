@@ -79,6 +79,25 @@ export const deletarAvaliacao = (alunoId, avId) => api.delete(`/alunos/${alunoId
 export const analyticsResumo = ()           => api.get('/analytics/resumo')
 export const analyticsAluno  = (alunoId)    => api.get(`/analytics/aluno/${alunoId}`)
 
+// Agenda
+export const listarSessoes   = (params)     => api.get('/agenda/', { params })
+export const criarSessao     = (data)       => api.post('/agenda/', data)
+export const atualizarSessao = (id, data)   => api.patch(`/agenda/${id}`, data)
+export const deletarSessao   = (id)         => api.delete(`/agenda/${id}`)
+
+// Nutrição
+export const planoNutricao   = (alunoId)    => api.get(`/nutricao/aluno/${alunoId}`)
+export const criarPlanoNutricao = (data)    => api.post('/nutricao/', data)
+export const deletarPlanoNutricao = (id)    => api.delete(`/nutricao/${id}`)
+export const adicionarRefeicao = (planoId, data) => api.post(`/nutricao/${planoId}/refeicoes`, data)
+export const atualizarRefeicao = (planoId, refId, data) => api.put(`/nutricao/${planoId}/refeicoes/${refId}`, data)
+export const removerRefeicao = (planoId, refId) => api.delete(`/nutricao/${planoId}/refeicoes/${refId}`)
+
+// Notificações
+export const resumoNotificacoes = ()        => api.get('/notificacoes/resumo')
+export const alunosInativos     = (dias)    => api.get('/notificacoes/alunos-inativos', { params: { dias } })
+export const enviarNudge        = (alunoId) => api.post(`/notificacoes/nudge/${alunoId}`)
+
 // Referral
 export const referralStatus = () => api.get('/referral/status')
 

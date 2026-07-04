@@ -3,14 +3,18 @@ import { useAuth } from '../contexts/AuthContext'
 import {
   LayoutDashboard, Users, Dumbbell, Brain, UserPlus, LogOut,
   X, DollarSign, Zap, MoreHorizontal, ChevronRight, CreditCard, BarChart2, Gift,
+  Calendar, Bell, Apple,
 } from 'lucide-react'
 import { useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { resumoNotificacoes } from '../api'
 import PlanBanner from './PlanBanner'
 
 const NAV_MAIN = [
   { to: '/dashboard',  icon: LayoutDashboard, label: 'Dashboard',       accent: '#818cf8', dot: '#6366f1' },
   { to: '/alunos',     icon: Users,            label: 'Alunos',          accent: '#7dd3fc', dot: '#38bdf8' },
   { to: '/analytics',  icon: BarChart2,        label: 'Analytics',       accent: '#818cf8', dot: '#6366f1' },
+  { to: '/agenda',     icon: Calendar,         label: 'Agenda',           accent: '#38bdf8', dot: '#0ea5e9' },
   { to: '/exercicios', icon: Dumbbell,         label: 'Exercicios',      accent: '#34d399', dot: '#10b981' },
 ]
 const NAV_TOOLS = [
@@ -18,6 +22,7 @@ const NAV_TOOLS = [
   { to: '/financeiro', icon: DollarSign,  label: 'Financeiro',      accent: '#fbbf24', dot: '#f59e0b' },
   { to: '/convites',   icon: UserPlus,    label: 'Convidar alunos', accent: '#f9a8d4', dot: '#ec4899' },
   { to: '/periodizacao', icon: BarChart2,  label: 'Periodização',     accent: '#c4b5fd', dot: '#a78bfa' },
+  { to: '/inativos',   icon: Bell,        label: 'Inativos',         accent: '#f97316', dot: '#ea580c' },
   { to: '/planos',     icon: CreditCard,  label: 'Planos & Billing', accent: '#34d399', dot: '#10b981' },
   { to: '/referral',   icon: Gift,        label: 'Indique e Ganhe',  accent: '#fbbf24', dot: '#f59e0b' },
 ]
@@ -252,6 +257,24 @@ function MobileBottomNav({ user, onLogout }) {
 }
 
 /* ─── Main layout ─── */
+function NotifBell() {
+  const { data } = useQuery({
+    queryKey: ['notif-resumo'],
+    queryFn: async () => (await resumoNotificacoes()).data,
+    staleTime: 120_000,
+    retry: false,
+  })
+  const count = data?.alunos_inativos || 0
+  const navigate = useNavigate()
+  if (!count) return null
+  return (
+    <button onClick={() => navigate('/inativos')} title={`${count} aluno${count !== 1 ? 's' : ''} inativo${count !== 1 ? 's' : ''}`} style={{ position: 'relative', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', borderRadius: 10, cursor: 'pointer', padding: '7px 10px', color: '#f97316', display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 700 }}>
+      <Bell style={{ width: 15, height: 15 }} />
+      <span style={{ background: '#f97316', color: 'white', borderRadius: 6, fontSize: 10, fontWeight: 900, padding: '1px 5px', lineHeight: 1.4 }}>{count}</span>
+    </button>
+  )
+}
+
 export default function Layout({ children }) {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
@@ -277,6 +300,11 @@ export default function Layout({ children }) {
             <span style={{ fontSize: 10, fontWeight: 800, color: '#6366f1', letterSpacing: '0.05em' }}>PRO</span>
           </div>
         </header>
+
+        {/* Desktop top bar with notification bell */}
+        <div className="hidden lg:flex" style={{ alignItems: 'center', justifyContent: 'flex-end', padding: '10px 32px 0', gap: 10 }}>
+          <NotifBell />
+        </div>
 
         {/* Main content — extra bottom padding on mobile for bottom nav */}
         <main className="flex-1 p-4 lg:p-8 pb-24 lg:pb-8 max-w-7xl w-full mx-auto animate-fade-in">

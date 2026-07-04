@@ -14,6 +14,9 @@ import AceitarConvite from './pages/AceitarConvite'
 import Referral from './pages/Referral'
 import Analytics from './pages/Analytics'
 import RelatorioAluno from './pages/RelatorioAluno'
+import Agenda from './pages/Agenda'
+import Inativos from './pages/Inativos'
+import NutricaoAluno from './pages/aluno/NutricaoAluno'
 import Dashboard from './pages/Dashboard'
 import Alunos from './pages/Alunos'
 import AlunoDetalhe from './pages/AlunoDetalhe'
@@ -93,6 +96,8 @@ export default function App() {
                 <Route path="/referral" element={<Layout><Referral /></Layout>} />
                 <Route path="/analytics" element={<Layout><Analytics /></Layout>} />
                 <Route path="/alunos/:id/relatorio" element={<Layout><RelatorioAluno /></Layout>} />
+                <Route path="/agenda" element={<Layout><Agenda /></Layout>} />
+                <Route path="/inativos" element={<Layout><Inativos /></Layout>} />
               </Route>
 
               {/* Aluno */}
@@ -101,6 +106,7 @@ export default function App() {
                 <Route path="/aluno/semana" element={<LayoutAluno><SemanaTreinos /></LayoutAluno>} />
                 <Route path="/aluno/conquistas" element={<LayoutAluno><Conquistas /></LayoutAluno>} />
                 <Route path="/aluno/chat" element={<LayoutAluno><ChatAluno /></LayoutAluno>} />
+                <Route path="/aluno/nutricao" element={<LayoutAluno><NutricaoAluno /></LayoutAluno>} />
               </Route>
 
               <Route path="/unauthorized" element={
