@@ -355,7 +355,12 @@
     @apply flex gap-0.5;
     border-bottom: 1px solid var(--border);
     margin-bottom: 20px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
   }
+  .tabs::-webkit-scrollbar { display: none; }
   .tab {
     font-size: var(--text-sm);
     font-weight: 500;
@@ -524,6 +529,84 @@
   .card { border-radius: var(--radius-lg); }
   .card-interactive:hover  { transform: none; }
   .card-interactive:active { transform: scale(0.99); }
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE GRID UTILITIES
+   Mobile-first: single column below 768 px
+══════════════════════════════════════════ */
+.rg-3-2,
+.rg-sidebar,
+.rg-1-300 {
+  display: grid;
+}
+
+@media (min-width: 768px) {
+  .rg-3-2    { grid-template-columns: minmax(0,3fr) minmax(0,2fr); }
+  .rg-sidebar{ grid-template-columns: 1fr 360px; }
+  .rg-1-300  { grid-template-columns: 1fr 300px; }
+}
+
+/* Macro grid de 4 colunas → 2 no mobile */
+.grid-macros {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+@media (min-width: 480px) {
+  .grid-macros { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* ══════════════════════════════════════════
+   MODAL — responsivo no mobile
+══════════════════════════════════════════ */
+.modal-sheet {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 51;
+  width: min(420px, calc(100vw - 24px));
+  background: #111113;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@media (max-width: 520px) {
+  .modal-sheet {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transform: none;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    animation: sheetUp 0.25s cubic-bezier(0.16,1,0.3,1);
+    padding-bottom: calc(env(safe-area-inset-bottom) + 24px);
+  }
+}
+
+/* KPI strip — scroll horizontal no mobile, flex no desktop */
+.kpi-strip {
+  background: #111113;
+  border: 1px solid #27272A;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+}
+
+@media (max-width: 640px) {
+  .kpi-strip {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .kpi-strip::-webkit-scrollbar { display: none; }
+  .kpi-strip > * { flex: 0 0 auto; min-width: 110px; }
 }
 
 /* ══════════════════════════════════════════

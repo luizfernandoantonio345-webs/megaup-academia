@@ -88,7 +88,7 @@ export default function Analytics() {
         <StatCard icon={DollarSign} label="Receita no mês"      value={`R$${(d.receita_mes ?? 0).toLocaleString('pt-BR', { minimumFractionDigits: 0 })}`} />
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 16 }}>
+      <div className="rg-1-300" style={{ gap: 16 }}>
         {/* Treinos por dia */}
         <Panel title="Treinos — últimos 14 dias">
           {treinosDia.length === 0 ? (

@@ -89,7 +89,7 @@ export default function Agenda() {
     .sort((a, b) => new Date(a.data_hora) - new Date(b.data_hora))
 
   return (
-    <div style={{ padding: 24, maxWidth: 1100, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 24 }}>
+    <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 24 }}>
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -109,7 +109,7 @@ export default function Agenda() {
         </button>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: 20 }}>
+      <div className="rg-sidebar" style={{ gap: 20 }}>
         {/* Calendário */}
         <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '22px 20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
@@ -197,7 +197,7 @@ export default function Agenda() {
       {showModal && (
         <>
           <div onClick={() => setShowModal(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', zIndex: 50 }} />
-          <div style={{ position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', zIndex: 51, width: 420, background: '#111113', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 24, padding: 28, boxShadow: '0 32px 80px rgba(0,0,0,0.6)' }}>
+          <div className="modal-sheet">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 22 }}>
               <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800, color: '#F4F4F5' }}>Nova sessão</h2>
               <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#71717A' }}><X style={{ width: 18, height: 18 }} /></button>

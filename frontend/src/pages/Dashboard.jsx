@@ -105,7 +105,7 @@ export default function Dashboard() {
       </div>
 
       {/* KPI strip */}
-      <div style={{ background: '#111113', border: '1px solid #27272A', borderRadius: 10, display: 'flex', overflow: 'hidden' }}>
+      <div className="kpi-strip">
         <Kpi value={alunos.length}   label="Alunos"       to="/alunos" />
         <Kpi value={treinos.length}  label="Treinos"       />
         <Kpi value={Number(avgEx)}   label="Ex / treino"   />
@@ -113,7 +113,7 @@ export default function Dashboard() {
       </div>
 
       {/* Charts row */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0,3fr) minmax(0,2fr)', gap: 16 }}>
+      <div className="rg-3-2" style={{ gap: 16 }}>
         {/* Bar chart */}
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>

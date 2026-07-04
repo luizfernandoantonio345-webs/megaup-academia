@@ -84,7 +84,7 @@ export default function NutricaoAluno() {
       {/* Macros resumo */}
       <div style={{ background: 'linear-gradient(135deg,rgba(251,191,36,0.1),rgba(249,115,22,0.08))', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 20, padding: '18px 20px' }}>
         <p style={{ fontSize: 11, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>Total diário prescrito</p>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 12 }}>
+        <div className="grid-macros">
           {[
             { label: 'Kcal', value: `${totalKcal}`, meta: plano.objetivo_kcal, color: '#fbbf24' },
             { label: 'Prot.', value: `${Math.round(totalProt)}g`, meta: plano.objetivo_proteina ? `${plano.objetivo_proteina}g` : null, color: '#818cf8' },
