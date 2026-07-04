@@ -64,6 +64,18 @@ export function SkeletonTable({ rows = 5, cols = 4 }) {
   )
 }
 
+export function SkeletonChart({ height = 200 }) {
+  return (
+    <div className="relative overflow-hidden rounded-xl" style={{ height, background: 'rgba(255,255,255,0.03)' }}>
+      <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'flex-end', gap: 8, padding: '16px 12px 0' }}>
+        {[65, 40, 80, 55, 70, 35, 90].map((h, i) => (
+          <div key={i} className="skeleton flex-1 rounded-t-lg" style={{ height: `${h}%`, opacity: 0.6 + i * 0.04 }} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export function SkeletonPage() {
   return (
     <div className="space-y-8 animate-fade-in">

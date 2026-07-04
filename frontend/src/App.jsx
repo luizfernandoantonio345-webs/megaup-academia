@@ -1,11 +1,13 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
 import { Component } from 'react'
+import { AnimatePresence } from 'framer-motion'
 import { AuthProvider } from './contexts/AuthContext'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import Layout from './components/Layout'
 import LayoutAluno from './pages/aluno/LayoutAluno'
+import PageTransition from './components/PageTransition'
 
 import Landing from './pages/Landing'
 import Login from './pages/Login'
@@ -71,62 +73,77 @@ class ErrorBoundary extends Component {
   }
 }
 
+function P({ children }) {
+  return <PageTransition>{children}</PageTransition>
+}
+
+function AnimatedRoutes() {
+  const location = useLocation()
+  return (
+    <AnimatePresence mode="wait" initial={false}>
+      <Routes location={location} key={location.pathname}>
+        {/* Públicas */}
+        <Route path="/" element={<P><Landing /></P>} />
+        <Route path="/login" element={<P><Login /></P>} />
+        <Route path="/registrar" element={<P><Registrar /></P>} />
+        <Route path="/registro" element={<P><AceitarConvite /></P>} />
+        <Route path="/esqueci-senha" element={<P><EsqueciSenha /></P>} />
+        <Route path="/redefinir-senha" element={<P><RedefinirSenha /></P>} />
+        <Route path="/p/:code" element={<P><PerfilPublico /></P>} />
+
+        {/* Personal trainer / Admin */}
+        <Route element={<ProtectedRoute roles={['personal', 'admin_academia']} />}>
+          <Route path="/dashboard" element={<Layout><P><Dashboard /></P></Layout>} />
+          <Route path="/alunos" element={<Layout><P><Alunos /></P></Layout>} />
+          <Route path="/alunos/:id" element={<Layout><P><AlunoDetalhe /></P></Layout>} />
+          <Route path="/treinos/:id" element={<Layout><P><TreinoDetalhe /></P></Layout>} />
+          <Route path="/exercicios" element={<Layout><P><Exercicios /></P></Layout>} />
+          <Route path="/ia" element={<Layout><P><IA /></P></Layout>} />
+          <Route path="/convites" element={<Layout><P><Convites /></P></Layout>} />
+          <Route path="/financeiro" element={<Layout><P><Financeiro /></P></Layout>} />
+          <Route path="/planos" element={<Layout><P><Planos /></P></Layout>} />
+          <Route path="/periodizacao" element={<Layout><P><Periodizacao /></P></Layout>} />
+          <Route path="/referral" element={<Layout><P><Referral /></P></Layout>} />
+          <Route path="/analytics" element={<Layout><P><Analytics /></P></Layout>} />
+          <Route path="/alunos/:id/relatorio" element={<Layout><P><RelatorioAluno /></P></Layout>} />
+          <Route path="/agenda" element={<Layout><P><Agenda /></P></Layout>} />
+          <Route path="/inativos" element={<Layout><P><Inativos /></P></Layout>} />
+        </Route>
+
+        {/* Aluno */}
+        <Route element={<ProtectedRoute roles={['aluno']} />}>
+          <Route path="/aluno" element={<LayoutAluno><P><TreinoHoje /></P></LayoutAluno>} />
+          <Route path="/aluno/semana" element={<LayoutAluno><P><SemanaTreinos /></P></LayoutAluno>} />
+          <Route path="/aluno/conquistas" element={<LayoutAluno><P><Conquistas /></P></LayoutAluno>} />
+          <Route path="/aluno/chat" element={<LayoutAluno><P><ChatAluno /></P></LayoutAluno>} />
+          <Route path="/aluno/nutricao" element={<LayoutAluno><P><NutricaoAluno /></P></LayoutAluno>} />
+        </Route>
+
+        <Route path="/unauthorized" element={
+          <P>
+            <div style={{ minHeight:'100vh', background:'#070B14', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center', padding:24 }}>
+              <div>
+                <div style={{ fontSize:48, marginBottom:16 }}>🔒</div>
+                <h1 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:24, fontWeight:800, color:'#EFF6FF', marginBottom:8 }}>Acesso negado</h1>
+                <p style={{ color:'#4B5768', marginBottom:24, fontSize:14 }}>Você não tem permissão para acessar esta página.</p>
+                <a href="/login" style={{ color:'#818cf8', fontWeight:600, fontSize:14 }}>Voltar ao login</a>
+              </div>
+            </div>
+          </P>
+        } />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </AnimatePresence>
+  )
+}
+
 export default function App() {
   return (
     <ErrorBoundary>
       <QueryClientProvider client={qc}>
         <AuthProvider>
           <BrowserRouter>
-            <Routes>
-              {/* Públicas */}
-              <Route path="/" element={<Landing />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/registrar" element={<Registrar />} />
-              <Route path="/registro" element={<AceitarConvite />} />
-              <Route path="/esqueci-senha" element={<EsqueciSenha />} />
-              <Route path="/redefinir-senha" element={<RedefinirSenha />} />
-              <Route path="/p/:code" element={<PerfilPublico />} />
-
-              {/* Personal trainer / Admin */}
-              <Route element={<ProtectedRoute roles={['personal', 'admin_academia']} />}>
-                <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
-                <Route path="/alunos" element={<Layout><Alunos /></Layout>} />
-                <Route path="/alunos/:id" element={<Layout><AlunoDetalhe /></Layout>} />
-                <Route path="/treinos/:id" element={<Layout><TreinoDetalhe /></Layout>} />
-                <Route path="/exercicios" element={<Layout><Exercicios /></Layout>} />
-                <Route path="/ia" element={<Layout><IA /></Layout>} />
-                <Route path="/convites" element={<Layout><Convites /></Layout>} />
-                <Route path="/financeiro" element={<Layout><Financeiro /></Layout>} />
-                <Route path="/planos" element={<Layout><Planos /></Layout>} />
-                <Route path="/periodizacao" element={<Layout><Periodizacao /></Layout>} />
-                <Route path="/referral" element={<Layout><Referral /></Layout>} />
-                <Route path="/analytics" element={<Layout><Analytics /></Layout>} />
-                <Route path="/alunos/:id/relatorio" element={<Layout><RelatorioAluno /></Layout>} />
-                <Route path="/agenda" element={<Layout><Agenda /></Layout>} />
-                <Route path="/inativos" element={<Layout><Inativos /></Layout>} />
-              </Route>
-
-              {/* Aluno */}
-              <Route element={<ProtectedRoute roles={['aluno']} />}>
-                <Route path="/aluno" element={<LayoutAluno><TreinoHoje /></LayoutAluno>} />
-                <Route path="/aluno/semana" element={<LayoutAluno><SemanaTreinos /></LayoutAluno>} />
-                <Route path="/aluno/conquistas" element={<LayoutAluno><Conquistas /></LayoutAluno>} />
-                <Route path="/aluno/chat" element={<LayoutAluno><ChatAluno /></LayoutAluno>} />
-                <Route path="/aluno/nutricao" element={<LayoutAluno><NutricaoAluno /></LayoutAluno>} />
-              </Route>
-
-              <Route path="/unauthorized" element={
-                <div style={{ minHeight:'100vh', background:'#070B14', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center', padding:24 }}>
-                  <div>
-                    <div style={{ fontSize:48, marginBottom:16 }}>🔒</div>
-                    <h1 style={{ fontFamily:'Space Grotesk, sans-serif', fontSize:24, fontWeight:800, color:'#EFF6FF', marginBottom:8 }}>Acesso negado</h1>
-                    <p style={{ color:'#4B5768', marginBottom:24, fontSize:14 }}>Você não tem permissão para acessar esta página.</p>
-                    <a href="/login" style={{ color:'#818cf8', fontWeight:600, fontSize:14 }}>Voltar ao login</a>
-                  </div>
-                </div>
-              } />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
+            <AnimatedRoutes />
           </BrowserRouter>
           <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
         </AuthProvider>

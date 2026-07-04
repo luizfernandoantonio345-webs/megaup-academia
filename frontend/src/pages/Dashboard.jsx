@@ -4,13 +4,16 @@ import { useAuth } from '../contexts/AuthContext'
 import { Link } from 'react-router-dom'
 import { Users, Dumbbell, Brain, UserPlus, ArrowRight, BarChart2, TrendingUp, Zap, Activity } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
-import { SkeletonPage } from '../components/ui/Skeleton'
+import { SkeletonPage, SkeletonChart } from '../components/ui/Skeleton'
 import OnboardingWizard from '../components/OnboardingWizard'
+import { useCountUp } from '../hooks/useCountUp'
+import { motion } from 'framer-motion'
 
 const DIAS = ['Dom','Seg','Ter','Qua','Qui','Sex','Sab']
 const DIAS_API = ['domingo','segunda','terca','quarta','quinta','sexta','sabado']
 const DIAS_ALT = ['domingo','segunda','terca','quarta','quinta','sexta','sabado']
-const BAR_COLORS = ['#4f46e5','#5b52e8','#675feb','#736bee','#7f78f0','#8b84f3','#9791f6']
+// Palette color-blind safe (distinguível por deuteranopia/protanopia)
+const BAR_COLORS = ['#6366f1','#38bdf8','#34d399','#fbbf24','#f472b6','#a78bfa','#fb923c']
 
 const DarkTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
@@ -41,27 +44,41 @@ function Avatar({ nome, size = 36 }) {
   )
 }
 
+function AnimatedNum({ value, suffix = '' }) {
+  const num = typeof value === 'number' ? value : parseFloat(value)
+  const animated = useCountUp(isNaN(num) ? 0 : num, 900)
+  if (typeof value !== 'number' && isNaN(num)) return <span>{value}</span>
+  return <span>{animated}{suffix}</span>
+}
+
 function StatCard({ icon: Icon, label, value, sub, gradient, to, accent }) {
   const inner = (
-    <div
+    <motion.div
       className="card relative overflow-hidden"
-      style={{ cursor: to ? 'pointer' : 'default', transition: 'all 0.25s ease' }}
-      onMouseEnter={ev => { if (to) { ev.currentTarget.style.transform = 'translateY(-3px)'; ev.currentTarget.style.boxShadow = `0 16px 40px rgba(0,0,0,0.4), 0 0 24px ${accent}20` } }}
-      onMouseLeave={ev => { ev.currentTarget.style.transform = ''; ev.currentTarget.style.boxShadow = '' }}
+      style={{ cursor: to ? 'pointer' : 'default' }}
+      whileHover={to ? { y: -4, boxShadow: `0 20px 48px rgba(0,0,0,0.45), 0 0 28px ${accent}25` } : {}}
+      whileTap={to ? { scale: 0.98 } : {}}
+      transition={{ type: 'spring', stiffness: 400, damping: 28 }}
     >
-      <div style={{ position: 'absolute', top: -24, right: -24, width: 130, height: 130, borderRadius: '50%', background: `radial-gradient(circle, ${accent}22 0%, transparent 70%)`, pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', top: -24, right: -24, width: 130, height: 130, borderRadius: '50%', background: `radial-gradient(circle, ${accent}20 0%, transparent 70%)`, pointerEvents: 'none' }} />
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, position: 'relative', zIndex: 1 }}>
-        <div style={{ width: 52, height: 52, borderRadius: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: gradient, boxShadow: `0 0 24px ${accent}50` }}>
+        <motion.div
+          style={{ width: 52, height: 52, borderRadius: 18, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: gradient, boxShadow: `0 0 24px ${accent}50` }}
+          whileHover={{ scale: 1.08, rotate: 4 }}
+          transition={{ type: 'spring', stiffness: 500, damping: 20 }}
+        >
           <Icon style={{ width: 22, height: 22, color: 'white' }} />
-        </div>
+        </motion.div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 34, fontWeight: 900, color: '#EFF6FF', letterSpacing: '-0.04em', lineHeight: 1 }}>{value}</div>
+          <div style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 34, fontWeight: 900, color: '#EFF6FF', letterSpacing: '-0.04em', lineHeight: 1 }}>
+            <AnimatedNum value={value} />
+          </div>
           <div style={{ fontSize: 13, fontWeight: 600, marginTop: 4, color: '#94A3B8' }}>{label}</div>
           {sub && <div style={{ fontSize: 11, marginTop: 2, color: '#3D4F6A' }}>{sub}</div>}
         </div>
         {to && <ArrowRight style={{ width: 15, height: 15, flexShrink: 0, marginTop: 4, color: accent, opacity: 0.7 }} />}
       </div>
-    </div>
+    </motion.div>
   )
   return to ? <Link to={to} style={{ display: 'block', textDecoration: 'none' }}>{inner}</Link> : inner
 }
@@ -131,12 +148,20 @@ export default function Dashboard() {
               {[
                 { label: 'Alunos', val: alunos.length, color: '#a5b4fc' },
                 { label: 'Treinos', val: treinos.length, color: '#34d399' },
-                { label: 'Ex/treino', val: avgEx, color: '#fbbf24' },
-              ].map(({ label, val, color }) => (
-                <div key={label} style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
-                  <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 28, fontWeight: 900, color, lineHeight: 1 }}>{val}</span>
+                { label: 'Ex/treino', val: Number(avgEx), color: '#fbbf24' },
+              ].map(({ label, val, color }, i) => (
+                <motion.div
+                  key={label}
+                  style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.08, duration: 0.4, ease: [0.16,1,0.3,1] }}
+                >
+                  <span style={{ fontFamily: 'Space Grotesk, sans-serif', fontSize: 28, fontWeight: 900, color, lineHeight: 1 }}>
+                    <AnimatedNum value={val} />
+                  </span>
                   <span style={{ fontSize: 11, color: '#3D4F6A', fontWeight: 600 }}>{label}</span>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -182,18 +207,18 @@ export default function Dashboard() {
             <div className="empty-state" style={{ paddingTop: 40, paddingBottom: 40 }}>
               <div className="empty-icon"><Dumbbell style={{ width: 28, height: 28, color: '#4B5768' }} /></div>
               <p className="empty-title">Nenhum treino ainda</p>
-              <p className="empty-message">Crie treinos para ver a distribuicao semanal</p>
+              <p className="empty-message">Crie treinos para ver a distribuição semanal</p>
             </div>
           ) : (
             <ResponsiveContainer width="100%" height={200}>
               <BarChart data={treinosPorDia} barSize={28} margin={{ top: 4, right: 4, left: -16, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
-                <XAxis dataKey="dia" tick={{ fontSize: 11, fill: '#3D4F6A', fontFamily: 'Inter, sans-serif' }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontSize: 11, fill: '#3D4F6A' }} axisLine={false} tickLine={false} allowDecimals={false} width={20} />
-                <Tooltip content={<DarkTooltip />} cursor={{ fill: 'rgba(99,102,241,0.08)' }} />
-                <Bar dataKey="treinos" radius={[8, 8, 0, 0]} isAnimationActive={false}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.05)" />
+                <XAxis dataKey="dia" tick={{ fontSize: 11, fill: '#64748B', fontFamily: 'Inter, sans-serif' }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: 11, fill: '#64748B' }} axisLine={false} tickLine={false} allowDecimals={false} width={20} />
+                <Tooltip content={<DarkTooltip />} cursor={{ fill: 'rgba(99,102,241,0.07)', radius: 8 }} />
+                <Bar dataKey="treinos" radius={[8, 8, 3, 3]} isAnimationActive={false}>
                   {treinosPorDia.map((_, i) => (
-                    <Cell key={`cell-${i}`} fill={BAR_COLORS[i % BAR_COLORS.length]} fillOpacity={0.9} />
+                    <Cell key={`cell-${i}`} fill={BAR_COLORS[i % BAR_COLORS.length]} fillOpacity={0.85} />
                   ))}
                 </Bar>
               </BarChart>

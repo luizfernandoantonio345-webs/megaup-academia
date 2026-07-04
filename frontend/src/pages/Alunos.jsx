@@ -23,8 +23,20 @@ function ModalCriar({ onClose }) {
 
   const { mutate, isPending } = useMutation({
     mutationFn: criarAluno,
+    onMutate: async (novo) => {
+      await qc.cancelQueries({ queryKey: ['alunos'] })
+      const prev = qc.getQueryData(['alunos'])
+      qc.setQueryData(['alunos'], (old = []) => [
+        ...old,
+        { id: `temp-${Date.now()}`, ...novo, _optimistic: true },
+      ])
+      return { prev }
+    },
     onSuccess: () => { qc.invalidateQueries({ queryKey: ['alunos'] }); toast.success('Aluno criado!'); onClose() },
-    onError: (err) => toast.error(err.response?.data?.detail || 'Erro ao criar aluno'),
+    onError: (err, _, ctx) => {
+      if (ctx?.prev) qc.setQueryData(['alunos'], ctx.prev)
+      toast.error(err.response?.data?.detail || 'Não foi possível criar o aluno. Tente novamente.')
+    },
   })
 
   return (

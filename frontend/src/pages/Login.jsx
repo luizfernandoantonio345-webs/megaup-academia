@@ -14,12 +14,21 @@ export default function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', senha: '' })
+  const [touched, setTouched] = useState({ email: false, senha: false })
   const [loading, setLoading] = useState(false)
   const [showPass, setShowPass] = useState(false)
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
+  const touch = (k) => () => setTouched(t => ({ ...t, [k]: true }))
+
+  const errors = {
+    email: touched.email && !form.email.includes('@') ? 'Digite um e-mail válido' : '',
+    senha: touched.senha && form.senha.length < 4 ? 'Senha muito curta' : '',
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setTouched({ email: true, senha: true })
+    if (errors.email || errors.senha) return
     setLoading(true)
     try {
       const user = await login(form.email, form.senha)
@@ -29,7 +38,7 @@ export default function Login() {
         navigate('/dashboard')
       }
     } catch {
-      toast.error('E-mail ou senha incorretos')
+      toast.error('E-mail ou senha incorretos. Verifique suas credenciais.')
     } finally {
       setLoading(false)
     }
@@ -104,22 +113,36 @@ export default function Login() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="label">E-mail</label>
+              <label htmlFor="login-email" className="label">E-mail</label>
               <div className="relative">
-                <Mail style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', width:16, height:16, color:'#3D4F6A' }} />
-                <input className="input pl-11" type="email" placeholder="seu@email.com" value={form.email} onChange={set('email')} required autoComplete="email" />
+                <Mail style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', width:16, height:16, color:'#3D4F6A' }} aria-hidden="true" />
+                <input
+                  id="login-email"
+                  className={`input pl-11 ${errors.email ? 'input-error' : touched.email && form.email ? 'input-success' : ''}`}
+                  type="email" placeholder="seu@email.com"
+                  value={form.email} onChange={set('email')} onBlur={touch('email')}
+                  required autoComplete="email" aria-describedby={errors.email ? 'email-error' : undefined}
+                />
               </div>
+              {errors.email && <p id="email-error" className="field-error" role="alert">{errors.email}</p>}
             </div>
 
             <div>
-              <label className="label">Senha</label>
+              <label htmlFor="login-senha" className="label">Senha</label>
               <div className="relative">
-                <Lock style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', width:16, height:16, color:'#3D4F6A' }} />
-                <input className="input pl-11 pr-11" type={showPass ? 'text' : 'password'} placeholder="Sua senha" value={form.senha} onChange={set('senha')} required autoComplete="current-password" />
-                <button type="button" onClick={() => setShowPass(!showPass)} style={{ position:'absolute', right:12, top:'50%', transform:'translateY(-50%)', color:'#3D4F6A', background:'none', border:'none', cursor:'pointer' }}>
+                <Lock style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', width:16, height:16, color:'#3D4F6A' }} aria-hidden="true" />
+                <input
+                  id="login-senha"
+                  className={`input pl-11 pr-11 ${errors.senha ? 'input-error' : ''}`}
+                  type={showPass ? 'text' : 'password'} placeholder="Sua senha"
+                  value={form.senha} onChange={set('senha')} onBlur={touch('senha')}
+                  required autoComplete="current-password" aria-describedby={errors.senha ? 'senha-error' : undefined}
+                />
+                <button type="button" onClick={() => setShowPass(!showPass)} aria-label={showPass ? 'Ocultar senha' : 'Mostrar senha'} style={{ position:'absolute', right:12, top:'50%', transform:'translateY(-50%)', color:'#3D4F6A', background:'none', border:'none', cursor:'pointer' }}>
                   {showPass ? <EyeOff style={{ width:16, height:16 }} /> : <Eye style={{ width:16, height:16 }} />}
                 </button>
               </div>
+              {errors.senha && <p id="senha-error" className="field-error" role="alert">{errors.senha}</p>}
             </div>
 
             <div style={{ textAlign: 'right', marginTop: -8 }}>

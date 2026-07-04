@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { resumoNotificacoes } from '../api'
 import PlanBanner from './PlanBanner'
+import CommandPalette from './CommandPalette'
 
 const NAV_MAIN = [
   { to: '/dashboard',  icon: LayoutDashboard, label: 'Dashboard',       accent: '#818cf8', dot: '#6366f1' },
@@ -268,9 +269,14 @@ function NotifBell() {
   const navigate = useNavigate()
   if (!count) return null
   return (
-    <button onClick={() => navigate('/inativos')} title={`${count} aluno${count !== 1 ? 's' : ''} inativo${count !== 1 ? 's' : ''}`} style={{ position: 'relative', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', borderRadius: 10, cursor: 'pointer', padding: '7px 10px', color: '#f97316', display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 700 }}>
-      <Bell style={{ width: 15, height: 15 }} />
-      <span style={{ background: '#f97316', color: 'white', borderRadius: 6, fontSize: 10, fontWeight: 900, padding: '1px 5px', lineHeight: 1.4 }}>{count}</span>
+    <button
+      onClick={() => navigate('/inativos')}
+      aria-label={`${count} aluno${count !== 1 ? 's' : ''} inativo${count !== 1 ? 's' : ''} — ver lista`}
+      title={`${count} aluno${count !== 1 ? 's' : ''} inativo${count !== 1 ? 's' : ''}`}
+      style={{ position: 'relative', background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', borderRadius: 10, cursor: 'pointer', padding: '7px 10px', color: '#f97316', display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 700 }}
+    >
+      <Bell style={{ width: 15, height: 15 }} aria-hidden="true" />
+      <span aria-hidden="true" style={{ background: '#f97316', color: 'white', borderRadius: 6, fontSize: 10, fontWeight: 900, padding: '1px 5px', lineHeight: 1.4 }}>{count}</span>
     </button>
   )
 }
@@ -301,8 +307,9 @@ export default function Layout({ children }) {
           </div>
         </header>
 
-        {/* Desktop top bar with notification bell */}
+        {/* Desktop top bar — search + bell */}
         <div className="hidden lg:flex" style={{ alignItems: 'center', justifyContent: 'flex-end', padding: '10px 32px 0', gap: 10 }}>
+          <CommandPalette />
           <NotifBell />
         </div>
 
