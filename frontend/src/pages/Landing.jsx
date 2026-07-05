@@ -2,18 +2,18 @@
 import { Zap, Users, Brain, MessageCircle, BarChart2, Trophy, Shield, ArrowRight, Check, Star, ChevronRight } from 'lucide-react'
 
 const FEATURES = [
-  { icon: Brain,         color: '#a78bfa', bg: 'rgba(167,139,250,0.12)', title: 'IA de Progressão',     desc: 'Sugestões automáticas de carga baseadas no histórico real de cada aluno.' },
+  { icon: BarChart2,     color: '#818cf8', bg: 'rgba(129,140,248,0.12)', title: 'Analytics Completo',   desc: 'Retenção, frequência, receita e exercícios mais realizados — tudo em um painel.' },
   { icon: Trophy,        color: '#fbbf24', bg: 'rgba(251,191,36,0.12)',  title: 'Gamificação',           desc: 'Streak, conquistas e recordes para manter seus alunos motivados diariamente.' },
-  { icon: BarChart2,     color: '#818cf8', bg: 'rgba(129,140,248,0.12)', title: 'Periodização',          desc: 'Programe ciclos de hipertrofia, força e deload com presets prontos em segundos.' },
-  { icon: MessageCircle, color: '#f9a8d4', bg: 'rgba(249,168,212,0.12)', title: 'Chat Integrado',       desc: 'Comunique-se diretamente com cada aluno dentro do app, sem WhatsApp.' },
+  { icon: Brain,         color: '#a78bfa', bg: 'rgba(167,139,250,0.12)', title: 'Periodização',          desc: 'Programe ciclos de hipertrofia, força e deload com presets prontos em segundos.' },
+  { icon: MessageCircle, color: '#f9a8d4', bg: 'rgba(249,168,212,0.12)', title: 'Chat Integrado',        desc: 'Comunique-se diretamente com cada aluno dentro do app, sem WhatsApp.' },
   { icon: Users,         color: '#38bdf8', bg: 'rgba(56,189,248,0.12)',  title: 'Multi-aluno',           desc: 'Gerencie dezenas de alunos com treinos, avaliações e histórico individuais.' },
-  { icon: Shield,        color: '#34d399', bg: 'rgba(52,211,153,0.12)',  title: 'App Mobile (PWA)',      desc: 'Instala no celular como app nativo, funciona offline e vibra no descanso.' },
+  { icon: Shield,        color: '#34d399', bg: 'rgba(52,211,153,0.12)',  title: 'App Mobile (PWA)',       desc: 'Instala no celular como app nativo, funciona offline e vibra no descanso.' },
 ]
 
 const STEPS = [
   { n: '01', title: 'Crie sua conta',       desc: 'Registre-se em 30 segundos. Sem cartão de crédito. 14 dias grátis com acesso completo.', color: '#818cf8' },
   { n: '02', title: 'Monte os treinos',     desc: 'Adicione alunos, crie planos de treino e prescreva exercícios da biblioteca com vídeos.', color: '#34d399' },
-  { n: '03', title: 'Acompanhe resultados', desc: 'IA analisa o progresso, sugere aumentos de carga e gera relatórios automáticos.', color: '#fbbf24' },
+  { n: '03', title: 'Acompanhe resultados', desc: 'Visualize progresso com relatórios individuais, gráficos de frequência e ranking de engajamento.', color: '#fbbf24' },
 ]
 
 const PLANOS_PREVIEW = [
@@ -57,10 +57,10 @@ export default function Landing() {
       `}</style>
 
       {/* ── NAV ── */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(7,11,20,0.88)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+      <nav style={{ position: 'sticky', top: 0, zIndex: 50, background: 'rgba(12,12,13,0.92)', backdropFilter: 'blur(20px)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto', padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 34, height: 34, borderRadius: 11, background: '#6366f1', boxShadow: '0 0 16px rgba(99,102,241,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 34, height: 34, borderRadius: 11, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 16, height: 16, color: 'white' }} />
             </div>
             <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 18, letterSpacing: '-0.02em' }}>GymPro</span>
@@ -96,11 +96,11 @@ export default function Landing() {
 
           <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(36px,6vw,72px)', fontWeight: 600, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: 24 }}>
             Gerencie seus alunos<br />
-            com <span className="gradient-text">inteligência artificial</span>
+            com <span className="gradient-text">profissionalismo total</span>
           </h1>
 
           <p style={{ fontSize: 'clamp(16px,2.5vw,20px)', color: '#71717A', lineHeight: 1.6, maxWidth: 600, margin: '0 auto 40px', fontWeight: 400 }}>
-            Prescreva treinos, acompanhe progresso, receba sugestões de IA e mantenha seus alunos engajados — tudo em um único app.
+            Prescreva treinos, acompanhe progresso, gamifique o engajamento e gerencie pagamentos — tudo em um único app mobile.
           </p>
 
           <div style={{ display: 'flex', gap: 14, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -121,8 +121,8 @@ export default function Landing() {
         <div style={{ position: 'relative', maxWidth: 900, margin: '64px auto 0', display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' }}>
           {[
             { label: 'Streak atual', value: '🔥 14 dias', color: '#f97316', bg: 'rgba(249,115,22,0.1)', border: 'rgba(249,115,22,0.2)' },
-            { label: 'IA sugere', value: '↑ 2.5kg no supino', color: '#34d399', bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.2)' },
-            { label: 'Alunos ativos', value: '📊 23 / 50', color: '#818cf8', bg: 'rgba(99,102,241,0.1)', border: 'rgba(99,102,241,0.2)' },
+            { label: 'Frequência 30d', value: '📈 92% de presença', color: '#34d399', bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.2)' },
+            { label: 'Alunos ativos', value: '👥 23 / 50', color: '#818cf8', bg: 'rgba(99,102,241,0.1)', border: 'rgba(99,102,241,0.2)' },
           ].map(c => (
             <div key={c.label} className="hero-card" style={{ padding: '16px 22px', borderRadius: 18, background: c.bg, border: `1px solid ${c.border}`, backdropFilter: 'blur(12px)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)', minWidth: 200 }}>
               <p style={{ fontSize: 11, color: '#71717A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{c.label}</p>
@@ -168,7 +168,7 @@ export default function Landing() {
       </section>
 
       {/* ── COMO FUNCIONA ── */}
-      <section style={{ padding: '60px 24px 80px', background: 'rgba(14,21,37,0.5)' }}>
+      <section style={{ padding: '60px 24px 80px', background: 'rgba(255,255,255,0.015)' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 56 }}>
             <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(28px,4vw,40px)', fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 12 }}>Como funciona</h2>
@@ -217,7 +217,7 @@ export default function Landing() {
       </section>
 
       {/* ── PREÇOS ── */}
-      <section id="preco" style={{ padding: '60px 24px 80px', background: 'rgba(14,21,37,0.5)' }}>
+      <section id="preco" style={{ padding: '60px 24px 80px', background: 'rgba(255,255,255,0.015)' }}>
         <div style={{ maxWidth: 900, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 48 }}>
             <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(28px,4vw,40px)', fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 12 }}>

@@ -49,7 +49,7 @@ def _base(content: str) -> str:
           <td style="padding:20px 32px;border-top:1px solid #f4f4f5;">
             <p style="margin:0;font-size:12px;color:#71717a;">
               GymPro · Plataforma para Personal Trainers<br>
-              <a href="https://fitsaas-frontend.onrender.com" style="color:#6366f1;text-decoration:none;">fitsaas-frontend.onrender.com</a>
+              <a href="{settings.FRONTEND_BASE_URL}" style="color:#6366f1;text-decoration:none;">{settings.FRONTEND_BASE_URL}</a>
             </p>
           </td>
         </tr>
@@ -142,7 +142,7 @@ def enviar_boas_vindas(email: str, nome: str) -> None:
     content = (
         _h2(f"Bem-vindo ao GymPro, {nome}!")
         + _p("Sua conta foi criada com sucesso. Você tem <strong>14 dias</strong> de acesso completo para explorar todas as funcionalidades.")
-        + _btn("https://fitsaas-frontend.onrender.com/dashboard", "Acessar plataforma")
+        + _btn(f"{settings.FRONTEND_BASE_URL}/dashboard", "Acessar plataforma")
         + _p("Qualquer dúvida, basta responder este e-mail.", muted=True)
     )
     _send(email, "Bem-vindo ao GymPro!", _base(content))

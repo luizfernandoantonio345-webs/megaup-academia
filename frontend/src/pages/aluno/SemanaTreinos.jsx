@@ -47,7 +47,6 @@ function DayPill({ dia, isHoje, isAtivo, treinosDia, onClick }) {
         borderRadius: 20, flexShrink: 0,
         border: `1px solid ${isAtivo ? (tema?.border || 'rgba(99,102,241,0.5)') : isHoje ? 'rgba(99,102,241,0.25)' : 'rgba(255,255,255,0.06)'}`,
         background: isAtivo ? (tema?.bg || 'rgba(99,102,241,0.12)') : isHoje ? 'rgba(99,102,241,0.06)' : 'rgba(255,255,255,0.02)',
-        boxShadow: isAtivo ? `0 0 22px ${tema?.glow || 'rgba(99,102,241,0.3)'}` : 'none',
         cursor: 'pointer', transition: 'all 0.22s ease',
         position: 'relative',
       }}
@@ -63,7 +62,7 @@ function DayPill({ dia, isHoje, isAtivo, treinosDia, onClick }) {
       )}
       <span style={{
         fontSize: 10, fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase',
-        color: isAtivo ? (tema?.color || '#a5b4fc') : isHoje ? '#818cf8' : '#2D3F5A',
+        color: isAtivo ? (tema?.color || '#a5b4fc') : isHoje ? '#818cf8' : '#52525B',
         fontFamily: 'Inter, sans-serif', transition: 'color 0.2s',
       }}>{curto}</span>
       <div style={{
@@ -97,7 +96,7 @@ function ExRow({ item, idx, exMap }) {
           {ex?.nome || `Exercício ${idx + 1}`}
         </p>
         {ex?.grupo_muscular && (
-          <p style={{ fontSize: 10, color: '#2D3F5A', marginTop: 2, textTransform: 'capitalize' }}>
+          <p style={{ fontSize: 10, color: '#52525B', marginTop: 2, textTransform: 'capitalize' }}>
             {ex.grupo_muscular}
           </p>
         )}
@@ -127,7 +126,6 @@ function TreinoWeekCard({ treino, exMap }) {
       borderRadius: 22, overflow: 'hidden',
       background: tema.bg,
       border: `1px solid ${tema.border}`,
-      boxShadow: `0 4px 28px ${tema.glow}`,
     }}>
       {/* Color accent line */}
       <div style={{ height: 2, background: `linear-gradient(90deg, transparent, ${tema.color}, transparent)` }} />
@@ -137,9 +135,8 @@ function TreinoWeekCard({ treino, exMap }) {
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 13 }}>
           <div style={{
             width: 46, height: 46, borderRadius: 15, flexShrink: 0,
-            background: `${tema.color}1a`, border: `1.5px solid ${tema.border}`,
+            background: `${tema.color}1a`, border: `1px solid ${tema.border}`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: `0 0 18px ${tema.glow}`,
           }}>
             <Dumbbell style={{ width: 20, height: 20, color: tema.color }} />
           </div>
@@ -240,7 +237,6 @@ export default function SemanaTreinos() {
             width: 36, height: 36, borderRadius: 13,
             background: '#6366f1',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: '0 0 18px rgba(99,102,241,0.45)',
           }}>
             <Calendar style={{ width: 17, height: 17, color: 'white' }} />
           </div>
@@ -259,14 +255,13 @@ export default function SemanaTreinos() {
       {/* ── Stats ── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
         {[
-          { label: 'Treinos', value: diasComTreino, Icon: Dumbbell, color: '#818cf8', glow: 'rgba(129,140,248,0.2)' },
-          { label: 'Descanso', value: 7 - diasComTreino, Icon: Moon, color: '#38bdf8', glow: 'rgba(56,189,248,0.2)' },
-          { label: 'Exercícios', value: totalExercicios, Icon: Target, color: '#34d399', glow: 'rgba(52,211,153,0.2)' },
-        ].map(({ label, value, Icon, color, glow }) => (
+          { label: 'Treinos', value: diasComTreino, Icon: Dumbbell, color: '#818cf8' },
+          { label: 'Descanso', value: 7 - diasComTreino, Icon: Moon, color: '#38bdf8' },
+          { label: 'Exercícios', value: totalExercicios, Icon: Target, color: '#34d399' },
+        ].map(({ label, value, Icon, color }) => (
           <div key={label} style={{
             borderRadius: 18, padding: '14px',
             background: `${color}0c`, border: `1px solid ${color}22`,
-            boxShadow: `0 2px 16px ${glow}`,
             display: 'flex', flexDirection: 'column', gap: 6,
           }}>
             <Icon style={{ width: 15, height: 15, color }} />
@@ -287,7 +282,7 @@ export default function SemanaTreinos() {
         borderRadius: 18, padding: '14px 16px',
         background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
       }}>
-        <p style={{ fontSize: 10, color: '#2D3F5A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 10 }}>
+        <p style={{ fontSize: 10, color: '#52525B', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 10 }}>
           Visão geral
         </p>
         <div style={{ display: 'flex', gap: 6, alignItems: 'flex-end' }}>
@@ -307,8 +302,7 @@ export default function SemanaTreinos() {
                     : qt > 0
                       ? `${tema?.color || '#6366f1'}40`
                       : 'rgba(255,255,255,0.05)',
-                  border: isHoje ? `1.5px solid ${tema?.color || '#6366f1'}` : 'none',
-                  boxShadow: isAtivo ? `0 0 12px ${tema?.glow || 'rgba(99,102,241,0.4)'}` : 'none',
+                  border: isHoje ? `1px solid ${tema?.color || '#6366f1'}` : 'none',
                   cursor: 'pointer', transition: 'all 0.2s',
                 }}
                 title={DIAS_INFO[dia].full}
