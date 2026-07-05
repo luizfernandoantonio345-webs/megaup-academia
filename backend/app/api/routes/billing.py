@@ -39,11 +39,13 @@ def billing_status(
 
     alunos_atuais = db.query(Aluno).filter(Aluno.tenant_id == tenant.id).count()
 
+    from app.services.billing import _stripe_disponivel
     return {
         **info,
         "alunos_atuais": alunos_atuais,
         "stripe_customer_id": getattr(tenant, "stripe_customer_id", None),
         "tem_assinatura": getattr(tenant, "stripe_subscription_id", None) is not None,
+        "stripe_configurado": _stripe_disponivel(),
     }
 
 

@@ -103,7 +103,7 @@ export default function ChatBox({ alunoId, outroNome }) {
           if (item.type === 'date') {
             return (
               <div key={item.key} style={{ textAlign: 'center', margin: '8px 0' }}>
-                <span style={{ fontSize: 11, color: '#2A3A56', fontWeight: 600, background: 'rgba(255,255,255,0.04)', padding: '3px 10px', borderRadius: 999 }}>{item.label}</span>
+                <span style={{ fontSize: 11, color: '#52525B', fontWeight: 600, background: 'rgba(255,255,255,0.04)', padding: '3px 10px', borderRadius: 999 }}>{item.label}</span>
               </div>
             )
           }
@@ -118,7 +118,7 @@ export default function ChatBox({ alunoId, outroNome }) {
                 <p style={{ fontSize: 14, color: item.meu ? 'white' : '#F4F4F5', lineHeight: 1.45, margin: 0, wordBreak: 'break-word' }}>
                   {item.texto}
                 </p>
-                <p style={{ fontSize: 10, color: item.meu ? 'rgba(255,255,255,0.5)' : '#2A3A56', margin: '4px 0 0', textAlign: 'right' }}>
+                <p style={{ fontSize: 10, color: item.meu ? 'rgba(255,255,255,0.5)' : '#52525B', margin: '4px 0 0', textAlign: 'right' }}>
                   {formatTime(item.criado_em)}{item.meu && (item.lido ? ' ✓✓' : ' ✓')}
                 </p>
               </div>

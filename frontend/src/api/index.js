@@ -76,7 +76,7 @@ export const criarAvaliacao   = (alunoId, data) => api.post(`/alunos/${alunoId}/
 export const deletarAvaliacao = (alunoId, avId) => api.delete(`/alunos/${alunoId}/avaliacoes/${avId}`)
 
 // Analytics
-export const analyticsResumo = ()           => api.get('/analytics/resumo')
+export const analyticsResumo = (dias = 7)   => api.get('/analytics/resumo', { params: { dias } })
 export const analyticsAluno  = (alunoId)    => api.get(`/analytics/aluno/${alunoId}`)
 
 // Agenda

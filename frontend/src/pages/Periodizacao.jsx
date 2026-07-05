@@ -72,7 +72,7 @@ function ProgramaCard({ programa, alunos, onDelete }) {
               <span style={{ fontSize: 11, color: '#71717A' }}>{semanas} semanas · {fases.length} fases</span>
             </div>
           </div>
-          <button onClick={() => onDelete(programa.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#2A3A56', padding: 6 }}>
+          <button onClick={() => onDelete(programa.id)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#52525B', padding: 6 }}>
             <Trash2 style={{ width: 13, height: 13 }} />
           </button>
         </div>
@@ -103,7 +103,7 @@ function ProgramaCard({ programa, alunos, onDelete }) {
                     <span style={{ fontSize: 11, color: '#71717A' }}>{f.intensidade_pct}% 1RM</span>
                     <span style={{ fontSize: 11, color: '#71717A' }}>{f.descanso_seg}s descanso</span>
                   </div>
-                  {f.descricao && <p style={{ fontSize: 11, color: '#2A3A56', marginTop: 5, paddingLeft: 26 }}>{f.descricao}</p>}
+                  {f.descricao && <p style={{ fontSize: 11, color: '#52525B', marginTop: 5, paddingLeft: 26 }}>{f.descricao}</p>}
                 </div>
               )
             })}
@@ -218,7 +218,7 @@ function NovoPrograma({ alunos, onClose }) {
                     <span style={{ width: 22, height: 22, borderRadius: '50%', background: fObj.bg, border: `1px solid ${fObj.border}`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: fObj.color, flexShrink: 0 }}>{i + 1}</span>
                     <input value={f.nome} onChange={e => { setUsandoPreset(false); setFase(i, 'nome', e.target.value) }} style={{ flex: 1, background: 'none', border: 'none', color: '#F4F4F5', fontSize: 14, fontWeight: 700, fontFamily: 'Inter, sans-serif', outline: 'none' }} />
                     {fases.length > 1 && (
-                      <button onClick={() => removeFase(i)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#2A3A56' }}>
+                      <button onClick={() => removeFase(i)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#52525B' }}>
                         <Trash2 style={{ width: 12, height: 12 }} />
                       </button>
                     )}
@@ -292,9 +292,8 @@ export default function Periodizacao() {
   return (
     <div className="space-y-6 animate-fade-in">
       {/* Header */}
-      <div style={{ background: 'linear-gradient(135deg,#0a0f1e,#0e1525,#141d30)', border: '1px solid rgba(167,139,250,0.2)', borderRadius: 24, padding: '28px 32px', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: -40, right: -40, width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(167,139,250,0.15) 0%, transparent 70%)', pointerEvents: 'none' }} />
-        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20, position: 'relative', zIndex: 1 }}>
+      <div style={{ background: '#111113', border: '1px solid #27272A', borderRadius: 16, padding: '24px 28px' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
               <div style={{ width: 36, height: 36, borderRadius: 12, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -305,7 +304,7 @@ export default function Periodizacao() {
             <p style={{ fontSize: 13, color: '#71717A', margin: 0 }}>Crie programas estruturados com fases de hipertrofia, força e deload</p>
             {programas.length > 0 && (
               <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-                <span style={{ padding: '4px 12px', borderRadius: 999, fontSize: 11, fontWeight: 700, background: 'rgba(167,139,250,0.12)', color: '#c4b5fd', border: '1px solid rgba(167,139,250,0.25)' }}>
+                <span style={{ padding: '4px 12px', borderRadius: 999, fontSize: 11, fontWeight: 700, background: 'rgba(99,102,241,0.12)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.25)' }}>
                   {programas.length} programa{programas.length !== 1 ? 's' : ''}
                 </span>
               </div>

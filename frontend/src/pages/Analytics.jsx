@@ -1,7 +1,14 @@
+import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { analyticsResumo } from '../api'
 import { useAuth } from '../contexts/AuthContext'
 import { Users, Dumbbell, TrendingUp, DollarSign, Flame, Activity, BarChart2 } from 'lucide-react'
+
+const PERIODOS = [
+  { dias: 7,  label: '7d' },
+  { dias: 30, label: '30d' },
+  { dias: 90, label: '90d' },
+]
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
   PieChart, Pie, Cell,
@@ -49,10 +56,12 @@ function Panel({ title, children }) {
 
 export default function Analytics() {
   const { user } = useAuth()
+  const [dias, setDias] = useState(7)
+
   const { data, isLoading } = useQuery({
-    queryKey: ['analytics-resumo'],
-    queryFn: async () => (await analyticsResumo()).data,
-    staleTime: 60_000,
+    queryKey: ['analytics-resumo', dias],
+    queryFn: async () => (await analyticsResumo(dias)).data,
+    staleTime: 30_000,
   })
 
   if (isLoading) {
@@ -69,28 +78,40 @@ export default function Analytics() {
 
   const d = data || {}
   const retencao = d.total_alunos > 0 ? Math.round((d.alunos_ativos_7d / d.total_alunos) * 100) : 0
-  const treinosDia = (d.treinos_por_dia || []).map(r => ({ dia: r.dia.slice(5), total: r.total })).slice(-14)
+  const treinosDia = (d.treinos_por_dia || []).map(r => ({ dia: r.dia.slice(5), total: r.total }))
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className="animate-fade-in">
       {/* Header */}
-      <div>
-        <h1 style={{ fontSize: 18, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em', marginBottom: 2 }}>Analytics</h1>
-        <p style={{ fontSize: 13, color: '#71717A' }}>Visão geral do seu negócio</p>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
+        <div>
+          <h1 style={{ fontSize: 18, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em', marginBottom: 2 }}>Analytics</h1>
+          <p style={{ fontSize: 13, color: '#71717A' }}>Visão geral do seu negócio</p>
+        </div>
+        <div style={{ display: 'flex', gap: 6, background: '#111113', border: '1px solid #27272A', borderRadius: 10, padding: 4 }}>
+          {PERIODOS.map(p => (
+            <button key={p.dias} onClick={() => setDias(p.dias)} style={{
+              padding: '5px 14px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600,
+              background: dias === p.dias ? '#6366f1' : 'transparent',
+              color: dias === p.dias ? 'white' : '#71717A',
+              transition: 'background 0.15s, color 0.15s',
+            }}>{p.label}</button>
+          ))}
+        </div>
       </div>
 
       {/* KPIs */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(190px,1fr))', gap: 14 }}>
-        <StatCard icon={Users}      label="Total de alunos"     value={d.total_alunos ?? '—'} />
-        <StatCard icon={Activity}   label="Ativos (7 dias)"     value={d.alunos_ativos_7d ?? '—'} sub={`${retencao}% de retenção`} />
-        <StatCard icon={TrendingUp} label="Inativos (7 dias)"   value={d.alunos_inativos_7d ?? '—'} sub="sem treinar" />
-        <StatCard icon={Dumbbell}   label="Treinos esta semana" value={d.treinos_semana ?? '—'} />
-        <StatCard icon={DollarSign} label="Receita no mês"      value={`R$${(d.receita_mes ?? 0).toLocaleString('pt-BR', { minimumFractionDigits: 0 })}`} />
+        <StatCard icon={Users}      label="Total de alunos"              value={d.total_alunos ?? '—'} />
+        <StatCard icon={Activity}   label={`Ativos (${dias}d)`}          value={d.alunos_ativos_7d ?? '—'} sub={`${retencao}% de retenção`} />
+        <StatCard icon={TrendingUp} label={`Inativos (${dias}d)`}        value={d.alunos_inativos_7d ?? '—'} sub="sem treinar" />
+        <StatCard icon={Dumbbell}   label={`Treinos (${dias}d)`}         value={d.treinos_semana ?? '—'} />
+        <StatCard icon={DollarSign} label="Receita no mês"               value={`R$${(d.receita_mes ?? 0).toLocaleString('pt-BR', { minimumFractionDigits: 0 })}`} />
       </div>
 
       <div className="rg-1-300" style={{ gap: 16 }}>
         {/* Treinos por dia */}
-        <Panel title="Treinos — últimos 14 dias">
+        <Panel title={`Treinos — últimos ${dias} dias`}>
           {treinosDia.length === 0 ? (
             <div style={{ height: 180, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <p style={{ color: '#71717A', fontSize: 13 }}>Nenhum treino neste período</p>
@@ -144,7 +165,7 @@ export default function Analytics() {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
         {/* Top exercícios */}
-        <Panel title="Exercícios mais realizados (30d)">
+        <Panel title={`Exercícios mais realizados (${dias}d)`}>
           {(d.top_exercicios || []).length === 0 ? (
             <p style={{ color: '#71717A', fontSize: 13 }}>Nenhum dado ainda</p>
           ) : (

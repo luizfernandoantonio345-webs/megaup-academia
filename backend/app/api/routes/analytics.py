@@ -4,7 +4,7 @@ GET /analytics/resumo         → métricas gerais do tenant
 GET /analytics/aluno/{id}     → dados completos para relatório PDF do aluno
 """
 from datetime import datetime, timedelta
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
@@ -24,35 +24,32 @@ def _tenant_id(user: User) -> int:
 
 @router.get("/resumo")
 def resumo(
+    dias: int = Query(7, ge=7, le=90),
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
     tid = _tenant_id(current_user)
     agora = datetime.utcnow()
-    sete_dias = agora - timedelta(days=7)
-    trinta_dias = agora - timedelta(days=30)
+    periodo = agora - timedelta(days=dias)
     inicio_mes = agora.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
 
     total_alunos = db.query(func.count(Aluno.id)).filter(Aluno.tenant_id == tid).scalar() or 0
 
-    # Alunos que treinaram nos últimos 7 dias
     ativos_ids = (
         db.query(ExecucaoTreino.aluno_id)
-        .filter(ExecucaoTreino.tenant_id == tid, ExecucaoTreino.data >= sete_dias)
+        .filter(ExecucaoTreino.tenant_id == tid, ExecucaoTreino.data >= periodo)
         .distinct()
         .subquery()
     )
-    alunos_ativos_7d = db.query(func.count()).select_from(ativos_ids).scalar() or 0
-    alunos_inativos_7d = max(0, total_alunos - alunos_ativos_7d)
+    alunos_ativos = db.query(func.count()).select_from(ativos_ids).scalar() or 0
+    alunos_inativos = max(0, total_alunos - alunos_ativos)
 
-    # Treinos executados esta semana
-    treinos_semana = (
+    treinos_periodo = (
         db.query(func.count(ExecucaoTreino.id))
-        .filter(ExecucaoTreino.tenant_id == tid, ExecucaoTreino.data >= sete_dias)
+        .filter(ExecucaoTreino.tenant_id == tid, ExecucaoTreino.data >= periodo)
         .scalar() or 0
     )
 
-    # Receita recebida no mês corrente
     receita_mes = (
         db.query(func.coalesce(func.sum(Cobranca.valor), 0))
         .filter(
@@ -63,20 +60,18 @@ def resumo(
         .scalar() or 0.0
     )
 
-    # Treinos por dia — últimos 30 dias (para gráfico de linha)
     rows = (
         db.query(
             func.date(ExecucaoTreino.data).label("dia"),
             func.count(ExecucaoTreino.id).label("total"),
         )
-        .filter(ExecucaoTreino.tenant_id == tid, ExecucaoTreino.data >= trinta_dias)
+        .filter(ExecucaoTreino.tenant_id == tid, ExecucaoTreino.data >= periodo)
         .group_by(func.date(ExecucaoTreino.data))
         .order_by(func.date(ExecucaoTreino.data))
         .all()
     )
     treinos_por_dia = [{"dia": str(r.dia), "total": r.total} for r in rows]
 
-    # Distribuição por objetivo
     obj_rows = (
         db.query(Aluno.objetivo, func.count(Aluno.id).label("n"))
         .filter(Aluno.tenant_id == tid)
@@ -85,7 +80,6 @@ def resumo(
     )
     por_objetivo = [{"objetivo": r.objetivo or "Não definido", "n": r.n} for r in obj_rows]
 
-    # Alunos com maior streak
     top_streak = (
         db.query(Aluno.nome, Aluno.streak_atual, Aluno.streak_recorde)
         .filter(Aluno.tenant_id == tid, Aluno.streak_atual > 0)
@@ -94,12 +88,11 @@ def resumo(
         .all()
     )
 
-    # Exercícios mais realizados no tenant
     top_exercicios = (
         db.query(Exercicio.nome, func.count(ExecucaoItem.id).label("n"))
         .join(ExecucaoItem, ExecucaoItem.exercicio_id == Exercicio.id)
         .join(ExecucaoTreino, ExecucaoTreino.id == ExecucaoItem.execucao_id)
-        .filter(ExecucaoTreino.tenant_id == tid, ExecucaoTreino.data >= trinta_dias)
+        .filter(ExecucaoTreino.tenant_id == tid, ExecucaoTreino.data >= periodo)
         .group_by(Exercicio.nome)
         .order_by(func.count(ExecucaoItem.id).desc())
         .limit(8)
@@ -108,9 +101,9 @@ def resumo(
 
     return {
         "total_alunos": total_alunos,
-        "alunos_ativos_7d": alunos_ativos_7d,
-        "alunos_inativos_7d": alunos_inativos_7d,
-        "treinos_semana": treinos_semana,
+        "alunos_ativos_7d": alunos_ativos,
+        "alunos_inativos_7d": alunos_inativos,
+        "treinos_semana": treinos_periodo,
         "receita_mes": float(receita_mes),
         "treinos_por_dia": treinos_por_dia,
         "por_objetivo": por_objetivo,

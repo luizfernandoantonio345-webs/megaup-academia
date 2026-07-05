@@ -209,6 +209,19 @@ export default function Planos() {
           </div>
         </div>
 
+        {/* Stripe not configured notice */}
+        {status && !status.stripe_configurado && (
+          <div style={{ marginBottom: 24, padding: '14px 20px', borderRadius: 14, background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.25)', display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+            <div style={{ fontSize: 18, flexShrink: 0 }}>⚙️</div>
+            <div>
+              <p style={{ fontSize: 14, fontWeight: 600, color: '#fbbf24', marginBottom: 4 }}>Pagamentos não configurados</p>
+              <p style={{ fontSize: 13, color: '#A1A1AA', lineHeight: 1.5 }}>
+                A integração com Stripe ainda não foi ativada. Configure a variável <code style={{ background: 'rgba(255,255,255,0.08)', padding: '1px 6px', borderRadius: 4, fontSize: 12 }}>STRIPE_SECRET_KEY</code> no servidor para habilitar upgrades de plano.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Planos grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: 20, alignItems: 'start' }}>
           {PLANOS.map(p => {
@@ -311,18 +324,20 @@ export default function Planos() {
                   ) : (
                     <button
                       onClick={() => handleUpgrade(p.tier)}
-                      disabled={loadingTier === p.tier}
+                      disabled={loadingTier === p.tier || !status?.stripe_configurado}
+                      title={!status?.stripe_configurado ? 'Pagamentos não configurados' : undefined}
                       style={{
                         width: '100%', padding: '13px', borderRadius: 14,
                         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                        fontSize: 14, fontWeight: 600, cursor: 'pointer', border: 'none',
+                        fontSize: 14, fontWeight: 600, border: 'none',
+                        cursor: (!status?.stripe_configurado || loadingTier === p.tier) ? 'not-allowed' : 'pointer',
                         background: p.destaque
                           ? `linear-gradient(135deg, ${p.color}cc, ${p.color}88)`
                           : `${p.color}22`,
                         color: p.destaque ? '#111113' : p.color,
-                        boxShadow: p.destaque ? `0 0 24px ${p.glow}` : 'none',
+                        boxShadow: p.destaque && status?.stripe_configurado ? `0 0 24px ${p.glow}` : 'none',
                         transition: 'all 0.2s',
-                        opacity: loadingTier === p.tier ? 0.6 : 1,
+                        opacity: (loadingTier === p.tier || !status?.stripe_configurado) ? 0.45 : 1,
                       }}
                     >
                       {loadingTier === p.tier ? (
