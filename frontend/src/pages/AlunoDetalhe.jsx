@@ -73,7 +73,7 @@ export default function AlunoDetalhe() {
         </Link>
         <button
           onClick={() => navigate(`/alunos/${id}/relatorio`)}
-          style={{ background:'rgba(99,102,241,0.12)', border:'1px solid rgba(99,102,241,0.25)', borderRadius:12, color:'#818cf8', cursor:'pointer', fontWeight:700, fontSize:13, padding:'8px 16px', display:'flex', alignItems:'center', gap:6 }}
+          style={{ background:'rgba(99,102,241,0.12)', border:'1px solid rgba(99,102,241,0.25)', borderRadius:12, color:'#818cf8', cursor:'pointer', fontWeight:600, fontSize:13, padding:'8px 16px', display:'flex', alignItems:'center', gap:6 }}
         >
           <FileText style={{ width:14, height:14 }} /> Relatório PDF
         </button>
@@ -107,7 +107,7 @@ export default function AlunoDetalhe() {
           </div>
 
           {gami && gami.streak_atual > 0 && (
-            <div className="flex-shrink-0 flex flex-col items-center gap-1 rounded-2xl px-4 py-3 text-white" style={{ background:'linear-gradient(135deg,#9a3412,#c2410c)', boxShadow:'0 0 20px rgba(249,115,22,0.3)' }}>
+            <div className="flex-shrink-0 flex flex-col items-center gap-1 rounded-2xl px-4 py-3 text-white" style={{ background:'#c2410c' }}>
               <Flame style={{ width:18, height:18 }} />
               <div style={{ fontFamily:'Inter, sans-serif', fontSize:24, fontWeight:600, lineHeight:1 }}>{gami.streak_atual}</div>
               <div style={{ fontSize:10, color:'rgba(255,255,255,0.6)', fontWeight:600 }}>streak</div>
@@ -162,7 +162,7 @@ export default function AlunoDetalhe() {
                 <MessageCircle style={{ width:14, height:14, color:'#818cf8' }} />
               </div>
               <div>
-                <p style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14, lineHeight:1 }}>Chat com {aluno?.nome?.split(' ')[0]}</p>
+                <p style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:14, lineHeight:1 }}>Chat com {aluno?.nome?.split(' ')[0]}</p>
                 <p style={{ fontSize:11, color:'#71717A', marginTop:2 }}>As mensagens são privadas entre você e o aluno</p>
               </div>
             </div>
@@ -204,8 +204,8 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
     if (!active || !payload?.length) return null
     return (
       <div style={{ background: '#111113', border: '1px solid rgba(99,102,241,0.3)', borderRadius: 12, padding: '8px 14px', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
-        <p style={{ color: '#71717A', fontSize: 11, fontWeight: 700, marginBottom: 2 }}>{label}</p>
-        <p style={{ color: '#a5b4fc', fontWeight: 700, fontSize: 15, fontFamily: 'Inter, sans-serif' }}>{payload[0]?.value} kg</p>
+        <p style={{ color: '#71717A', fontSize: 11, fontWeight: 600, marginBottom: 2 }}>{label}</p>
+        <p style={{ color: '#a5b4fc', fontWeight: 600, fontSize: 15, fontFamily: 'Inter, sans-serif' }}>{payload[0]?.value} kg</p>
       </div>
     )
   }
@@ -254,7 +254,7 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
       <div className="card">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#F4F4F5', fontSize: 14 }}>Evolucao de carga</h3>
+            <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 14 }}>Evolucao de carga</h3>
             <p style={{ fontSize: 12, color: '#71717A', marginTop: 2 }}>
               {chartData.length > 0 ? `${chartData.length} sessao${chartData.length !== 1 ? 'es' : ''} registrada${chartData.length !== 1 ? 's' : ''}` : 'Sem execucoes registradas'}
             </p>
@@ -311,7 +311,7 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p style={{ fontSize: 13, fontWeight: 700, color: '#F4F4F5', fontFamily: 'Inter, sans-serif' }}>
+                    <p style={{ fontSize: 13, fontWeight: 600, color: '#F4F4F5', fontFamily: 'Inter, sans-serif' }}>
                       {s.carga_realizada != null ? `${s.carga_realizada}kg` : '--'}
                       {s.repeticoes_realizadas ? ` × ${s.repeticoes_realizadas} reps` : ''}
                       {s.series_realizadas ? ` × ${s.series_realizadas} series` : ''}
@@ -338,7 +338,7 @@ function TreinosTab({ aluno, treinos, onCriar }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#A1A1AA', fontSize:13 }}>Treinos de {aluno?.nome?.split(' ')[0]}</h2>
+        <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#A1A1AA', fontSize:13 }}>Treinos de {aluno?.nome?.split(' ')[0]}</h2>
         <button className="btn-primary btn-sm" onClick={() => setShowForm(!showForm)}>
           <Plus style={{ width:12, height:12 }} /> Novo treino
         </button>
@@ -346,7 +346,7 @@ function TreinosTab({ aluno, treinos, onCriar }) {
 
       {showForm && (
         <div className="card animate-slide-down" style={{ border:'1px solid rgba(99,102,241,0.3)' }}>
-          <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14, marginBottom:16 }}>Novo treino</h3>
+          <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:14, marginBottom:16 }}>Novo treino</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             <div>
               <label className="label">Nome do treino *</label>
@@ -380,7 +380,7 @@ function TreinosTab({ aluno, treinos, onCriar }) {
             <Link key={t.id} to={`/treinos/${t.id}`} className="card-interactive group">
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <div style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14 }}>{t.nome}</div>
+                  <div style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:14 }}>{t.nome}</div>
                   <div style={{ fontSize:12, color:'#71717A', marginTop:2 }}>{t.itens?.length || 0} exercício{t.itens?.length !== 1 ? 's' : ''}</div>
                 </div>
                 <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background:'rgba(99,102,241,0.12)' }}>
@@ -438,7 +438,7 @@ function GamificacaoTab({ gami }) {
               return (
                 <div key={c.id} className="card text-center p-4" style={{ border:`1px solid ${b.border}`, background:b.bg }}>
                   <div style={{ fontSize:28, marginBottom:6 }}>{b.emoji}</div>
-                  <div style={{ fontSize:11, fontWeight:700, color:'#F4F4F5' }}>{b.label}</div>
+                  <div style={{ fontSize:11, fontWeight:600, color:'#F4F4F5' }}>{b.label}</div>
                   <div style={{ fontSize:10, color:'#71717A', marginTop:4 }}>
                     {new Date(c.desbloqueado_em).toLocaleDateString('pt-BR', { day:'2-digit', month:'short' })}
                   </div>
@@ -487,7 +487,7 @@ function SugestoesTab({ sugestoes }) {
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap mb-1">
-                      <span style={{ fontSize:11, fontWeight:700, color:cfg.text, padding:'2px 10px', borderRadius:999, background:'rgba(255,255,255,0.08)', textTransform:'uppercase', letterSpacing:'0.05em' }}>{cfg.label} carga</span>
+                      <span style={{ fontSize:11, fontWeight:600, color:cfg.text, padding:'2px 10px', borderRadius:999, background:'rgba(255,255,255,0.08)', textTransform:'uppercase', letterSpacing:'0.05em' }}>{cfg.label} carga</span>
                       {s.carga_sugerida && <span style={{ fontSize:14, fontWeight:600, color:'#F4F4F5', fontFamily:'Inter, sans-serif' }}>→ {s.carga_sugerida} kg</span>}
                     </div>
                     <p style={{ fontSize:13, color:'#A1A1AA' }}>{s.motivo}</p>
@@ -544,17 +544,17 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
 
   const TooltipPeso = ({ active, payload, label }) => {
     if (!active || !payload?.length) return null
-    return <div style={{ background:'#111113', border:'1px solid rgba(99,102,241,0.3)', borderRadius:10, padding:'8px 12px', fontSize:13 }}><span style={{ color:'#A1A1AA' }}>{label}: </span><span style={{ color:'#34d399', fontWeight:700 }}>{payload[0].value}kg</span></div>
+    return <div style={{ background:'#111113', border:'1px solid rgba(99,102,241,0.3)', borderRadius:10, padding:'8px 12px', fontSize:13 }}><span style={{ color:'#A1A1AA' }}>{label}: </span><span style={{ color:'#34d399', fontWeight:600 }}>{payload[0].value}kg</span></div>
   }
   const TooltipGord = ({ active, payload, label }) => {
     if (!active || !payload?.length) return null
-    return <div style={{ background:'#111113', border:'1px solid rgba(251,191,36,0.3)', borderRadius:10, padding:'8px 12px', fontSize:13 }}><span style={{ color:'#A1A1AA' }}>{label}: </span><span style={{ color:'#fbbf24', fontWeight:700 }}>{payload[0].value}%</span></div>
+    return <div style={{ background:'#111113', border:'1px solid rgba(251,191,36,0.3)', borderRadius:10, padding:'8px 12px', fontSize:13 }}><span style={{ color:'#A1A1AA' }}>{label}: </span><span style={{ color:'#fbbf24', fontWeight:600 }}>{payload[0].value}%</span></div>
   }
 
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#A1A1AA', fontSize:13 }}>Histórico de avaliações</h2>
+        <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#A1A1AA', fontSize:13 }}>Histórico de avaliações</h2>
         <button className="btn-primary btn-sm" onClick={() => setShowForm(!showForm)}>
           <Plus style={{ width:12, height:12 }} /> Nova avaliação
         </button>
@@ -562,7 +562,7 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
 
       {showForm && (
         <div className="card animate-slide-down" style={{ border:'1px solid rgba(99,102,241,0.3)' }}>
-          <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14, marginBottom:16 }}>Registro de avaliação</h3>
+          <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:14, marginBottom:16 }}>Registro de avaliação</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
             {[
               { key:'peso',               label:'Peso (kg)',        placeholder:'Ex: 75.5' },
@@ -609,7 +609,7 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
       {/* Peso chart */}
       {chartPeso.length >= 2 && (
         <div className="card">
-          <p style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:13, marginBottom:12 }}>Evolução de peso</p>
+          <p style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:13, marginBottom:12 }}>Evolução de peso</p>
           <ResponsiveContainer width="100%" height={160}>
             <LineChart data={chartPeso} margin={{ top:4, right:8, left:-12, bottom:0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
@@ -626,7 +626,7 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
       {/* Gordura chart */}
       {chartGordura.length >= 2 && (
         <div className="card">
-          <p style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:13, marginBottom:12 }}>% Gordura corporal</p>
+          <p style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:13, marginBottom:12 }}>% Gordura corporal</p>
           <ResponsiveContainer width="100%" height={140}>
             <LineChart data={chartGordura} margin={{ top:4, right:8, left:-12, bottom:0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
@@ -656,8 +656,8 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
               style={{ background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.05)' }}>
               <div style={{ flex:1 }}>
                 <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
-                  {av.peso && <span style={{ fontSize:13, fontWeight:700, color:'#34d399' }}>{av.peso}kg</span>}
-                  {av.percentual_gordura && <span style={{ fontSize:13, fontWeight:700, color:'#fbbf24' }}>{av.percentual_gordura}% gordura</span>}
+                  {av.peso && <span style={{ fontSize:13, fontWeight:600, color:'#34d399' }}>{av.peso}kg</span>}
+                  {av.percentual_gordura && <span style={{ fontSize:13, fontWeight:600, color:'#fbbf24' }}>{av.percentual_gordura}% gordura</span>}
                   {av.medidas?.cintura && <span style={{ fontSize:12, color:'#A1A1AA' }}>Cintura {av.medidas.cintura}cm</span>}
                   {av.medidas?.quadril && <span style={{ fontSize:12, color:'#A1A1AA' }}>Quadril {av.medidas.quadril}cm</span>}
                 </div>
@@ -665,7 +665,7 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
                   {new Date(av.data).toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' })}
                 </p>
               </div>
-              <button onClick={() => excluir(av.id)} style={{ background:'none', border:'none', cursor:'pointer', color:'#2A3A56', padding:6, borderRadius:8 }}>
+              <button onClick={() => excluir(av.id)} style={{ background:'none', border:'none', cursor:'pointer', color:'#52525B', padding:6, borderRadius:8 }}>
                 <Trash2 style={{ width:13, height:13 }} />
               </button>
             </div>

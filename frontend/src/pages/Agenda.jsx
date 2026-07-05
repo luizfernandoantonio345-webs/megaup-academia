@@ -119,7 +119,7 @@ export default function Agenda() {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 4, marginBottom: 8 }}>
             {DIAS_SEMANA.map(d => (
-              <div key={d} style={{ textAlign: 'center', fontSize: 11, fontWeight: 700, color: '#71717A', padding: '4px 0', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{d}</div>
+              <div key={d} style={{ textAlign: 'center', fontSize: 11, fontWeight: 600, color: '#71717A', padding: '4px 0', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{d}</div>
             ))}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 4 }}>
@@ -158,12 +158,12 @@ export default function Agenda() {
               <div key={s.id} style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 14, padding: '14px 16px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
                   <div>
-                    <p style={{ fontSize: 14, fontWeight: 700, color: '#F4F4F5' }}>{s.aluno_nome}</p>
+                    <p style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5' }}>{s.aluno_nome}</p>
                     <p style={{ fontSize: 12, color: '#71717A', marginTop: 2 }}>
                       {dt.toLocaleDateString('pt-BR')} às {pad(dt.getHours())}:{pad(dt.getMinutes())} · {s.duracao_min}min
                     </p>
                   </div>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: st.color, background: st.bg, borderRadius: 8, padding: '3px 10px', whiteSpace: 'nowrap' }}>{st.label}</span>
+                  <span style={{ fontSize: 11, fontWeight: 600, color: st.color, background: st.bg, borderRadius: 8, padding: '3px 10px', whiteSpace: 'nowrap' }}>{st.label}</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
                   {s.tipo === 'online'
@@ -174,12 +174,12 @@ export default function Agenda() {
                 </div>
                 <div style={{ display: 'flex', gap: 6 }}>
                   {s.status === 'agendada' && (
-                    <button onClick={() => atualizar.mutate({ id: s.id, status: 'confirmada' })} style={{ flex: 1, background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.2)', borderRadius: 10, color: '#34d399', cursor: 'pointer', fontSize: 11, fontWeight: 700, padding: '6px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+                    <button onClick={() => atualizar.mutate({ id: s.id, status: 'confirmada' })} style={{ flex: 1, background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.2)', borderRadius: 10, color: '#34d399', cursor: 'pointer', fontSize: 11, fontWeight: 600, padding: '6px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
                       <Check style={{ width: 12, height: 12 }} /> Confirmar
                     </button>
                   )}
                   {s.status !== 'concluida' && s.status !== 'cancelada' && (
-                    <button onClick={() => atualizar.mutate({ id: s.id, status: 'concluida' })} style={{ flex: 1, background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 10, color: '#818cf8', cursor: 'pointer', fontSize: 11, fontWeight: 700, padding: '6px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+                    <button onClick={() => atualizar.mutate({ id: s.id, status: 'concluida' })} style={{ flex: 1, background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 10, color: '#818cf8', cursor: 'pointer', fontSize: 11, fontWeight: 600, padding: '6px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
                       Concluir
                     </button>
                   )}
@@ -204,23 +204,23 @@ export default function Agenda() {
             </div>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 700, color: '#71717A', display: 'block', marginBottom: 6 }}>Aluno *</label>
+                <label style={{ fontSize: 12, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 6 }}>Aluno *</label>
                 <select value={form.aluno_id} onChange={set('aluno_id')} required style={{ width: '100%', background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#F4F4F5', fontSize: 14, padding: '10px 14px' }}>
                   <option value="">Selecione</option>
                   {alunos.map(a => <option key={a.id} value={a.id}>{a.nome}</option>)}
                 </select>
               </div>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 700, color: '#71717A', display: 'block', marginBottom: 6 }}>Data e hora *</label>
+                <label style={{ fontSize: 12, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 6 }}>Data e hora *</label>
                 <input type="datetime-local" value={form.data_hora} onChange={set('data_hora')} required style={{ width: '100%', background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#F4F4F5', fontSize: 14, padding: '10px 14px', boxSizing: 'border-box' }} />
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div>
-                  <label style={{ fontSize: 12, fontWeight: 700, color: '#71717A', display: 'block', marginBottom: 6 }}>Duração (min)</label>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 6 }}>Duração (min)</label>
                   <input type="number" value={form.duracao_min} onChange={set('duracao_min')} min={15} max={180} style={{ width: '100%', background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#F4F4F5', fontSize: 14, padding: '10px 14px', boxSizing: 'border-box' }} />
                 </div>
                 <div>
-                  <label style={{ fontSize: 12, fontWeight: 700, color: '#71717A', display: 'block', marginBottom: 6 }}>Tipo</label>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 6 }}>Tipo</label>
                   <select value={form.tipo} onChange={set('tipo')} style={{ width: '100%', background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#F4F4F5', fontSize: 14, padding: '10px 14px' }}>
                     <option value="presencial">Presencial</option>
                     <option value="online">Online</option>
@@ -228,7 +228,7 @@ export default function Agenda() {
                 </div>
               </div>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 700, color: '#71717A', display: 'block', marginBottom: 6 }}>Observações</label>
+                <label style={{ fontSize: 12, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 6 }}>Observações</label>
                 <textarea value={form.notas} onChange={set('notas')} rows={2} placeholder="Foco do treino, local..." style={{ width: '100%', background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#F4F4F5', fontSize: 14, padding: '10px 14px', resize: 'vertical', boxSizing: 'border-box' }} />
               </div>
               <button type="submit" disabled={criar.isPending} style={{ background: '#6366f1', border: 'none', borderRadius: 14, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 15, padding: '13px', marginTop: 4 }}>

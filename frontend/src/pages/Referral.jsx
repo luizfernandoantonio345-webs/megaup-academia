@@ -45,7 +45,7 @@ export default function Referral() {
       {/* Header */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 10 }}>
-          <div style={{ width: 44, height: 44, borderRadius: 14, background: 'rgba(251,191,36,0.15)', border: '1px solid rgba(251,191,36,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 20px rgba(251,191,36,0.15)' }}>
+          <div style={{ width: 44, height: 44, borderRadius: 14, background: 'rgba(251,191,36,0.15)', border: '1px solid rgba(251,191,36,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Gift style={{ width: 22, height: 22, color: '#fbbf24' }} />
           </div>
           <div>
@@ -58,24 +58,24 @@ export default function Referral() {
       {/* Stat cards */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 14, marginBottom: 28 }}>
         <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '20px 22px' }}>
-          <p style={{ fontSize: 11, color: '#71717A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>Seu código</p>
+          <p style={{ fontSize: 11, color: '#71717A', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>Seu código</p>
           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 28, fontWeight: 600, color: '#fbbf24', letterSpacing: '0.06em' }}>
             {isLoading ? '——' : data?.referral_code}
           </p>
         </div>
         <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '20px 22px' }}>
-          <p style={{ fontSize: 11, color: '#71717A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>Indicações</p>
+          <p style={{ fontSize: 11, color: '#71717A', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>Indicações</p>
           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 28, fontWeight: 600, color: '#34d399' }}>{indicados}</p>
         </div>
         <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '20px 22px' }}>
-          <p style={{ fontSize: 11, color: '#71717A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>Próxima meta</p>
+          <p style={{ fontSize: 11, color: '#71717A', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>Próxima meta</p>
           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 28, fontWeight: 600, color: '#818cf8' }}>{nextMilestone.qty}</p>
         </div>
       </div>
 
       {/* Link box */}
       <div style={{ background: '#111113', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 20, padding: '22px 24px', marginBottom: 28 }}>
-        <p style={{ fontSize: 12, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 14 }}>Seu link de indicação</p>
+        <p style={{ fontSize: 12, fontWeight: 600, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 14 }}>Seu link de indicação</p>
         <div style={{ display: 'flex', gap: 10, alignItems: 'stretch', flexWrap: 'wrap' }}>
           <div style={{ flex: 1, background: '#0C0C0D', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '12px 16px', minWidth: 200, overflowX: 'auto' }}>
             <span style={{ fontSize: 13, color: '#71717A', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
@@ -84,13 +84,13 @@ export default function Referral() {
           </div>
           <button
             onClick={copyLink}
-            style={{ background: copied ? 'rgba(52,211,153,0.15)' : 'rgba(99,102,241,0.15)', border: `1px solid ${copied ? 'rgba(52,211,153,0.3)' : 'rgba(99,102,241,0.3)'}`, borderRadius: 12, color: copied ? '#34d399' : '#818cf8', cursor: 'pointer', fontWeight: 700, fontSize: 13, padding: '12px 18px', display: 'flex', alignItems: 'center', gap: 7, transition: 'all 0.15s', whiteSpace: 'nowrap' }}
+            style={{ background: copied ? 'rgba(52,211,153,0.15)' : 'rgba(99,102,241,0.15)', border: `1px solid ${copied ? 'rgba(52,211,153,0.3)' : 'rgba(99,102,241,0.3)'}`, borderRadius: 12, color: copied ? '#34d399' : '#818cf8', cursor: 'pointer', fontWeight: 600, fontSize: 13, padding: '12px 18px', display: 'flex', alignItems: 'center', gap: 7, transition: 'all 0.15s', whiteSpace: 'nowrap' }}
           >
             {copied ? <><Check style={{ width: 15, height: 15 }} /> Copiado!</> : <><Copy style={{ width: 15, height: 15 }} /> Copiar</>}
           </button>
           <button
             onClick={shareLink}
-            style={{ background: 'rgba(251,191,36,0.12)', border: '1px solid rgba(251,191,36,0.25)', borderRadius: 12, color: '#fbbf24', cursor: 'pointer', fontWeight: 700, fontSize: 13, padding: '12px 18px', display: 'flex', alignItems: 'center', gap: 7, whiteSpace: 'nowrap' }}
+            style={{ background: 'rgba(251,191,36,0.12)', border: '1px solid rgba(251,191,36,0.25)', borderRadius: 12, color: '#fbbf24', cursor: 'pointer', fontWeight: 600, fontSize: 13, padding: '12px 18px', display: 'flex', alignItems: 'center', gap: 7, whiteSpace: 'nowrap' }}
           >
             <Share2 style={{ width: 15, height: 15 }} /> Compartilhar
           </button>
@@ -101,7 +101,7 @@ export default function Referral() {
       {indicados < nextMilestone.qty && (
         <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '20px 24px', marginBottom: 28 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-            <p style={{ fontSize: 13, fontWeight: 700, color: '#A1A1AA' }}>Progresso para próxima recompensa</p>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#A1A1AA' }}>Progresso para próxima recompensa</p>
             <p style={{ fontSize: 13, fontWeight: 600, color: '#818cf8' }}>{indicados} / {nextMilestone.qty}</p>
           </div>
           <div style={{ height: 8, background: 'rgba(255,255,255,0.06)', borderRadius: 4, overflow: 'hidden' }}>
@@ -126,13 +126,13 @@ export default function Referral() {
                 {m.icon}
               </div>
               <div style={{ flex: 1 }}>
-                <p style={{ fontSize: 14, fontWeight: 700, color: '#F4F4F5' }}>{m.reward}</p>
+                <p style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5' }}>{m.reward}</p>
                 <p style={{ fontSize: 12, color: '#71717A', marginTop: 2 }}>{m.qty} indicação{m.qty !== 1 ? 'ões' : ''} confirmada{m.qty !== 1 ? 's' : ''}</p>
               </div>
               {unlocked ? (
                 <Check style={{ width: 18, height: 18, color: '#34d399', flexShrink: 0 }} />
               ) : (
-                <div style={{ fontSize: 11, fontWeight: 700, color: '#71717A', background: 'rgba(255,255,255,0.04)', borderRadius: 8, padding: '4px 10px', flexShrink: 0 }}>
+                <div style={{ fontSize: 11, fontWeight: 600, color: '#71717A', background: 'rgba(255,255,255,0.04)', borderRadius: 8, padding: '4px 10px', flexShrink: 0 }}>
                   {m.qty - indicados} restante{m.qty - indicados !== 1 ? 's' : ''}
                 </div>
               )}

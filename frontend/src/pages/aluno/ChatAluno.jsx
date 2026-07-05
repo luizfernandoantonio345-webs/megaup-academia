@@ -35,10 +35,9 @@ export default function ChatAluno() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
         <div style={{
           width: 44, height: 44, borderRadius: 14,
-          background: 'linear-gradient(135deg, rgba(249,168,212,0.2), rgba(249,168,212,0.1))',
+          background: 'rgba(249,168,212,0.12)',
           border: '1px solid rgba(249,168,212,0.25)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          boxShadow: '0 0 16px rgba(249,168,212,0.2)',
         }}>
           <MessageCircle style={{ width: 20, height: 20, color: '#f9a8d4' }} />
         </div>

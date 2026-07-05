@@ -30,13 +30,13 @@ export default function EsqueciSenha() {
       <div style={{ width: '100%', maxWidth: 420 }}>
         {/* Logo */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 40, justifyContent: 'center' }}>
-          <div style={{ width: 38, height: 38, borderRadius: 13, background: '#6366f1', boxShadow: '0 0 20px rgba(99,102,241,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 38, height: 38, borderRadius: 13, background: '#6366f1', outline: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Zap style={{ width: 18, height: 18, color: 'white' }} />
           </div>
           <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 20, color: '#F4F4F5', letterSpacing: '-0.02em' }}>GymPro</span>
         </div>
 
-        <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 24, padding: '36px 32px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}>
+        <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 24, padding: '36px 32px', outline: 'none' }}>
           {enviado ? (
             <div style={{ textAlign: 'center' }}>
               <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(52,211,153,0.12)', border: '1px solid rgba(52,211,153,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
@@ -48,11 +48,11 @@ export default function EsqueciSenha() {
               </p>
               {devLink && (
                 <div style={{ background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 12, padding: '12px 16px', marginBottom: 20, textAlign: 'left' }}>
-                  <p style={{ fontSize: 11, fontWeight: 700, color: '#818cf8', marginBottom: 6 }}>DEV MODE — Link gerado (SMTP não configurado):</p>
+                  <p style={{ fontSize: 11, fontWeight: 600, color: '#818cf8', marginBottom: 6 }}>DEV MODE — Link gerado (SMTP não configurado):</p>
                   <a href={devLink} style={{ fontSize: 12, color: '#818cf8', wordBreak: 'break-all' }}>{devLink}</a>
                 </div>
               )}
-              <Link to="/login" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 14, fontWeight: 700, color: '#818cf8', textDecoration: 'none' }}>
+              <Link to="/login" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 14, fontWeight: 600, color: '#818cf8', textDecoration: 'none' }}>
                 <ArrowLeft style={{ width: 14, height: 14 }} /> Voltar ao login
               </Link>
             </div>
@@ -67,7 +67,7 @@ export default function EsqueciSenha() {
 
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
                 <div>
-                  <label style={{ fontSize: 12, fontWeight: 700, color: '#71717A', display: 'block', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Email</label>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Email</label>
                   <div style={{ position: 'relative' }}>
                     <Mail style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', width: 16, height: 16, color: '#71717A' }} />
                     <input
@@ -85,7 +85,7 @@ export default function EsqueciSenha() {
                 <button
                   type="submit"
                   disabled={loading || !email}
-                  style={{ background: '#6366f1', border: 'none', borderRadius: 14, color: 'white', cursor: loading ? 'not-allowed' : 'pointer', fontWeight: 600, fontSize: 15, padding: '14px', opacity: loading || !email ? 0.7 : 1, boxShadow: '0 0 24px rgba(99,102,241,0.35)' }}
+                  style={{ background: '#6366f1', border: 'none', borderRadius: 14, color: 'white', cursor: loading ? 'not-allowed' : 'pointer', fontWeight: 600, fontSize: 15, padding: '14px', opacity: loading || !email ? 0.7 : 1, outline: 'none' }}
                 >
                   {loading ? 'Enviando…' : 'Enviar link de redefinição'}
                 </button>

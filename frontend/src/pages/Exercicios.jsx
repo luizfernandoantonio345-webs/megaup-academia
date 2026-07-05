@@ -18,7 +18,7 @@ const GRUPO_META = {
   Gluteos: { color: '#f9a8d4', bg: 'rgba(236,72,153,0.13)',  border: 'rgba(236,72,153,0.28)',  grad: 'linear-gradient(135deg,#3d0a23,#180510)' },
   Core:    { color: '#fdba74', bg: 'rgba(249,115,22,0.13)',   border: 'rgba(249,115,22,0.28)',  grad: 'linear-gradient(135deg,#2d1200,#110700)' },
   Cardio:  { color: '#38bdf8', bg: 'rgba(14,165,233,0.13)',  border: 'rgba(14,165,233,0.28)',  grad: 'linear-gradient(135deg,#082030,#020c17)' },
-  Outro:   { color: '#94a3b8', bg: 'rgba(255,255,255,0.06)', border: 'rgba(255,255,255,0.1)',  grad: 'linear-gradient(135deg,#0e1525,#070b14)' },
+  Outro:   { color: '#94a3b8', bg: 'rgba(255,255,255,0.06)', border: 'rgba(255,255,255,0.1)',  grad: '#1C1C1E' },
 }
 const META_DEFAULT = GRUPO_META.Outro
 
@@ -66,7 +66,7 @@ function GroupBadge({ grupo }) {
     <span style={{
       display: 'inline-flex', alignItems: 'center',
       padding: '2px 9px', borderRadius: 999,
-      fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em',
+      fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em',
       background: m.bg, color: m.color, border: `1px solid ${m.border}`,
     }}>
       {grupo || 'Outro'}
@@ -120,7 +120,7 @@ function ExercicioCard({ exercicio: e }) {
               <Dumbbell style={{ width: 36, height: 36, color: meta.color, opacity: 0.35 }} />
             </div>
           )}
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(14,21,37,0.92) 0%, rgba(0,0,0,0.05) 50%)', pointerEvents: 'none' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(12,12,13,0.92) 0%, rgba(0,0,0,0.05) 50%)', pointerEvents: 'none' }} />
           {e.video_url && (
             <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <div style={{
@@ -149,13 +149,13 @@ function ExercicioCard({ exercicio: e }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
           <GroupBadge grupo={e.grupo_muscular} />
           {e.video_url && (
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '2px 8px', borderRadius: 999, fontSize: 10, fontWeight: 700, background: 'rgba(99,102,241,0.12)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.2)' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '2px 8px', borderRadius: 999, fontSize: 10, fontWeight: 600, background: 'rgba(99,102,241,0.12)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.2)' }}>
               <Play style={{ width: 8, height: 8 }} />
               Video
             </span>
           )}
         </div>
-        <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 700, color: '#e2e8f0', lineHeight: 1.3, marginBottom: 8 }}>
+        <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600, color: '#e2e8f0', lineHeight: 1.3, marginBottom: 8 }}>
           {e.nome}
         </div>
         {e.equipamento && (
@@ -172,10 +172,10 @@ function ExercicioSection({ title, count, items }) {
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-        <h2 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#334155', fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em', margin: 0 }}>
+        <h2 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#71717A', fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em', margin: 0 }}>
           {title}
         </h2>
-        <span style={{ background: 'rgba(255,255,255,0.06)', color: '#475569', fontSize: 11, fontWeight: 700, padding: '1px 8px', borderRadius: 999, border: '1px solid rgba(255,255,255,0.07)' }}>
+        <span style={{ background: 'rgba(255,255,255,0.06)', color: '#52525B', fontSize: 11, fontWeight: 600, padding: '1px 8px', borderRadius: 999, border: '1px solid rgba(255,255,255,0.07)' }}>
           {count}
         </span>
         <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.04)' }} />
@@ -248,12 +248,12 @@ export default function Exercicios() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }} className="animate-fade-in">
 
-      <div style={{ background: 'linear-gradient(135deg, #0a0f1e 0%, #0e1525 60%, #141d30 100%)', border: '1px solid rgba(99,102,241,0.18)', borderRadius: 24, padding: '28px 32px', position: 'relative', overflow: 'hidden' }}>
+      <div style={{ background: '#111113', border: '1px solid rgba(99,102,241,0.18)', borderRadius: 24, padding: '28px 32px', position: 'relative', overflow: 'hidden' }}>
         
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20, position: 'relative', zIndex: 1 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-              <div style={{ width: 36, height: 36, borderRadius: 12, background: '#6366f1', boxShadow: '0 0 20px rgba(99,102,241,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 36, height: 36, borderRadius: 12, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Dumbbell style={{ width: 17, height: 17, color: 'white' }} />
               </div>
               <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 26, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.03em', margin: 0 }}>
@@ -270,7 +270,7 @@ export default function Exercicios() {
                   { label: `${comVideo} com video`, color: '#34d399', bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.2)' },
                   { label: `${grupos.length} grupos`, color: '#fbbf24', bg: 'rgba(245,158,11,0.1)', border: 'rgba(245,158,11,0.2)' },
                 ].map(({ label, color, bg, border }) => (
-                  <span key={label} style={{ padding: '4px 12px', borderRadius: 999, fontSize: 11, fontWeight: 700, background: bg, color, border: `1px solid ${border}` }}>
+                  <span key={label} style={{ padding: '4px 12px', borderRadius: 999, fontSize: 11, fontWeight: 600, background: bg, color, border: `1px solid ${border}` }}>
                     {label}
                   </span>
                 ))}
@@ -304,7 +304,7 @@ export default function Exercicios() {
       {!seeding && exercicios.length < 5 && (
         <div style={{ background: 'linear-gradient(135deg, rgba(14,165,233,0.07) 0%, rgba(99,102,241,0.07) 100%)', border: '1px solid rgba(99,102,241,0.18)', borderRadius: 18, padding: '20px 24px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 16 }}>
           <div style={{ flex: 1, minWidth: 200 }}>
-            <div style={{ fontSize: 15, fontWeight: 700, color: '#c7d2fe', fontFamily: 'Inter, sans-serif', marginBottom: 4 }}>
+            <div style={{ fontSize: 15, fontWeight: 600, color: '#c7d2fe', fontFamily: 'Inter, sans-serif', marginBottom: 4 }}>
               Importe 30+ exercicios profissionais com videos
             </div>
             <div style={{ fontSize: 12, color: '#71717A' }}>
@@ -349,9 +349,9 @@ export default function Exercicios() {
                 onClick={() => setFilterGrupo(active && g ? '' : g)}
                 style={{
                   padding: '5px 14px', borderRadius: 999, cursor: 'pointer',
-                  fontSize: 12, fontWeight: 700, transition: 'all 0.15s',
+                  fontSize: 12, fontWeight: 600, transition: 'all 0.15s',
                   background: active ? (g ? m.bg : 'rgba(99,102,241,0.2)') : 'rgba(255,255,255,0.04)',
-                  color: active ? (g ? m.color : '#a5b4fc') : '#475569',
+                  color: active ? (g ? m.color : '#a5b4fc') : '#52525B',
                   border: active ? `1px solid ${g ? m.border : 'rgba(99,102,241,0.35)'}` : '1px solid rgba(255,255,255,0.07)',
                   outline: 'none',
                 }}
@@ -367,7 +367,7 @@ export default function Exercicios() {
         <div className="card animate-slide-down" style={{ border: '1px solid rgba(99,102,241,0.3)' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
             <div>
-              <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#F4F4F5', fontSize: 16, margin: 0 }}>Novo exercicio</h3>
+              <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 16, margin: 0 }}>Novo exercicio</h3>
               <p style={{ fontSize: 12, color: '#71717A', marginTop: 4, marginBottom: 0 }}>Adicione ao seu banco personalizado</p>
             </div>
             <button onClick={() => setShowForm(false)} style={{ width: 32, height: 32, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(255,255,255,0.07)', color: '#71717A', border: 'none', cursor: 'pointer' }}>

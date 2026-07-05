@@ -168,7 +168,7 @@ export default function Planos() {
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: 48 }}>
           {diasTrial != null && diasTrial > 0 && (
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: '6px 14px', borderRadius: 999, background: 'rgba(251,191,36,0.12)', border: '1px solid rgba(251,191,36,0.25)', color: '#fbbf24', fontSize: 12, fontWeight: 700 }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: '6px 14px', borderRadius: 999, background: 'rgba(251,191,36,0.12)', border: '1px solid rgba(251,191,36,0.25)', color: '#fbbf24', fontSize: 12, fontWeight: 600 }}>
               <Clock style={{ width: 13, height: 13 }} />
               Trial grátis — {diasTrial} dia{diasTrial !== 1 ? 's' : ''} restantes
             </div>
@@ -192,8 +192,8 @@ export default function Planos() {
             onClick={() => setAnual(!anual)}
             style={{
               width: 52, height: 28, borderRadius: 14, position: 'relative', cursor: 'pointer', border: 'none',
-              background: anual ? 'linear-gradient(135deg, #4f46e5, #7c3aed)' : 'rgba(255,255,255,0.1)',
-              transition: 'background 0.3s', boxShadow: anual ? '0 0 16px rgba(99,102,241,0.4)' : 'none',
+              background: anual ? '#6366f1' : 'rgba(255,255,255,0.1)',
+              transition: 'background 0.3s',
             }}
           >
             <div style={{
@@ -307,13 +307,13 @@ export default function Planos() {
                       <button
                         onClick={() => mutPortal.mutate()}
                         disabled={mutPortal.isPending}
-                        style={{ width: '100%', padding: '13px', borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, fontSize: 14, fontWeight: 700, cursor: 'pointer', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.06)', color: '#F4F4F5' }}
+                        style={{ width: '100%', padding: '13px', borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, fontSize: 14, fontWeight: 600, cursor: 'pointer', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(255,255,255,0.06)', color: '#F4F4F5' }}
                       >
                         <ExternalLink style={{ width: 14, height: 14 }} />
                         Gerenciar assinatura
                       </button>
                     ) : (
-                      <div style={{ width: '100%', padding: '13px', borderRadius: 14, textAlign: 'center', fontSize: 14, fontWeight: 700, border: '1px solid rgba(16,185,129,0.3)', background: 'rgba(16,185,129,0.08)', color: '#34d399' }}>
+                      <div style={{ width: '100%', padding: '13px', borderRadius: 14, textAlign: 'center', fontSize: 14, fontWeight: 600, border: '1px solid rgba(16,185,129,0.3)', background: 'rgba(16,185,129,0.08)', color: '#34d399' }}>
                         ✓ Plano atual
                       </div>
                     )

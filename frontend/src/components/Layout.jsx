@@ -1,4 +1,4 @@
-import { NavLink, useNavigate, useLocation } from 'react-router-dom'
+﻿import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import {
   LayoutDashboard, Users, Dumbbell, Brain, UserPlus, LogOut,
@@ -92,7 +92,7 @@ function SidebarContent({ user, onLogout }) {
       {/* User */}
       <div style={{ marginTop: 8, borderTop: '1px solid #1C1C1E', paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 1 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '0 10px', height: 36 }}>
-          <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 700, color: '#A1A1AA', flexShrink: 0, fontFamily: 'Inter, sans-serif' }}>
+          <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 600, color: '#A1A1AA', flexShrink: 0, fontFamily: 'Inter, sans-serif' }}>
             {initials}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
@@ -201,7 +201,7 @@ function MobileBottomNav({ user, onLogout }) {
 
             <div style={{ borderTop: '1px solid #1C1C1E', paddingTop: 12, display: 'flex', gap: 8 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, padding: '10px 14px', borderRadius: 8, background: '#161618', border: '1px solid #1C1C1E' }}>
-                <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#A1A1AA', fontFamily: 'Inter, sans-serif' }}>
+                <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: '#A1A1AA', fontFamily: 'Inter, sans-serif' }}>
                   {(user?.nome || '??').split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()}
                 </div>
                 <div>
@@ -243,7 +243,7 @@ function NotifBell() {
       onMouseLeave={e => { e.currentTarget.style.borderColor = '#27272A'; e.currentTarget.style.color = '#71717A' }}
     >
       <Bell style={{ width: 13, height: 13 }} aria-hidden="true" />
-      <span style={{ background: '#f97316', color: 'white', borderRadius: 4, fontSize: 10, fontWeight: 700, padding: '0 5px', lineHeight: 1.6 }}>{count}</span>
+      <span style={{ background: '#f97316', color: 'white', borderRadius: 4, fontSize: 10, fontWeight: 600, padding: '0 5px', lineHeight: 1.6 }}>{count}</span>
     </button>
   )
 }

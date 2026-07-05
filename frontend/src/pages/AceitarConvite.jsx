@@ -68,7 +68,7 @@ export default function AceitarConvite() {
       <div style={{ width:'100%', maxWidth:420 }}>
         {/* Logo */}
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:32 }}>
-          <div style={{ width:40, height:40, borderRadius:14, background:'#6366f1', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 0 20px rgba(99,102,241,0.45)' }}>
+          <div style={{ width:40, height:40, borderRadius:14, background:'#6366f1', display:'flex', alignItems:'center', justifyContent:'center', outline:'none' }}>
             <Zap style={{ width:18, height:18, color:'white' }} />
           </div>
           <span style={{ fontFamily:'Inter, sans-serif', fontWeight:600, fontSize:17, color:'#F4F4F5' }}>GymPro</span>
@@ -76,7 +76,7 @@ export default function AceitarConvite() {
 
         {/* Header */}
         <div style={{ textAlign:'center', marginBottom:32 }}>
-          <div style={{ width:64, height:64, borderRadius:20, background:'#6366f1', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 16px', boxShadow:'0 0 24px rgba(99,102,241,0.4)' }}>
+          <div style={{ width:64, height:64, borderRadius:20, background:'#6366f1', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 16px', outline:'none' }}>
             <Dumbbell style={{ width:28, height:28, color:'white' }} />
           </div>
           <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:24, fontWeight:600, color:'#F4F4F5', letterSpacing:'-0.02em', marginBottom:8 }}>
@@ -91,7 +91,7 @@ export default function AceitarConvite() {
         {/* Form card */}
         <div className="card" style={{ border:'1px solid rgba(99,102,241,0.2)' }}>
           <div style={{ padding:'8px 12px 16px', borderRadius:10, background:'rgba(99,102,241,0.06)', border:'1px solid rgba(99,102,241,0.12)', marginBottom:20 }}>
-            <p style={{ fontSize:11, color:'#71717A', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:4 }}>Seu e-mail de acesso</p>
+            <p style={{ fontSize:11, color:'#71717A', fontWeight:600, textTransform:'uppercase', letterSpacing:'0.06em', marginBottom:4 }}>Seu e-mail de acesso</p>
             <p style={{ fontSize:14, color:'#a5b4fc', fontWeight:600 }}>{info.email_aluno}</p>
           </div>
 

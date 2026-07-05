@@ -68,7 +68,7 @@ function ProgramaCard({ programa, alunos, onDelete }) {
               {programa.nome}
             </h3>
             <div style={{ display: 'flex', gap: 10, marginTop: 5, flexWrap: 'wrap' }}>
-              <span style={{ fontSize: 11, fontWeight: 700, color: obj.color, background: obj.bg, padding: '2px 8px', borderRadius: 999 }}>{obj.label}</span>
+              <span style={{ fontSize: 11, fontWeight: 600, color: obj.color, background: obj.bg, padding: '2px 8px', borderRadius: 999 }}>{obj.label}</span>
               <span style={{ fontSize: 11, color: '#71717A' }}>{semanas} semanas · {fases.length} fases</span>
             </div>
           </div>
@@ -95,7 +95,7 @@ function ProgramaCard({ programa, alunos, onDelete }) {
                 <div key={i} style={{ padding: '10px 12px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                     <span style={{ width: 18, height: 18, borderRadius: '50%', background: fObj.bg, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 600, color: fObj.color, flexShrink: 0 }}>{i + 1}</span>
-                    <span style={{ fontSize: 13, fontWeight: 700, color: '#F4F4F5' }}>{f.nome}</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: '#F4F4F5' }}>{f.nome}</span>
                     <span style={{ fontSize: 11, color: '#71717A', marginLeft: 'auto' }}>{f.semanas}sem</span>
                   </div>
                   <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', paddingLeft: 26 }}>
@@ -112,7 +112,7 @@ function ProgramaCard({ programa, alunos, onDelete }) {
 
         {/* Aplicar a aluno */}
         {!aplicando ? (
-          <button onClick={() => setAplicando(true)} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: obj.color, background: obj.bg, border: `1px solid ${obj.border}`, borderRadius: 10, padding: '8px 14px', cursor: 'pointer', width: '100%', justifyContent: 'center' }}>
+          <button onClick={() => setAplicando(true)} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 600, color: obj.color, background: obj.bg, border: `1px solid ${obj.border}`, borderRadius: 10, padding: '8px 14px', cursor: 'pointer', width: '100%', justifyContent: 'center' }}>
             <Users style={{ width: 13, height: 13 }} />
             Aplicar a aluno
           </button>
@@ -122,7 +122,7 @@ function ProgramaCard({ programa, alunos, onDelete }) {
               <option value="">Selecionar aluno...</option>
               {(alunos || []).map(a => <option key={a.id} value={a.id}>{a.nome}</option>)}
             </select>
-            <button onClick={() => aplicar()} disabled={!alunoId || aplicandoMut} style={{ padding: '8px 14px', borderRadius: 10, background: '#6366f1', border: 'none', color: 'white', fontSize: 12, fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
+            <button onClick={() => aplicar()} disabled={!alunoId || aplicandoMut} style={{ padding: '8px 14px', borderRadius: 10, background: '#6366f1', border: 'none', color: 'white', fontSize: 12, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
               {aplicandoMut ? <Loader2 style={{ width: 12, height: 12, animation: 'spin 0.8s linear infinite' }} /> : <ArrowRight style={{ width: 12, height: 12 }} />}
               Aplicar
             </button>
@@ -182,7 +182,7 @@ function NovoPrograma({ alunos, onClose }) {
               <label className="label">Objetivo principal</label>
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
                 {OBJETIVOS.slice(0, 4).map(o => (
-                  <button key={o.key} onClick={() => { setObjetivo(o.key); if (usandoPreset && FASES_PRESET[o.key]) setFases(FASES_PRESET[o.key]) }} style={{ padding: '6px 12px', borderRadius: 10, border: `1px solid ${objetivo === o.key ? o.border : 'rgba(255,255,255,0.08)'}`, background: objetivo === o.key ? o.bg : 'rgba(255,255,255,0.04)', color: objetivo === o.key ? o.color : '#71717A', fontSize: 12, fontWeight: 700, cursor: 'pointer' }}>
+                  <button key={o.key} onClick={() => { setObjetivo(o.key); if (usandoPreset && FASES_PRESET[o.key]) setFases(FASES_PRESET[o.key]) }} style={{ padding: '6px 12px', borderRadius: 10, border: `1px solid ${objetivo === o.key ? o.border : 'rgba(255,255,255,0.08)'}`, background: objetivo === o.key ? o.bg : 'rgba(255,255,255,0.04)', color: objetivo === o.key ? o.color : '#71717A', fontSize: 12, fontWeight: 600, cursor: 'pointer' }}>
                     {o.emoji} {o.label}
                   </button>
                 ))}
@@ -196,14 +196,14 @@ function NovoPrograma({ alunos, onClose }) {
 
           {/* Preset toggle */}
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 700, color: '#A1A1AA' }}>Fases ({fases.length})</p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 600, color: '#A1A1AA' }}>Fases ({fases.length})</p>
             <div style={{ display: 'flex', gap: 8 }}>
               {FASES_PRESET[objetivo] && (
-                <button onClick={() => { setFases(FASES_PRESET[objetivo]); setUsandoPreset(true) }} style={{ fontSize: 11, fontWeight: 700, color: '#6366f1', background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: 8, padding: '5px 10px', cursor: 'pointer' }}>
+                <button onClick={() => { setFases(FASES_PRESET[objetivo]); setUsandoPreset(true) }} style={{ fontSize: 11, fontWeight: 600, color: '#6366f1', background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: 8, padding: '5px 10px', cursor: 'pointer' }}>
                   Usar preset
                 </button>
               )}
-              <button onClick={addFase} style={{ fontSize: 11, fontWeight: 700, color: '#34d399', background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)', borderRadius: 8, padding: '5px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
+              <button onClick={addFase} style={{ fontSize: 11, fontWeight: 600, color: '#34d399', background: 'rgba(16,185,129,0.1)', border: '1px solid rgba(16,185,129,0.25)', borderRadius: 8, padding: '5px 10px', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
                 <Plus style={{ width: 11, height: 11 }} /> Fase
               </button>
             </div>
@@ -216,7 +216,7 @@ function NovoPrograma({ alunos, onClose }) {
                 <div key={i} style={{ padding: '14px', borderRadius: 14, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
                     <span style={{ width: 22, height: 22, borderRadius: '50%', background: fObj.bg, border: `1px solid ${fObj.border}`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: fObj.color, flexShrink: 0 }}>{i + 1}</span>
-                    <input value={f.nome} onChange={e => { setUsandoPreset(false); setFase(i, 'nome', e.target.value) }} style={{ flex: 1, background: 'none', border: 'none', color: '#F4F4F5', fontSize: 14, fontWeight: 700, fontFamily: 'Inter, sans-serif', outline: 'none' }} />
+                    <input value={f.nome} onChange={e => { setUsandoPreset(false); setFase(i, 'nome', e.target.value) }} style={{ flex: 1, background: 'none', border: 'none', color: '#F4F4F5', fontSize: 14, fontWeight: 600, fontFamily: 'Inter, sans-serif', outline: 'none' }} />
                     {fases.length > 1 && (
                       <button onClick={() => removeFase(i)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#52525B' }}>
                         <Trash2 style={{ width: 12, height: 12 }} />
@@ -232,7 +232,7 @@ function NovoPrograma({ alunos, onClose }) {
                       { key: 'descanso_seg',         label: 'Descanso (s)', type: 'number' },
                     ].map(({ key, label, type }) => (
                       <div key={key}>
-                        <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>{label}</label>
+                        <label style={{ display: 'block', fontSize: 10, fontWeight: 600, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 4 }}>{label}</label>
                         <input type={type} className="input text-center" style={{ fontSize: 13, padding: '8px' }}
                           value={f[key]} onChange={e => { setUsandoPreset(false); setFase(i, key, e.target.value) }} />
                       </div>
@@ -304,7 +304,7 @@ export default function Periodizacao() {
             <p style={{ fontSize: 13, color: '#71717A', margin: 0 }}>Crie programas estruturados com fases de hipertrofia, força e deload</p>
             {programas.length > 0 && (
               <div style={{ display: 'flex', gap: 8, marginTop: 12 }}>
-                <span style={{ padding: '4px 12px', borderRadius: 999, fontSize: 11, fontWeight: 700, background: 'rgba(99,102,241,0.12)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.25)' }}>
+                <span style={{ padding: '4px 12px', borderRadius: 999, fontSize: 11, fontWeight: 600, background: 'rgba(99,102,241,0.12)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.25)' }}>
                   {programas.length} programa{programas.length !== 1 ? 's' : ''}
                 </span>
               </div>
@@ -326,7 +326,7 @@ export default function Periodizacao() {
       {/* Presets info */}
       {programas.length === 0 && !isLoading && (
         <div style={{ background: 'rgba(99,102,241,0.07)', border: '1px solid rgba(99,102,241,0.18)', borderRadius: 18, padding: '20px 24px' }}>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 700, color: '#c7d2fe', marginBottom: 8 }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600, color: '#c7d2fe', marginBottom: 8 }}>
             Presets prontos para começar
           </p>
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>

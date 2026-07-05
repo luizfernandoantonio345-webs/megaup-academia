@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+﻿import { useQuery } from '@tanstack/react-query'
 import { useNavigate } from 'react-router-dom'
 import { billingStatus } from '../api'
 import { Clock, Zap, ArrowRight, X } from 'lucide-react'
@@ -91,7 +91,7 @@ export default function PlanBanner() {
         <Icon style={{ width: 14, height: 14, color: config.iconColor }} />
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ fontSize: 13, fontWeight: 700, color: '#F4F4F5', margin: 0, lineHeight: 1.2 }}>{config.text}</p>
+        <p style={{ fontSize: 13, fontWeight: 600, color: '#F4F4F5', margin: 0, lineHeight: 1.2 }}>{config.text}</p>
         <p style={{ fontSize: 11, color: '#71717A', margin: '2px 0 0', lineHeight: 1.3 }}>{config.sub}</p>
       </div>
       <button
@@ -100,7 +100,7 @@ export default function PlanBanner() {
           display: 'flex', alignItems: 'center', gap: 5,
           padding: '7px 12px', borderRadius: 10, flexShrink: 0,
           background: config.ctaBg, border: `1px solid ${config.ctaBorder}`,
-          color: config.ctaColor, fontSize: 12, fontWeight: 700, cursor: 'pointer',
+          color: config.ctaColor, fontSize: 12, fontWeight: 600, cursor: 'pointer',
           whiteSpace: 'nowrap',
         }}
       >
@@ -109,7 +109,7 @@ export default function PlanBanner() {
       </button>
       <button
         onClick={() => setDismissed(true)}
-        style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#2A3A56', padding: 4, display: 'flex', alignItems: 'center', flexShrink: 0 }}
+        style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#52525B', padding: 4, display: 'flex', alignItems: 'center', flexShrink: 0 }}
       >
         <X style={{ width: 13, height: 13 }} />
       </button>

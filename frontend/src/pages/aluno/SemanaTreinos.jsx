@@ -167,7 +167,7 @@ function TreinoWeekCard({ treino, exMap }) {
           borderTop: `1px solid ${tema.border}50`, cursor: 'pointer',
         }}
       >
-        <span style={{ fontSize: 12, color: tema.color, fontWeight: 700 }}>
+        <span style={{ fontSize: 12, color: tema.color, fontWeight: 600 }}>
           {aberto ? 'Ocultar exercícios' : `Ver ${totalEx} exercícios`}
         </span>
         {aberto
@@ -270,7 +270,7 @@ export default function SemanaTreinos() {
               color, lineHeight: 1, letterSpacing: '-0.02em',
             }}>{value}</span>
             <span style={{
-              fontSize: 10, color: '#71717A', fontWeight: 700,
+              fontSize: 10, color: '#71717A', fontWeight: 600,
               textTransform: 'uppercase', letterSpacing: '0.05em',
             }}>{label}</span>
           </div>
@@ -282,7 +282,7 @@ export default function SemanaTreinos() {
         borderRadius: 18, padding: '14px 16px',
         background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
       }}>
-        <p style={{ fontSize: 10, color: '#52525B', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 10 }}>
+        <p style={{ fontSize: 10, color: '#52525B', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 10 }}>
           Visão geral
         </p>
         <div style={{ display: 'flex', gap: 6, alignItems: 'flex-end' }}>
@@ -315,7 +315,7 @@ export default function SemanaTreinos() {
             <div key={dia} style={{ flex: 1, textAlign: 'center' }}>
               <span style={{
                 fontSize: 9, color: dia === diaAtual ? '#818cf8' : '#52525B',
-                fontWeight: 700, textTransform: 'uppercase',
+                fontWeight: 600, textTransform: 'uppercase',
               }}>
                 {DIAS_INFO[dia].curto.slice(0, 1)}
               </span>

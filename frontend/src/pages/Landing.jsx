@@ -48,9 +48,9 @@ export default function Landing() {
         .hero-card:nth-child(3) { animation-delay: -4s; }
         .gradient-text { background: linear-gradient(135deg,#a5b4fc,#c084fc,#f9a8d4); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
         .link-hover { transition: color 0.15s; } .link-hover:hover { color:#818cf8; }
-        .btn-cta { background:linear-gradient(135deg,#4f46e5,#7c3aed); border:none; border-radius:16px; color:white; cursor:pointer; font-weight:800; font-size:16px; padding:16px 36px; display:inline-flex; align-items:center; gap:10px; transition:all 0.2s; box-shadow:0 0 40px rgba(99,102,241,0.4); }
+        .btn-cta { background:linear-gradient(135deg,#4f46e5,#7c3aed); border:none; border-radius:16px; color:white; cursor:pointer; font-weight:600; font-size:16px; padding:16px 36px; display:inline-flex; align-items:center; gap:10px; transition:all 0.2s; box-shadow:0 0 40px rgba(99,102,241,0.4); }
         .btn-cta:hover { transform:translateY(-2px); box-shadow:0 8px 40px rgba(99,102,241,0.6); }
-        .btn-ghost { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:16px; color:#CBD5E1; cursor:pointer; font-weight:700; font-size:15px; padding:15px 28px; transition:all 0.15s; }
+        .btn-ghost { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.12); border-radius:16px; color:#CBD5E1; cursor:pointer; font-weight:600; font-size:15px; padding:15px 28px; transition:all 0.15s; }
         .btn-ghost:hover { background:rgba(255,255,255,0.12); }
         .feature-card { background:#111113; border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:24px; transition:all 0.25s; }
         .feature-card:hover { transform:translateY(-4px); border-color:rgba(99,102,241,0.25); box-shadow:0 20px 48px rgba(0,0,0,0.4); }
@@ -91,7 +91,7 @@ export default function Landing() {
         <div style={{ position: 'relative', zIndex: 1, maxWidth: 800, margin: '0 auto' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, marginBottom: 24, padding: '6px 16px', borderRadius: 999, background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)' }}>
             <Zap style={{ width: 13, height: 13, color: '#818cf8' }} />
-            <span style={{ fontSize: 12, fontWeight: 700, color: '#818cf8', letterSpacing: '0.04em' }}>PLATAFORMA #1 PARA PERSONAL TRAINERS</span>
+            <span style={{ fontSize: 12, fontWeight: 600, color: '#818cf8', letterSpacing: '0.04em' }}>PLATAFORMA #1 PARA PERSONAL TRAINERS</span>
           </div>
 
           <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(36px,6vw,72px)', fontWeight: 600, lineHeight: 1.05, letterSpacing: '-0.04em', marginBottom: 24 }}>
@@ -125,7 +125,7 @@ export default function Landing() {
             { label: 'Alunos ativos', value: '👥 23 / 50', color: '#818cf8', bg: 'rgba(99,102,241,0.1)', border: 'rgba(99,102,241,0.2)' },
           ].map(c => (
             <div key={c.label} className="hero-card" style={{ padding: '16px 22px', borderRadius: 18, background: c.bg, border: `1px solid ${c.border}`, backdropFilter: 'blur(12px)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)', minWidth: 200 }}>
-              <p style={{ fontSize: 11, color: '#71717A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{c.label}</p>
+              <p style={{ fontSize: 11, color: '#71717A', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{c.label}</p>
               <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 600, color: c.color }}>{c.value}</p>
             </div>
           ))}
@@ -207,7 +207,7 @@ export default function Landing() {
                 </div>
                 <p style={{ fontSize: 15, color: '#A1A1AA', lineHeight: 1.6, marginBottom: 20, fontStyle: 'italic' }}>"{d.texto}"</p>
                 <div>
-                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 700, color: '#F4F4F5' }}>{d.nome}</p>
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 600, color: '#F4F4F5' }}>{d.nome}</p>
                   <p style={{ fontSize: 12, color: '#71717A', marginTop: 2 }}>{d.cargo}</p>
                 </div>
               </div>
@@ -285,7 +285,7 @@ export default function Landing() {
         </div>
         <p style={{ fontSize: 12, color: '#52525B' }}>
           Desenvolvido por{' '}
-          <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer" style={{ color: '#6366f1', fontWeight: 700, textDecoration: 'none' }}>
+          <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer" style={{ color: '#6366f1', fontWeight: 600, textDecoration: 'none' }}>
             @luuiz.dev
           </a>
           {' '}· © {new Date().getFullYear()} GymPro

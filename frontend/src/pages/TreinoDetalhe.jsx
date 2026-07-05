@@ -49,11 +49,11 @@ function ModalExecutar({ treino, onClose }) {
 
   return (
     <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.75)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:50, padding:16 }}>
-      <div className="animate-scale-in" style={{ background:'#111113', border:'1px solid rgba(99,102,241,0.2)', borderRadius:24, width:'100%', maxWidth:520, maxHeight:'88vh', overflow:'hidden', display:'flex', flexDirection:'column', boxShadow:'0 0 60px rgba(0,0,0,0.6)' }}>
+      <div className="animate-scale-in" style={{ background:'#111113', border:'1px solid rgba(99,102,241,0.2)', borderRadius:24, width:'100%', maxWidth:520, maxHeight:'88vh', overflow:'hidden', display:'flex', flexDirection:'column' }}>
         {/* Modal header */}
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'18px 24px', borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
           <div>
-            <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, fontSize:16, color:'#F4F4F5' }}>Registrar execução</h3>
+            <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, fontSize:16, color:'#F4F4F5' }}>Registrar execução</h3>
             <p style={{ fontSize:12, color:'#71717A', marginTop:2 }}>{treino.nome}</p>
           </div>
           <button onClick={onClose} style={{ width:32, height:32, borderRadius:10, background:'rgba(255,255,255,0.07)', border:'none', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'#71717A' }}>
@@ -72,7 +72,7 @@ function ModalExecutar({ treino, onClose }) {
                   padding:'12px 8px', borderRadius:16, border:`2px solid ${dificuldade === key ? border : 'rgba(255,255,255,0.07)'}`,
                   background: dificuldade === key ? bg : 'rgba(255,255,255,0.03)',
                   color: dificuldade === key ? text : '#71717A',
-                  fontWeight:700, fontSize:13, cursor:'pointer', transition:'all 0.15s',
+                  fontWeight:600, fontSize:13, cursor:'pointer', transition:'all 0.15s',
                 }}>
                   <div style={{ fontSize:22, marginBottom:4 }}>{emoji}</div>
                   {label}
@@ -88,7 +88,7 @@ function ModalExecutar({ treino, onClose }) {
               <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
                 {itens.map((item, idx) => (
                   <div key={idx} style={{ background:'rgba(255,255,255,0.03)', borderRadius:16, padding:14, border:'1px solid rgba(255,255,255,0.05)' }}>
-                    <p style={{ fontSize:11, fontWeight:700, color:'#71717A', textTransform:'uppercase', letterSpacing:'0.07em', marginBottom:10 }}>
+                    <p style={{ fontSize:11, fontWeight:600, color:'#71717A', textTransform:'uppercase', letterSpacing:'0.07em', marginBottom:10 }}>
                       Exercício {idx + 1}
                     </p>
                     <div className="grid grid-cols-3 gap-2">
@@ -204,7 +204,7 @@ export default function TreinoDetalhe() {
       {/* Exercise list card */}
       <div className="card">
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:20 }}>
-          <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:15 }}>Exercícios do treino</h2>
+          <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:15 }}>Exercícios do treino</h2>
           <button className="btn-secondary btn-sm" onClick={() => setShowAddItem(!showAddItem)}>
             <Plus style={{ width:13, height:13 }} /> Adicionar
           </button>
@@ -213,7 +213,7 @@ export default function TreinoDetalhe() {
         {/* Add form */}
         {showAddItem && (
           <div className="animate-slide-down mb-5 rounded-2xl p-4" style={{ background:'rgba(99,102,241,0.06)', border:'1px solid rgba(99,102,241,0.2)' }}>
-            <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14, marginBottom:16 }}>Adicionar exercício</h3>
+            <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:14, marginBottom:16 }}>Adicionar exercício</h3>
             <div className="space-y-3">
               <div>
                 <label className="label">Exercício *</label>
@@ -277,12 +277,12 @@ export default function TreinoDetalhe() {
                   </div>
                   <div style={{ flex:1, minWidth:0 }}>
                     <div style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap', marginBottom:4 }}>
-                      <span style={{ fontFamily:'Inter, sans-serif', fontWeight:700, fontSize:14, color:'#F4F4F5' }}>{ex?.nome || `Exercício #${item.exercicio_id}`}</span>
-                      {grupo && <span style={{ fontSize:10, fontWeight:700, padding:'2px 8px', borderRadius:999, background:gc.bg, color:gc.text }}>{grupo}</span>}
+                      <span style={{ fontFamily:'Inter, sans-serif', fontWeight:600, fontSize:14, color:'#F4F4F5' }}>{ex?.nome || `Exercício #${item.exercicio_id}`}</span>
+                      {grupo && <span style={{ fontSize:10, fontWeight:600, padding:'2px 8px', borderRadius:999, background:gc.bg, color:gc.text }}>{grupo}</span>}
                       {ex?.video_url && <Video style={{ width:13, height:13, color:'#a78bfa' }} />}
                     </div>
                     <div style={{ display:'flex', alignItems:'center', gap:12, fontSize:12, color:'#71717A', flexWrap:'wrap' }}>
-                      <span style={{ fontWeight:700, color:'#A1A1AA' }}>{item.series} × {item.repeticoes}</span>
+                      <span style={{ fontWeight:600, color:'#A1A1AA' }}>{item.series} × {item.repeticoes}</span>
                       {item.carga     && <span>{item.carga} kg</span>}
                       {item.descanso_seg && <span style={{ display:'flex', alignItems:'center', gap:4 }}><Clock style={{ width:11, height:11 }} />{item.descanso_seg}s</span>}
                     </div>

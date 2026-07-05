@@ -154,7 +154,7 @@ export default function OnboardingWizard() {
             <Icon style={{ width: 26, height: 26, color: current.color }} />
           </div>
 
-          <p style={{ fontSize: 11, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
+          <p style={{ fontSize: 11, fontWeight: 600, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
             Passo {step + 1} de {STEPS.length}
           </p>
           <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 600, color: '#F4F4F5', lineHeight: 1.2, marginBottom: 10 }}>
@@ -193,7 +193,7 @@ export default function OnboardingWizard() {
             {step > 0 && !isLast && (
               <button
                 onClick={advance}
-                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, color: '#71717A', cursor: 'pointer', fontWeight: 700, fontSize: 13, padding: '13px 14px' }}
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, color: '#71717A', cursor: 'pointer', fontWeight: 600, fontSize: 13, padding: '13px 14px' }}
               >
                 Pular
               </button>
@@ -201,7 +201,7 @@ export default function OnboardingWizard() {
             {isLast && (
               <button
                 onClick={close}
-                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, color: '#71717A', cursor: 'pointer', fontWeight: 700, fontSize: 13, padding: '13px 14px' }}
+                style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, color: '#71717A', cursor: 'pointer', fontWeight: 600, fontSize: 13, padding: '13px 14px' }}
               >
                 Concluir
               </button>

@@ -7,7 +7,7 @@ import { Brain, Zap, TrendingUp, TrendingDown, Minus, ChevronDown, Sparkles, Ale
 function Avatar({ nome, size = 28 }) {
   const initials = (nome || '?').split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
   return (
-    <div style={{ width: size, height: size, borderRadius: '50%', background: '#6366f1', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.38, fontWeight: 700, flexShrink: 0, boxShadow: '0 0 8px rgba(99,102,241,0.3)' }}>
+    <div style={{ width: size, height: size, borderRadius: '50%', background: '#6366f1', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.38, fontWeight: 600, flexShrink: 0 }}>
       {initials}
     </div>
   )
@@ -25,7 +25,7 @@ function AlunoContextBanner({ aluno, gami, dias }) {
     <div className="rounded-2xl p-4 flex items-center gap-4" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)' }}>
       <Avatar nome={aluno.nome} size={44} />
       <div className="flex-1 min-w-0">
-        <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#F4F4F5', fontSize: 15, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 15, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {aluno.nome}
         </p>
         <p style={{ fontSize: 12, color: '#71717A', marginTop: 2 }}>{aluno.email}</p>
@@ -78,10 +78,10 @@ export default function IA() {
         </div>
         <div className="relative">
           <div className="w-12 h-12 rounded-2xl flex items-center justify-center"
-            style={{ background: 'linear-gradient(135deg,#7c3aed,#a78bfa)', boxShadow: '0 0 24px rgba(124,58,237,0.5)' }}>
+            style={{ background: '#6366f1' }}>
             <Brain style={{ width: 22, height: 22, color: 'white' }} />
           </div>
-          <div style={{ position: 'absolute', top: -2, right: -2, width: 12, height: 12, borderRadius: '50%', background: '#34d399', border: '2px solid #0C0C0D', boxShadow: '0 0 8px #34d399' }} />
+          <div style={{ position: 'absolute', top: -2, right: -2, width: 12, height: 12, borderRadius: '50%', background: '#34d399', border: '2px solid #0C0C0D' }} />
         </div>
       </div>
 
@@ -90,7 +90,7 @@ export default function IA() {
         <div className="flex items-start gap-3">
           <Sparkles style={{ width: 16, height: 16, color: '#a78bfa', flexShrink: 0, marginTop: 1 }} />
           <div>
-            <p style={{ fontSize: 13, fontWeight: 700, color: '#a78bfa', marginBottom: 4 }}>Como funciona a IA de progressao</p>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#a78bfa', marginBottom: 4 }}>Como funciona a IA de progressao</p>
             <p style={{ fontSize: 12, color: '#71717A', lineHeight: 1.6 }}>
               Apos <strong style={{ color: '#F4F4F5' }}>3 ou mais execucoes</strong> do mesmo exercicio, a IA analisa o historico de carga e performance para sugerir se deve aumentar, manter ou reduzir o peso — tudo baseado nos dados reais do aluno.
             </p>
@@ -176,10 +176,10 @@ export default function IA() {
             ) : (
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <p style={{ fontSize: 11, color: '#71717A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+                  <p style={{ fontSize: 11, color: '#71717A', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
                     {nPendentes} sugestao{nPendentes !== 1 ? 'es' : ''} gerada{nPendentes !== 1 ? 's' : ''}
                   </p>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#a78bfa', fontWeight: 700 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 11, color: '#a78bfa', fontWeight: 600 }}>
                     <Sparkles style={{ width: 12, height: 12 }} />
                     Gerado por IA
                   </div>
@@ -197,7 +197,7 @@ export default function IA() {
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap mb-1.5">
-                            <span style={{ fontSize: 11, fontWeight: 700, color: cfg.text, background: 'rgba(255,255,255,0.08)', padding: '3px 10px', borderRadius: 999, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                            <span style={{ fontSize: 11, fontWeight: 600, color: cfg.text, background: 'rgba(255,255,255,0.08)', padding: '3px 10px', borderRadius: 999, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                               {cfg.label}
                             </span>
                             {s.carga_sugerida && (
@@ -235,7 +235,7 @@ export default function IA() {
                 ].map(({ icon, title, desc }) => (
                   <div key={title} className="card p-4 text-center" style={{ border: '1px solid rgba(124,58,237,0.12)' }}>
                     <div style={{ fontSize: 28, marginBottom: 8 }}>{icon}</div>
-                    <p style={{ fontSize: 12, fontWeight: 700, color: '#F4F4F5', marginBottom: 4 }}>{title}</p>
+                    <p style={{ fontSize: 12, fontWeight: 600, color: '#F4F4F5', marginBottom: 4 }}>{title}</p>
                     <p style={{ fontSize: 11, color: '#71717A', lineHeight: 1.5 }}>{desc}</p>
                   </div>
                 ))}
@@ -272,7 +272,7 @@ function TreinoAlternativoTab() {
             <Zap style={{ width: 18, height: 18, color: '#fbbf24' }} />
           </div>
           <div>
-            <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#F4F4F5', fontSize: 15 }}>Treino alternativo por IA</h3>
+            <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 15 }}>Treino alternativo por IA</h3>
             <p style={{ fontSize: 12, color: '#71717A', marginTop: 1 }}>Informe o equipamento indisponivel</p>
           </div>
         </div>
@@ -311,7 +311,7 @@ function TreinoAlternativoTab() {
         <div className="card space-y-4">
           <div className="flex items-center gap-2 mb-1">
             <Sparkles style={{ width: 15, height: 15, color: '#a78bfa' }} />
-            <h4 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#F4F4F5', fontSize: 15 }}>Sugestoes da IA</h4>
+            <h4 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 15 }}>Sugestoes da IA</h4>
           </div>
 
           {resultado.itens?.length === 0 ? (
@@ -329,7 +329,7 @@ function TreinoAlternativoTab() {
                     <div className="flex items-center gap-2 flex-wrap text-sm mb-1.5">
                       <span style={{ color: '#f87171', textDecoration: 'line-through', fontWeight: 500 }}>{item.exercicio_original}</span>
                       <span style={{ color: '#71717A', fontSize: 16 }}>→</span>
-                      <span style={{ color: '#34d399', fontWeight: 700, fontFamily: 'Inter, sans-serif' }}>{item.exercicio_alternativo}</span>
+                      <span style={{ color: '#34d399', fontWeight: 600, fontFamily: 'Inter, sans-serif' }}>{item.exercicio_alternativo}</span>
                     </div>
                     <p style={{ fontSize: 12, color: '#71717A', lineHeight: 1.5 }}>{item.motivo}</p>
                   </div>

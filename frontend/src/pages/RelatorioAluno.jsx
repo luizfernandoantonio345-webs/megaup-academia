@@ -84,12 +84,12 @@ export default function RelatorioAluno() {
           <ArrowLeft style={{ width: 14, height: 14 }} /> Voltar
         </button>
         <div style={{ flex: 1 }}>
-          <p style={{ fontSize: 14, fontWeight: 700, color: '#F4F4F5' }}>Relatório de {aluno.nome}</p>
+          <p style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5' }}>Relatório de {aluno.nome}</p>
           <p style={{ fontSize: 12, color: '#71717A' }}>Período: {periodo.inicio} a {periodo.fim}</p>
         </div>
         <button
           onClick={() => window.print()}
-          style={{ background: '#6366f1', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '10px 22px', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 0 20px rgba(99,102,241,0.4)' }}
+          style={{ background: '#6366f1', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '10px 22px', display: 'flex', alignItems: 'center', gap: 8 }}
         >
           <Printer style={{ width: 16, height: 16 }} /> Imprimir / Salvar PDF
         </button>
@@ -121,7 +121,7 @@ export default function RelatorioAluno() {
           ].map(k => (
             <div key={k.label} className="print-card" style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '16px 14px', textAlign: 'center' }}>
               <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 26, fontWeight: 600, color: k.color, lineHeight: 1, marginBottom: 6 }} className="print-text-main">{k.value}</p>
-              <p style={{ fontSize: 11, color: '#71717A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }} className="print-text-muted">{k.label}</p>
+              <p style={{ fontSize: 11, color: '#71717A', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }} className="print-text-muted">{k.label}</p>
             </div>
           ))}
         </div>
@@ -136,7 +136,7 @@ export default function RelatorioAluno() {
             <div style={{ display: 'flex', gap: 14, marginBottom: 16, flexWrap: 'wrap' }}>
               {varPeso !== null && (
                 <div className="print-card" style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '12px 16px', minWidth: 160 }}>
-                  <p style={{ fontSize: 11, color: '#71717A', fontWeight: 700, marginBottom: 6 }} className="print-text-muted">Variação de Peso</p>
+                  <p style={{ fontSize: 11, color: '#71717A', fontWeight: 600, marginBottom: 6 }} className="print-text-muted">Variação de Peso</p>
                   <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600, color: parseFloat(varPeso) < 0 ? '#34d399' : '#f87171' }} className={parseFloat(varPeso) < 0 ? 'evolucao-pos' : 'evolucao-neg'}>
                     {parseFloat(varPeso) > 0 ? '+' : ''}{varPeso} kg
                   </p>
@@ -145,7 +145,7 @@ export default function RelatorioAluno() {
               )}
               {varGordura !== null && (
                 <div className="print-card" style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '12px 16px', minWidth: 160 }}>
-                  <p style={{ fontSize: 11, color: '#71717A', fontWeight: 700, marginBottom: 6 }} className="print-text-muted">Variação Gordura</p>
+                  <p style={{ fontSize: 11, color: '#71717A', fontWeight: 600, marginBottom: 6 }} className="print-text-muted">Variação Gordura</p>
                   <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600, color: parseFloat(varGordura) < 0 ? '#34d399' : '#f87171' }} className={parseFloat(varGordura) < 0 ? 'evolucao-pos' : 'evolucao-neg'}>
                     {parseFloat(varGordura) > 0 ? '+' : ''}{varGordura}%
                   </p>
@@ -159,7 +159,7 @@ export default function RelatorioAluno() {
                 <thead>
                   <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                     {['Data', 'Peso (kg)', 'Gordura (%)', 'Cintura (cm)', 'Quadril (cm)'].map(h => (
-                      <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontSize: 11, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.04em' }} className="print-text-muted">{h}</th>
+                      <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontSize: 11, fontWeight: 600, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.04em' }} className="print-text-muted">{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -170,7 +170,7 @@ export default function RelatorioAluno() {
                     return (
                       <tr key={i} style={{ borderBottom: i < avaliacoes.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
                         <td style={{ padding: '10px 14px', color: '#A1A1AA', fontWeight: 600 }} className="print-text-sub">{av.data}</td>
-                        <td style={{ padding: '10px 14px', color: '#F4F4F5', fontWeight: 700 }} className="print-text-main">{av.peso ?? '—'}</td>
+                        <td style={{ padding: '10px 14px', color: '#F4F4F5', fontWeight: 600 }} className="print-text-main">{av.peso ?? '—'}</td>
                         <td style={{ padding: '10px 14px', color: '#F4F4F5' }} className="print-text-main">{av.percentual_gordura ?? '—'}</td>
                         <td style={{ padding: '10px 14px', color: '#F4F4F5' }} className="print-text-main">{medidas.cintura ?? '—'}</td>
                         <td style={{ padding: '10px 14px', color: '#F4F4F5' }} className="print-text-main">{medidas.quadril ?? '—'}</td>
@@ -194,17 +194,17 @@ export default function RelatorioAluno() {
                 <thead>
                   <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
                     {['Exercício', 'Grupo', 'Inicial (kg)', 'Máximo (kg)', 'Evolução', 'Execuções'].map(h => (
-                      <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontSize: 11, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.04em' }} className="print-text-muted">{h}</th>
+                      <th key={h} style={{ padding: '10px 14px', textAlign: 'left', fontSize: 11, fontWeight: 600, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.04em' }} className="print-text-muted">{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {progresso_exercicios.map((ex, i) => (
                     <tr key={i} style={{ borderBottom: i < progresso_exercicios.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
-                      <td style={{ padding: '10px 14px', color: '#F4F4F5', fontWeight: 700 }} className="print-text-main">{ex.nome}</td>
+                      <td style={{ padding: '10px 14px', color: '#F4F4F5', fontWeight: 600 }} className="print-text-main">{ex.nome}</td>
                       <td style={{ padding: '10px 14px', color: '#71717A' }} className="print-text-muted">{ex.grupo ?? '—'}</td>
                       <td style={{ padding: '10px 14px', color: '#A1A1AA' }} className="print-text-sub">{ex.carga_inicial ?? '—'}</td>
-                      <td style={{ padding: '10px 14px', color: '#F4F4F5', fontWeight: 700 }} className="print-text-main">{ex.carga_maxima ?? '—'}</td>
+                      <td style={{ padding: '10px 14px', color: '#F4F4F5', fontWeight: 600 }} className="print-text-main">{ex.carga_maxima ?? '—'}</td>
                       <td style={{ padding: '10px 14px' }}>
                         {ex.evolucao_pct != null ? (
                           <span style={{ color: ex.evolucao_pct >= 0 ? '#34d399' : '#f87171', fontWeight: 600, fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }} className={ex.evolucao_pct >= 0 ? 'evolucao-pos' : 'evolucao-neg'}>

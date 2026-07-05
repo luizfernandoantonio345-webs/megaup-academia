@@ -126,7 +126,7 @@ export default function CommandPalette() {
       >
         <Search style={{ width: 14, height: 14 }} aria-hidden="true" />
         <span>Buscar...</span>
-        <kbd style={{ fontSize: 10, fontWeight: 700, padding: '1px 6px', borderRadius: 5, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', color: '#71717A', fontFamily: 'Inter, sans-serif' }}>
+        <kbd style={{ fontSize: 10, fontWeight: 600, padding: '1px 6px', borderRadius: 5, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', color: '#71717A', fontFamily: 'Inter, sans-serif' }}>
           ⌘K
         </kbd>
       </button>
@@ -160,7 +160,7 @@ export default function CommandPalette() {
                 background: '#111113',
                 border: '1px solid rgba(99,102,241,0.3)',
                 borderRadius: 20,
-                boxShadow: '0 32px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(99,102,241,0.1)',
+                boxShadow: '0 32px 80px rgba(0,0,0,0.6)',
                 overflow: 'hidden',
               }}
             >
@@ -184,7 +184,7 @@ export default function CommandPalette() {
                     <X style={{ width: 14, height: 14 }} />
                   </button>
                 )}
-                <kbd onClick={closePalette} style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', color: '#71717A', fontFamily: 'Inter, sans-serif', cursor: 'pointer' }}>
+                <kbd onClick={closePalette} style={{ fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 6, background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)', color: '#71717A', fontFamily: 'Inter, sans-serif', cursor: 'pointer' }}>
                   ESC
                 </kbd>
               </div>

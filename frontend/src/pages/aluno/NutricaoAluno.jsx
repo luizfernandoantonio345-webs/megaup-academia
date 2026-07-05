@@ -14,7 +14,7 @@ function RefeicaoCard({ r }) {
             <Apple style={{ width: 16, height: 16, color: '#34d399' }} />
           </div>
           <div>
-            <p style={{ fontSize: 14, fontWeight: 700, color: '#F4F4F5' }}>{r.nome}</p>
+            <p style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5' }}>{r.nome}</p>
             {r.horario && <p style={{ fontSize: 11, color: '#71717A' }}>{r.horario}</p>}
           </div>
         </div>
@@ -32,7 +32,7 @@ function RefeicaoCard({ r }) {
                 <p style={{ fontSize: 11, color: '#71717A' }}>{a.qtd}</p>
               </div>
               <div style={{ textAlign: 'right' }}>
-                <p style={{ fontSize: 12, color: '#fbbf24', fontWeight: 700 }}>{a.kcal ?? '—'} kcal</p>
+                <p style={{ fontSize: 12, color: '#fbbf24', fontWeight: 600 }}>{a.kcal ?? '—'} kcal</p>
                 <p style={{ fontSize: 11, color: '#71717A' }}>P:{a.prot ?? '—'}g C:{a.carbo ?? '—'}g G:{a.gord ?? '—'}g</p>
               </div>
             </div>
@@ -83,7 +83,7 @@ export default function NutricaoAluno() {
 
       {/* Macros resumo */}
       <div style={{ background: 'linear-gradient(135deg,rgba(251,191,36,0.1),rgba(249,115,22,0.08))', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 20, padding: '18px 20px' }}>
-        <p style={{ fontSize: 11, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>Total diário prescrito</p>
+        <p style={{ fontSize: 11, fontWeight: 600, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 12 }}>Total diário prescrito</p>
         <div className="grid-macros">
           {[
             { label: 'Kcal', value: `${totalKcal}`, meta: plano.objetivo_kcal, color: '#fbbf24' },
@@ -93,7 +93,7 @@ export default function NutricaoAluno() {
           ].map(m => (
             <div key={m.label} style={{ textAlign: 'center' }}>
               <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 600, color: m.color, lineHeight: 1 }}>{m.value}</p>
-              <p style={{ fontSize: 10, color: '#71717A', marginTop: 4, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{m.label}</p>
+              <p style={{ fontSize: 10, color: '#71717A', marginTop: 4, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }}>{m.label}</p>
               {m.meta && <p style={{ fontSize: 10, color: '#71717A' }}>meta: {m.meta}</p>}
             </div>
           ))}

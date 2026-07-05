@@ -15,7 +15,7 @@ function MacroBar({ label, current, meta, color }) {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-        <span style={{ fontSize: 11, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{label}</span>
+        <span style={{ fontSize: 11, fontWeight: 600, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{label}</span>
         <span style={{ fontSize: 11, color: '#71717A' }}>{current}g / {meta ?? '—'}g</span>
       </div>
       <div style={{ height: 5, background: 'rgba(255,255,255,0.06)', borderRadius: 3, overflow: 'hidden' }}>
@@ -41,13 +41,13 @@ function RefeicaoCard({ ref: r, planoId, alunoId, onDelete }) {
             <Apple style={{ width: 15, height: 15, color: '#34d399' }} />
           </div>
           <div>
-            <p style={{ fontSize: 14, fontWeight: 700, color: '#F4F4F5' }}>{r.nome}</p>
+            <p style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5' }}>{r.nome}</p>
             {r.horario && <p style={{ fontSize: 11, color: '#71717A' }}>{r.horario}</p>}
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{ textAlign: 'right' }}>
-            <p style={{ fontSize: 13, fontWeight: 700, color: '#fbbf24' }}>{kcal} kcal</p>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#fbbf24' }}>{kcal} kcal</p>
             <p style={{ fontSize: 11, color: '#71717A' }}>{prot.toFixed(1)}g prot.</p>
           </div>
           {open ? <ChevronUp style={{ width: 15, height: 15, color: '#71717A' }} /> : <ChevronDown style={{ width: 15, height: 15, color: '#71717A' }} />}
@@ -62,7 +62,7 @@ function RefeicaoCard({ ref: r, planoId, alunoId, onDelete }) {
               <thead>
                 <tr>
                   {['Alimento', 'Qtd', 'Kcal', 'Prot', 'Carbo', 'Gord'].map(h => (
-                    <th key={h} style={{ fontSize: 10, fontWeight: 700, color: '#71717A', textAlign: 'left', padding: '4px 8px 4px 0', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{h}</th>
+                    <th key={h} style={{ fontSize: 10, fontWeight: 600, color: '#71717A', textAlign: 'left', padding: '4px 8px 4px 0', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -71,7 +71,7 @@ function RefeicaoCard({ ref: r, planoId, alunoId, onDelete }) {
                   <tr key={i} style={{ borderTop: '1px solid rgba(255,255,255,0.03)' }}>
                     <td style={{ padding: '6px 8px 6px 0', fontSize: 13, color: '#A1A1AA', fontWeight: 600 }}>{a.nome}</td>
                     <td style={{ padding: '6px 8px 6px 0', fontSize: 12, color: '#71717A' }}>{a.qtd}</td>
-                    <td style={{ padding: '6px 8px 6px 0', fontSize: 12, color: '#fbbf24', fontWeight: 700 }}>{a.kcal ?? '—'}</td>
+                    <td style={{ padding: '6px 8px 6px 0', fontSize: 12, color: '#fbbf24', fontWeight: 600 }}>{a.kcal ?? '—'}</td>
                     <td style={{ padding: '6px 8px 6px 0', fontSize: 12, color: '#71717A' }}>{a.prot != null ? `${a.prot}g` : '—'}</td>
                     <td style={{ padding: '6px 8px 6px 0', fontSize: 12, color: '#71717A' }}>{a.carbo != null ? `${a.carbo}g` : '—'}</td>
                     <td style={{ padding: '6px 8px 6px 0', fontSize: 12, color: '#71717A' }}>{a.gord != null ? `${a.gord}g` : '—'}</td>
@@ -81,7 +81,7 @@ function RefeicaoCard({ ref: r, planoId, alunoId, onDelete }) {
             </table>
           )}
           <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
-            <button onClick={() => onDelete(r.id)} style={{ background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: 10, color: '#f87171', cursor: 'pointer', fontSize: 12, fontWeight: 700, padding: '6px 12px', display: 'flex', alignItems: 'center', gap: 5 }}>
+            <button onClick={() => onDelete(r.id)} style={{ background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: 10, color: '#f87171', cursor: 'pointer', fontSize: 12, fontWeight: 600, padding: '6px 12px', display: 'flex', alignItems: 'center', gap: 5 }}>
               <Trash2 style={{ width: 12, height: 12 }} /> Remover refeição
             </button>
           </div>
@@ -178,7 +178,7 @@ export default function NutricaoTab({ alunoId }) {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10 }}>
                 {[['objetivo_kcal','Kcal/dia'],['objetivo_proteina','Proteína (g)'],['objetivo_carbo','Carbo (g)'],['objetivo_gordura','Gordura (g)']].map(([k, label]) => (
                   <div key={k}>
-                    <label style={{ fontSize: 11, fontWeight: 700, color: '#71717A', display: 'block', marginBottom: 5 }}>{label}</label>
+                    <label style={{ fontSize: 11, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 5 }}>{label}</label>
                     <input type="number" value={formPlan[k]} onChange={setFP(k)} placeholder="0" style={{ width: '100%', background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, color: '#F4F4F5', fontSize: 14, padding: '8px 10px', boxSizing: 'border-box' }} />
                   </div>
                 ))}
@@ -188,7 +188,7 @@ export default function NutricaoTab({ alunoId }) {
                 <button type="submit" disabled={criar.isPending} style={{ flex: 1, background: '#6366f1', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '11px' }}>
                   {criar.isPending ? 'Criando…' : 'Criar plano'}
                 </button>
-                <button type="button" onClick={() => setShowNovoPlan(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#71717A', cursor: 'pointer', fontWeight: 700, fontSize: 14, padding: '11px 18px' }}>Cancelar</button>
+                <button type="button" onClick={() => setShowNovoPlan(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#71717A', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '11px 18px' }}>Cancelar</button>
               </div>
             </form>
           </div>
@@ -212,7 +212,7 @@ export default function NutricaoTab({ alunoId }) {
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#F4F4F5' }}>{plano.nome}</p>
             {plano.observacoes && <p style={{ fontSize: 12, color: '#71717A', marginTop: 4 }}>{plano.observacoes}</p>}
           </div>
-          <button onClick={() => { if (confirm('Remover plano?')) deletarPlano.mutate(plano.id) }} style={{ background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: 10, color: '#f87171', cursor: 'pointer', fontSize: 12, fontWeight: 700, padding: '6px 12px' }}>
+          <button onClick={() => { if (confirm('Remover plano?')) deletarPlano.mutate(plano.id) }} style={{ background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: 10, color: '#f87171', cursor: 'pointer', fontSize: 12, fontWeight: 600, padding: '6px 12px' }}>
             Remover plano
           </button>
         </div>
@@ -220,8 +220,8 @@ export default function NutricaoTab({ alunoId }) {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
           <div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-              <span style={{ fontSize: 11, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Calorias</span>
-              <span style={{ fontSize: 11, color: '#fbbf24', fontWeight: 700 }}>{totalKcal} / {plano.objetivo_kcal ?? '—'} kcal</span>
+              <span style={{ fontSize: 11, fontWeight: 600, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Calorias</span>
+              <span style={{ fontSize: 11, color: '#fbbf24', fontWeight: 600 }}>{totalKcal} / {plano.objetivo_kcal ?? '—'} kcal</span>
             </div>
             <div style={{ height: 6, background: 'rgba(255,255,255,0.06)', borderRadius: 3, overflow: 'hidden' }}>
               <div style={{ height: '100%', width: `${plano.objetivo_kcal ? Math.min(100, Math.round((totalKcal/plano.objetivo_kcal)*100)) : 0}%`, background: 'linear-gradient(90deg,#f97316,#fbbf24)', borderRadius: 3 }} />
@@ -242,7 +242,7 @@ export default function NutricaoTab({ alunoId }) {
 
       {/* Botão adicionar refeição */}
       {!showNovaRef ? (
-        <button onClick={() => setShowNovaRef(true)} style={{ background: 'rgba(52,211,153,0.08)', border: '1px dashed rgba(52,211,153,0.25)', borderRadius: 14, color: '#34d399', cursor: 'pointer', fontWeight: 700, fontSize: 14, padding: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
+        <button onClick={() => setShowNovaRef(true)} style={{ background: 'rgba(52,211,153,0.08)', border: '1px dashed rgba(52,211,153,0.25)', borderRadius: 14, color: '#34d399', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '13px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
           <Plus style={{ width: 16, height: 16 }} /> Adicionar refeição
         </button>
       ) : (
@@ -251,18 +251,18 @@ export default function NutricaoTab({ alunoId }) {
             <h4 style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600, color: '#F4F4F5' }}>Nova refeição</h4>
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 10 }}>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#71717A', display: 'block', marginBottom: 5 }}>Nome da refeição</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 5 }}>Nome da refeição</label>
                 <select value={nomeRef} onChange={e => setNomeRef(e.target.value)} style={{ width: '100%', background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, color: '#F4F4F5', fontSize: 14, padding: '9px 12px' }}>
                   <option value="">Selecione…</option>
                   {REFEICOES_PADRAO.map(r => <option key={r} value={r}>{r}</option>)}
                 </select>
               </div>
               <div>
-                <label style={{ fontSize: 11, fontWeight: 700, color: '#71717A', display: 'block', marginBottom: 5 }}>Horário</label>
+                <label style={{ fontSize: 11, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 5 }}>Horário</label>
                 <input type="time" value={horarioRef} onChange={e => setHorarioRef(e.target.value)} style={{ width: '100%', background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, color: '#F4F4F5', fontSize: 14, padding: '9px 12px', boxSizing: 'border-box' }} />
               </div>
             </div>
-            <p style={{ fontSize: 12, fontWeight: 700, color: '#71717A', marginBottom: -6 }}>Alimentos</p>
+            <p style={{ fontSize: 12, fontWeight: 600, color: '#71717A', marginBottom: -6 }}>Alimentos</p>
             {alimentosRef.map((a, i) => (
               <div key={i} style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 60px 60px 60px 60px 32px', gap: 6, alignItems: 'end' }}>
                 {[['nome','Alimento'],['qtd','Qtd'],['kcal','Kcal'],['prot','Prot(g)'],['carbo','Carbo(g)'],['gord','Gord(g)']].map(([k, ph]) => (
@@ -274,12 +274,12 @@ export default function NutricaoTab({ alunoId }) {
                 <button type="button" onClick={() => removeAlim(i)} style={{ background: 'none', border: 'none', color: '#71717A', cursor: 'pointer', padding: 0, marginTop: i === 0 ? 16 : 0 }}>✕</button>
               </div>
             ))}
-            <button type="button" onClick={addAlim} style={{ background: 'none', border: 'none', color: '#818cf8', cursor: 'pointer', fontSize: 13, fontWeight: 700, textAlign: 'left', padding: 0 }}>+ Adicionar alimento</button>
+            <button type="button" onClick={addAlim} style={{ background: 'none', border: 'none', color: '#818cf8', cursor: 'pointer', fontSize: 13, fontWeight: 600, textAlign: 'left', padding: 0 }}>+ Adicionar alimento</button>
             <div style={{ display: 'flex', gap: 10 }}>
               <button type="submit" disabled={!nomeRef || addRef.isPending} style={{ flex: 1, background: 'linear-gradient(135deg,#10b981,#059669)', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '11px' }}>
                 {addRef.isPending ? 'Salvando…' : 'Salvar refeição'}
               </button>
-              <button type="button" onClick={() => setShowNovaRef(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#71717A', cursor: 'pointer', fontWeight: 700, fontSize: 14, padding: '11px 18px' }}>Cancelar</button>
+              <button type="button" onClick={() => setShowNovaRef(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#71717A', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '11px 18px' }}>Cancelar</button>
             </div>
           </form>
         </div>

@@ -42,7 +42,7 @@ export default function Inativos() {
           <button
             key={d}
             onClick={() => setDias(d)}
-            style={{ background: dias === d ? 'rgba(249,115,22,0.15)' : 'rgba(255,255,255,0.04)', border: `1px solid ${dias === d ? 'rgba(249,115,22,0.3)' : 'rgba(255,255,255,0.07)'}`, borderRadius: 12, color: dias === d ? '#f97316' : '#71717A', cursor: 'pointer', fontWeight: 700, fontSize: 13, padding: '8px 18px', transition: 'all 0.15s' }}
+            style={{ background: dias === d ? 'rgba(249,115,22,0.15)' : 'rgba(255,255,255,0.04)', border: `1px solid ${dias === d ? 'rgba(249,115,22,0.3)' : 'rgba(255,255,255,0.07)'}`, borderRadius: 12, color: dias === d ? '#f97316' : '#71717A', cursor: 'pointer', fontWeight: 600, fontSize: 13, padding: '8px 18px', transition: 'all 0.15s' }}
           >
             +{d} dias
           </button>
@@ -53,7 +53,7 @@ export default function Inativos() {
       {!isLoading && data && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 14 }}>
           <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '20px 22px' }}>
-            <p style={{ fontSize: 11, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>Sem treinar há +{dias}d</p>
+            <p style={{ fontSize: 11, fontWeight: 600, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>Sem treinar há +{dias}d</p>
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 36, fontWeight: 600, color: '#f97316' }}>{data.total}</p>
           </div>
           <div style={{ background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.2)', borderRadius: 18, padding: '18px 22px', display: 'flex', alignItems: 'center', gap: 12 }}>
@@ -90,7 +90,7 @@ export default function Inativos() {
               </div>
 
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 14, fontWeight: 700, color: '#F4F4F5', marginBottom: 3 }}>{a.nome}</p>
+                <p style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5', marginBottom: 3 }}>{a.nome}</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                     <Clock style={{ width: 12, height: 12, color: '#f97316' }} />
@@ -105,7 +105,7 @@ export default function Inativos() {
                 <button
                   onClick={() => nudge.mutate(a.id)}
                   disabled={nudge.isPending}
-                  style={{ background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: 11, color: '#818cf8', cursor: 'pointer', fontWeight: 700, fontSize: 12, padding: '7px 13px', display: 'flex', alignItems: 'center', gap: 5 }}
+                  style={{ background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: 11, color: '#818cf8', cursor: 'pointer', fontWeight: 600, fontSize: 12, padding: '7px 13px', display: 'flex', alignItems: 'center', gap: 5 }}
                 >
                   <Send style={{ width: 12, height: 12 }} /> Nudge
                 </button>

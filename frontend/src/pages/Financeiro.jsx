@@ -19,8 +19,8 @@ const DarkTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
     <div style={{ background:'#111113', border:'1px solid rgba(16,185,129,0.3)', borderRadius:12, padding:'10px 14px', boxShadow:'0 8px 24px rgba(0,0,0,0.4)' }}>
-      <p style={{ color:'#71717A', fontSize:11, fontWeight:700, marginBottom:4 }}>{label}</p>
-      <p style={{ color:'#34d399', fontWeight:700, fontSize:15, fontFamily:'Inter, sans-serif' }}>{fmt(payload[0]?.value)}</p>
+      <p style={{ color:'#71717A', fontSize:11, fontWeight:600, marginBottom:4 }}>{label}</p>
+      <p style={{ color:'#34d399', fontWeight:600, fontSize:15, fontFamily:'Inter, sans-serif' }}>{fmt(payload[0]?.value)}</p>
     </div>
   )
 }
@@ -93,7 +93,7 @@ export default function Financeiro() {
         <div className="card">
           <div className="flex items-center justify-between mb-5">
             <div>
-              <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:15 }}>Receita por mês</h2>
+              <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:15 }}>Receita por mês</h2>
               <p style={{ fontSize:12, color:'#71717A', marginTop:2 }}>Cobranças pagas nos últimos 6 meses</p>
             </div>
             <TrendingUp style={{ width:16, height:16, color:'#10b981' }} />
@@ -135,7 +135,7 @@ export default function Financeiro() {
           {showCobForm && (
             <div className="card animate-slide-down" style={{ border:'1px solid rgba(99,102,241,0.3)' }}>
               <div className="flex justify-between items-center mb-4">
-                <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14 }}>Gerar cobrança</h3>
+                <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:14 }}>Gerar cobrança</h3>
                 <button onClick={() => setShowCobForm(false)} className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background:'rgba(255,255,255,0.07)', color:'#71717A' }}>
                   <X style={{ width:13, height:13 }} />
                 </button>
@@ -173,7 +173,7 @@ export default function Financeiro() {
                   <thead>
                     <tr style={{ borderBottom:'1px solid rgba(255,255,255,0.05)' }}>
                       {['Aluno','Valor','Vencimento','Pago em','Status','PIX','Ação'].map(h => (
-                        <th key={h} className="px-4 py-3 text-left" style={{ fontSize:11, fontWeight:700, color:'#71717A', textTransform:'uppercase', letterSpacing:'0.06em', whiteSpace:'nowrap' }}>{h}</th>
+                        <th key={h} className="px-4 py-3 text-left" style={{ fontSize:11, fontWeight:600, color:'#71717A', textTransform:'uppercase', letterSpacing:'0.06em', whiteSpace:'nowrap' }}>{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -226,7 +226,7 @@ export default function Financeiro() {
           {showPlanoForm && (
             <div className="card animate-slide-down" style={{ border:'1px solid rgba(99,102,241,0.3)' }}>
               <div className="flex justify-between items-center mb-4">
-                <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14 }}>Criar plano</h3>
+                <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:14 }}>Criar plano</h3>
                 <button onClick={() => setShowPlanoForm(false)} className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ background:'rgba(255,255,255,0.07)', color:'#71717A' }}>
                   <X style={{ width:13, height:13 }} />
                 </button>
@@ -276,7 +276,7 @@ export default function Financeiro() {
                   <div key={p.id} className="card">
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <p style={{ fontFamily:'Inter, sans-serif', fontWeight:700, color:'#F4F4F5', fontSize:14 }}>{p.nome}</p>
+                        <p style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:14 }}>{p.nome}</p>
                         <p style={{ fontSize:12, color:'#71717A', marginTop:2 }}>{aluno?.nome ?? `Aluno #${p.aluno_id}`}</p>
                       </div>
                       <StatusBadge status={p.status} />

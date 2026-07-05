@@ -82,7 +82,7 @@ export default function Convites() {
             <UserPlus style={{ width: 18, height: 18, color: '#818cf8' }} />
           </div>
           <div>
-            <h2 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#F4F4F5', fontSize: 15 }}>Novo convite</h2>
+            <h2 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 15 }}>Novo convite</h2>
             <p style={{ fontSize: 12, color: '#71717A' }}>Link valido por 7 dias, uso unico</p>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function Convites() {
               <Check style={{ width: 17, height: 17, color: '#34d399' }} />
             </div>
             <div>
-              <p style={{ fontWeight: 700, color: '#34d399', fontSize: 14 }}>Link gerado com sucesso!</p>
+              <p style={{ fontWeight: 600, color: '#34d399', fontSize: 14 }}>Link gerado com sucesso!</p>
               <p style={{ fontSize: 12, color: '#71717A' }}>
                 Expira em {new Date(resultado.expira_em).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
               </p>
@@ -135,7 +135,7 @@ export default function Convites() {
 
           {/* Link display */}
           <div>
-            <label style={{ fontSize: 11, fontWeight: 700, color: '#22c55e', textTransform: 'uppercase', letterSpacing: '0.07em', display: 'block', marginBottom: 8 }}>
+            <label style={{ fontSize: 11, fontWeight: 600, color: '#22c55e', textTransform: 'uppercase', letterSpacing: '0.07em', display: 'block', marginBottom: 8 }}>
               Link do convite
             </label>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(16,185,129,0.15)', borderRadius: 14, padding: '10px 14px' }}>
@@ -181,7 +181,7 @@ export default function Convites() {
 
       {/* How it works */}
       <div className="card">
-        <h2 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#A1A1AA', fontSize: 13, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Como funciona</h2>
+        <h2 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#A1A1AA', fontSize: 13, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Como funciona</h2>
         <div className="space-y-3">
           {STEPS.map(({ n, emoji, text }) => (
             <div key={n} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
@@ -189,7 +189,7 @@ export default function Convites() {
                 {emoji}
               </div>
               <div style={{ paddingTop: 6 }}>
-                <span style={{ fontSize: 11, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Passo {n}</span>
+                <span style={{ fontSize: 11, fontWeight: 600, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Passo {n}</span>
                 <p style={{ fontSize: 13, color: '#71717A', marginTop: 2, lineHeight: 1.5 }}>{text}</p>
               </div>
             </div>

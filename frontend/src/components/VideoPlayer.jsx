@@ -100,7 +100,6 @@ export function VideoThumb({ url, title }) {
         <div style={{
           width: 52, height: 52, borderRadius: '50%',
           background: 'rgba(99,102,241,0.92)',
-          boxShadow: '0 0 32px rgba(99,102,241,0.6)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           backdropFilter: 'blur(8px)',
         }}>

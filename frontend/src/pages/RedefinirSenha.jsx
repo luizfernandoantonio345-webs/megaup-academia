@@ -47,7 +47,7 @@ export default function RedefinirSenha() {
           <XCircle style={{ width: 48, height: 48, color: '#f87171', margin: '0 auto 16px' }} />
           <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 600, color: '#F4F4F5', marginBottom: 8 }}>Link inválido</h2>
           <p style={{ fontSize: 14, color: '#71717A', marginBottom: 20 }}>O link de redefinição é inválido ou expirou.</p>
-          <Link to="/esqueci-senha" style={{ color: '#818cf8', fontWeight: 700, fontSize: 14 }}>Solicitar novo link</Link>
+          <Link to="/esqueci-senha" style={{ color: '#818cf8', fontWeight: 600, fontSize: 14 }}>Solicitar novo link</Link>
         </div>
       </div>
     )
@@ -57,13 +57,13 @@ export default function RedefinirSenha() {
     <div style={{ minHeight: '100vh', background: '#0C0C0D', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
       <div style={{ width: '100%', maxWidth: 420 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 40, justifyContent: 'center' }}>
-          <div style={{ width: 38, height: 38, borderRadius: 13, background: '#6366f1', boxShadow: '0 0 20px rgba(99,102,241,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 38, height: 38, borderRadius: 13, background: '#6366f1', outline: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Zap style={{ width: 18, height: 18, color: 'white' }} />
           </div>
           <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 20, color: '#F4F4F5', letterSpacing: '-0.02em' }}>GymPro</span>
         </div>
 
-        <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 24, padding: '36px 32px', boxShadow: '0 24px 64px rgba(0,0,0,0.5)' }}>
+        <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 24, padding: '36px 32px', outline: 'none' }}>
           {ok ? (
             <div style={{ textAlign: 'center' }}>
               <div style={{ width: 64, height: 64, borderRadius: '50%', background: 'rgba(52,211,153,0.12)', border: '1px solid rgba(52,211,153,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px' }}>
@@ -88,7 +88,7 @@ export default function RedefinirSenha() {
 
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                 <div>
-                  <label style={{ fontSize: 12, fontWeight: 700, color: '#71717A', display: 'block', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Nova senha</label>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Nova senha</label>
                   <div style={{ position: 'relative' }}>
                     <Lock style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', width: 16, height: 16, color: '#71717A' }} />
                     <input
@@ -107,7 +107,7 @@ export default function RedefinirSenha() {
                 </div>
 
                 <div>
-                  <label style={{ fontSize: 12, fontWeight: 700, color: '#71717A', display: 'block', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Confirmar senha</label>
+                  <label style={{ fontSize: 12, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Confirmar senha</label>
                   <input
                     type={showPass ? 'text' : 'password'}
                     value={confirma}
@@ -135,7 +135,7 @@ export default function RedefinirSenha() {
                 <button
                   type="submit"
                   disabled={loading || !senhaValida}
-                  style={{ background: '#6366f1', border: 'none', borderRadius: 14, color: 'white', cursor: loading || !senhaValida ? 'not-allowed' : 'pointer', fontWeight: 600, fontSize: 15, padding: '14px', marginTop: 4, opacity: loading || !senhaValida ? 0.7 : 1, boxShadow: '0 0 24px rgba(99,102,241,0.35)' }}
+                  style={{ background: '#6366f1', border: 'none', borderRadius: 14, color: 'white', cursor: loading || !senhaValida ? 'not-allowed' : 'pointer', fontWeight: 600, fontSize: 15, padding: '14px', marginTop: 4, opacity: loading || !senhaValida ? 0.7 : 1, outline: 'none' }}
                 >
                   {loading ? 'Salvando…' : 'Salvar nova senha'}
                 </button>

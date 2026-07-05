@@ -80,7 +80,7 @@ function RestTimer({ seconds = 60, autoStart = false, onDismiss }) {
           <RotateCcw style={{ width: 13, height: 13 }} />
         </button>
         <button onClick={toggle} className="w-9 h-9 rounded-full flex items-center justify-center text-white transition-all"
-          style={{ background: running ? 'rgba(245,158,11,0.85)' : 'linear-gradient(135deg,#4f46e5,#7c3aed)',  }}>
+          style={{ background: running ? 'rgba(245,158,11,0.85)' : '#6366f1',  }}>
           {running ? <Pause style={{ width: 14, height: 14 }} /> : <Play style={{ width: 14, height: 14, marginLeft: 1 }} />}
         </button>
         <button onClick={onDismiss} className="w-9 h-9 rounded-full flex items-center justify-center transition-colors"
@@ -102,11 +102,11 @@ function SetTracker({ count, completedSets, onToggle }) {
         <button key={i} onClick={() => onToggle(i)}
           className="w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all"
           style={{
-            background: completedSets.includes(i) ? 'linear-gradient(135deg,#059669,#10b981)' : 'rgba(255,255,255,0.06)',
+            background: completedSets.includes(i) ? '#10b981' : 'rgba(255,255,255,0.06)',
             border: `2px solid ${completedSets.includes(i) ? '#10b981' : 'rgba(255,255,255,0.1)'}`,
             color: completedSets.includes(i) ? 'white' : '#71717A',
             transform: completedSets.includes(i) ? 'scale(1.1)' : 'scale(1)',
-            boxShadow: completedSets.includes(i) ? '0 0 12px rgba(16,185,129,0.4)' : 'none',
+            boxShadow: 'none',
           }}>
           {completedSets.includes(i) ? <Check style={{ width: 14, height: 14 }} /> : i + 1}
         </button>
@@ -148,8 +148,8 @@ function ExerciseExCard({ item, idx, ex, alunoId, completedSets, onToggle, video
         <div className="flex items-start gap-3">
           <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white text-sm font-bold flex-shrink-0 mt-0.5"
             style={{
-              background: allDone ? 'linear-gradient(135deg,#059669,#10b981)' : 'linear-gradient(135deg,#4f46e5,#7c3aed)',
-              boxShadow: allDone ? '0 0 12px rgba(16,185,129,0.35)' : '0 0 12px rgba(99,102,241,0.3)',
+              background: allDone ? '#10b981' : '#6366f1',
+              boxShadow: 'none',
               transition: 'all 0.3s',
             }}>
             {allDone ? <Check style={{ width: 15, height: 15 }} /> : idx + 1}
@@ -199,10 +199,10 @@ function ExerciseExCard({ item, idx, ex, alunoId, completedSets, onToggle, video
           { key: 'series_realizadas',     label: 'Series',      type: 'number', hint: null },
         ].map(({ key, label, type, hint }) => (
           <div key={key}>
-            <label style={{ display: 'block', fontSize: 10, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>
+            <label style={{ display: 'block', fontSize: 10, fontWeight: 600, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>
               {label}
               {hint && (
-                <span style={{ display: 'block', color: '#6366f1', fontSize: 9, fontWeight: 700, textTransform: 'none', letterSpacing: 0, marginTop: 1 }}>
+                <span style={{ display: 'block', color: '#6366f1', fontSize: 9, fontWeight: 600, textTransform: 'none', letterSpacing: 0, marginTop: 1 }}>
                   {hint}
                 </span>
               )}
@@ -299,16 +299,16 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex flex-col" style={{ background: '#0C0C0D' }}>
       {/* Header */}
-      <div style={{ background: 'rgba(6,9,16,0.98)', borderBottom: '1px solid rgba(255,255,255,0.06)', flexShrink: 0, padding: '16px 16px 12px' }}>
+      <div style={{ background: '#0C0C0D', borderBottom: '1px solid rgba(255,255,255,0.06)', flexShrink: 0, padding: '16px 16px 12px' }}>
         <div className="flex items-center justify-between mb-3 max-w-lg mx-auto">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 rounded-xl flex items-center justify-center"
-              style={{ background: '#6366f1', boxShadow: '0 0 12px rgba(99,102,241,0.4)' }}>
+              style={{ background: '#6366f1' }}>
               <Zap style={{ width: 14, height: 14, color: 'white' }} />
             </div>
             <div>
-              <p style={{ fontSize: 11, color: '#71717A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.07em' }}>EXECUTANDO</p>
-              <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, color: '#F4F4F5', fontSize: 14, lineHeight: 1.2 }}>{treino.nome}</h3>
+              <p style={{ fontSize: 11, color: '#71717A', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em' }}>EXECUTANDO</p>
+              <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 14, lineHeight: 1.2 }}>{treino.nome}</h3>
             </div>
           </div>
           <button onClick={onClose} className="w-8 h-8 rounded-full flex items-center justify-center"
@@ -321,12 +321,12 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
           <div className="max-w-lg mx-auto space-y-1">
             <div className="flex justify-between items-center" style={{ fontSize: 11, color: '#71717A' }}>
               <span>{completedTotal} de {totalSeries} series</span>
-              <span style={{ color: pct === 100 ? '#10b981' : '#6366f1', fontWeight: 700 }}>{pct}%</span>
+              <span style={{ color: pct === 100 ? '#10b981' : '#6366f1', fontWeight: 600 }}>{pct}%</span>
             </div>
             <div className="progress-bar-track">
               <div className="progress-bar-fill" style={{
                 width: `${pct}%`,
-                background: pct === 100 ? 'linear-gradient(90deg,#059669,#10b981)' : 'linear-gradient(90deg,#4f46e5,#7c3aed)',
+                background: pct === 100 ? '#10b981' : '#6366f1',
               }} />
             </div>
           </div>
@@ -415,7 +415,7 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
       </div>
 
       {/* Footer CTA */}
-      <div className="flex-shrink-0 p-4" style={{ background: 'rgba(6,9,16,0.98)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+      <div className="flex-shrink-0 p-4" style={{ background: '#0C0C0D', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="max-w-lg mx-auto">
           <button className="btn-primary w-full py-4 text-base" disabled={isPending} onClick={() => mutate()}>
             {isPending ? (
@@ -428,7 +428,7 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
                 <CheckCircle style={{ width: 18, height: 18 }} />
                 Concluir treino
                 {pct > 0 && (
-                  <span style={{ background: pct === 100 ? 'rgba(16,185,129,0.3)' : 'rgba(255,255,255,0.2)', borderRadius: 999, padding: '2px 8px', fontSize: 12, fontWeight: 700 }}>
+                  <span style={{ background: pct === 100 ? 'rgba(16,185,129,0.3)' : 'rgba(255,255,255,0.2)', borderRadius: 999, padding: '2px 8px', fontSize: 12, fontWeight: 600 }}>
                     {pct}%
                   </span>
                 )}
@@ -515,16 +515,12 @@ function StreakCard({ gami }) {
   if (!gami) return null
   return (
     <div className="rounded-3xl p-5 text-white relative overflow-hidden" style={{
-      background: 'linear-gradient(135deg, #7c2d12 0%, #9a3412 40%, #c2410c 100%)',
-      boxShadow: '0 0 32px rgba(249,115,22,0.25), 0 8px 32px rgba(0,0,0,0.4)',
+      background: '#c2410c',
       border: '1px solid rgba(249,115,22,0.2)',
     }}>
-      <div className="absolute inset-0 pointer-events-none" style={{
-        background: 'radial-gradient(ellipse at 80% 20%, rgba(251,191,36,0.15) 0%, transparent 60%)',
-      }} />
       <div className="flex items-center justify-between relative z-10">
         <div>
-          <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)', fontWeight: 700, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Sequencia atual</p>
+          <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)', fontWeight: 600, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.08em' }}>Sequencia atual</p>
           <div className="flex items-end gap-2">
             <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 56, fontWeight: 600, lineHeight: 1, letterSpacing: '-0.03em' }}>{gami.streak_atual}</span>
             <Flame style={{ width: 32, height: 32, marginBottom: 8, color: '#fbbf24' }} />
@@ -533,11 +529,11 @@ function StreakCard({ gami }) {
         </div>
         <div className="space-y-3 text-right">
           <div>
-            <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Recorde</p>
+            <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.45)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Recorde</p>
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600 }}>🏆 {gami.streak_recorde}</p>
           </div>
           <div>
-            <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Treinos</p>
+            <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.45)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Treinos</p>
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600 }}>💪 {gami.total_treinos}</p>
           </div>
         </div>
@@ -626,11 +622,11 @@ export default function TreinoHoje() {
       ) : (
         <div className="space-y-4">
           <div className="flex items-center justify-between">
-            <p style={{ fontSize: 13, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.07em' }}>
               {treinosHoje.length} treino{treinosHoje.length !== 1 ? 's' : ''} para hoje
             </p>
             {gami && gami.total_treinos > 0 && (
-              <span style={{ fontSize: 11, color: '#6366f1', fontWeight: 700, padding: '2px 10px', borderRadius: 999, background: 'rgba(99,102,241,0.12)' }}>
+              <span style={{ fontSize: 11, color: '#6366f1', fontWeight: 600, padding: '2px 10px', borderRadius: 999, background: 'rgba(99,102,241,0.12)' }}>
                 {gami.total_treinos} totais
               </span>
             )}
