@@ -116,8 +116,7 @@ def _features(tier: str) -> list[str]:
         "pro": [
             "Até 50 alunos",
             "Financeiro e cobranças",
-            "Relatórios avançados",
-            "Relatórios avançados",
+            "Relatórios avançados por aluno",
             "Suporte prioritário",
         ],
         "elite": [
