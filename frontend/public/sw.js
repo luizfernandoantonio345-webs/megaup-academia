@@ -1,10 +1,11 @@
-const CACHE = 'fitsaas-v1'
+const CACHE = 'gymrpo-v2'
 const STATIC = [
   '/',
   '/index.html',
   '/manifest.json',
   '/icon-192.svg',
   '/icon-512.svg',
+  '/favicon.svg',
 ]
 
 self.addEventListener('install', (e) => {
@@ -25,7 +26,6 @@ self.addEventListener('fetch', (e) => {
   const { request } = e
   const url = new URL(request.url)
 
-  // Skip non-GET and cross-origin except API
   if (request.method !== 'GET') return
 
   // API calls: network first, fall back to cache
@@ -56,7 +56,29 @@ self.addEventListener('fetch', (e) => {
     return
   }
 
-  // App shell: cache first, then network
+  // JS/CSS assets (hashed filenames): cache first, update in background
+  if (url.pathname.startsWith('/assets/')) {
+    e.respondWith(
+      caches.match(request).then((cached) => {
+        const network = fetch(request).then((res) => {
+          if (res.ok) caches.open(CACHE).then((c) => c.put(request, res.clone()))
+          return res
+        })
+        return cached || network
+      })
+    )
+    return
+  }
+
+  // Navigation: network first, fall back to cached index.html for SPA
+  if (request.mode === 'navigate') {
+    e.respondWith(
+      fetch(request).catch(() => caches.match('/index.html'))
+    )
+    return
+  }
+
+  // Everything else: cache first, then network
   e.respondWith(
     caches.match(request).then((cached) => {
       const network = fetch(request).then((res) => {

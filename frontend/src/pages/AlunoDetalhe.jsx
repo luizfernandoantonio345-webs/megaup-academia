@@ -3,7 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { obterAluno, listarTreinos, gamificacaoAluno, sugestoesAluno, obterAnamnese, salvarAnamnese, criarTreino, atualizarAluno, listarExercicios, historicoCarga, listarAvaliacoes, criarAvaliacao, deletarAvaliacao } from '../api'
 import toast from 'react-hot-toast'
-import { ArrowLeft, Dumbbell, Flame, Trophy, Brain, ClipboardList, Plus, Loader2, Edit2, Check, X, TrendingUp, TrendingDown, Minus, BarChart2, ChevronDown, MessageCircle, Scale, Trash2, FileText } from 'lucide-react'
+import { ArrowLeft, Dumbbell, Flame, Trophy, ClipboardList, Plus, Loader2, Edit2, Check, X, TrendingUp, TrendingDown, Minus, BarChart2, ChevronDown, MessageCircle, Scale, Trash2, FileText } from 'lucide-react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import ChatBox from '../components/ChatBox'
 import NutricaoTab from '../components/NutricaoTab'
@@ -138,7 +138,7 @@ export default function AlunoDetalhe() {
           { key:'progresso',   label:'Progresso' },
           { key:'avaliacao',   label:'Avaliação' },
           { key:'gamificacao', label:'Conquistas' },
-          { key:'sugestoes',   label:`IA${nSugestoes ? ` (${nSugestoes})` : ''}` },
+          { key:'sugestoes',   label:`Sugestões${nSugestoes ? ` (${nSugestoes})` : ''}` },
           { key:'anamnese',    label:'Anamnese' },
           { key:'nutricao',    label:'Nutrição' },
           { key:'chat',        label:'Chat' },
@@ -470,9 +470,9 @@ function SugestoesTab({ sugestoes }) {
 
       {(sugestoes.sugestoes_pendentes?.length ?? 0) === 0 ? (
         <div className="card empty-state py-10">
-          <div className="empty-icon"><Brain style={{ width:28, height:28, color:'#71717A' }} /></div>
+          <div className="empty-icon"><BarChart2 style={{ width:28, height:28, color:'#71717A' }} /></div>
           <p className="empty-title">Sem sugestões ainda</p>
-          <p className="empty-message">A IA precisa de pelo menos 3 execuções do mesmo exercício.</p>
+          <p className="empty-message">Necessário ao menos 3 execuções do mesmo exercício para gerar sugestões.</p>
         </div>
       ) : (
         <div className="space-y-3">

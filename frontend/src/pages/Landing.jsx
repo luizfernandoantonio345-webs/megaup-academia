@@ -1,10 +1,10 @@
 ﻿import { Link } from 'react-router-dom'
-import { Zap, Users, Brain, MessageCircle, BarChart2, Trophy, Shield, ArrowRight, Check, Star, ChevronRight } from 'lucide-react'
+import { Zap, Users, Calendar, MessageCircle, BarChart2, Trophy, Shield, ArrowRight, Check, Star, ChevronRight } from 'lucide-react'
 
 const FEATURES = [
   { icon: BarChart2,     color: '#818cf8', bg: 'rgba(129,140,248,0.12)', title: 'Analytics Completo',   desc: 'Retenção, frequência, receita e exercícios mais realizados — tudo em um painel.' },
   { icon: Trophy,        color: '#fbbf24', bg: 'rgba(251,191,36,0.12)',  title: 'Gamificação',           desc: 'Streak, conquistas e recordes para manter seus alunos motivados diariamente.' },
-  { icon: Brain,         color: '#a78bfa', bg: 'rgba(167,139,250,0.12)', title: 'Periodização',          desc: 'Programe ciclos de hipertrofia, força e deload com presets prontos em segundos.' },
+  { icon: Calendar,      color: '#a78bfa', bg: 'rgba(167,139,250,0.12)', title: 'Periodização',          desc: 'Programe ciclos de hipertrofia, força e deload com presets prontos em segundos.' },
   { icon: MessageCircle, color: '#f9a8d4', bg: 'rgba(249,168,212,0.12)', title: 'Chat Integrado',        desc: 'Comunique-se diretamente com cada aluno dentro do app, sem WhatsApp.' },
   { icon: Users,         color: '#38bdf8', bg: 'rgba(56,189,248,0.12)',  title: 'Multi-aluno',           desc: 'Gerencie dezenas de alunos com treinos, avaliações e histórico individuais.' },
   { icon: Shield,        color: '#34d399', bg: 'rgba(52,211,153,0.12)',  title: 'App Mobile (PWA)',       desc: 'Instala no celular como app nativo, funciona offline e vibra no descanso.' },
@@ -25,7 +25,7 @@ const PLANOS_PREVIEW = [
 
 const DEPOIMENTOS = [
   { nome: 'Camila R.',    cargo: 'Personal Trainer — SP', texto: 'Meus alunos amaram o sistema de conquistas. Nunca tive taxas de adesão tão altas.',          estrelas: 5 },
-  { nome: 'Rafael S.',    cargo: 'Coach — RJ',            texto: 'A IA de progressão de carga me economiza pelo menos 2h por semana de análise manual.',        estrelas: 5 },
+  { nome: 'Rafael S.',    cargo: 'Coach — RJ',            texto: 'Os relatórios de progressão de carga me economizam pelo menos 2h por semana de análise manual.',        estrelas: 5 },
   { nome: 'Juliana M.',   cargo: 'Personal Trainer — BH', texto: 'O chat integrado é o diferencial. Consigo acompanhar meus alunos sem sair do GymPro.',        estrelas: 5 },
 ]
 

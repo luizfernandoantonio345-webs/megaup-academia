@@ -1,9 +1,9 @@
 ﻿import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import {
-  LayoutDashboard, Users, Dumbbell, Brain, UserPlus, LogOut,
+  LayoutDashboard, Users, Dumbbell, UserPlus, LogOut,
   X, DollarSign, Zap, MoreHorizontal, ChevronRight, CreditCard,
-  BarChart2, Gift, Calendar, Bell, Apple, ChevronDown,
+  BarChart2, Gift, Calendar, Bell, Apple, ChevronDown, TrendingUp,
 } from 'lucide-react'
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
@@ -20,7 +20,7 @@ const NAV_MAIN = [
 ]
 
 const NAV_TOOLS = [
-  { to: '/ia',           icon: Brain,       label: 'IA — Progressão'  },
+  { to: '/ia',           icon: TrendingUp,  label: 'Sugestões'         },
   { to: '/financeiro',   icon: DollarSign,  label: 'Financeiro'        },
   { to: '/convites',     icon: UserPlus,    label: 'Convidar alunos'   },
   { to: '/periodizacao', icon: BarChart2,   label: 'Periodização'      },

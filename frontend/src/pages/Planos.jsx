@@ -20,7 +20,7 @@ const PLANOS = [
     features: [
       'Até 3 alunos',
       'Treinos ilimitados por aluno',
-      'IA de progressão de carga',
+      'Analytics de progressão de carga',
       'Gamificação (streak, conquistas)',
       'App mobile (PWA)',
       'Suporte por e-mail',
@@ -40,7 +40,7 @@ const PLANOS = [
     features: [
       'Até 15 alunos',
       'Treinos ilimitados por aluno',
-      'IA de progressão de carga',
+      'Analytics de progressão de carga',
       'Gamificação (streak, conquistas)',
       'App mobile (PWA)',
       'Financeiro e cobranças',
@@ -63,12 +63,11 @@ const PLANOS = [
     features: [
       'Até 50 alunos',
       'Treinos ilimitados por aluno',
-      'IA de progressão de carga',
+      'Analytics de progressão de carga',
       'Gamificação (streak, conquistas)',
       'App mobile (PWA)',
       'Financeiro e cobranças',
-      'IA personalizada por aluno',
-      'Relatórios avançados',
+      'Relatórios avançados por aluno',
       'Convites por link',
       'Suporte prioritário',
     ],
@@ -87,11 +86,11 @@ const PLANOS = [
     features: [
       'Alunos ilimitados',
       'Treinos ilimitados por aluno',
-      'IA de progressão de carga',
+      'Analytics de progressão de carga',
       'Gamificação (streak, conquistas)',
       'App mobile (PWA)',
       'Financeiro e cobranças',
-      'IA personalizada por aluno',
+      'Relatórios avançados por aluno',
       'Multi-personal (equipe)',
       'White-label (em breve)',
       'API de integração (em breve)',
@@ -187,7 +186,7 @@ export default function Planos() {
 
         {/* Monthly / Annual toggle */}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 12, marginBottom: 44 }}>
-          <span style={{ fontSize: 14, color: !anual ? '#F4F4F5' : '#71717A', fontWeight: !anual ? 700 : 400 }}>Mensal</span>
+          <span style={{ fontSize: 14, color: !anual ? '#F4F4F5' : '#71717A', fontWeight: !anual ? 600 : 400 }}>Mensal</span>
           <button
             onClick={() => setAnual(!anual)}
             style={{
@@ -202,7 +201,7 @@ export default function Planos() {
             }} />
           </button>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span style={{ fontSize: 14, color: anual ? '#F4F4F5' : '#71717A', fontWeight: anual ? 700 : 400 }}>Anual</span>
+            <span style={{ fontSize: 14, color: anual ? '#F4F4F5' : '#71717A', fontWeight: anual ? 600 : 400 }}>Anual</span>
             <span style={{ fontSize: 11, fontWeight: 600, color: '#34d399', background: 'rgba(16,185,129,0.15)', padding: '2px 8px', borderRadius: 999, border: '1px solid rgba(16,185,129,0.25)' }}>
               -20%
             </span>
@@ -235,9 +234,9 @@ export default function Planos() {
                 key={p.tier}
                 style={{
                   borderRadius: 24, overflow: 'hidden', position: 'relative',
-                  background: p.destaque ? 'linear-gradient(160deg, #13183a 0%, #111113 100%)' : '#111113',
+                  background: '#111113',
                   border: `1px solid ${p.destaque ? p.border : 'rgba(255,255,255,0.08)'}`,
-                  boxShadow: p.destaque ? `0 0 48px ${p.glow}, 0 24px 48px rgba(0,0,0,0.4)` : '0 4px 24px rgba(0,0,0,0.3)',
+                  boxShadow: p.destaque ? '0 4px 32px rgba(0,0,0,0.5)' : '0 4px 24px rgba(0,0,0,0.3)',
                   transform: p.destaque ? 'scale(1.03)' : 'scale(1)',
                 }}
               >
@@ -261,7 +260,7 @@ export default function Planos() {
                 <div style={{ padding: '28px 28px 32px' }}>
                   {/* Icon + name */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-                    <div style={{ width: 44, height: 44, borderRadius: 14, background: `${p.color}18`, border: `1px solid ${p.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: `0 0 18px ${p.glow}` }}>
+                    <div style={{ width: 44, height: 44, borderRadius: 14, background: `${p.color}18`, border: `1px solid ${p.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                       <Icon style={{ width: 20, height: 20, color: p.color }} />
                     </div>
                     <div>
@@ -331,11 +330,9 @@ export default function Planos() {
                         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                         fontSize: 14, fontWeight: 600, border: 'none',
                         cursor: (!status?.stripe_configurado || loadingTier === p.tier) ? 'not-allowed' : 'pointer',
-                        background: p.destaque
-                          ? `linear-gradient(135deg, ${p.color}cc, ${p.color}88)`
-                          : `${p.color}22`,
+                        background: p.destaque ? `${p.color}cc` : `${p.color}22`,
                         color: p.destaque ? '#111113' : p.color,
-                        boxShadow: p.destaque && status?.stripe_configurado ? `0 0 24px ${p.glow}` : 'none',
+                        boxShadow: 'none',
                         transition: 'all 0.2s',
                         opacity: (loadingTier === p.tier || !status?.stripe_configurado) ? 0.45 : 1,
                       }}

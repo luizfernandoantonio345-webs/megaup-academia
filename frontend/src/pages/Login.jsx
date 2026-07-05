@@ -6,7 +6,7 @@ import { Zap, Mail, Lock, ArrowRight, Eye, EyeOff, Dumbbell, TrendingUp, Users }
 
 const FEATURES = [
   { icon: Dumbbell,   title: 'Treinos personalizados',    desc: 'Monte e prescreva treinos para cada aluno com facilidade.' },
-  { icon: TrendingUp, title: 'IA de progressão de carga', desc: 'Inteligência artificial analisa o histórico e sugere evolução.' },
+  { icon: TrendingUp, title: 'Analytics de progressão de carga', desc: 'Analise o histórico de carga e acompanhe a evolução de cada aluno.' },
   { icon: Users,      title: 'Gestão completa de alunos', desc: 'Acompanhe streak, conquistas e pagamentos em tempo real.' },
 ]
 

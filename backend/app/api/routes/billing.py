@@ -1,4 +1,4 @@
-"""
+﻿"""
 Rotas de billing da plataforma GymPro.
 Personal trainer paga pelo uso da plataforma via Stripe.
 """
@@ -102,7 +102,7 @@ def listar_planos():
 def _features(tier: str) -> list[str]:
     base = [
         "Treinos ilimitados por aluno",
-        "IA de progressão de carga",
+        "Analytics de progressão de carga",
         "Gamificação (streak, conquistas)",
         "App mobile (PWA)",
         "Suporte por e-mail",
@@ -116,7 +116,7 @@ def _features(tier: str) -> list[str]:
         "pro": [
             "Até 50 alunos",
             "Financeiro e cobranças",
-            "IA personalizada",
+            "Relatórios avançados",
             "Relatórios avançados",
             "Suporte prioritário",
         ],

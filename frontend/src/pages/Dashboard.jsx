@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { listarAlunos, listarTreinos } from '../api'
 import { useAuth } from '../contexts/AuthContext'
 import { Link } from 'react-router-dom'
-import { Users, Dumbbell, Brain, UserPlus, ArrowRight, BarChart2, TrendingUp, Activity } from 'lucide-react'
+import { Users, Dumbbell, UserPlus, ArrowRight, BarChart2, TrendingUp, Activity } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 import { SkeletonPage } from '../components/ui/Skeleton'
 import OnboardingWizard from '../components/OnboardingWizard'
@@ -216,7 +216,7 @@ export default function Dashboard() {
             {[
               { to: '/convites',   icon: UserPlus, label: 'Enviar convite por e-mail'     },
               { to: '/exercicios', icon: Dumbbell, label: 'Gerenciar exercícios'            },
-              { to: '/ia',         icon: Brain,    label: 'Ver sugestões da IA'             },
+              { to: '/ia',         icon: TrendingUp, label: 'Sugestões de progressão'        },
               { to: '/financeiro', icon: BarChart2, label: 'Cobranças e planos'            },
             ].map(({ to, icon: Icon, label }) => (
               <Link key={to} to={to}

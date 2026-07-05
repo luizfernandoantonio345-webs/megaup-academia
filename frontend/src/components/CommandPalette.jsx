@@ -1,7 +1,7 @@
 ﻿import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Search, Users, Dumbbell, BarChart2, Calendar, Brain, DollarSign, Gift, UserPlus, X, ArrowRight, LayoutDashboard, Bell } from 'lucide-react'
+import { Search, Users, Dumbbell, BarChart2, Calendar, TrendingUp, DollarSign, Gift, UserPlus, X, ArrowRight, LayoutDashboard, Bell } from 'lucide-react'
 import { useQuery } from '@tanstack/react-query'
 import { listarAlunos, listarExercicios } from '../api'
 
@@ -10,7 +10,7 @@ const STATIC_ITEMS = [
   { id: 'nav-alunos',       label: 'Alunos',            icon: Users,           to: '/alunos',      group: 'Páginas' },
   { id: 'nav-analytics',    label: 'Analytics',         icon: BarChart2,       to: '/analytics',   group: 'Páginas' },
   { id: 'nav-agenda',       label: 'Agenda',            icon: Calendar,        to: '/agenda',      group: 'Páginas' },
-  { id: 'nav-ia',           label: 'IA — Progressão',   icon: Brain,           to: '/ia',          group: 'Páginas' },
+  { id: 'nav-ia',           label: 'Sugestões',         icon: TrendingUp,      to: '/ia',          group: 'Páginas' },
   { id: 'nav-financeiro',   label: 'Financeiro',        icon: DollarSign,      to: '/financeiro',  group: 'Páginas' },
   { id: 'nav-inativos',     label: 'Alunos Inativos',   icon: Bell,            to: '/inativos',    group: 'Páginas' },
   { id: 'nav-convites',     label: 'Convidar Alunos',   icon: UserPlus,        to: '/convites',    group: 'Páginas' },

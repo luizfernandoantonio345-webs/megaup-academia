@@ -1,6 +1,6 @@
-﻿import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { X, UserPlus, Dumbbell, Link as LinkIcon, Brain, CheckCircle, ChevronRight, Sparkles } from 'lucide-react'
+import { X, UserPlus, Dumbbell, Link as LinkIcon, Rocket, CheckCircle, ChevronRight, Sparkles } from 'lucide-react'
 
 const STEPS = [
   {
@@ -44,14 +44,14 @@ const STEPS = [
     route: '/convites',
   },
   {
-    id: 'ia',
-    icon: Brain,
+    id: 'plano',
+    icon: Rocket,
     color: '#fbbf24',
     bg: 'rgba(251,191,36,0.15)',
-    title: 'Explore a IA de Progressão',
-    desc: 'A IA analisa o histórico de carga e sugere automaticamente o aumento ideal para cada aluno.',
-    cta: 'Ver sugestões',
-    route: '/ia',
+    title: 'Escolha seu plano',
+    desc: 'Continue no Free por até 3 alunos ou faça upgrade para atender mais alunos e ter acesso a relatórios avançados.',
+    cta: 'Ver planos',
+    route: '/planos',
   },
 ]
 
@@ -124,7 +124,7 @@ export default function OnboardingWizard() {
 
         {/* Progress bar */}
         <div style={{ height: 3, background: 'rgba(255,255,255,0.05)' }}>
-          <div style={{ height: '100%', width: `${progress}%`, background: `linear-gradient(90deg, #6366f1, #a78bfa)`, transition: 'width 0.4s ease' }} />
+          <div style={{ height: '100%', width: `${progress}%`, background: '#6366f1', transition: 'width 0.4s ease' }} />
         </div>
 
         {/* Header */}
@@ -149,7 +149,6 @@ export default function OnboardingWizard() {
             width: 56, height: 56, borderRadius: 18, background: current.bg,
             border: `1px solid ${current.color}30`, display: 'flex',
             alignItems: 'center', justifyContent: 'center', marginBottom: 18,
-            boxShadow: `0 0 24px ${current.color}20`,
           }}>
             <Icon style={{ width: 26, height: 26, color: current.color }} />
           </div>
@@ -180,12 +179,11 @@ export default function OnboardingWizard() {
             <button
               onClick={handleCta}
               style={{
-                flex: 1, background: `linear-gradient(135deg, ${current.color}cc, ${current.color})`,
+                flex: 1, background: current.color,
                 border: 'none', borderRadius: 14, color: step === 0 ? '#0C0C0D' : 'white',
                 cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '13px 16px',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
-                boxShadow: `0 4px 20px ${current.color}40`,
-                transition: 'all 0.15s',
+                transition: 'opacity 0.15s',
               }}
             >
               {current.cta} <ChevronRight style={{ width: 15, height: 15 }} />

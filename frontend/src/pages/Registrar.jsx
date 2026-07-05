@@ -2,13 +2,13 @@ import { useState } from 'react'
 import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
-import { Zap, User, Mail, Lock, Building2, ArrowRight, Eye, EyeOff, Check, Dumbbell, Brain, TrendingUp, Shield } from 'lucide-react'
+import { Zap, User, Mail, Lock, Building2, ArrowRight, Eye, EyeOff, Check, Dumbbell, TrendingUp, Shield, BarChart2 } from 'lucide-react'
 
 const BENEFITS = [
-  { icon: Dumbbell,   text: 'Gestão completa de alunos e treinos'   },
-  { icon: Brain,      text: 'IA para progressão de carga automática' },
-  { icon: TrendingUp, text: 'Gamificação para engajar seus alunos'   },
-  { icon: Shield,     text: 'Cobranças e controle financeiro'        },
+  { icon: Dumbbell,   text: 'Gestão completa de alunos e treinos'          },
+  { icon: BarChart2,  text: 'Analytics de progressão de carga por aluno'   },
+  { icon: TrendingUp, text: 'Gamificação para engajar seus alunos'          },
+  { icon: Shield,     text: 'Cobranças e controle financeiro'               },
 ]
 
 export default function Registrar() {
