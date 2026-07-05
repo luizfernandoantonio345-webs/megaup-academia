@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { alunosInativos, enviarNudge } from '../api'
 import { useNavigate } from 'react-router-dom'
@@ -77,7 +77,7 @@ export default function Inativos() {
       ) : alunos.length === 0 ? (
         <div style={{ textAlign: 'center', padding: '48px 24px', background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20 }}>
           <div style={{ fontSize: 40, marginBottom: 12 }}>🎉</div>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800, color: '#F4F4F5', marginBottom: 8 }}>Todos em dia!</p>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color: '#F4F4F5', marginBottom: 8 }}>Todos em dia!</p>
           <p style={{ fontSize: 14, color: '#71717A' }}>Nenhum aluno inativo nos últimos {dias} dias.</p>
         </div>
       ) : (
@@ -85,7 +85,7 @@ export default function Inativos() {
           {alunos.map(a => (
             <div key={a.id} style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '16px 18px', display: 'flex', alignItems: 'center', gap: 14 }}>
               {/* Avatar */}
-              <div style={{ width: 42, height: 42, borderRadius: 14, background: 'rgba(249,115,22,0.12)', border: '1px solid rgba(249,115,22,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 800, color: '#f97316', flexShrink: 0 }}>
+              <div style={{ width: 42, height: 42, borderRadius: 14, background: 'rgba(249,115,22,0.12)', border: '1px solid rgba(249,115,22,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 600, color: '#f97316', flexShrink: 0 }}>
                 {a.nome.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()}
               </div>
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { gerarConvite } from '../api'
 import toast from 'react-hot-toast'
@@ -69,7 +69,7 @@ export default function Convites() {
             <div className="w-9 h-9 rounded-xl flex items-center justify-center mx-auto mb-2" style={{ background: bg }}>
               <Icon style={{ width: 16, height: 16, color }} />
             </div>
-            <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, fontSize: 14, color }}>{value}</div>
+            <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 14, color }}>{value}</div>
             <div style={{ fontSize: 11, color: '#71717A', fontWeight: 600, marginTop: 2 }}>{label}</div>
           </div>
         ))}

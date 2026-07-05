@@ -138,7 +138,7 @@ function ExercicioCard({ exercicio: e }) {
           )}
           {!e.tenant_id && (
             <div style={{ position: 'absolute', top: 10, right: 10 }}>
-              <span style={{ fontSize: 9, fontWeight: 800, textTransform: 'uppercase', padding: '2px 7px', borderRadius: 999, background: 'rgba(0,0,0,0.55)', color: 'rgba(255,255,255,0.5)', backdropFilter: 'blur(6px)', letterSpacing: '0.07em' }}>
+              <span style={{ fontSize: 9, fontWeight: 600, textTransform: 'uppercase', padding: '2px 7px', borderRadius: 999, background: 'rgba(0,0,0,0.55)', color: 'rgba(255,255,255,0.5)', backdropFilter: 'blur(6px)', letterSpacing: '0.07em' }}>
                 Global
               </span>
             </div>
@@ -172,7 +172,7 @@ function ExercicioSection({ title, count, items }) {
   return (
     <div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
-        <h2 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, color: '#334155', fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em', margin: 0 }}>
+        <h2 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#334155', fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.08em', margin: 0 }}>
           {title}
         </h2>
         <span style={{ background: 'rgba(255,255,255,0.06)', color: '#475569', fontSize: 11, fontWeight: 700, padding: '1px 8px', borderRadius: 999, border: '1px solid rgba(255,255,255,0.07)' }}>
@@ -424,7 +424,7 @@ export default function Exercicios() {
                   <Dumbbell style={{ width: 30, height: 30, color: '#71717A' }} />
                 </div>
                 <div>
-                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800, color: '#F4F4F5', margin: '0 0 8px' }}>Nenhum exercicio ainda</p>
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color: '#F4F4F5', margin: '0 0 8px' }}>Nenhum exercicio ainda</p>
                   <p style={{ fontSize: 13, color: '#71717A', maxWidth: 340, lineHeight: 1.6, margin: 0 }}>
                     Importe nossa biblioteca com 30+ exercicios profissionais, cada um com demonstracao em video.
                   </p>

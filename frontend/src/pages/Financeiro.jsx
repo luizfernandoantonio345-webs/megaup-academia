@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { listarPlanos, criarPlano, inativarPlano, listarCobrancas, criarCobranca, marcarPago, resumoFinanceiro, listarAlunos } from '../api'
@@ -80,7 +80,7 @@ export default function Financeiro() {
                 <Icon style={{ width:20, height:20, color:'white' }} />
               </div>
               <div>
-                <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:800, color:'#F4F4F5', letterSpacing:'-0.02em' }}>{value}</div>
+                <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'#F4F4F5', letterSpacing:'-0.02em' }}>{value}</div>
                 <div style={{ fontSize:11, color:'#71717A', fontWeight:600 }}>{label}</div>
               </div>
             </div>

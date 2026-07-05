@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { X, UserPlus, Dumbbell, Link as LinkIcon, Brain, CheckCircle, ChevronRight, Sparkles } from 'lucide-react'
 
@@ -157,7 +157,7 @@ export default function OnboardingWizard() {
           <p style={{ fontSize: 11, fontWeight: 700, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 8 }}>
             Passo {step + 1} de {STEPS.length}
           </p>
-          <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 800, color: '#F4F4F5', lineHeight: 1.2, marginBottom: 10 }}>
+          <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 600, color: '#F4F4F5', lineHeight: 1.2, marginBottom: 10 }}>
             {current.title}
           </h3>
           <p style={{ fontSize: 14, color: '#71717A', lineHeight: 1.6, marginBottom: 22 }}>
@@ -182,7 +182,7 @@ export default function OnboardingWizard() {
               style={{
                 flex: 1, background: `linear-gradient(135deg, ${current.color}cc, ${current.color})`,
                 border: 'none', borderRadius: 14, color: step === 0 ? '#0C0C0D' : 'white',
-                cursor: 'pointer', fontWeight: 800, fontSize: 14, padding: '13px 16px',
+                cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '13px 16px',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
                 boxShadow: `0 4px 20px ${current.color}40`,
                 transition: 'all 0.15s',

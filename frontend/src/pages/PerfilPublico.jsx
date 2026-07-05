@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom'
+﻿import { useParams, Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { Zap, Users, Dumbbell, Star, ArrowRight, MapPin, CheckCircle } from 'lucide-react'
 import api from '../api/client'
@@ -109,7 +109,7 @@ export default function PerfilPublico() {
       {especialidades.length > 0 && (
         <section style={{ padding: '0 24px 40px' }}>
           <div style={{ maxWidth: 600, margin: '0 auto' }}>
-            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800, color: '#F4F4F5', marginBottom: 16, textAlign: 'center' }}>Especialidades</h2>
+            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color: '#F4F4F5', marginBottom: 16, textAlign: 'center' }}>Especialidades</h2>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
               {especialidades.map(e => (
                 <div key={e} style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 12, padding: '8px 18px', fontSize: 14, fontWeight: 700, color: '#a5b4fc' }}>{e}</div>
@@ -129,7 +129,7 @@ export default function PerfilPublico() {
             Crie sua conta gratuitamente e comece a acompanhar seus treinos, metas e progresso.
           </p>
           <Link to={data.registro_link}>
-            <button style={{ background: '#6366f1', border: 'none', borderRadius: 16, color: 'white', cursor: 'pointer', fontWeight: 800, fontSize: 16, padding: '16px 36px', boxShadow: '0 0 30px rgba(99,102,241,0.5)', display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+            <button style={{ background: '#6366f1', border: 'none', borderRadius: 16, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 16, padding: '16px 36px', boxShadow: '0 0 30px rgba(99,102,241,0.5)', display: 'inline-flex', alignItems: 'center', gap: 10 }}>
               Criar minha conta grátis <ArrowRight style={{ width: 18, height: 18 }} />
             </button>
           </Link>

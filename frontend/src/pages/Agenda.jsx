@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { listarAlunos, listarSessoes, criarSessao, atualizarSessao, deletarSessao } from '../api'
 import { Calendar, Plus, Clock, User, Video, MapPin, Check, X, Trash2, ChevronLeft, ChevronRight } from 'lucide-react'
@@ -103,7 +103,7 @@ export default function Agenda() {
         </div>
         <button
           onClick={() => setShowModal(true)}
-          style={{ background: '#6366f1', border: 'none', borderRadius: 14, color: 'white', cursor: 'pointer', fontWeight: 800, fontSize: 14, padding: '11px 20px', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 0 20px rgba(99,102,241,0.35)' }}
+          style={{ background: '#6366f1', border: 'none', borderRadius: 8, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '10px 18px', display: 'flex', alignItems: 'center', gap: 8 }}
         >
           <Plus style={{ width: 16, height: 16 }} /> Agendar sessão
         </button>
@@ -114,7 +114,7 @@ export default function Agenda() {
         <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '22px 20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
             <button onClick={() => navMes(-1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#71717A', padding: 6 }}><ChevronLeft style={{ width: 18, height: 18 }} /></button>
-            <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, fontSize: 16, color: '#F4F4F5' }}>{MESES[mes-1]} {ano}</span>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 16, color: '#F4F4F5' }}>{MESES[mes-1]} {ano}</span>
             <button onClick={() => navMes(1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#71717A', padding: 6 }}><ChevronRight style={{ width: 18, height: 18 }} /></button>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 4, marginBottom: 8 }}>
@@ -147,7 +147,7 @@ export default function Agenda() {
 
         {/* Próximas sessões */}
         <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '22px 20px', display: 'flex', flexDirection: 'column', gap: 12, overflow: 'auto', maxHeight: 500 }}>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 800, color: '#F4F4F5', marginBottom: 4 }}>Próximas sessões</p>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600, color: '#F4F4F5', marginBottom: 4 }}>Próximas sessões</p>
           {proximas.length === 0 && (
             <p style={{ color: '#71717A', fontSize: 13 }}>Nenhuma sessão agendada</p>
           )}
@@ -199,7 +199,7 @@ export default function Agenda() {
           <div onClick={() => setShowModal(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', zIndex: 50 }} />
           <div className="modal-sheet">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 22 }}>
-              <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800, color: '#F4F4F5' }}>Nova sessão</h2>
+              <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color: '#F4F4F5' }}>Nova sessão</h2>
               <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#71717A' }}><X style={{ width: 18, height: 18 }} /></button>
             </div>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
@@ -231,7 +231,7 @@ export default function Agenda() {
                 <label style={{ fontSize: 12, fontWeight: 700, color: '#71717A', display: 'block', marginBottom: 6 }}>Observações</label>
                 <textarea value={form.notas} onChange={set('notas')} rows={2} placeholder="Foco do treino, local..." style={{ width: '100%', background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#F4F4F5', fontSize: 14, padding: '10px 14px', resize: 'vertical', boxSizing: 'border-box' }} />
               </div>
-              <button type="submit" disabled={criar.isPending} style={{ background: '#6366f1', border: 'none', borderRadius: 14, color: 'white', cursor: 'pointer', fontWeight: 800, fontSize: 15, padding: '13px', marginTop: 4 }}>
+              <button type="submit" disabled={criar.isPending} style={{ background: '#6366f1', border: 'none', borderRadius: 14, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 15, padding: '13px', marginTop: 4 }}>
                 {criar.isPending ? 'Agendando…' : 'Confirmar agendamento'}
               </button>
             </form>

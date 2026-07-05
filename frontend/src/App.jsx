@@ -1,7 +1,7 @@
+import { lazy, Suspense, Component } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
-import { Component } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import { AuthProvider } from './contexts/AuthContext'
 import { ProtectedRoute } from './components/ProtectedRoute'
@@ -9,37 +9,46 @@ import Layout from './components/Layout'
 import LayoutAluno from './pages/aluno/LayoutAluno'
 import PageTransition from './components/PageTransition'
 
-import Landing from './pages/Landing'
-import Login from './pages/Login'
-import Registrar from './pages/Registrar'
-import AceitarConvite from './pages/AceitarConvite'
-import EsqueciSenha from './pages/EsqueciSenha'
-import RedefinirSenha from './pages/RedefinirSenha'
-import PerfilPublico from './pages/PerfilPublico'
-import Referral from './pages/Referral'
-import Analytics from './pages/Analytics'
-import RelatorioAluno from './pages/RelatorioAluno'
-import Agenda from './pages/Agenda'
-import Inativos from './pages/Inativos'
-import NutricaoAluno from './pages/aluno/NutricaoAluno'
-import Dashboard from './pages/Dashboard'
-import Alunos from './pages/Alunos'
-import AlunoDetalhe from './pages/AlunoDetalhe'
-import TreinoDetalhe from './pages/TreinoDetalhe'
-import Exercicios from './pages/Exercicios'
-import IA from './pages/IA'
-import Convites from './pages/Convites'
-import Financeiro from './pages/Financeiro'
-import Planos from './pages/Planos'
-import Periodizacao from './pages/Periodizacao'
-import TreinoHoje from './pages/aluno/TreinoHoje'
-import ChatAluno from './pages/aluno/ChatAluno'
-import SemanaTreinos from './pages/aluno/SemanaTreinos'
-import Conquistas from './pages/aluno/Conquistas'
+// Lazy-load all pages — reduces initial bundle from 1.25 MB to ~150 KB
+const Landing        = lazy(() => import('./pages/Landing'))
+const Login          = lazy(() => import('./pages/Login'))
+const Registrar      = lazy(() => import('./pages/Registrar'))
+const AceitarConvite = lazy(() => import('./pages/AceitarConvite'))
+const EsqueciSenha   = lazy(() => import('./pages/EsqueciSenha'))
+const RedefinirSenha = lazy(() => import('./pages/RedefinirSenha'))
+const PerfilPublico  = lazy(() => import('./pages/PerfilPublico'))
+const Dashboard      = lazy(() => import('./pages/Dashboard'))
+const Alunos         = lazy(() => import('./pages/Alunos'))
+const AlunoDetalhe   = lazy(() => import('./pages/AlunoDetalhe'))
+const TreinoDetalhe  = lazy(() => import('./pages/TreinoDetalhe'))
+const Exercicios     = lazy(() => import('./pages/Exercicios'))
+const IA             = lazy(() => import('./pages/IA'))
+const Convites       = lazy(() => import('./pages/Convites'))
+const Financeiro     = lazy(() => import('./pages/Financeiro'))
+const Planos         = lazy(() => import('./pages/Planos'))
+const Periodizacao   = lazy(() => import('./pages/Periodizacao'))
+const Referral       = lazy(() => import('./pages/Referral'))
+const Analytics      = lazy(() => import('./pages/Analytics'))
+const RelatorioAluno = lazy(() => import('./pages/RelatorioAluno'))
+const Agenda         = lazy(() => import('./pages/Agenda'))
+const Inativos       = lazy(() => import('./pages/Inativos'))
+const TreinoHoje     = lazy(() => import('./pages/aluno/TreinoHoje'))
+const ChatAluno      = lazy(() => import('./pages/aluno/ChatAluno'))
+const SemanaTreinos  = lazy(() => import('./pages/aluno/SemanaTreinos'))
+const Conquistas     = lazy(() => import('./pages/aluno/Conquistas'))
+const NutricaoAluno  = lazy(() => import('./pages/aluno/NutricaoAluno'))
 
 const qc = new QueryClient({
   defaultOptions: { queries: { retry: 1, staleTime: 30_000 } },
 })
+
+function PageLoader() {
+  return (
+    <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ width: 24, height: 24, border: '2px solid #27272A', borderTopColor: '#6366f1', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+    </div>
+  )
+}
 
 class ErrorBoundary extends Component {
   constructor(props) {
@@ -54,14 +63,14 @@ class ErrorBoundary extends Component {
       return (
         <div style={{ minHeight:'100vh', background:'#0C0C0D', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center', padding:24 }}>
           <div>
-            <div style={{ fontSize:48, marginBottom:16 }}>⚡</div>
-            <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:22, fontWeight:800, color:'#F4F4F5', marginBottom:8 }}>Algo deu errado</h1>
-            <p style={{ color:'#71717A', fontSize:13, marginBottom:8, maxWidth:340, margin:'0 auto 16px' }}>
-              {this.state.error?.message || 'Erro desconhecido'}
+            <div style={{ fontSize:40, marginBottom:16 }}>⚡</div>
+            <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'#F4F4F5', marginBottom:8 }}>Algo deu errado</h1>
+            <p style={{ color:'#71717A', fontSize:13, marginBottom:16, maxWidth:320, margin:'0 auto 16px' }}>
+              {this.state.error?.message || 'Erro inesperado'}
             </p>
             <button
               onClick={() => { this.setState({ error: null }); window.location.href = '/login' }}
-              style={{ background:'#6366f1', color:'white', border:'none', borderRadius:12, padding:'10px 24px', fontWeight:700, cursor:'pointer', fontSize:14 }}
+              style={{ background:'#6366f1', color:'white', border:'none', borderRadius:8, padding:'10px 24px', fontWeight:600, cursor:'pointer', fontSize:14 }}
             >
               Voltar ao início
             </button>
@@ -123,8 +132,8 @@ function AnimatedRoutes() {
           <P>
             <div style={{ minHeight:'100vh', background:'#0C0C0D', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center', padding:24 }}>
               <div>
-                <div style={{ fontSize:48, marginBottom:16 }}>🔒</div>
-                <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:24, fontWeight:800, color:'#F4F4F5', marginBottom:8 }}>Acesso negado</h1>
+                <div style={{ fontSize:40, marginBottom:16 }}>🔒</div>
+                <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'#F4F4F5', marginBottom:8 }}>Acesso negado</h1>
                 <p style={{ color:'#71717A', marginBottom:24, fontSize:14 }}>Você não tem permissão para acessar esta página.</p>
                 <a href="/login" style={{ color:'#818cf8', fontWeight:600, fontSize:14 }}>Voltar ao login</a>
               </div>
@@ -143,7 +152,9 @@ export default function App() {
       <QueryClientProvider client={qc}>
         <AuthProvider>
           <BrowserRouter>
-            <AnimatedRoutes />
+            <Suspense fallback={<PageLoader />}>
+              <AnimatedRoutes />
+            </Suspense>
           </BrowserRouter>
           <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
         </AuthProvider>

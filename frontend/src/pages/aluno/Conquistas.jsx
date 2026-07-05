@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+﻿import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '../../contexts/AuthContext'
 import { gamificacaoAluno } from '../../api'
 import { Lock, Star, Zap, Flame, Trophy, Target } from 'lucide-react'
@@ -142,7 +142,7 @@ function ConquistaCard({ conquista: c, gami, desbloqueadas }) {
             <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 700, fontSize: 14, color: desbloqueada ? '#F4F4F5' : '#71717A' }}>
               {c.titulo}
             </span>
-            <span style={{ fontSize: 10, fontWeight: 800, color: R.text, background: `${R.bg}`, padding: '2px 8px', borderRadius: 999, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+            <span style={{ fontSize: 10, fontWeight: 600, color: R.text, background: `${R.bg}`, padding: '2px 8px', borderRadius: 999, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
               {R.label}
             </span>
           </div>
@@ -155,7 +155,7 @@ function ConquistaCard({ conquista: c, gami, desbloqueadas }) {
         </div>
 
         <div style={{ flexShrink: 0, textAlign: 'center' }}>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '5px 10px', borderRadius: 999, fontSize: 12, fontWeight: 800,
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '5px 10px', borderRadius: 999, fontSize: 12, fontWeight: 600,
             background: desbloqueada ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)',
             color: desbloqueada ? '#a5b4fc' : '#52525B',
             fontFamily: 'Inter, sans-serif',
@@ -200,7 +200,7 @@ export default function Conquistas() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 24, fontWeight: 800, color: '#F4F4F5', letterSpacing: '-0.02em' }}>Conquistas</h1>
+        <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 24, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em' }}>Conquistas</h1>
         <p style={{ fontSize: 13, color: '#71717A', marginTop: 2 }}>
           {desbloqueadas.size} de {CONQUISTAS.length} desbloqueadas
         </p>

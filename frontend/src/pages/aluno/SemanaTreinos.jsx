@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+﻿import { useState, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '../../contexts/AuthContext'
 import { listarTreinos, listarExercicios } from '../../api'
@@ -62,7 +62,7 @@ function DayPill({ dia, isHoje, isAtivo, treinosDia, onClick }) {
         }} />
       )}
       <span style={{
-        fontSize: 10, fontWeight: 800, letterSpacing: '0.05em', textTransform: 'uppercase',
+        fontSize: 10, fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase',
         color: isAtivo ? (tema?.color || '#a5b4fc') : isHoje ? '#818cf8' : '#2D3F5A',
         fontFamily: 'Inter, sans-serif', transition: 'color 0.2s',
       }}>{curto}</span>
@@ -89,7 +89,7 @@ function ExRow({ item, idx, exMap }) {
         width: 28, height: 28, borderRadius: 9, flexShrink: 0,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         background: 'rgba(255,255,255,0.05)',
-        fontSize: 11, fontWeight: 800, color: '#71717A',
+        fontSize: 11, fontWeight: 600, color: '#71717A',
         fontFamily: 'Inter, sans-serif',
       }}>{idx + 1}</div>
       <div style={{ flex: 1, minWidth: 0 }}>
@@ -103,7 +103,7 @@ function ExRow({ item, idx, exMap }) {
         )}
       </div>
       <div style={{ textAlign: 'right', flexShrink: 0 }}>
-        <p style={{ fontSize: 12, fontWeight: 800, color: '#818cf8', fontFamily: 'Inter, sans-serif' }}>
+        <p style={{ fontSize: 12, fontWeight: 600, color: '#818cf8', fontFamily: 'Inter, sans-serif' }}>
           {item.series}×{item.repeticoes}
         </p>
         {item.carga && (
@@ -145,7 +145,7 @@ function TreinoWeekCard({ treino, exMap }) {
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <h3 style={{
-              fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 800,
+              fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600,
               color: '#F4F4F5', lineHeight: 1.25, letterSpacing: '-0.01em',
             }}>{treino.nome}</h3>
             <div style={{ display: 'flex', gap: 14, marginTop: 6, flexWrap: 'wrap' }}>
@@ -351,12 +351,12 @@ export default function SemanaTreinos() {
       <div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
           <h2 style={{
-            fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800,
+            fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600,
             color: '#F4F4F5', letterSpacing: '-0.01em',
           }}>{DIAS_INFO[diaAtivo].full}</h2>
           {diaAtivo === diaAtual && (
             <span style={{
-              fontSize: 10, fontWeight: 800, color: '#818cf8',
+              fontSize: 10, fontWeight: 600, color: '#818cf8',
               background: 'rgba(99,102,241,0.15)', padding: '2px 9px',
               borderRadius: 999, textTransform: 'uppercase', letterSpacing: '0.06em',
               border: '1px solid rgba(99,102,241,0.25)',
@@ -371,7 +371,7 @@ export default function SemanaTreinos() {
           }}>
             <div style={{ fontSize: 48, marginBottom: 12 }}>😴</div>
             <p style={{
-              fontFamily: 'Inter, sans-serif', fontWeight: 800,
+              fontFamily: 'Inter, sans-serif', fontWeight: 600,
               color: '#F4F4F5', fontSize: 17,
             }}>Dia de descanso</p>
             <p style={{ fontSize: 12, color: '#71717A', marginTop: 6 }}>

@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom'
+﻿import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { analyticsAluno } from '../api'
 import { Printer, ArrowLeft, TrendingUp, TrendingDown, Minus } from 'lucide-react'
@@ -89,7 +89,7 @@ export default function RelatorioAluno() {
         </div>
         <button
           onClick={() => window.print()}
-          style={{ background: '#6366f1', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 800, fontSize: 14, padding: '10px 22px', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 0 20px rgba(99,102,241,0.4)' }}
+          style={{ background: '#6366f1', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '10px 22px', display: 'flex', alignItems: 'center', gap: 8, boxShadow: '0 0 20px rgba(99,102,241,0.4)' }}
         >
           <Printer style={{ width: 16, height: 16 }} /> Imprimir / Salvar PDF
         </button>
@@ -129,7 +129,7 @@ export default function RelatorioAluno() {
         {/* Avaliações físicas */}
         {avaliacoes.length > 0 && (
           <div style={{ marginBottom: 28 }}>
-            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 800, color: '#F4F4F5', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }} className="print-text-main">
+            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#F4F4F5', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 8 }} className="print-text-main">
               📏 Avaliações Físicas
             </h2>
             {/* Variações */}
@@ -186,7 +186,7 @@ export default function RelatorioAluno() {
         {/* Progresso por exercício */}
         {progresso_exercicios.length > 0 && (
           <div style={{ marginBottom: 28 }}>
-            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 800, color: '#F4F4F5', marginBottom: 14 }} className="print-text-main">
+            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#F4F4F5', marginBottom: 14 }} className="print-text-main">
               📈 Evolução de Cargas (90 dias)
             </h2>
             <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 14, overflow: 'hidden' }} className="print-card">
@@ -207,7 +207,7 @@ export default function RelatorioAluno() {
                       <td style={{ padding: '10px 14px', color: '#F4F4F5', fontWeight: 700 }} className="print-text-main">{ex.carga_maxima ?? '—'}</td>
                       <td style={{ padding: '10px 14px' }}>
                         {ex.evolucao_pct != null ? (
-                          <span style={{ color: ex.evolucao_pct >= 0 ? '#34d399' : '#f87171', fontWeight: 800, fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }} className={ex.evolucao_pct >= 0 ? 'evolucao-pos' : 'evolucao-neg'}>
+                          <span style={{ color: ex.evolucao_pct >= 0 ? '#34d399' : '#f87171', fontWeight: 600, fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }} className={ex.evolucao_pct >= 0 ? 'evolucao-pos' : 'evolucao-neg'}>
                             <EvolIcon pct={ex.evolucao_pct} />
                             {ex.evolucao_pct > 0 ? '+' : ''}{ex.evolucao_pct}%
                           </span>
@@ -225,7 +225,7 @@ export default function RelatorioAluno() {
         {/* Conquistas */}
         {conquistas.length > 0 && (
           <div style={{ marginBottom: 28 }}>
-            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 800, color: '#F4F4F5', marginBottom: 14 }} className="print-text-main">
+            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#F4F4F5', marginBottom: 14 }} className="print-text-main">
               🏆 Conquistas Desbloqueadas
             </h2>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>

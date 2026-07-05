@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+﻿import { Link } from 'react-router-dom'
 import { Zap, Users, Brain, MessageCircle, BarChart2, Trophy, Shield, ArrowRight, Check, Star, ChevronRight } from 'lucide-react'
 
 const FEATURES = [
@@ -64,7 +64,7 @@ export default function Landing() {
               <Zap style={{ width: 16, height: 16, color: 'white' }} />
             </div>
             <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 18, letterSpacing: '-0.02em' }}>GymPro</span>
-            <span style={{ fontSize: 10, fontWeight: 800, color: '#6366f1', letterSpacing: '0.05em' }}>PRO</span>
+            <span style={{ fontSize: 10, fontWeight: 600, color: '#6366f1', letterSpacing: '0.05em' }}>PRO</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
             <a href="#features" className="link-hover" style={{ color: '#71717A', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}>Recursos</a>
@@ -126,7 +126,7 @@ export default function Landing() {
           ].map(c => (
             <div key={c.label} className="hero-card" style={{ padding: '16px 22px', borderRadius: 18, background: c.bg, border: `1px solid ${c.border}`, backdropFilter: 'blur(12px)', boxShadow: '0 8px 32px rgba(0,0,0,0.4)', minWidth: 200 }}>
               <p style={{ fontSize: 11, color: '#71717A', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6 }}>{c.label}</p>
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 800, color: c.color }}>{c.value}</p>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 600, color: c.color }}>{c.value}</p>
             </div>
           ))}
         </div>
@@ -159,7 +159,7 @@ export default function Landing() {
                 <div style={{ width: 48, height: 48, borderRadius: 15, background: f.bg, border: `1px solid ${f.color}30`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 16, boxShadow: `0 0 20px ${f.color}20` }}>
                   <f.icon style={{ width: 22, height: 22, color: f.color }} />
                 </div>
-                <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 17, fontWeight: 800, color: '#F4F4F5', marginBottom: 8 }}>{f.title}</h3>
+                <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 17, fontWeight: 600, color: '#F4F4F5', marginBottom: 8 }}>{f.title}</h3>
                 <p style={{ fontSize: 14, color: '#71717A', lineHeight: 1.6, margin: 0 }}>{f.desc}</p>
               </div>
             ))}
@@ -183,7 +183,7 @@ export default function Landing() {
                 <div style={{ width: 52, height: 52, borderRadius: '50%', background: `${s.color}18`, border: `2px solid ${s.color}50`, display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px', boxShadow: `0 0 24px ${s.color}30` }}>
                   <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: s.color }}>{s.n}</span>
                 </div>
-                <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800, color: '#F4F4F5', marginBottom: 10 }}>{s.title}</h3>
+                <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color: '#F4F4F5', marginBottom: 10 }}>{s.title}</h3>
                 <p style={{ fontSize: 14, color: '#71717A', lineHeight: 1.6 }}>{s.desc}</p>
               </div>
             ))}
@@ -228,8 +228,8 @@ export default function Landing() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: 16 }}>
             {PLANOS_PREVIEW.map(p => (
               <div key={p.tier} style={{ background: p.destaque ? `${p.color}12` : '#111113', border: `1px solid ${p.destaque ? p.color + '50' : 'rgba(255,255,255,0.07)'}`, borderRadius: 20, padding: '22px 20px', textAlign: 'center', transform: p.destaque ? 'scale(1.04)' : 'scale(1)', boxShadow: p.destaque ? `0 0 40px ${p.color}25` : 'none' }}>
-                {p.destaque && <div style={{ fontSize: 10, fontWeight: 800, color: p.color, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>⭐ Recomendado</div>}
-                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800, color: p.color, marginBottom: 10 }}>{p.tier}</div>
+                {p.destaque && <div style={{ fontSize: 10, fontWeight: 600, color: p.color, textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 10 }}>⭐ Recomendado</div>}
+                <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color: p.color, marginBottom: 10 }}>{p.tier}</div>
                 <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 36, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 4 }}>
                   {p.preco === 0 ? 'Grátis' : `R$${p.preco}`}
                 </div>

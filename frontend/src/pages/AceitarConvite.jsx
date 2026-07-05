@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { infoConvite, aceitarConvite } from '../api'
 import { useAuth } from '../contexts/AuthContext'
@@ -54,7 +54,7 @@ export default function AceitarConvite() {
       <div style={{ minHeight:'100vh', background:'#0C0C0D', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center', padding:24 }}>
         <div>
           <div style={{ fontSize:48, marginBottom:16 }}>⏰</div>
-          <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:22, fontWeight:800, color:'#F4F4F5', marginBottom:8 }}>
+          <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:22, fontWeight:600, color:'#F4F4F5', marginBottom:8 }}>
             Convite não encontrado
           </h1>
           <p style={{ color:'#71717A', marginBottom:24, fontSize:14 }}>Este convite é inválido ou já expirou.</p>
@@ -71,7 +71,7 @@ export default function AceitarConvite() {
           <div style={{ width:40, height:40, borderRadius:14, background:'#6366f1', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 0 20px rgba(99,102,241,0.45)' }}>
             <Zap style={{ width:18, height:18, color:'white' }} />
           </div>
-          <span style={{ fontFamily:'Inter, sans-serif', fontWeight:800, fontSize:17, color:'#F4F4F5' }}>GymPro</span>
+          <span style={{ fontFamily:'Inter, sans-serif', fontWeight:600, fontSize:17, color:'#F4F4F5' }}>GymPro</span>
         </div>
 
         {/* Header */}

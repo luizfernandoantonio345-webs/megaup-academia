@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { obterAluno, listarTreinos, gamificacaoAluno, sugestoesAluno, obterAnamnese, salvarAnamnese, criarTreino, atualizarAluno, listarExercicios, historicoCarga, listarAvaliacoes, criarAvaliacao, deletarAvaliacao } from '../api'
@@ -96,7 +96,7 @@ export default function AlunoDetalhe() {
               </div>
             ) : (
               <div className="flex items-center gap-2 mb-0.5">
-                <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:800, color:'#F4F4F5', letterSpacing:'-0.02em' }}>{aluno?.nome}</h1>
+                <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'#F4F4F5', letterSpacing:'-0.02em' }}>{aluno?.nome}</h1>
                 <button onClick={() => { setNomeTemp(aluno?.nome || ''); setEditNome(true) }} style={{ color:'#52525B', background:'none', border:'none', cursor:'pointer', padding:2 }}>
                   <Edit2 style={{ width:13, height:13 }} />
                 </button>
@@ -123,7 +123,7 @@ export default function AlunoDetalhe() {
               { label:'Treinos', value:`${gami.total_treinos}💪`, color:'#34d399' },
             ].map(({ label, value, color }) => (
               <div key={label} className="text-center">
-                <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:800, color }}>{value}</div>
+                <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color }}>{value}</div>
                 <div style={{ fontSize:11, color:'#71717A', marginTop:2, fontWeight:600, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
               </div>
             ))}
@@ -243,7 +243,7 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
             { label: 'Variacao', value: delta != null ? `${delta > 0 ? '+' : ''}${delta}kg` : '--', color: delta == null ? '#71717A' : delta > 0 ? '#34d399' : delta < 0 ? '#f87171' : '#6366f1' },
           ].map(({ label, value, color }) => (
             <div key={label} className="card text-center p-3">
-              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 800, color, letterSpacing: '-0.02em' }}>{value}</div>
+              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 600, color, letterSpacing: '-0.02em' }}>{value}</div>
               <div style={{ fontSize: 11, color: '#71717A', fontWeight: 600, marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
             </div>
           ))}
@@ -306,7 +306,7 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
                   style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
                   <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ background: 'rgba(99,102,241,0.12)' }}>
-                    <span style={{ fontSize: 12, fontWeight: 800, color: '#818cf8', fontFamily: 'Inter, sans-serif' }}>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: '#818cf8', fontFamily: 'Inter, sans-serif' }}>
                       {sessions.length - i}
                     </span>
                   </div>
@@ -488,7 +488,7 @@ function SugestoesTab({ sugestoes }) {
                   <div>
                     <div className="flex items-center gap-2 flex-wrap mb-1">
                       <span style={{ fontSize:11, fontWeight:700, color:cfg.text, padding:'2px 10px', borderRadius:999, background:'rgba(255,255,255,0.08)', textTransform:'uppercase', letterSpacing:'0.05em' }}>{cfg.label} carga</span>
-                      {s.carga_sugerida && <span style={{ fontSize:14, fontWeight:800, color:'#F4F4F5', fontFamily:'Inter, sans-serif' }}>→ {s.carga_sugerida} kg</span>}
+                      {s.carga_sugerida && <span style={{ fontSize:14, fontWeight:600, color:'#F4F4F5', fontFamily:'Inter, sans-serif' }}>→ {s.carga_sugerida} kg</span>}
                     </div>
                     <p style={{ fontSize:13, color:'#A1A1AA' }}>{s.motivo}</p>
                   </div>
@@ -598,7 +598,7 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
             { label:'Avaliações', value: avaliacoes.length, color:'#f9a8d4' },
           ].map(({ label, value, color, sub }) => (
             <div key={label} className="card text-center p-3">
-              <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:800, color, letterSpacing:'-0.02em' }}>{value}</div>
+              <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color, letterSpacing:'-0.02em' }}>{value}</div>
               <div style={{ fontSize:11, color:'#71717A', fontWeight:600, marginTop:2, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
               {sub && <div style={{ fontSize:10, color: Number(deltaPeso) < 0 ? '#34d399' : '#f87171', marginTop:3 }}>{sub}</div>}
             </div>

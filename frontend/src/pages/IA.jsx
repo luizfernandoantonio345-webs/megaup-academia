@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { listarAlunos, sugestoesAluno, treinoAlternativo, gamificacaoAluno } from '../api'
 import toast from 'react-hot-toast'
@@ -33,13 +33,13 @@ function AlunoContextBanner({ aluno, gami, dias }) {
       <div className="flex items-center gap-3 flex-shrink-0">
         {dias !== null && (
           <div className="text-center">
-            <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 800, color: dias === 0 ? '#34d399' : dias > 7 ? '#f87171' : '#fbbf24' }}>{dias === 0 ? 'Hoje' : `${dias}d`}</div>
+            <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: dias === 0 ? '#34d399' : dias > 7 ? '#f87171' : '#fbbf24' }}>{dias === 0 ? 'Hoje' : `${dias}d`}</div>
             <div style={{ fontSize: 10, color: '#71717A', fontWeight: 600 }}>Ultimo</div>
           </div>
         )}
         {gami && (
           <div className="text-center">
-            <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 800, color: '#f97316' }}>{gami.streak_atual}🔥</div>
+            <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#f97316' }}>{gami.streak_atual}🔥</div>
             <div style={{ fontSize: 10, color: '#71717A', fontWeight: 600 }}>Streak</div>
           </div>
         )}

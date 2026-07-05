@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { referralStatus } from '../api'
 import { Copy, Check, Users, Gift, Share2, ChevronRight, Zap } from 'lucide-react'
@@ -102,7 +102,7 @@ export default function Referral() {
         <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '20px 24px', marginBottom: 28 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
             <p style={{ fontSize: 13, fontWeight: 700, color: '#A1A1AA' }}>Progresso para próxima recompensa</p>
-            <p style={{ fontSize: 13, fontWeight: 800, color: '#818cf8' }}>{indicados} / {nextMilestone.qty}</p>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#818cf8' }}>{indicados} / {nextMilestone.qty}</p>
           </div>
           <div style={{ height: 8, background: 'rgba(255,255,255,0.06)', borderRadius: 4, overflow: 'hidden' }}>
             <div style={{ height: '100%', width: `${Math.min(100, (indicados / nextMilestone.qty) * 100)}%`, background: 'linear-gradient(90deg, #6366f1, #a78bfa)', borderRadius: 4, transition: 'width 0.6s ease' }} />
@@ -116,7 +116,7 @@ export default function Referral() {
       {/* Milestones */}
       <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, overflow: 'hidden' }}>
         <div style={{ padding: '18px 24px 14px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-          <p style={{ fontSize: 14, fontWeight: 800, color: '#F4F4F5' }}>Recompensas disponíveis</p>
+          <p style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5' }}>Recompensas disponíveis</p>
         </div>
         {MILESTONES.map((m, i) => {
           const unlocked = indicados >= m.qty
@@ -143,7 +143,7 @@ export default function Referral() {
 
       {/* How it works */}
       <div style={{ marginTop: 24, background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.15)', borderRadius: 18, padding: '18px 22px' }}>
-        <p style={{ fontSize: 13, fontWeight: 800, color: '#818cf8', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+        <p style={{ fontSize: 13, fontWeight: 600, color: '#818cf8', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
           <Zap style={{ width: 14, height: 14 }} /> Como funciona
         </p>
         {['Compartilhe seu link exclusivo com outros personal trainers.', 'Quando alguém criar uma conta usando seu link, contamos como uma indicação.', 'Ao atingir as metas, entre em contato para resgatar sua recompensa.'].map((t, i) => (

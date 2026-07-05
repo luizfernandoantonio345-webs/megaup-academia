@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Aba de Nutrição dentro de AlunoDetalhe.
  * Permite ao personal criar/editar o plano alimentar do aluno.
  */
@@ -164,16 +164,16 @@ export default function NutricaoTab({ alunoId }) {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
         <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '28px 24px', textAlign: 'center' }}>
           <div style={{ fontSize: 36, marginBottom: 12 }}>🥗</div>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 17, fontWeight: 800, color: '#F4F4F5', marginBottom: 8 }}>Nenhum plano nutricional</p>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 17, fontWeight: 600, color: '#F4F4F5', marginBottom: 8 }}>Nenhum plano nutricional</p>
           <p style={{ fontSize: 13, color: '#71717A', marginBottom: 20 }}>Crie um plano alimentar personalizado para este aluno.</p>
-          <button onClick={() => setShowNovoPlan(true)} style={{ background: '#6366f1', border: 'none', borderRadius: 13, color: 'white', cursor: 'pointer', fontWeight: 800, fontSize: 14, padding: '11px 24px' }}>
+          <button onClick={() => setShowNovoPlan(true)} style={{ background: '#6366f1', border: 'none', borderRadius: 13, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '11px 24px' }}>
             Criar plano alimentar
           </button>
         </div>
         {showNovoPlan && (
           <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 18, padding: 24 }}>
             <form onSubmit={handleCriarPlano} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-              <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 800, color: '#F4F4F5', marginBottom: 4 }}>Novo plano alimentar</h3>
+              <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#F4F4F5', marginBottom: 4 }}>Novo plano alimentar</h3>
               <input value={formPlan.nome} onChange={setFP('nome')} placeholder="Nome do plano" style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 11, color: '#F4F4F5', fontSize: 14, padding: '10px 14px' }} />
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10 }}>
                 {[['objetivo_kcal','Kcal/dia'],['objetivo_proteina','Proteína (g)'],['objetivo_carbo','Carbo (g)'],['objetivo_gordura','Gordura (g)']].map(([k, label]) => (
@@ -185,7 +185,7 @@ export default function NutricaoTab({ alunoId }) {
               </div>
               <textarea value={formPlan.observacoes} onChange={setFP('observacoes')} rows={2} placeholder="Observações / restrições alimentares…" style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 11, color: '#F4F4F5', fontSize: 14, padding: '10px 14px', resize: 'vertical' }} />
               <div style={{ display: 'flex', gap: 10 }}>
-                <button type="submit" disabled={criar.isPending} style={{ flex: 1, background: '#6366f1', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 800, fontSize: 14, padding: '11px' }}>
+                <button type="submit" disabled={criar.isPending} style={{ flex: 1, background: '#6366f1', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '11px' }}>
                   {criar.isPending ? 'Criando…' : 'Criar plano'}
                 </button>
                 <button type="button" onClick={() => setShowNovoPlan(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#71717A', cursor: 'pointer', fontWeight: 700, fontSize: 14, padding: '11px 18px' }}>Cancelar</button>
@@ -209,7 +209,7 @@ export default function NutricaoTab({ alunoId }) {
       <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '18px 20px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
           <div>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 800, color: '#F4F4F5' }}>{plano.nome}</p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#F4F4F5' }}>{plano.nome}</p>
             {plano.observacoes && <p style={{ fontSize: 12, color: '#71717A', marginTop: 4 }}>{plano.observacoes}</p>}
           </div>
           <button onClick={() => { if (confirm('Remover plano?')) deletarPlano.mutate(plano.id) }} style={{ background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: 10, color: '#f87171', cursor: 'pointer', fontSize: 12, fontWeight: 700, padding: '6px 12px' }}>
@@ -248,7 +248,7 @@ export default function NutricaoTab({ alunoId }) {
       ) : (
         <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 18, padding: 20 }}>
           <form onSubmit={handleAddRef} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <h4 style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 800, color: '#F4F4F5' }}>Nova refeição</h4>
+            <h4 style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600, color: '#F4F4F5' }}>Nova refeição</h4>
             <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 10 }}>
               <div>
                 <label style={{ fontSize: 11, fontWeight: 700, color: '#71717A', display: 'block', marginBottom: 5 }}>Nome da refeição</label>
@@ -276,7 +276,7 @@ export default function NutricaoTab({ alunoId }) {
             ))}
             <button type="button" onClick={addAlim} style={{ background: 'none', border: 'none', color: '#818cf8', cursor: 'pointer', fontSize: 13, fontWeight: 700, textAlign: 'left', padding: 0 }}>+ Adicionar alimento</button>
             <div style={{ display: 'flex', gap: 10 }}>
-              <button type="submit" disabled={!nomeRef || addRef.isPending} style={{ flex: 1, background: 'linear-gradient(135deg,#10b981,#059669)', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 800, fontSize: 14, padding: '11px' }}>
+              <button type="submit" disabled={!nomeRef || addRef.isPending} style={{ flex: 1, background: 'linear-gradient(135deg,#10b981,#059669)', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '11px' }}>
                 {addRef.isPending ? 'Salvando…' : 'Salvar refeição'}
               </button>
               <button type="button" onClick={() => setShowNovaRef(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#71717A', cursor: 'pointer', fontWeight: 700, fontSize: 14, padding: '11px 18px' }}>Cancelar</button>

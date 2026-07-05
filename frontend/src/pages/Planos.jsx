@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { billingStatus, billingCheckout, billingPortal } from '../api'
@@ -203,7 +203,7 @@ export default function Planos() {
           </button>
           <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
             <span style={{ fontSize: 14, color: anual ? '#F4F4F5' : '#71717A', fontWeight: anual ? 700 : 400 }}>Anual</span>
-            <span style={{ fontSize: 11, fontWeight: 800, color: '#34d399', background: 'rgba(16,185,129,0.15)', padding: '2px 8px', borderRadius: 999, border: '1px solid rgba(16,185,129,0.25)' }}>
+            <span style={{ fontSize: 11, fontWeight: 600, color: '#34d399', background: 'rgba(16,185,129,0.15)', padding: '2px 8px', borderRadius: 999, border: '1px solid rgba(16,185,129,0.25)' }}>
               -20%
             </span>
           </div>
@@ -233,14 +233,14 @@ export default function Planos() {
 
                 {/* Recommended badge */}
                 {p.destaque && (
-                  <div style={{ position: 'absolute', top: 16, right: 16, display: 'flex', alignItems: 'center', gap: 4, padding: '4px 10px', borderRadius: 999, background: `${p.color}25`, border: `1px solid ${p.border}`, fontSize: 10, fontWeight: 800, color: p.color, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <div style={{ position: 'absolute', top: 16, right: 16, display: 'flex', alignItems: 'center', gap: 4, padding: '4px 10px', borderRadius: 999, background: `${p.color}25`, border: `1px solid ${p.border}`, fontSize: 10, fontWeight: 600, color: p.color, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     <Star style={{ width: 10, height: 10 }} /> Recomendado
                   </div>
                 )}
 
                 {/* Current plan badge */}
                 {ehAtual && (
-                  <div style={{ position: 'absolute', top: 16, right: 16, padding: '4px 10px', borderRadius: 999, background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', fontSize: 10, fontWeight: 800, color: '#34d399', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                  <div style={{ position: 'absolute', top: 16, right: 16, padding: '4px 10px', borderRadius: 999, background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', fontSize: 10, fontWeight: 600, color: '#34d399', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                     Plano atual
                   </div>
                 )}
@@ -252,7 +252,7 @@ export default function Planos() {
                       <Icon style={{ width: 20, height: 20, color: p.color }} />
                     </div>
                     <div>
-                      <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800, color: '#F4F4F5', lineHeight: 1 }}>{p.label}</h3>
+                      <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color: '#F4F4F5', lineHeight: 1 }}>{p.label}</h3>
                       <p style={{ fontSize: 11, color: '#71717A', marginTop: 3 }}>
                         {p.max_alunos ? `até ${p.max_alunos} alunos` : 'alunos ilimitados'}
                       </p>
@@ -315,7 +315,7 @@ export default function Planos() {
                       style={{
                         width: '100%', padding: '13px', borderRadius: 14,
                         display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-                        fontSize: 14, fontWeight: 800, cursor: 'pointer', border: 'none',
+                        fontSize: 14, fontWeight: 600, cursor: 'pointer', border: 'none',
                         background: p.destaque
                           ? `linear-gradient(135deg, ${p.color}cc, ${p.color}88)`
                           : `${p.color}22`,

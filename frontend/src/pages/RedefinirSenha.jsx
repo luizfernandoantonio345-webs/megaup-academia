@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useSearchParams, useNavigate, Link } from 'react-router-dom'
 import { Zap, Lock, Eye, EyeOff, CheckCircle, XCircle } from 'lucide-react'
 import api from '../api/client'
@@ -45,7 +45,7 @@ export default function RedefinirSenha() {
       <div style={{ minHeight: '100vh', background: '#0C0C0D', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
         <div style={{ textAlign: 'center', maxWidth: 340 }}>
           <XCircle style={{ width: 48, height: 48, color: '#f87171', margin: '0 auto 16px' }} />
-          <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 800, color: '#F4F4F5', marginBottom: 8 }}>Link inválido</h2>
+          <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 600, color: '#F4F4F5', marginBottom: 8 }}>Link inválido</h2>
           <p style={{ fontSize: 14, color: '#71717A', marginBottom: 20 }}>O link de redefinição é inválido ou expirou.</p>
           <Link to="/esqueci-senha" style={{ color: '#818cf8', fontWeight: 700, fontSize: 14 }}>Solicitar novo link</Link>
         </div>
@@ -135,7 +135,7 @@ export default function RedefinirSenha() {
                 <button
                   type="submit"
                   disabled={loading || !senhaValida}
-                  style={{ background: '#6366f1', border: 'none', borderRadius: 14, color: 'white', cursor: loading || !senhaValida ? 'not-allowed' : 'pointer', fontWeight: 800, fontSize: 15, padding: '14px', marginTop: 4, opacity: loading || !senhaValida ? 0.7 : 1, boxShadow: '0 0 24px rgba(99,102,241,0.35)' }}
+                  style={{ background: '#6366f1', border: 'none', borderRadius: 14, color: 'white', cursor: loading || !senhaValida ? 'not-allowed' : 'pointer', fontWeight: 600, fontSize: 15, padding: '14px', marginTop: 4, opacity: loading || !senhaValida ? 0.7 : 1, boxShadow: '0 0 24px rgba(99,102,241,0.35)' }}
                 >
                   {loading ? 'Salvando…' : 'Salvar nova senha'}
                 </button>

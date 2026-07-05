@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+﻿import { useState, useEffect, useRef } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '../../contexts/AuthContext'
 import { treinoDodia, listarExercicios, executarTreino, gamificacaoAluno, historicoCarga } from '../../api'
@@ -368,7 +368,7 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
               <Timer style={{ width: 15, height: 15, color: '#6366f1' }} />
               Cronometro de descanso
               {showTimer && (
-                <span style={{ fontSize: 9, padding: '1px 6px', borderRadius: 999, background: 'rgba(99,102,241,0.25)', color: '#a5b4fc', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+                <span style={{ fontSize: 9, padding: '1px 6px', borderRadius: 999, background: 'rgba(99,102,241,0.25)', color: '#a5b4fc', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                   AUTO
                 </span>
               )}
@@ -407,7 +407,7 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
               border: '1px solid rgba(16,185,129,0.3)',
             }}>
               <div style={{ fontSize: 40, marginBottom: 8 }}>🏆</div>
-              <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, color: '#34d399', fontSize: 16 }}>Todas as series concluidas!</p>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#34d399', fontSize: 16 }}>Todas as series concluidas!</p>
               <p style={{ fontSize: 12, color: '#71717A', marginTop: 4 }}>Finalize para registrar o progresso</p>
             </div>
           )}
@@ -453,7 +453,7 @@ function TreinoCard({ treino, exercicioMap, onStart }) {
     <div className="card space-y-4" style={{ border: '1px solid rgba(99,102,241,0.18)' }}>
       <div className="flex items-start justify-between gap-3">
         <div className="flex-1 min-w-0">
-          <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, color: '#F4F4F5', fontSize: 18, letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+          <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 18, letterSpacing: '-0.02em', lineHeight: 1.2 }}>
             {treino.nome}
           </h3>
           <div className="flex items-center gap-3 mt-1.5 flex-wrap">
@@ -534,11 +534,11 @@ function StreakCard({ gami }) {
         <div className="space-y-3 text-right">
           <div>
             <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Recorde</p>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 800 }}>🏆 {gami.streak_recorde}</p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600 }}>🏆 {gami.streak_recorde}</p>
           </div>
           <div>
             <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.45)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em' }}>Treinos</p>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 800 }}>💪 {gami.total_treinos}</p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600 }}>💪 {gami.total_treinos}</p>
           </div>
         </div>
       </div>
@@ -597,7 +597,7 @@ export default function TreinoHoje() {
   return (
     <div className="space-y-5 animate-fade-in">
       <div>
-        <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 800, color: '#F4F4F5', letterSpacing: '-0.02em' }}>
+        <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em' }}>
           {saudacao}, {user?.nome?.split(' ')[0]}
         </h1>
         <p className="text-sm mt-0.5" style={{ color: '#71717A' }}>Treinos de {hojeLabel}</p>
@@ -609,7 +609,7 @@ export default function TreinoHoje() {
         <div className="card text-center py-12 space-y-4">
           <div style={{ fontSize: 56 }}>😴</div>
           <div>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800, color: '#F4F4F5', fontSize: 18 }}>Dia de descanso!</p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 18 }}>Dia de descanso!</p>
             <p style={{ fontSize: 13, color: '#71717A', marginTop: 6 }}>
               Nao ha treinos para hoje. Aproveite para recuperar.
             </p>

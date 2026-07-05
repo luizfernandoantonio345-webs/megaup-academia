@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { listarProgramas, criarPrograma, deletarPrograma, aplicarPrograma, listarAlunos, seedExercicios } from '../api'
 import toast from 'react-hot-toast'
@@ -64,7 +64,7 @@ function ProgramaCard({ programa, alunos, onDelete }) {
             {obj.emoji}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 800, color: '#F4F4F5', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+            <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
               {programa.nome}
             </h3>
             <div style={{ display: 'flex', gap: 10, marginTop: 5, flexWrap: 'wrap' }}>
@@ -94,7 +94,7 @@ function ProgramaCard({ programa, alunos, onDelete }) {
               return (
                 <div key={i} style={{ padding: '10px 12px', borderRadius: 12, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                    <span style={{ width: 18, height: 18, borderRadius: '50%', background: fObj.bg, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 800, color: fObj.color, flexShrink: 0 }}>{i + 1}</span>
+                    <span style={{ width: 18, height: 18, borderRadius: '50%', background: fObj.bg, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 600, color: fObj.color, flexShrink: 0 }}>{i + 1}</span>
                     <span style={{ fontSize: 13, fontWeight: 700, color: '#F4F4F5' }}>{f.nome}</span>
                     <span style={{ fontSize: 11, color: '#71717A', marginLeft: 'auto' }}>{f.semanas}sem</span>
                   </div>
@@ -166,7 +166,7 @@ function NovoPrograma({ alunos, onClose }) {
       <div style={{ background: '#111113', borderRadius: 24, border: '1px solid rgba(99,102,241,0.25)', width: '100%', maxWidth: 700, maxHeight: '90vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
         <div style={{ padding: '22px 24px 16px', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800, color: '#F4F4F5', letterSpacing: '-0.02em' }}>Novo Programa de Treino</h2>
+            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em' }}>Novo Programa de Treino</h2>
             <button onClick={onClose} style={{ background: 'rgba(255,255,255,0.07)', border: 'none', borderRadius: 10, color: '#71717A', cursor: 'pointer', width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16 }}>✕</button>
           </div>
         </div>
@@ -215,7 +215,7 @@ function NovoPrograma({ alunos, onClose }) {
               return (
                 <div key={i} style={{ padding: '14px', borderRadius: 14, background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-                    <span style={{ width: 22, height: 22, borderRadius: '50%', background: fObj.bg, border: `1px solid ${fObj.border}`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: fObj.color, flexShrink: 0 }}>{i + 1}</span>
+                    <span style={{ width: 22, height: 22, borderRadius: '50%', background: fObj.bg, border: `1px solid ${fObj.border}`, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: fObj.color, flexShrink: 0 }}>{i + 1}</span>
                     <input value={f.nome} onChange={e => { setUsandoPreset(false); setFase(i, 'nome', e.target.value) }} style={{ flex: 1, background: 'none', border: 'none', color: '#F4F4F5', fontSize: 14, fontWeight: 700, fontFamily: 'Inter, sans-serif', outline: 'none' }} />
                     {fases.length > 1 && (
                       <button onClick={() => removeFase(i)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#2A3A56' }}>

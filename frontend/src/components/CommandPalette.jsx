@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+﻿import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Search, Users, Dumbbell, BarChart2, Calendar, Brain, DollarSign, Gift, UserPlus, X, ArrowRight, LayoutDashboard, Bell } from 'lucide-react'
@@ -198,7 +198,7 @@ export default function CommandPalette() {
                 ) : (
                   Object.entries(groups).map(([group, items]) => (
                     <div key={group}>
-                      <p style={{ fontSize: 10, fontWeight: 800, color: '#52525B', textTransform: 'uppercase', letterSpacing: '0.1em', padding: '8px 18px 4px', fontFamily: 'Inter, sans-serif' }}>
+                      <p style={{ fontSize: 10, fontWeight: 600, color: '#52525B', textTransform: 'uppercase', letterSpacing: '0.1em', padding: '8px 18px 4px', fontFamily: 'Inter, sans-serif' }}>
                         {group}
                       </p>
                       {items.map((item) => {

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Zap, Mail, ArrowLeft, CheckCircle } from 'lucide-react'
 import api from '../api/client'
@@ -85,7 +85,7 @@ export default function EsqueciSenha() {
                 <button
                   type="submit"
                   disabled={loading || !email}
-                  style={{ background: '#6366f1', border: 'none', borderRadius: 14, color: 'white', cursor: loading ? 'not-allowed' : 'pointer', fontWeight: 800, fontSize: 15, padding: '14px', opacity: loading || !email ? 0.7 : 1, boxShadow: '0 0 24px rgba(99,102,241,0.35)' }}
+                  style={{ background: '#6366f1', border: 'none', borderRadius: 14, color: 'white', cursor: loading ? 'not-allowed' : 'pointer', fontWeight: 600, fontSize: 15, padding: '14px', opacity: loading || !email ? 0.7 : 1, boxShadow: '0 0 24px rgba(99,102,241,0.35)' }}
                 >
                   {loading ? 'Enviando…' : 'Enviar link de redefinição'}
                 </button>

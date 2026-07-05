@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { obterTreino, listarExercicios, adicionarItem, removerItem, executarTreino } from '../api'
@@ -272,7 +272,7 @@ export default function TreinoDetalhe() {
                   <div style={{ color:'#52525B', marginTop:2, cursor:'grab' }}>
                     <GripVertical style={{ width:15, height:15 }} />
                   </div>
-                  <div style={{ width:26, height:26, background:'#6366f1', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontSize:11, fontWeight:800, flexShrink:0, marginTop:2 }}>
+                  <div style={{ width:26, height:26, background:'#6366f1', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontSize:11, fontWeight:600, flexShrink:0, marginTop:2 }}>
                     {idx + 1}
                   </div>
                   <div style={{ flex:1, minWidth:0 }}>

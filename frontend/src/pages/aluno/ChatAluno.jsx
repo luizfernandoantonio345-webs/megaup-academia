@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+﻿import { useQuery } from '@tanstack/react-query'
 import { meuPerfilAluno } from '../../api'
 import ChatBox from '../../components/ChatBox'
 import { MessageCircle, Loader2 } from 'lucide-react'
@@ -43,7 +43,7 @@ export default function ChatAluno() {
           <MessageCircle style={{ width: 20, height: 20, color: '#f9a8d4' }} />
         </div>
         <div>
-          <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 800, color: '#F4F4F5', letterSpacing: '-0.02em', lineHeight: 1 }}>
+          <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em', lineHeight: 1 }}>
             Chat com seu Personal
           </h1>
           <p style={{ fontSize: 12, color: '#71717A', marginTop: 3 }}>

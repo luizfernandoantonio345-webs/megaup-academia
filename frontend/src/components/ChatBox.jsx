@@ -112,9 +112,8 @@ export default function ChatBox({ alunoId, outroNome }) {
               <div style={{
                 maxWidth: '78%', padding: '9px 13px',
                 borderRadius: item.meu ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-                background: item.meu ? 'linear-gradient(135deg, #4f46e5, #7c3aed)' : 'rgba(255,255,255,0.07)',
-                border: item.meu ? 'none' : '1px solid rgba(255,255,255,0.08)',
-                boxShadow: item.meu ? '0 4px 16px rgba(99,102,241,0.3)' : 'none',
+                background: item.meu ? '#6366f1' : '#1C1C1E',
+                border: item.meu ? 'none' : '1px solid #27272A',
               }}>
                 <p style={{ fontSize: 14, color: item.meu ? 'white' : '#F4F4F5', lineHeight: 1.45, margin: 0, wordBreak: 'break-word' }}>
                   {item.texto}
@@ -149,11 +148,10 @@ export default function ChatBox({ alunoId, outroNome }) {
           onClick={() => texto.trim() && !sending && enviar()}
           disabled={!texto.trim() || sending}
           style={{
-            width: 42, height: 42, borderRadius: 14, border: 'none', cursor: 'pointer', flexShrink: 0,
-            background: texto.trim() ? 'linear-gradient(135deg, #4f46e5, #7c3aed)' : 'rgba(255,255,255,0.07)',
+            width: 42, height: 42, borderRadius: 10, border: 'none', cursor: 'pointer', flexShrink: 0,
+            background: texto.trim() ? '#6366f1' : '#1C1C1E',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            boxShadow: texto.trim() ? '0 0 18px rgba(99,102,241,0.4)' : 'none',
-            transition: 'all 0.2s', opacity: sending ? 0.6 : 1,
+            transition: 'background 0.15s', opacity: sending ? 0.6 : 1,
           }}
         >
           {sending

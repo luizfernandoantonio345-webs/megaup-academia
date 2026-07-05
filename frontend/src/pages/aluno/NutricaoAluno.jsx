@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+﻿import { useQuery } from '@tanstack/react-query'
 import { meuPerfilAluno, planoNutricao } from '../../api'
 import { Apple, ChevronDown, ChevronUp } from 'lucide-react'
 import { useState } from 'react'
@@ -19,7 +19,7 @@ function RefeicaoCard({ r }) {
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 800, color: '#fbbf24' }}>{kcal} kcal</span>
+          <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600, color: '#fbbf24' }}>{kcal} kcal</span>
           {open ? <ChevronUp style={{ width: 14, height: 14, color: '#71717A' }} /> : <ChevronDown style={{ width: 14, height: 14, color: '#71717A' }} />}
         </div>
       </div>
