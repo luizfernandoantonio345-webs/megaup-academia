@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
 
 from app.core.db import get_db
-from app.core.deps import get_current_user
+from app.core.deps import get_current_user, require_personal
 from app.models import Aluno, Conquista, ExecucaoItem, ExecucaoTreino, SugestaoProgressao, Treino, User
 from app.schemas.alunos import AlunoCreate, AlunoResponse, AlunoUpdate, AnamneseData
 from app.schemas.execucoes import HistoricoCargaEntry, HistoricoCargaResponse
@@ -73,7 +73,7 @@ def listar_alunos(
 @router.post("/", response_model=AlunoResponse, status_code=201)
 def criar_aluno(
     body: AlunoCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_personal),
     db: Session = Depends(get_db),
 ):
     from app.services.billing import checar_limite_alunos
@@ -96,7 +96,7 @@ def criar_aluno(
 def atualizar_aluno(
     aluno_id: int,
     body: AlunoUpdate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_personal),
     db: Session = Depends(get_db),
 ):
     aluno = _get_aluno_or_404(aluno_id, current_user.tenant_id, db)
@@ -114,7 +114,7 @@ def atualizar_aluno(
 @router.delete("/{aluno_id}", status_code=204)
 def deletar_aluno(
     aluno_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_personal),
     db: Session = Depends(get_db),
 ):
     aluno = _get_aluno_or_404(aluno_id, current_user.tenant_id, db)
@@ -147,7 +147,7 @@ def obter_anamnese(
 def salvar_anamnese(
     aluno_id: int,
     body: AnamneseData,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_personal),
     db: Session = Depends(get_db),
 ):
     aluno = _get_aluno_or_404(aluno_id, current_user.tenant_id, db)

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
 
 from app.core.db import get_db
-from app.core.deps import get_current_user
+from app.core.deps import get_current_user, require_personal
 from app.models import Aluno, ExecucaoItem, ExecucaoTreino, Treino, TreinoItem, User
 from app.services.gamificacao import atualizar_gamificacao
 from app.schemas.execucoes import ExecucaoCreate, ExecucaoResponse
@@ -45,7 +45,7 @@ def listar_treinos(
 @router.post("/", response_model=TreinoResponse, status_code=201)
 def criar_treino(
     body: TreinoCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_personal),
     db: Session = Depends(get_db),
 ):
     aluno = db.query(Aluno).filter(
@@ -88,7 +88,7 @@ def obter_treino(
 def adicionar_item(
     treino_id: int,
     body: TreinoItemCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_personal),
     db: Session = Depends(get_db),
 ):
     _get_treino_or_404(treino_id, current_user.tenant_id, db)
@@ -111,7 +111,7 @@ def adicionar_item(
 def remover_item(
     treino_id: int,
     item_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_personal),
     db: Session = Depends(get_db),
 ):
     _get_treino_or_404(treino_id, current_user.tenant_id, db)

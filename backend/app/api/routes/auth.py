@@ -1,10 +1,11 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from app.core.db import get_db
 from app.core.security import verify_password, create_access_token, hash_password
+from app.core.limiter import limiter
 from app.models import User, Tenant, Aluno, Convite, Role
 from app.schemas.auth import LoginRequest, RegisterPersonalRequest, AuthResponse, UserInfo
 from app.schemas.convites import AceitarConviteRequest
@@ -46,7 +47,8 @@ def _auth_response(user: User, db: Session | None = None) -> AuthResponse:
 
 
 @router.post("/login", response_model=AuthResponse)
-def login(body: LoginRequest, db: Session = Depends(get_db)):
+@limiter.limit("10/minute")
+def login(request: Request, body: LoginRequest, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == body.email, User.ativo == True).first()
     if not user or not verify_password(body.senha, user.senha_hash):
         raise HTTPException(status_code=401, detail="Credenciais inválidas")
@@ -54,7 +56,8 @@ def login(body: LoginRequest, db: Session = Depends(get_db)):
 
 
 @router.post("/registrar-personal", response_model=AuthResponse, status_code=201)
-def registrar_personal(body: RegisterPersonalRequest, db: Session = Depends(get_db)):
+@limiter.limit("5/minute")
+def registrar_personal(request: Request, body: RegisterPersonalRequest, db: Session = Depends(get_db)):
     """Cria um tenant + um personal. Para personal autônomo, tenant = ele mesmo."""
     if db.query(User).filter(User.email == body.email).first():
         raise HTTPException(status_code=409, detail="E-mail já cadastrado")
@@ -83,7 +86,8 @@ def registrar_personal(body: RegisterPersonalRequest, db: Session = Depends(get_
 
 
 @router.post("/aceitar-convite", response_model=AuthResponse, status_code=201)
-def aceitar_convite(body: AceitarConviteRequest, db: Session = Depends(get_db)):
+@limiter.limit("10/minute")
+def aceitar_convite(request: Request, body: AceitarConviteRequest, db: Session = Depends(get_db)):
     """
     Aluno usa o token do convite para criar sua conta já vinculada ao personal.
     Retorna token de acesso (aluno já fica logado após o cadastro).

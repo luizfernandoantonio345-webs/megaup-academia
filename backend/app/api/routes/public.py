@@ -10,13 +10,14 @@ import uuid
 from datetime import datetime, timedelta
 from typing import Optional
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.core.db import get_db
 from app.core.config import settings
 from app.core.security import hash_password
+from app.core.limiter import limiter
 from app.core.email import enviar_reset_senha
 from app.models import User, PasswordResetToken, Tenant, Aluno, ExecucaoTreino
 from app.api.deps import get_current_user
@@ -36,7 +37,8 @@ class RedefinirSenhaRequest(BaseModel):
 
 
 @router.post("/esqueci-senha")
-def esqueci_senha(body: EsqueciSenhaRequest, db: Session = Depends(get_db)):
+@limiter.limit("5/hour")
+def esqueci_senha(request: Request, body: EsqueciSenhaRequest, db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == body.email, User.ativo == True).first()
     # Sempre retorna 200 para não vazar existência de email
     if not user:
@@ -60,8 +62,9 @@ def esqueci_senha(body: EsqueciSenhaRequest, db: Session = Depends(get_db)):
     link = f"{settings.APP_URL}/redefinir-senha?token={token}"
     enviar_reset_senha(user.email, user.nome, link)
 
-    # Em dev (sem SMTP) retorna o token para facilitar testes
-    dev_info = link if not settings.SMTP_HOST else None
+    # Só retorna o link em dev local (sem nenhum provedor de email configurado)
+    email_configurado = bool(settings.RESEND_API_KEY or settings.SMTP_HOST)
+    dev_info = link if not email_configurado else None
     return {"ok": True, "dev_info": dev_info}
 
 
@@ -127,6 +130,15 @@ class PerfilUpdate(BaseModel):
     especialidades: Optional[str] = None
     foto_url: Optional[str] = None
 
+    @staticmethod
+    def _validar_url(v: Optional[str]) -> Optional[str]:
+        if v is not None and v != "" and not v.startswith(("https://", "http://")):
+            raise ValueError("foto_url deve ser uma URL válida (https://...)")
+        return v
+
+    def model_post_init(self, __context):
+        self.foto_url = self._validar_url(self.foto_url)
+
 
 @router.patch("/perfil")
 def atualizar_perfil(
@@ -135,9 +147,9 @@ def atualizar_perfil(
     db: Session = Depends(get_db),
 ):
     if body.bio is not None:
-        current_user.bio = body.bio
+        current_user.bio = body.bio[:1000]  # limita tamanho
     if body.especialidades is not None:
-        current_user.especialidades = body.especialidades
+        current_user.especialidades = body.especialidades[:500]
     if body.foto_url is not None:
         current_user.foto_url = body.foto_url
     db.commit()
