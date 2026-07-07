@@ -1,4 +1,7 @@
-from fastapi import APIRouter, Depends
+from typing import Optional
+
+from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
@@ -9,6 +12,13 @@ from app.schemas.exercicios import ExercicioCreate, ExercicioResponse
 from app.data.exercicios_library import BIBLIOTECA_GLOBAL
 
 router = APIRouter()
+
+
+class ExercicioUpdate(BaseModel):
+    nome: Optional[str] = None
+    grupo_muscular: Optional[str] = None
+    equipamento: Optional[str] = None
+    video_url: Optional[str] = None
 
 
 @router.get("/", response_model=list[ExercicioResponse])
@@ -72,3 +82,47 @@ def seed_biblioteca_global(
             criados += 1
     db.commit()
     return {"criados": criados, "total_biblioteca": len(BIBLIOTECA_GLOBAL)}
+
+
+@router.put("/{exercicio_id}", response_model=ExercicioResponse)
+def atualizar_exercicio(
+    exercicio_id: int,
+    body: ExercicioUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Atualiza exercício customizado do tenant. Exercícios globais (tenant_id=NULL) são somente-leitura."""
+    ex = db.query(Exercicio).filter(
+        Exercicio.id == exercicio_id,
+        Exercicio.tenant_id == current_user.tenant_id,
+    ).first()
+    if not ex:
+        raise HTTPException(404, "Exercício não encontrado ou não editável")
+    if body.nome is not None:
+        ex.nome = body.nome
+    if body.grupo_muscular is not None:
+        ex.grupo_muscular = body.grupo_muscular or None
+    if body.equipamento is not None:
+        ex.equipamento = body.equipamento or None
+    if body.video_url is not None:
+        ex.video_url = body.video_url or None
+    db.commit()
+    db.refresh(ex)
+    return ex
+
+
+@router.delete("/{exercicio_id}", status_code=204)
+def deletar_exercicio(
+    exercicio_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Remove exercício customizado do tenant."""
+    ex = db.query(Exercicio).filter(
+        Exercicio.id == exercicio_id,
+        Exercicio.tenant_id == current_user.tenant_id,
+    ).first()
+    if not ex:
+        raise HTTPException(404, "Exercício não encontrado")
+    db.delete(ex)
+    db.commit()

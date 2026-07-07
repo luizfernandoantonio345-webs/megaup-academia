@@ -11,6 +11,7 @@ import logging
 from collections import defaultdict
 from datetime import datetime, timedelta
 
+from sqlalchemy import func
 from sqlalchemy.orm import joinedload
 
 from app.core.db import SessionLocal
@@ -90,5 +91,50 @@ def tarefa_progressao() -> None:
 
     except Exception:
         logger.exception("Falha geral em tarefa_progressao")
+    finally:
+        db.close()
+
+
+def tarefa_lembretes_pagamento() -> None:
+    """
+    Verifica cobranças vencidas há 1–3 dias e envia e-mail de lembrete ao aluno.
+    Executada diariamente via APScheduler.
+    """
+    from app.models import Cobranca, CobrancaStatus, Aluno, User
+    from app.core.email import enviar_lembrete_pagamento
+
+    db = SessionLocal()
+    try:
+        hoje = datetime.utcnow().date()
+        inicio = hoje - timedelta(days=3)
+        fim = hoje - timedelta(days=1)
+
+        cobrancas = (
+            db.query(Cobranca)
+            .filter(
+                Cobranca.status == CobrancaStatus.pendente,
+                func.date(Cobranca.vencimento) >= inicio,
+                func.date(Cobranca.vencimento) <= fim,
+            )
+            .all()
+        )
+
+        for c in cobrancas:
+            try:
+                aluno = db.query(Aluno).filter(Aluno.id == c.aluno_id).first()
+                personal = db.query(User).filter(User.id == aluno.personal_id).first() if aluno else None
+                if aluno and aluno.email and personal:
+                    enviar_lembrete_pagamento(
+                        aluno_nome=aluno.nome,
+                        aluno_email=aluno.email,
+                        personal_nome=personal.nome,
+                        valor=c.valor,
+                        vencimento=c.vencimento,
+                    )
+            except Exception:
+                logger.exception("Erro ao enviar lembrete para cobranca_id=%s", c.id)
+
+    except Exception:
+        logger.exception("Falha geral em tarefa_lembretes_pagamento")
     finally:
         db.close()

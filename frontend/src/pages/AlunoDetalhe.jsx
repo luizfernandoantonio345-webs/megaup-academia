@@ -7,6 +7,7 @@ import { ArrowLeft, Dumbbell, Flame, Trophy, ClipboardList, Plus, Loader2, Edit2
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import ChatBox from '../components/ChatBox'
 import NutricaoTab from '../components/NutricaoTab'
+import FotosEvolucaoTab from '../components/FotosEvolucaoTab'
 
 function Avatar({ nome }) {
   const initials = nome?.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
@@ -142,6 +143,7 @@ export default function AlunoDetalhe() {
           { key:'treinos',     label:'Treinos' },
           { key:'progresso',   label:'Progresso' },
           { key:'avaliacao',   label:'Avaliação' },
+          { key:'fotos',       label:'Fotos' },
           { key:'gamificacao', label:'Conquistas' },
           { key:'sugestoes',   label:`Sugestões${nSugestoes ? ` (${nSugestoes})` : ''}` },
           { key:'anamnese',    label:'Anamnese' },
@@ -156,6 +158,7 @@ export default function AlunoDetalhe() {
         {tab === 'treinos'     && <TreinosTab aluno={aluno} treinos={treinos} onCriar={(nome, dia) => criarT({ aluno_id:Number(id), nome, dia_semana:dia })} />}
         {tab === 'progresso'   && <ProgresoTab alunoId={id} treinos={treinos} exercicios={exercicios} />}
         {tab === 'avaliacao'   && <AvaliacaoTab alunoId={id} avaliacoes={avaliacoes} onRefresh={refetchAv} />}
+        {tab === 'fotos'       && <FotosEvolucaoTab alunoId={Number(id)} />}
         {tab === 'gamificacao' && <GamificacaoTab gami={gami} />}
         {tab === 'sugestoes'   && <SugestoesTab sugestoes={sugestoes} />}
         {tab === 'anamnese'    && <AnamneseTab anamnese={anamnese} onSalvar={salvarAnam} saving={savingAnam} />}

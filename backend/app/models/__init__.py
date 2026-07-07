@@ -396,3 +396,32 @@ class Mensagem(Base):
     __table_args__ = (
         Index("ix_mensagens_aluno", "aluno_id", "criado_em"),
     )
+
+
+class FotoEvolucao(Base):
+    """Foto de progresso do aluno (JPEG base64 comprimido no frontend, máx ~150KB)."""
+    __tablename__ = "fotos_evolucao"
+    id = Column(Integer, primary_key=True)
+    tenant_id = Column(Integer, ForeignKey("tenants.id"), nullable=False)
+    aluno_id = Column(Integer, ForeignKey("alunos.id"), nullable=False)
+    data = Column(DateTime, default=datetime.utcnow)
+    tipo = Column(String, default="frente")  # frente | lado | costas
+    foto_base64 = Column(Text, nullable=False)
+    peso = Column(Float, nullable=True)
+    observacao = Column(Text, nullable=True)
+
+    __table_args__ = (Index("ix_fotos_aluno_data", "aluno_id", "data"),)
+
+
+class PushSubscription(Base):
+    """Web Push subscription para notificações push via VAPID."""
+    __tablename__ = "push_subscriptions"
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    tenant_id = Column(Integer, ForeignKey("tenants.id"), nullable=False)
+    endpoint = Column(Text, nullable=False)
+    p256dh = Column(Text, nullable=False)
+    auth = Column(Text, nullable=False)
+    criado_em = Column(DateTime, default=datetime.utcnow)
+
+    __table_args__ = (UniqueConstraint("user_id", "endpoint", name="uq_push_user_endpoint"),)

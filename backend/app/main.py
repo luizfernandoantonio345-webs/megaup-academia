@@ -134,6 +134,35 @@ def _run_migrations() -> None:
                 )
             """)
 
+        if "fotos_evolucao" not in tables:
+            stmts.append("""
+                CREATE TABLE IF NOT EXISTS fotos_evolucao (
+                    id SERIAL PRIMARY KEY,
+                    tenant_id INTEGER NOT NULL REFERENCES tenants(id),
+                    aluno_id INTEGER NOT NULL REFERENCES alunos(id),
+                    data TIMESTAMP DEFAULT NOW(),
+                    tipo VARCHAR DEFAULT 'frente',
+                    foto_base64 TEXT NOT NULL,
+                    peso REAL,
+                    observacao TEXT
+                )
+            """)
+            stmts.append("CREATE INDEX IF NOT EXISTS ix_fotos_aluno_data ON fotos_evolucao(aluno_id, data DESC)")
+
+        if "push_subscriptions" not in tables:
+            stmts.append("""
+                CREATE TABLE IF NOT EXISTS push_subscriptions (
+                    id SERIAL PRIMARY KEY,
+                    user_id INTEGER NOT NULL REFERENCES users(id),
+                    tenant_id INTEGER NOT NULL REFERENCES tenants(id),
+                    endpoint TEXT NOT NULL,
+                    p256dh TEXT NOT NULL,
+                    auth TEXT NOT NULL,
+                    criado_em TIMESTAMP DEFAULT NOW(),
+                    UNIQUE(user_id, endpoint)
+                )
+            """)
+
         # ── indexes (always included — CREATE INDEX IF NOT EXISTS is idempotent) ──
         idx_stmts = [
             # users
@@ -196,10 +225,11 @@ async def lifespan(app: FastAPI):
     _run_migrations()
     if settings.ENABLE_SCHEDULER:
         from apscheduler.schedulers.background import BackgroundScheduler
-        from app.ai.scheduler import tarefa_progressao
+        from app.ai.scheduler import tarefa_progressao, tarefa_lembretes_pagamento
 
         scheduler = BackgroundScheduler()
         scheduler.add_job(tarefa_progressao, "interval", hours=1, id="progressao")
+        scheduler.add_job(tarefa_lembretes_pagamento, "interval", hours=24, id="lembretes_pagamento")
         scheduler.start()
         yield
         scheduler.shutdown(wait=False)
@@ -253,6 +283,7 @@ app.add_middleware(SecurityHeadersMiddleware)
 
 from app.api.routes import auth, alunos, treinos, ia, convites, exercicios  # noqa: E402
 from app.api.routes import pagamentos, academia, billing, chat, avaliacoes, periodizacao, referral, analytics, agenda, nutricao, notificacoes, public  # noqa: E402
+from app.api.routes import fotos, push  # noqa: E402
 
 app.include_router(auth.router,         prefix="/auth",         tags=["auth"])
 app.include_router(convites.router,     prefix="/convites",     tags=["convites"])
@@ -272,6 +303,8 @@ app.include_router(agenda.router,       prefix="/agenda",       tags=["agenda"])
 app.include_router(nutricao.router,     prefix="/nutricao",     tags=["nutricao"])
 app.include_router(notificacoes.router, prefix="/notificacoes", tags=["notificacoes"])
 app.include_router(public.router,       prefix="/public",       tags=["public"])
+app.include_router(fotos.router,        prefix="/alunos",       tags=["fotos"])
+app.include_router(push.router,         prefix="/push",         tags=["push"])
 
 
 @app.get("/ping", include_in_schema=False)

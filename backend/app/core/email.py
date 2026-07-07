@@ -168,6 +168,27 @@ def enviar_verificacao_email(email: str, nome: str, link: str) -> None:
     _send(email, "Confirme seu e-mail — GymPro", _base(content))
 
 
+def enviar_lembrete_pagamento(
+    aluno_nome: str,
+    aluno_email: str,
+    personal_nome: str,
+    valor: float,
+    vencimento,
+) -> None:
+    """Lembrete de cobrança vencida enviado ao aluno."""
+    venc_str = vencimento.strftime("%d/%m/%Y") if hasattr(vencimento, "strftime") else str(vencimento)
+    content = (
+        _h2(f"Olá, {aluno_nome.split()[0]}! 👋")
+        + _p(f"Seu personal <strong>{personal_nome}</strong> identificou um pagamento pendente:")
+        + f'<div style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);border-radius:10px;padding:16px 20px;margin:16px 0;">'
+        + f'<div style="font-size:28px;font-weight:700;color:#f87171;font-family:Inter,sans-serif;">R$ {valor:.2f}</div>'
+        + f'<div style="font-size:13px;color:#71717a;margin-top:4px;">Vencimento: {venc_str}</div>'
+        + f'</div>'
+        + _p("Entre em contato com seu personal para regularizar.", muted=True)
+    )
+    _send(aluno_email, f"Pagamento pendente — R$ {valor:.2f} venceu em {venc_str}", _base(content))
+
+
 def enviar_cancelamento_assinatura(email: str, nome: str, plano: str) -> None:
     link_planos = f"{settings.APP_URL}/planos"
     content = (

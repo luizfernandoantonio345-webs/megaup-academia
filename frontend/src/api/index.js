@@ -105,3 +105,17 @@ export const referralStatus = () => api.get('/referral/status')
 export const listarPersonais = () => api.get('/academia/personais/')
 export const adicionarPersonal = (data) => api.post('/academia/personais/', data)
 export const removerPersonal = (userId) => api.delete(`/academia/personais/${userId}`)
+
+// Exercícios — editar e deletar
+export const atualizarExercicio  = (id, data)       => api.put(`/exercicios/${id}`, data)
+export const deletarExercicio    = (id)              => api.delete(`/exercicios/${id}`)
+
+// Fotos de evolução
+export const listarFotos         = (alunoId)         => api.get(`/alunos/${alunoId}/fotos`)
+export const uploadFoto          = (alunoId, data)   => api.post(`/alunos/${alunoId}/fotos`, data)
+export const deletarFoto         = (alunoId, fotoId) => api.delete(`/alunos/${alunoId}/fotos/${fotoId}`)
+
+// Web Push notifications
+export const getVapidPublicKey   = ()                => api.get('/push/vapid-public-key')
+export const subscribePush       = (data)            => api.post('/push/subscribe', data)
+export const unsubscribePush     = (data)            => api.delete('/push/subscribe', { data })

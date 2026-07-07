@@ -29,6 +29,11 @@ class Settings(BaseSettings):
     STRIPE_PRICE_PRO: str = ""
     STRIPE_PRICE_ELITE: str = ""
     APP_URL: str = "https://fitsaas-frontend.onrender.com"
+    # VAPID keys para Web Push notifications
+    # Gere com: python -c "from py_vapid import Vapid; v=Vapid(); v.generate_keys(); print(v.private_key.decode()); print(v.public_key.decode())"
+    # Ou use: npx web-push generate-vapid-keys
+    VAPID_PUBLIC_KEY: str = ""
+    VAPID_PRIVATE_KEY: str = ""
 
     class Config:
         env_file = ".env"
