@@ -42,7 +42,15 @@ const Conquistas     = lazy(() => import('./pages/aluno/Conquistas'))
 const NutricaoAluno  = lazy(() => import('./pages/aluno/NutricaoAluno'))
 
 const qc = new QueryClient({
-  defaultOptions: { queries: { retry: 1, staleTime: 5 * 60_000 } },
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      staleTime: 5 * 60_000,       // dados frescos por 5 min
+      gcTime: 30 * 60_000,          // mantém no cache por 30 min após desmontar
+      refetchOnWindowFocus: false,  // não refetch ao trocar de aba — maior ganho
+      refetchOnReconnect: false,
+    },
+  },
 })
 
 function PageLoader() {

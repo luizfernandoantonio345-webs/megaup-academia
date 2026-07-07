@@ -31,13 +31,14 @@ export default function AlunoDetalhe() {
   const [editNome, setEditNome] = useState(false)
   const [nomeTemp, setNomeTemp] = useState('')
 
-  const { data: aluno, isLoading } = useQuery({ queryKey:['aluno', id], queryFn: () => obterAluno(id).then(r => r.data) })
-  const { data: treinos = [] } = useQuery({ queryKey:['treinos', id], queryFn: () => listarTreinos(id).then(r => r.data) })
-  const { data: gami }   = useQuery({ queryKey:['gamificacao', id], queryFn: () => gamificacaoAluno(id).then(r => r.data) })
-  const { data: sugestoes } = useQuery({ queryKey:['sugestoes', id], queryFn: () => sugestoesAluno(id).then(r => r.data) })
-  const { data: anamnese }  = useQuery({ queryKey:['anamnese', id], queryFn: () => obterAnamnese(id).then(r => r.data), enabled: tab === 'anamnese' })
-  const { data: exercicios = [] } = useQuery({ queryKey:['exercicios'], queryFn: () => listarExercicios().then(r => r.data), enabled: tab === 'progresso' })
-  const { data: avaliacoes = [], refetch: refetchAv } = useQuery({ queryKey:['avaliacoes', id], queryFn: () => listarAvaliacoes(id).then(r => r.data), enabled: tab === 'avaliacao' })
+  const ST = 5 * 60_000
+  const { data: aluno, isLoading } = useQuery({ queryKey:['aluno', id], queryFn: () => obterAluno(id).then(r => r.data), staleTime: ST })
+  const { data: treinos = [] } = useQuery({ queryKey:['treinos', id], queryFn: () => listarTreinos(id).then(r => r.data), staleTime: ST })
+  const { data: gami }   = useQuery({ queryKey:['gamificacao', id], queryFn: () => gamificacaoAluno(id).then(r => r.data), staleTime: ST })
+  const { data: sugestoes } = useQuery({ queryKey:['sugestoes', id], queryFn: () => sugestoesAluno(id).then(r => r.data), staleTime: ST })
+  const { data: anamnese }  = useQuery({ queryKey:['anamnese', id], queryFn: () => obterAnamnese(id).then(r => r.data), enabled: tab === 'anamnese', staleTime: ST })
+  const { data: exercicios = [] } = useQuery({ queryKey:['exercicios'], queryFn: () => listarExercicios().then(r => r.data), enabled: tab === 'progresso', staleTime: ST })
+  const { data: avaliacoes = [], refetch: refetchAv } = useQuery({ queryKey:['avaliacoes', id], queryFn: () => listarAvaliacoes(id).then(r => r.data), enabled: tab === 'avaliacao', staleTime: ST })
 
   const { mutate: updateNome } = useMutation({
     mutationFn: data => atualizarAluno(id, data),
@@ -54,12 +55,6 @@ export default function AlunoDetalhe() {
     onSuccess: () => { qc.invalidateQueries({ queryKey:['treinos', id] }); toast.success('Treino criado!') },
     onError: err => toast.error(err.response?.data?.detail || 'Erro'),
   })
-
-  if (isLoading) return (
-    <div className="flex items-center justify-center h-64">
-      <Loader2 style={{ width:32, height:32, color:'#6366f1', animation:'spin 1s linear infinite' }} />
-    </div>
-  )
 
   const nSugestoes = sugestoes?.sugestoes_pendentes?.length || 0
 
@@ -81,6 +76,15 @@ export default function AlunoDetalhe() {
 
       {/* Student header */}
       <div className="card">
+        {isLoading ? (
+          <div style={{ display:'flex', gap:16, alignItems:'center' }}>
+            <div className="skeleton" style={{ width:64, height:64, borderRadius:'50%', flexShrink:0 }} />
+            <div style={{ flex:1, display:'flex', flexDirection:'column', gap:8 }}>
+              <div className="skeleton" style={{ height:20, width:'40%', borderRadius:6 }} />
+              <div className="skeleton" style={{ height:14, width:'60%', borderRadius:6 }} />
+            </div>
+          </div>
+        ) : (
         <div className="flex items-start gap-4">
           <Avatar nome={aluno?.nome} />
           <div className="flex-1 min-w-0">
@@ -114,6 +118,7 @@ export default function AlunoDetalhe() {
             </div>
           )}
         </div>
+        )}
 
         {gami && (
           <div className="grid grid-cols-3 gap-3 mt-5 pt-5" style={{ borderTop:'1px solid rgba(255,255,255,0.05)' }}>

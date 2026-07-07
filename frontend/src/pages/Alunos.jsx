@@ -90,6 +90,7 @@ export default function Alunos() {
   const { data: alunos = [], isLoading } = useQuery({
     queryKey: ['alunos'],
     queryFn: () => listarAlunos().then((r) => r.data),
+    staleTime: 5 * 60_000,
   })
 
   const objetivosUsados = [...new Set(alunos.map(a => a.objetivo).filter(Boolean))]

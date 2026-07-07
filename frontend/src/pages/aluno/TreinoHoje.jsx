@@ -124,7 +124,7 @@ function ExerciseExCard({ item, idx, ex, alunoId, completedSets, onToggle, video
     queryKey: ['historico-carga', alunoId, item.exercicio_id],
     queryFn: () => historicoCarga(alunoId, item.exercicio_id).then(r => r.data),
     enabled: !!alunoId && !!item.exercicio_id,
-    staleTime: 60000,
+    staleTime: 5 * 60_000,
     retry: false,
   })
 

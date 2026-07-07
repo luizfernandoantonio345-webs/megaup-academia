@@ -7,22 +7,29 @@ import {
   BarChart2, Gift, Calendar, Bell, Apple, ChevronDown, TrendingUp,
 } from 'lucide-react'
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
-import { resumoNotificacoes } from '../api'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
+import { resumoNotificacoes, listarAlunos, resumoFinanceiro, analyticsResumo, listarExercicios } from '../api'
 import PlanBanner from './PlanBanner'
 import CommandPalette from './CommandPalette'
 
+const ST = 5 * 60_000
+
 const NAV_MAIN = [
-  { to: '/dashboard',    icon: LayoutDashboard, label: 'Dashboard'       },
-  { to: '/alunos',       icon: Users,            label: 'Alunos'          },
-  { to: '/analytics',    icon: BarChart2,        label: 'Analytics'       },
-  { to: '/agenda',       icon: Calendar,         label: 'Agenda'          },
-  { to: '/exercicios',   icon: Dumbbell,         label: 'Exercícios'      },
+  { to: '/dashboard',  icon: LayoutDashboard, label: 'Dashboard',
+    prefetch: { queryKey: ['analytics-resumo', 7], queryFn: () => analyticsResumo(7).then(r => r.data) } },
+  { to: '/alunos',     icon: Users,            label: 'Alunos',
+    prefetch: { queryKey: ['alunos'], queryFn: () => listarAlunos().then(r => r.data) } },
+  { to: '/analytics',  icon: BarChart2,        label: 'Analytics',
+    prefetch: { queryKey: ['analytics-resumo', 7], queryFn: () => analyticsResumo(7).then(r => r.data) } },
+  { to: '/agenda',     icon: Calendar,         label: 'Agenda'          },
+  { to: '/exercicios', icon: Dumbbell,         label: 'Exercícios',
+    prefetch: { queryKey: ['exercicios'], queryFn: () => listarExercicios().then(r => r.data) } },
 ]
 
 const NAV_TOOLS = [
   { to: '/ia',           icon: TrendingUp,  label: 'Sugestões'         },
-  { to: '/financeiro',   icon: DollarSign,  label: 'Financeiro'        },
+  { to: '/financeiro',   icon: DollarSign,  label: 'Financeiro',
+    prefetch: { queryKey: ['resumo'], queryFn: () => resumoFinanceiro().then(r => r.data) } },
   { to: '/convites',     icon: UserPlus,    label: 'Convidar alunos'   },
   { to: '/periodizacao', icon: BarChart2,   label: 'Periodização'      },
   { to: '/inativos',     icon: Bell,        label: 'Inativos'          },
@@ -34,9 +41,14 @@ const ALL_NAV    = [...NAV_MAIN, ...NAV_TOOLS]
 const MOBILE_TABS = NAV_MAIN
 
 /* ─── Nav item ─── */
-function NavItem({ to, icon: Icon, label }) {
+function NavItem({ to, icon: Icon, label, prefetch }) {
   const location = useLocation()
+  const qc = useQueryClient()
   const active = location.pathname === to || (to !== '/dashboard' && location.pathname.startsWith(to))
+  const handleMouseEnter = (e) => {
+    if (!active) { e.currentTarget.style.background = '#161618'; e.currentTarget.style.color = '#A1A1AA' }
+    if (prefetch) qc.prefetchQuery({ ...prefetch, staleTime: ST })
+  }
   return (
     <NavLink to={to} style={{ textDecoration: 'none' }}>
       <div style={{
@@ -48,7 +60,7 @@ function NavItem({ to, icon: Icon, label }) {
         fontSize: 13, fontFamily: 'Inter, sans-serif',
         transition: 'color 0.1s, background 0.1s',
       }}
-      onMouseEnter={e => { if (!active) { e.currentTarget.style.background = '#161618'; e.currentTarget.style.color = '#A1A1AA' } }}
+      onMouseEnter={handleMouseEnter}
       onMouseLeave={e => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#71717A' } }}
       >
         <Icon style={{ width: 15, height: 15, flexShrink: 0, opacity: active ? 1 : 0.6 }} />

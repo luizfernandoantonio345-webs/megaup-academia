@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, keepPreviousData } from '@tanstack/react-query'
 import { analyticsResumo } from '../api'
 import { useAuth } from '../contexts/AuthContext'
 import { Users, Dumbbell, TrendingUp, DollarSign, Flame, Activity, BarChart2 } from 'lucide-react'
@@ -58,23 +58,12 @@ export default function Analytics() {
   const { user } = useAuth()
   const [dias, setDias] = useState(7)
 
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ['analytics-resumo', dias],
     queryFn: async () => (await analyticsResumo(dias)).data,
-    staleTime: 30_000,
+    staleTime: 5 * 60_000,
+    placeholderData: keepPreviousData,
   })
-
-  if (isLoading) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(200px,1fr))', gap: 14 }}>
-          {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="skeleton" style={{ borderRadius: 12, height: 110 }} />
-          ))}
-        </div>
-      </div>
-    )
-  }
 
   const d = data || {}
   const retencao = d.total_alunos > 0 ? Math.round((d.alunos_ativos_7d / d.total_alunos) * 100) : 0
