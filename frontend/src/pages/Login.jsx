@@ -6,21 +6,56 @@ import { Zap, Mail, Lock, ArrowRight, Eye, EyeOff, Dumbbell, TrendingUp, Users }
 import api from '../api/client'
 
 const FEATURES = [
-  { icon: Dumbbell,   title: 'Treinos personalizados',    desc: 'Monte e prescreva treinos para cada aluno com facilidade.' },
-  { icon: TrendingUp, title: 'Analytics de progressão de carga', desc: 'Analise o histórico de carga e acompanhe a evolução de cada aluno.' },
-  { icon: Users,      title: 'Gestão completa de alunos', desc: 'Acompanhe streak, conquistas e pagamentos em tempo real.' },
+  { icon: Dumbbell,   title: 'Treinos personalizados',            desc: 'Monte e prescreva treinos para cada aluno com facilidade.' },
+  { icon: TrendingUp, title: 'Analytics de progressão de carga',  desc: 'Analise o histórico de carga e acompanhe a evolução de cada aluno.' },
+  { icon: Users,      title: 'Gestão completa de alunos',         desc: 'Acompanhe streak, conquistas e pagamentos em tempo real.' },
 ]
+
+// ── Decorative SVG components ────────────────────────────────────────────────
+
+function SvgDumbbell({ style }) {
+  return (
+    <svg viewBox="0 0 320 100" fill="currentColor" style={style} xmlns="http://www.w3.org/2000/svg">
+      {/* Left outer plate */}
+      <rect x="0" y="18" width="36" height="64" rx="8"/>
+      {/* Left inner plate */}
+      <rect x="36" y="6" width="22" height="88" rx="6"/>
+      {/* Bar */}
+      <rect x="58" y="40" width="204" height="20" rx="10"/>
+      {/* Right inner plate */}
+      <rect x="262" y="6" width="22" height="88" rx="6"/>
+      {/* Right outer plate */}
+      <rect x="284" y="18" width="36" height="64" rx="8"/>
+    </svg>
+  )
+}
+
+function SvgPlate({ style }) {
+  // evenodd: outer filled → middle hole → inner ring filled → center hole → hub filled
+  return (
+    <svg viewBox="0 0 120 120" fill="currentColor" style={style} xmlns="http://www.w3.org/2000/svg">
+      <path fillRule="evenodd" d="
+        M60 60 m-56 0 a56 56 0 1 1 112 0 a56 56 0 1 1-112 0
+        M60 60 m-42 0 a42 42 0 1 1  84 0 a42 42 0 1 1 -84 0
+        M60 60 m-30 0 a30 30 0 1 1  60 0 a30 30 0 1 1 -60 0
+        M60 60 m-14 0 a14 14 0 1 1  28 0 a14 14 0 1 1 -28 0
+        M60 60 m -8 0 a 8  8 0 1 1  16 0 a 8  8 0 1 1 -16 0
+      "/>
+    </svg>
+  )
+}
+
+// ── Login page ───────────────────────────────────────────────────────────────
 
 export default function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', senha: '' })
 
-  // Pre-warm the backend the moment this page loads.
-  // By the time the user types credentials and clicks login, the server is ready.
   useEffect(() => {
     api.get('/ping').catch(() => {})
   }, [])
+
   const [touched, setTouched] = useState({ email: false, senha: false })
   const [loading, setLoading] = useState(false)
   const [showPass, setShowPass] = useState(false)
@@ -48,18 +83,71 @@ export default function Login() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', background: '#0C0C0D' }}>
-      {/* Left panel */}
-      <div style={{ display: 'none', width: 440, flexShrink: 0, padding: '48px 40px', flexDirection: 'column', justifyContent: 'space-between', background: '#0A0A0B', borderRight: '1px solid #1C1C1E' }} className="lg:flex">
+    <div style={{ minHeight: '100vh', display: 'flex', background: '#0C0C0D', position: 'relative', overflow: 'hidden' }}>
+
+      {/* ── Decorative gym equipment background ── */}
+      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
+        {/* Large dumbbell — top right, tilted */}
+        <SvgDumbbell style={{
+          position: 'absolute', top: -24, right: -70,
+          width: 420, color: '#6366f1', opacity: 0.055,
+          transform: 'rotate(-14deg)', flexShrink: 0,
+        }} />
+
+        {/* Medium dumbbell — bottom left, tilted opposite */}
+        <SvgDumbbell style={{
+          position: 'absolute', bottom: -16, left: -100,
+          width: 320, color: '#818cf8', opacity: 0.04,
+          transform: 'rotate(18deg)', flexShrink: 0,
+        }} />
+
+        {/* Small dumbbell — mid right */}
+        <SvgDumbbell style={{
+          position: 'absolute', top: '48%', right: -30,
+          width: 200, color: '#6366f1', opacity: 0.03,
+          transform: 'rotate(-6deg)', flexShrink: 0,
+        }} />
+
+        {/* Weight plate — top left area */}
+        <SvgPlate style={{
+          position: 'absolute', top: '6%', left: '12%',
+          width: 130, color: '#6366f1', opacity: 0.045,
+        }} />
+
+        {/* Weight plate — bottom right */}
+        <SvgPlate style={{
+          position: 'absolute', bottom: '8%', right: '4%',
+          width: 180, color: '#818cf8', opacity: 0.035,
+        }} />
+
+        {/* Small plate — upper mid */}
+        <SvgPlate style={{
+          position: 'absolute', top: '-4%', left: '45%',
+          width: 100, color: '#6366f1', opacity: 0.03,
+        }} />
+      </div>
+
+      {/* ── Left panel (desktop only) ── */}
+      <div
+        style={{
+          display: 'none', width: 440, flexShrink: 0,
+          padding: '48px 40px', flexDirection: 'column', justifyContent: 'space-between',
+          background: 'rgba(10,10,11,0.85)', borderRight: '1px solid #1C1C1E',
+          backdropFilter: 'blur(2px)',
+        }}
+        className="lg:flex"
+      >
         <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 48 }}>
+          {/* Logo */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 40 }}>
             <div style={{ width: 28, height: 28, borderRadius: 8, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 14, height: 14, color: 'white' }} />
             </div>
             <span style={{ fontSize: 15, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em' }}>GymPro</span>
           </div>
 
-          <div style={{ marginBottom: 40 }}>
+          {/* Hero headline */}
+          <div style={{ marginBottom: 32 }}>
             <h1 style={{ fontSize: 26, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: 10 }}>
               Plataforma para<br />personal trainers
             </h1>
@@ -68,11 +156,28 @@ export default function Login() {
             </p>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {/* Decorative dumbbell illustration */}
+          <div style={{
+            padding: '20px 24px', background: 'rgba(99,102,241,0.06)',
+            border: '1px solid rgba(99,102,241,0.15)', borderRadius: 16, marginBottom: 32,
+          }}>
+            <SvgDumbbell style={{ width: '100%', color: '#6366f1', opacity: 0.5, display: 'block', marginBottom: 12 }} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <SvgPlate style={{ width: 28, color: '#818cf8', opacity: 0.6 }} />
+                <SvgPlate style={{ width: 28, color: '#a78bfa', opacity: 0.4 }} />
+                <SvgPlate style={{ width: 28, color: '#6366f1', opacity: 0.5 }} />
+              </div>
+              <span style={{ fontSize: 11, color: '#52525B', fontWeight: 500 }}>Progressive overload</span>
+            </div>
+          </div>
+
+          {/* Features */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
             {FEATURES.map(({ icon: Icon, title, desc }) => (
               <div key={title} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-                <div style={{ width: 32, height: 32, borderRadius: 8, background: '#1C1C1E', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <Icon style={{ width: 14, height: 14, color: '#71717A' }} />
+                <div style={{ width: 30, height: 30, borderRadius: 8, background: '#1C1C1E', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Icon style={{ width: 13, height: 13, color: '#71717A' }} />
                 </div>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 500, color: '#A1A1AA', marginBottom: 2 }}>{title}</div>
@@ -90,15 +195,21 @@ export default function Login() {
         </p>
       </div>
 
-      {/* Right panel — form */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
+      {/* ── Right panel — form ── */}
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, position: 'relative' }}>
         <div style={{ width: '100%', maxWidth: 360 }} className="animate-fade-in">
+
           {/* Mobile logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 32 }} className="lg:hidden">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 28 }} className="lg:hidden">
             <div style={{ width: 26, height: 26, borderRadius: 7, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 13, height: 13, color: 'white' }} />
             </div>
             <span style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5' }}>GymPro</span>
+          </div>
+
+          {/* Mobile dumbbell accent */}
+          <div className="lg:hidden" style={{ marginBottom: 24 }}>
+            <SvgDumbbell style={{ width: '100%', maxWidth: 180, color: '#6366f1', opacity: 0.3, display: 'block', margin: '0 auto' }} />
           </div>
 
           <div style={{ marginBottom: 28 }}>
