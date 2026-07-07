@@ -1,7 +1,8 @@
-﻿import { useState } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Zap, Users, Calendar, MessageCircle, BarChart2, Trophy, Shield, ArrowRight, Check, Star, Mail } from 'lucide-react'
 import axios from 'axios'
+import api from '../api/client'
 
 const FEATURES = [
   { icon: BarChart2,     color: '#818cf8', bg: 'rgba(129,140,248,0.12)', title: 'Analytics Completo',   desc: 'Retenção, frequência, receita e exercícios mais realizados — tudo em um painel.' },
@@ -97,6 +98,11 @@ function LeadForm() {
 }
 
 export default function Landing() {
+  // Pre-warm the backend so login is instant for anyone coming from landing page.
+  useEffect(() => {
+    api.get('/ping').catch(() => {})
+  }, [])
+
   return (
     <div style={{ minHeight: '100vh', background: '#0C0C0D', color: '#F4F4F5', fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
       <style>{`

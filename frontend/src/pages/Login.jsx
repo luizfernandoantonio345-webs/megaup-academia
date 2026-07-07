@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
 import { Zap, Mail, Lock, ArrowRight, Eye, EyeOff, Dumbbell, TrendingUp, Users } from 'lucide-react'
+import api from '../api/client'
 
 const FEATURES = [
   { icon: Dumbbell,   title: 'Treinos personalizados',    desc: 'Monte e prescreva treinos para cada aluno com facilidade.' },
@@ -14,6 +15,12 @@ export default function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', senha: '' })
+
+  // Pre-warm the backend the moment this page loads.
+  // By the time the user types credentials and clicks login, the server is ready.
+  useEffect(() => {
+    api.get('/ping').catch(() => {})
+  }, [])
   const [touched, setTouched] = useState({ email: false, senha: false })
   const [loading, setLoading] = useState(false)
   const [showPass, setShowPass] = useState(false)
