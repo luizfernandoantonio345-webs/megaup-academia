@@ -1,7 +1,7 @@
 """
-Lógica de gamificação: streak de treinos e conquistas (badges).
+Gamificação: streak de treinos e conquistas (badges).
 
-Conquistas disponíveis:
+Conquistas:
   primeiro_treino  — primeiro treino registrado
   streak_7         — 7 dias consecutivos treinando
   streak_30        — 30 dias consecutivos treinando
@@ -9,10 +9,11 @@ Conquistas disponíveis:
   treinos_50       — 50 treinos completados
 
 Regra de streak: dias de calendário (UTC) com ao menos 1 execução.
-O streak é considerado vivo se a última execução foi hoje ou ontem.
+O streak é vivo se a última execução foi hoje ou ontem.
 """
 from datetime import datetime, timedelta
 
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.models import Aluno, Conquista, ExecucaoTreino
@@ -27,24 +28,32 @@ CONQUISTAS_DEFINICOES: dict[str, str] = {
 
 
 def calcular_streak(aluno_id: int, db: Session) -> int:
-    """Retorna o streak atual em dias consecutivos."""
-    rows = (
-        db.query(ExecucaoTreino.data)
+    """
+    Retorna o streak atual em dias consecutivos.
+
+    Usa SELECT DISTINCT DATE(...) ORDER BY ... LIMIT 400 — não carrega
+    todas as execuções em memória; cada chamada é O(min(n, 400)) no DB.
+    """
+    dias = (
+        db.query(func.date(ExecucaoTreino.data).label("dia"))
         .filter(ExecucaoTreino.aluno_id == aluno_id)
+        .distinct()
+        .order_by(func.date(ExecucaoTreino.data).desc())
+        .limit(400)
         .all()
     )
-    if not rows:
+    if not dias:
         return 0
 
-    dias = sorted({r.data.date() for r in rows}, reverse=True)
     hoje = datetime.utcnow().date()
+    primeiro = dias[0].dia  # date object no PostgreSQL
 
-    if dias[0] < hoje - timedelta(days=1):
+    if primeiro < hoje - timedelta(days=1):
         return 0
 
     streak = 1
     for i in range(1, len(dias)):
-        if dias[i - 1] - dias[i] == timedelta(days=1):
+        if dias[i - 1].dia - dias[i].dia == timedelta(days=1):
             streak += 1
         else:
             break
@@ -85,7 +94,7 @@ def _desbloquear_conquistas(aluno: Aluno, total_treinos: int, db: Session) -> li
 def atualizar_gamificacao(aluno: Aluno, db: Session) -> list[Conquista]:
     """
     Recalcula streak, atualiza recorde e desbloqueia conquistas.
-    Deve ser chamado após cada execução de treino (antes do commit final).
+    Chamado após cada execução de treino (antes do commit final).
     Retorna a lista de conquistas recém-desbloqueadas.
     """
     novo_streak = calcular_streak(aluno.id, db)
@@ -94,9 +103,9 @@ def atualizar_gamificacao(aluno: Aluno, db: Session) -> list[Conquista]:
         aluno.streak_recorde = novo_streak
 
     total_treinos = (
-        db.query(ExecucaoTreino)
+        db.query(func.count(ExecucaoTreino.id))
         .filter(ExecucaoTreino.aluno_id == aluno.id)
-        .count()
+        .scalar() or 0
     )
 
     return _desbloquear_conquistas(aluno, total_treinos, db)

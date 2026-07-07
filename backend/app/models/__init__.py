@@ -50,6 +50,11 @@ class User(Base):
     especialidades = Column(String, nullable=True)
     foto_url = Column(String, nullable=True)
 
+    __table_args__ = (
+        Index("ix_users_tenant_id", "tenant_id"),
+        Index("ix_users_email_ativo", "email", "ativo"),
+    )
+
 
 class PasswordResetToken(Base):
     __tablename__ = "password_reset_tokens"
@@ -74,6 +79,12 @@ class Aluno(Base):
     streak_atual = Column(Integer, default=0)
     streak_recorde = Column(Integer, default=0)
     criado_em = Column(DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        Index("ix_alunos_tenant_id", "tenant_id"),
+        Index("ix_alunos_personal_id", "personal_id"),
+        Index("ix_alunos_user_id", "user_id"),
+    )
 
 
 class Convite(Base):
@@ -112,6 +123,12 @@ class Treino(Base):
     criado_em = Column(DateTime, default=datetime.utcnow)
     itens = relationship("TreinoItem", back_populates="treino")
 
+    __table_args__ = (
+        Index("ix_treinos_aluno_id", "aluno_id"),
+        Index("ix_treinos_aluno_dia", "aluno_id", "dia_semana"),
+        Index("ix_treinos_tenant_id", "tenant_id"),
+    )
+
 
 class TreinoItem(Base):
     __tablename__ = "treino_itens"
@@ -124,6 +141,11 @@ class TreinoItem(Base):
     descanso_seg = Column(Integer, default=60)
     ordem = Column(Integer, default=0)
     treino = relationship("Treino", back_populates="itens")
+
+    __table_args__ = (
+        Index("ix_treino_itens_treino_id", "treino_id"),
+        Index("ix_treino_itens_exercicio_id", "exercicio_id"),
+    )
 
 
 class ExecucaoTreino(Base):
@@ -138,6 +160,12 @@ class ExecucaoTreino(Base):
     comentario = Column(Text, nullable=True)
     itens = relationship("ExecucaoItem", back_populates="execucao")
 
+    __table_args__ = (
+        Index("ix_execucoes_aluno_id", "aluno_id"),
+        Index("ix_execucoes_aluno_data", "aluno_id", "data"),
+        Index("ix_execucoes_tenant_data", "tenant_id", "data"),
+    )
+
 
 class ExecucaoItem(Base):
     """Carga e volume realizados por exercício em uma execução específica."""
@@ -151,6 +179,11 @@ class ExecucaoItem(Base):
     repeticoes_realizadas = Column(String, nullable=True)
     series_realizadas = Column(Integer, nullable=True)
     execucao = relationship("ExecucaoTreino", back_populates="itens")
+
+    __table_args__ = (
+        Index("ix_execucao_itens_execucao_id", "execucao_id"),
+        Index("ix_execucao_itens_exercicio_id", "exercicio_id"),
+    )
 
 
 class SugestaoProgressao(Base):
@@ -169,6 +202,11 @@ class SugestaoProgressao(Base):
     gerado_em = Column(DateTime, default=datetime.utcnow)
     visto = Column(Boolean, default=False)
 
+    __table_args__ = (
+        Index("ix_sugestoes_aluno_visto", "aluno_id", "visto"),
+        Index("ix_sugestoes_tenant_id", "tenant_id"),
+    )
+
 
 class Conquista(Base):
     """Badge desbloqueado automaticamente quando o aluno atinge um marco."""
@@ -181,6 +219,7 @@ class Conquista(Base):
 
     __table_args__ = (
         UniqueConstraint("aluno_id", "codigo", name="uq_conquista_aluno_codigo"),
+        Index("ix_conquistas_aluno_id", "aluno_id"),
     )
 
 
@@ -248,6 +287,12 @@ class Cobranca(Base):
     asaas_id = Column(String, nullable=True)       # ID da cobrança no Asaas
     link_pagamento = Column(String, nullable=True)  # link PIX/boleto
     plano = relationship("PlanoAluno", back_populates="cobranças")
+
+    __table_args__ = (
+        Index("ix_cobrancas_tenant_status", "tenant_id", "status"),
+        Index("ix_cobrancas_aluno_id", "aluno_id"),
+        Index("ix_cobrancas_vencimento", "tenant_id", "vencimento"),
+    )
 
 
 class PersonalTenant(Base):

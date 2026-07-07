@@ -134,7 +134,41 @@ def _run_migrations() -> None:
                 )
             """)
 
-        if not stmts:
+        # ── indexes (always included — CREATE INDEX IF NOT EXISTS is idempotent) ──
+        idx_stmts = [
+            # users
+            "CREATE INDEX IF NOT EXISTS ix_users_tenant_id        ON users(tenant_id)",
+            "CREATE INDEX IF NOT EXISTS ix_users_email_ativo       ON users(email, ativo)",
+            # alunos
+            "CREATE INDEX IF NOT EXISTS ix_alunos_tenant_id        ON alunos(tenant_id)",
+            "CREATE INDEX IF NOT EXISTS ix_alunos_personal_id      ON alunos(personal_id)",
+            "CREATE INDEX IF NOT EXISTS ix_alunos_user_id          ON alunos(user_id)",
+            # treinos
+            "CREATE INDEX IF NOT EXISTS ix_treinos_aluno_id        ON treinos(aluno_id)",
+            "CREATE INDEX IF NOT EXISTS ix_treinos_aluno_dia       ON treinos(aluno_id, dia_semana)",
+            "CREATE INDEX IF NOT EXISTS ix_treinos_tenant_id       ON treinos(tenant_id)",
+            # treino_itens
+            "CREATE INDEX IF NOT EXISTS ix_treino_itens_treino_id   ON treino_itens(treino_id)",
+            "CREATE INDEX IF NOT EXISTS ix_treino_itens_exercicio_id ON treino_itens(exercicio_id)",
+            # execucoes (tabela mais crítica — é a hot path de leitura)
+            "CREATE INDEX IF NOT EXISTS ix_execucoes_aluno_id      ON execucoes(aluno_id)",
+            "CREATE INDEX IF NOT EXISTS ix_execucoes_aluno_data    ON execucoes(aluno_id, data DESC)",
+            "CREATE INDEX IF NOT EXISTS ix_execucoes_tenant_data   ON execucoes(tenant_id, data DESC)",
+            # execucao_itens
+            "CREATE INDEX IF NOT EXISTS ix_execucao_itens_execucao_id  ON execucao_itens(execucao_id)",
+            "CREATE INDEX IF NOT EXISTS ix_execucao_itens_exercicio_id ON execucao_itens(exercicio_id)",
+            # sugestoes_progressao
+            "CREATE INDEX IF NOT EXISTS ix_sugestoes_aluno_visto   ON sugestoes_progressao(aluno_id, visto)",
+            "CREATE INDEX IF NOT EXISTS ix_sugestoes_tenant_id     ON sugestoes_progressao(tenant_id)",
+            # conquistas
+            "CREATE INDEX IF NOT EXISTS ix_conquistas_aluno_id     ON conquistas(aluno_id)",
+            # cobrancas
+            "CREATE INDEX IF NOT EXISTS ix_cobrancas_tenant_status ON cobrancas(tenant_id, status)",
+            "CREATE INDEX IF NOT EXISTS ix_cobrancas_aluno_id      ON cobrancas(aluno_id)",
+            "CREATE INDEX IF NOT EXISTS ix_cobrancas_vencimento    ON cobrancas(tenant_id, vencimento)",
+        ]
+
+        if not stmts and not idx_stmts:
             logger.info("migrations: schema up-to-date, nothing to run")
             return
 
@@ -146,9 +180,12 @@ def _run_migrations() -> None:
                 "UPDATE tenants SET trial_ends_at = NOW() + INTERVAL '14 days' "
                 "WHERE trial_ends_at IS NULL"
             ))
+            # Indexes — always attempt (IF NOT EXISTS makes them idempotent)
+            for idx in idx_stmts:
+                conn.execute(text(idx))
             conn.commit()
 
-        logger.info("migrations: ran %d statement(s)", len(stmts))
+        logger.info("migrations: ran %d DDL statement(s) + %d index(es)", len(stmts), len(idx_stmts))
 
     except Exception as exc:
         logger.warning("migrations failed (non-fatal): %s", exc)

@@ -11,6 +11,8 @@ import logging
 from collections import defaultdict
 from datetime import datetime, timedelta
 
+from sqlalchemy.orm import joinedload
+
 from app.core.db import SessionLocal
 from app.models import ExecucaoTreino, SugestaoProgressao
 from app.ai.prescricao import sugerir_ajuste_carga
@@ -29,8 +31,10 @@ def tarefa_progressao() -> None:
     try:
         cutoff = datetime.utcnow() - timedelta(days=7)
 
+        # joinedload evita N+1: carrega execucoes + itens em 2 queries em vez de 1+N
         execucoes = (
             db.query(ExecucaoTreino)
+            .options(joinedload(ExecucaoTreino.itens))
             .filter(ExecucaoTreino.data >= cutoff)
             .all()
         )

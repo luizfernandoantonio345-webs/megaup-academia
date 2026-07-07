@@ -1,19 +1,20 @@
 """
-FASE 9 — Pagamentos.
+Pagamentos — planos de cobrança e cobranças mensais dos alunos.
 
 Endpoints:
-  POST   /pagamentos/planos/            personal cria plano para aluno
-  GET    /pagamentos/planos/            lista planos do tenant
-  DELETE /pagamentos/planos/{id}        inativa plano
-  POST   /pagamentos/cobrancas/         gera cobrança (com integração Asaas opcional)
-  GET    /pagamentos/cobrancas/         lista cobranças do tenant
-  PATCH  /pagamentos/cobrancas/{id}/pagar  marca como pago
-  GET    /pagamentos/resumo             resumo financeiro do tenant
-  POST   /pagamentos/webhook/asaas      webhook do Asaas (pós-pagamento automático)
+  POST   /pagamentos/planos/                    cria plano para aluno
+  GET    /pagamentos/planos/                    lista planos do tenant (paginado)
+  DELETE /pagamentos/planos/{id}                inativa plano
+  POST   /pagamentos/cobrancas/                 gera cobrança
+  GET    /pagamentos/cobrancas/                 lista cobranças do tenant (paginado)
+  PATCH  /pagamentos/cobrancas/{id}/pagar       marca como pago
+  GET    /pagamentos/resumo                     resumo financeiro (SQL aggregates)
+  POST   /pagamentos/webhook/asaas              webhook do Asaas
 """
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.core.db import get_db
@@ -90,12 +91,20 @@ def criar_plano(
 
 @router.get("/planos/", response_model=list[PlanoAlunoResponse])
 def listar_planos(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(100, ge=1, le=500),
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user),
 ):
     _assert_personal(user)
-    planos = db.query(PlanoAluno).filter(PlanoAluno.tenant_id == user.tenant_id).all()
-    return planos
+    return (
+        db.query(PlanoAluno)
+        .filter(PlanoAluno.tenant_id == user.tenant_id)
+        .order_by(PlanoAluno.criado_em.desc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 @router.delete("/planos/{plano_id}", status_code=204)
@@ -151,11 +160,20 @@ def criar_cobranca(
 
 @router.get("/cobrancas/", response_model=list[CobrancaResponse])
 def listar_cobrancas(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(100, ge=1, le=500),
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user),
 ):
     _assert_personal(user)
-    return db.query(Cobranca).filter(Cobranca.tenant_id == user.tenant_id).all()
+    return (
+        db.query(Cobranca)
+        .filter(Cobranca.tenant_id == user.tenant_id)
+        .order_by(Cobranca.vencimento.desc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 @router.patch("/cobrancas/{cobranca_id}/pagar", response_model=CobrancaResponse)
@@ -183,7 +201,7 @@ def marcar_pago(
 
 
 # ---------------------------------------------------------------------------
-# Resumo financeiro
+# Resumo financeiro — usa SQL aggregates, sem carregar listas em memória
 # ---------------------------------------------------------------------------
 
 @router.get("/resumo", response_model=ResumoFinanceiroResponse)
@@ -192,25 +210,45 @@ def resumo_financeiro(
     user: User = Depends(get_current_user),
 ):
     _assert_personal(user)
-
-    planos_ativos = db.query(PlanoAluno).filter(
-        PlanoAluno.tenant_id == user.tenant_id,
-        PlanoAluno.status == PlanoStatus.ativo,
-    ).all()
-
-    receita = sum(p.valor for p in planos_ativos)
-
+    tid = user.tenant_id
     agora = datetime.utcnow()
-    vencidas = db.query(Cobranca).filter(
-        Cobranca.tenant_id == user.tenant_id,
-        Cobranca.status == CobrancaStatus.pendente,
-        Cobranca.vencimento < agora,
-    ).all()
+
+    count_planos = (
+        db.query(func.count(PlanoAluno.id))
+        .filter(PlanoAluno.tenant_id == tid, PlanoAluno.status == PlanoStatus.ativo)
+        .scalar() or 0
+    )
+
+    receita = (
+        db.query(func.coalesce(func.sum(PlanoAluno.valor), 0))
+        .filter(PlanoAluno.tenant_id == tid, PlanoAluno.status == PlanoStatus.ativo)
+        .scalar() or 0.0
+    )
+
+    inadimplentes_count = (
+        db.query(func.count(Cobranca.id))
+        .filter(
+            Cobranca.tenant_id == tid,
+            Cobranca.status == CobrancaStatus.pendente,
+            Cobranca.vencimento < agora,
+        )
+        .scalar() or 0
+    )
+
+    inadimplentes_valor = (
+        db.query(func.coalesce(func.sum(Cobranca.valor), 0))
+        .filter(
+            Cobranca.tenant_id == tid,
+            Cobranca.status == CobrancaStatus.pendente,
+            Cobranca.vencimento < agora,
+        )
+        .scalar() or 0.0
+    )
 
     proximas = (
         db.query(Cobranca)
         .filter(
-            Cobranca.tenant_id == user.tenant_id,
+            Cobranca.tenant_id == tid,
             Cobranca.status == CobrancaStatus.pendente,
             Cobranca.vencimento >= agora,
         )
@@ -220,10 +258,10 @@ def resumo_financeiro(
     )
 
     return ResumoFinanceiroResponse(
-        total_alunos_com_plano=len(planos_ativos),
-        receita_mensal_prevista=receita,
-        inadimplentes=len(vencidas),
-        valor_inadimplente=sum(c.valor for c in vencidas),
+        total_alunos_com_plano=count_planos,
+        receita_mensal_prevista=float(receita),
+        inadimplentes=inadimplentes_count,
+        valor_inadimplente=float(inadimplentes_valor),
         proximas_cobrancas=proximas,
     )
 
@@ -236,7 +274,7 @@ def resumo_financeiro(
 async def webhook_asaas(request: Request, db: Session = Depends(get_db)):
     """
     Recebe notificação de pagamento do Asaas e marca cobrança como paga.
-    Produção: validar assinatura HMAC (header asaas-access-token) antes de processar.
+    Produção: validar assinatura HMAC (header asaas-access-token).
     """
     try:
         data = await request.json()
