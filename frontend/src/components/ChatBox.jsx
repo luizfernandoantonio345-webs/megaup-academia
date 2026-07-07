@@ -1,166 +1,260 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { chatMensagens, chatEnviar } from '../api'
-import { Send, MessageCircle, Loader2 } from 'lucide-react'
+import { Send, MessageCircle } from 'lucide-react'
+import toast from 'react-hot-toast'
 
-function formatTime(iso) {
-  const d = new Date(iso)
-  return d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+// Backend retorna UTC sem sufixo 'Z' — append para o browser interpretar corretamente
+const toDate = (iso) => new Date(iso && iso.endsWith('Z') ? iso : (iso || '') + 'Z')
+
+function fmtHora(iso) {
+  return toDate(iso).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
 }
-function formatDate(iso) {
-  const d = new Date(iso)
+
+function fmtDia(iso) {
+  const d = toDate(iso)
   const hoje = new Date()
   if (d.toDateString() === hoje.toDateString()) return 'Hoje'
-  const ontem = new Date(hoje)
-  ontem.setDate(hoje.getDate() - 1)
+  const ontem = new Date()
+  ontem.setDate(ontem.getDate() - 1)
   if (d.toDateString() === ontem.toDateString()) return 'Ontem'
   return d.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' })
 }
 
 export default function ChatBox({ alunoId, outroNome }) {
   const [texto, setTexto] = useState('')
-  const [lastId, setLastId] = useState(0)
   const [msgs, setMsgs] = useState([])
-  const bottomRef = useRef(null)
-  const inputRef = useRef(null)
+  const lastIdRef   = useRef(0)
+  const inputRef    = useRef(null)
+  const scrollRef   = useRef(null)
+  const atBottomRef = useRef(true)  // true = usuário está no fim → auto-scroll
 
-  const { isLoading } = useQuery({
-    queryKey: ['chat', alunoId, lastId],
-    queryFn: () =>
-      chatMensagens(alunoId, lastId).then(r => {
-        const novas = r.data
-        if (novas.length > 0) {
-          setMsgs(prev => {
-            const ids = new Set(prev.map(m => m.id))
-            const unicas = novas.filter(m => !ids.has(m.id))
-            return [...prev, ...unicas]
-          })
-          setLastId(novas[novas.length - 1].id)
-        }
-        return novas
-      }),
-    refetchInterval: 4000,
+  /* ── helpers de scroll ── */
+  const scrollToBottom = useCallback((behavior = 'smooth') => {
+    const el = scrollRef.current
+    if (el) el.scrollTo({ top: el.scrollHeight, behavior })
+  }, [])
+
+  const checkAtBottom = () => {
+    const el = scrollRef.current
+    if (!el) return
+    atBottomRef.current = el.scrollHeight - el.scrollTop - el.clientHeight < 80
+  }
+
+  /* ── polling: 2 s quando ativo ── */
+  useQuery({
+    queryKey: ['chat', alunoId],
+    queryFn: async () => {
+      const r = await chatMensagens(alunoId, lastIdRef.current)
+      const novas = r.data
+      if (novas.length > 0) {
+        setMsgs(prev => {
+          const ids = new Set(prev.filter(m => !m._temp).map(m => m.id))
+          const unicas = novas.filter(m => !ids.has(m.id))
+          return unicas.length ? [...prev, ...unicas] : prev
+        })
+        lastIdRef.current = novas[novas.length - 1].id
+      }
+      return novas
+    },
+    refetchInterval: 2000,
     refetchIntervalInBackground: false,
     staleTime: 0,
     retry: false,
   })
 
+  /* ── auto-scroll apenas quando estava no fim ── */
+  useEffect(() => {
+    if (atBottomRef.current) scrollToBottom()
+  }, [msgs.length, scrollToBottom])
+
+  /* ── scroll inicial ── */
+  useEffect(() => { scrollToBottom('instant') }, [])  // eslint-disable-line
+
+  /* ── envio com UI otimista ── */
   const { mutate: enviar, isPending: sending } = useMutation({
-    mutationFn: () => chatEnviar(alunoId, texto.trim()),
-    onSuccess: ({ data }) => {
+    mutationFn: ({ t }) => chatEnviar(alunoId, t),
+    onSuccess: ({ data }, { tempId }) => {
       setMsgs(prev => {
-        const ids = new Set(prev.map(m => m.id))
-        return ids.has(data.id) ? prev : [...prev, { ...data, meu: true }]
+        const sem = prev.filter(m => m.id !== tempId)
+        const ids = new Set(sem.map(m => m.id))
+        return ids.has(data.id) ? sem : [...sem, { ...data, meu: true }]
       })
-      setLastId(data.id)
-      setTexto('')
+      if (data.id > lastIdRef.current) lastIdRef.current = data.id
       inputRef.current?.focus()
+    },
+    onError: (_, { tempId, t }) => {
+      setMsgs(prev => prev.filter(m => m.id !== tempId))
+      setTexto(t)
+      toast.error('Falha ao enviar. Tente novamente.')
     },
   })
 
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [msgs.length])
+  const handleSend = useCallback(() => {
+    const t = texto.trim()
+    if (!t || sending) return
+    const tempId = `temp-${Date.now()}`
+    // adiciona imediatamente com timestamp local correto
+    setMsgs(prev => [...prev, {
+      id: tempId, texto: t, meu: true, lido: false,
+      criado_em: new Date().toISOString().replace('Z', '') + 'Z',
+      _temp: true,
+    }])
+    setTexto('')
+    atBottomRef.current = true
+    if (inputRef.current) inputRef.current.style.height = 'auto'
+    enviar({ t, tempId })
+  }, [texto, sending, enviar])
 
-  const onKeyDown = e => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      if (texto.trim() && !sending) enviar()
-    }
+  const onKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend() }
   }
 
-  // Group by date
+  const handleChange = (e) => {
+    setTexto(e.target.value)
+    const el = e.target
+    el.style.height = 'auto'
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px'
+  }
+
+  /* ── agrupa mensagens por dia ── */
   const groups = []
-  let lastDate = null
+  let lastDia = null
   for (const m of msgs) {
-    const d = formatDate(m.criado_em)
-    if (d !== lastDate) { groups.push({ type: 'date', label: d, key: `d-${m.id}` }); lastDate = d }
+    const dia = fmtDia(m.criado_em)
+    if (dia !== lastDia) { groups.push({ type: 'sep', dia, key: `sep-${m.id}` }); lastDia = dia }
     groups.push({ type: 'msg', ...m })
   }
 
+  const restantes = 2000 - texto.length
+  const avisoChars = restantes < 200 && texto.length > 0
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 420 }}>
-      <div style={{
-        flex: 1, overflowY: 'auto', padding: '16px 4px', display: 'flex',
-        flexDirection: 'column', gap: 8,
-        scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.07) transparent',
-      }}>
-        {isLoading && msgs.length === 0 && (
-          <div style={{ display: 'flex', justifyContent: 'center', padding: 32 }}>
-            <Loader2 style={{ width: 20, height: 20, color: '#6366f1', animation: 'spin 1s linear infinite' }} />
-          </div>
-        )}
-        {msgs.length === 0 && !isLoading && (
-          <div style={{ textAlign: 'center', padding: '40px 20px' }}>
-            <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(99,102,241,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 12px' }}>
-              <MessageCircle style={{ width: 22, height: 22, color: '#6366f1' }} />
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+
+      {/* Lista de mensagens */}
+      <div
+        ref={scrollRef}
+        onScroll={checkAtBottom}
+        style={{
+          flex: 1, overflowY: 'auto', padding: '4px 0 8px',
+          display: 'flex', flexDirection: 'column',
+          scrollbarWidth: 'thin', scrollbarColor: 'rgba(255,255,255,0.06) transparent',
+        }}
+      >
+        {msgs.length === 0 && (
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 16px', gap: 12 }}>
+            <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <MessageCircle style={{ width: 20, height: 20, color: '#818cf8' }} />
             </div>
-            <p style={{ color: '#71717A', fontSize: 13, fontWeight: 600 }}>Nenhuma mensagem ainda</p>
-            <p style={{ color: '#52525B', fontSize: 12, marginTop: 4 }}>Envie a primeira mensagem para {outroNome}</p>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#71717A', margin: 0 }}>Nenhuma mensagem ainda</p>
+            <p style={{ fontSize: 12, color: '#3F3F46', margin: 0 }}>Envie a primeira mensagem para {outroNome}</p>
           </div>
         )}
-        {groups.map((item, i) => {
-          if (item.type === 'date') {
-            return (
-              <div key={item.key} style={{ textAlign: 'center', margin: '8px 0' }}>
-                <span style={{ fontSize: 11, color: '#52525B', fontWeight: 600, background: 'rgba(255,255,255,0.04)', padding: '3px 10px', borderRadius: 999 }}>{item.label}</span>
-              </div>
-            )
-          }
+
+        {groups.map(item => {
+          if (item.type === 'sep') return (
+            <div key={item.key} style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '12px 0 8px' }}>
+              <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.05)' }} />
+              <span style={{ fontSize: 11, color: '#52525B', fontWeight: 600, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>{item.dia}</span>
+              <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.05)' }} />
+            </div>
+          )
+
+          const eu = item.meu
           return (
-            <div key={item.id} style={{ display: 'flex', justifyContent: item.meu ? 'flex-end' : 'flex-start' }}>
+            <div key={item.id} style={{
+              display: 'flex', justifyContent: eu ? 'flex-end' : 'flex-start',
+              padding: '2px 0',
+              opacity: item._temp ? 0.65 : 1,
+              transition: 'opacity 0.2s',
+            }}>
               <div style={{
-                maxWidth: '78%', padding: '9px 13px',
-                borderRadius: item.meu ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-                background: item.meu ? '#6366f1' : '#1C1C1E',
-                border: item.meu ? 'none' : '1px solid #27272A',
+                maxWidth: '74%', minWidth: 64,
+                padding: '8px 12px 5px',
+                borderRadius: eu ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
+                background: eu ? '#6366f1' : '#1C1C1E',
+                border: eu ? 'none' : '1px solid rgba(255,255,255,0.07)',
+                boxShadow: eu ? '0 2px 10px rgba(99,102,241,0.3)' : 'none',
               }}>
-                <p style={{ fontSize: 14, color: item.meu ? 'white' : '#F4F4F5', lineHeight: 1.45, margin: 0, wordBreak: 'break-word' }}>
+                <p style={{ fontSize: 14, color: eu ? '#ffffff' : '#E4E4E7', lineHeight: 1.5, margin: 0, wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}>
                   {item.texto}
                 </p>
-                <p style={{ fontSize: 10, color: item.meu ? 'rgba(255,255,255,0.5)' : '#52525B', margin: '4px 0 0', textAlign: 'right' }}>
-                  {formatTime(item.criado_em)}{item.meu && (item.lido ? ' ✓✓' : ' ✓')}
-                </p>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 3, marginTop: 4 }}>
+                  <span style={{ fontSize: 10, color: eu ? 'rgba(255,255,255,0.42)' : '#52525B', lineHeight: 1 }}>
+                    {fmtHora(item.criado_em)}
+                  </span>
+                  {eu && (
+                    <span style={{
+                      fontSize: 10, lineHeight: 1,
+                      color: item._temp ? 'rgba(255,255,255,0.3)' : item.lido ? '#a5b4fc' : 'rgba(255,255,255,0.5)',
+                    }}>
+                      {item._temp ? '⏳' : item.lido ? '✓✓' : '✓'}
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
           )
         })}
-        <div ref={bottomRef} />
+        <div style={{ height: 4 }} />
       </div>
 
-      <div style={{ padding: '12px 0 0', display: 'flex', gap: 10, alignItems: 'flex-end' }}>
-        <textarea
-          ref={inputRef}
-          value={texto}
-          onChange={e => setTexto(e.target.value)}
-          onKeyDown={onKeyDown}
-          placeholder={`Mensagem para ${outroNome || 'aluno'}...`}
-          rows={1}
-          style={{
-            flex: 1, resize: 'none',
-            background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-            borderRadius: 16, padding: '10px 14px', color: '#F4F4F5', fontSize: 14,
-            fontFamily: 'Inter, sans-serif', outline: 'none', lineHeight: 1.5,
-            maxHeight: 100, overflowY: 'auto',
-          }}
-        />
-        <button
-          onClick={() => texto.trim() && !sending && enviar()}
-          disabled={!texto.trim() || sending}
-          style={{
-            width: 42, height: 42, borderRadius: 10, border: 'none', cursor: 'pointer', flexShrink: 0,
-            background: texto.trim() ? '#6366f1' : '#1C1C1E',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            transition: 'background 0.15s', opacity: sending ? 0.6 : 1,
-          }}
-        >
-          {sending
-            ? <span style={{ width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', display: 'inline-block', animation: 'spin 0.8s linear infinite' }} />
-            : <Send style={{ width: 16, height: 16, color: texto.trim() ? 'white' : '#71717A' }} />
-          }
-        </button>
+      {/* Input */}
+      <div style={{ paddingTop: 10, borderTop: '1px solid rgba(255,255,255,0.05)', flexShrink: 0 }}>
+        {avisoChars && (
+          <p style={{ textAlign: 'right', fontSize: 11, color: restantes < 50 ? '#f87171' : '#71717A', marginBottom: 5, marginTop: 0 }}>
+            {restantes} restantes
+          </p>
+        )}
+        <div style={{ display: 'flex', gap: 8, alignItems: 'flex-end' }}>
+          <textarea
+            ref={inputRef}
+            value={texto}
+            onChange={handleChange}
+            onKeyDown={onKeyDown}
+            onFocus={e => { e.target.style.borderColor = 'rgba(99,102,241,0.45)' }}
+            onBlur={e => { e.target.style.borderColor = 'rgba(255,255,255,0.09)' }}
+            placeholder={`Mensagem para ${outroNome || 'aluno'}…`}
+            maxLength={2000}
+            rows={1}
+            style={{
+              flex: 1, resize: 'none', outline: 'none',
+              background: 'rgba(255,255,255,0.04)',
+              border: '1px solid rgba(255,255,255,0.09)',
+              borderRadius: 14, padding: '10px 14px',
+              color: '#F4F4F5', fontSize: 14,
+              fontFamily: 'Inter, sans-serif', lineHeight: 1.5,
+              maxHeight: 120, overflowY: 'auto',
+              transition: 'border-color 0.15s',
+            }}
+          />
+          <button
+            onClick={handleSend}
+            disabled={!texto.trim() || sending}
+            style={{
+              width: 40, height: 40, borderRadius: 12, border: 'none', flexShrink: 0,
+              cursor: texto.trim() && !sending ? 'pointer' : 'default',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: texto.trim() ? '#6366f1' : 'rgba(255,255,255,0.05)',
+              transition: 'background 0.15s, transform 0.1s',
+            }}
+            onMouseDown={e => { if (texto.trim()) e.currentTarget.style.transform = 'scale(0.88)' }}
+            onMouseUp={e => { e.currentTarget.style.transform = 'scale(1)' }}
+            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)' }}
+          >
+            {sending
+              ? <span style={{ width: 13, height: 13, border: '2px solid rgba(255,255,255,0.25)', borderTopColor: 'white', borderRadius: '50%', display: 'inline-block', animation: 'cspin .7s linear infinite' }} />
+              : <Send style={{ width: 14, height: 14, color: texto.trim() ? 'white' : '#52525B', transition: 'color 0.15s' }} />
+            }
+          </button>
+        </div>
+        <p style={{ fontSize: 11, color: '#3F3F46', marginTop: 6, textAlign: 'center', margin: '5px 0 0' }}>
+          Enter para enviar · Shift+Enter para nova linha
+        </p>
       </div>
-      <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
+
+      <style>{`@keyframes cspin { to { transform: rotate(360deg) } }`}</style>
     </div>
   )
 }

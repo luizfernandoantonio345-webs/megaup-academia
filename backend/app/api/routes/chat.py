@@ -1,5 +1,5 @@
 """Chat entre personal e aluno — polling simples, sem WebSocket."""
-from datetime import datetime
+from datetime import datetime, timezone
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
@@ -12,8 +12,14 @@ from app.models import Aluno, Mensagem, User
 router = APIRouter()
 
 
+def _fmt_utc(dt: datetime) -> str:
+    """Retorna ISO 8601 com 'Z' explícito para o browser interpretar como UTC."""
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.strftime('%Y-%m-%dT%H:%M:%SZ')
+
+
 def _resolver_aluno_id(current_user: User, aluno_id: int, db: Session) -> Aluno:
-    """Personal acessa por aluno_id; aluno acessa pelo próprio perfil."""
     aluno = db.query(Aluno).filter(
         Aluno.id == aluno_id,
         Aluno.tenant_id == current_user.tenant_id,
@@ -32,23 +38,39 @@ def listar_mensagens(
 ):
     _resolver_aluno_id(current_user, aluno_id, db)
 
-    msgs = (
-        db.query(Mensagem)
-        .filter(
-            Mensagem.aluno_id == aluno_id,
-            Mensagem.tenant_id == current_user.tenant_id,
-            Mensagem.id > desde_id,
+    if desde_id == 0:
+        # Carga inicial: retorna as 100 mensagens mais recentes em ordem cronológica
+        msgs = (
+            db.query(Mensagem)
+            .filter(
+                Mensagem.aluno_id == aluno_id,
+                Mensagem.tenant_id == current_user.tenant_id,
+            )
+            .order_by(Mensagem.criado_em.desc())
+            .limit(100)
+            .all()
         )
-        .order_by(Mensagem.criado_em.asc())
-        .limit(100)
-        .all()
-    )
+        msgs = list(reversed(msgs))
+    else:
+        # Polling incremental: apenas mensagens novas após o último id visto
+        msgs = (
+            db.query(Mensagem)
+            .filter(
+                Mensagem.aluno_id == aluno_id,
+                Mensagem.tenant_id == current_user.tenant_id,
+                Mensagem.id > desde_id,
+            )
+            .order_by(Mensagem.criado_em.asc())
+            .limit(50)
+            .all()
+        )
 
-    # Marcar como lido as mensagens que não são do remetente atual
-    for m in msgs:
-        if m.remetente_id != current_user.id and not m.lido:
+    # Só commita se houver mensagens não lidas para marcar
+    nao_lidas = [m for m in msgs if m.remetente_id != current_user.id and not m.lido]
+    if nao_lidas:
+        for m in nao_lidas:
             m.lido = True
-    db.commit()
+        db.commit()
 
     return [
         {
@@ -57,7 +79,7 @@ def listar_mensagens(
             "remetente_id": m.remetente_id,
             "meu": m.remetente_id == current_user.id,
             "lido": m.lido,
-            "criado_em": m.criado_em.isoformat(),
+            "criado_em": _fmt_utc(m.criado_em),
         }
         for m in msgs
     ]
@@ -97,7 +119,7 @@ def enviar_mensagem(
         "remetente_id": msg.remetente_id,
         "meu": True,
         "lido": False,
-        "criado_em": msg.criado_em.isoformat(),
+        "criado_em": _fmt_utc(msg.criado_em),
     }
 
 
