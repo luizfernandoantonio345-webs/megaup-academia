@@ -1,0 +1,16 @@
+name: Keep Backend Alive
+
+on:
+  schedule:
+    # Runs every 5 minutes — keeps Render free-tier dyno from sleeping
+    - cron: '*/5 * * * *'
+  workflow_dispatch: # allow manual trigger
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping backend health endpoint
+        run: |
+          curl -sf --max-time 30 https://fitsaas-backend.onrender.com/health || true
+          echo "Ping sent at $(date -u)"
