@@ -4,21 +4,18 @@ import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
 import { Zap, Mail, Lock, ArrowRight, Eye, EyeOff, Dumbbell, TrendingUp, Users } from 'lucide-react'
 import api from '../api/client'
-import { GymDecorBg, SvgDumbbell, SvgPlate } from '../components/GymDecorBg'
+import { GymDecorBg, SvgDumbbellHero, SvgPlate } from '../components/GymDecorBg'
 
 const FEATURES = [
-  { icon: Dumbbell,   title: 'Treinos personalizados',            desc: 'Monte e prescreva treinos para cada aluno com facilidade.' },
-  { icon: TrendingUp, title: 'Analytics de progressão de carga',  desc: 'Analise o histórico de carga e acompanhe a evolução de cada aluno.' },
-  { icon: Users,      title: 'Gestão completa de alunos',         desc: 'Acompanhe streak, conquistas e pagamentos em tempo real.' },
+  { icon: Dumbbell,   title: 'Treinos personalizados',           desc: 'Monte e prescreva treinos para cada aluno com facilidade.' },
+  { icon: TrendingUp, title: 'Analytics de progressão de carga', desc: 'Analise o histórico de carga e acompanhe a evolução de cada aluno.' },
+  { icon: Users,      title: 'Gestão completa de alunos',        desc: 'Acompanhe streak, conquistas e pagamentos em tempo real.' },
 ]
-
-// ── Login page ───────────────────────────────────────────────────────────────
 
 export default function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', senha: '' })
-
   const [serverSlow, setServerSlow] = useState(false)
 
   useEffect(() => {
@@ -59,23 +56,42 @@ export default function Login() {
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', background: '#0C0C0D', position: 'relative', overflow: 'hidden' }}>
-
-      {/* ── Decorative gym equipment background ── */}
       <GymDecorBg />
 
       {/* ── Left panel (desktop only) ── */}
       <div
         style={{
-          display: 'none', width: 440, flexShrink: 0,
+          display: 'none', width: 460, flexShrink: 0,
           padding: '48px 40px', flexDirection: 'column', justifyContent: 'space-between',
-          background: 'rgba(10,10,11,0.85)', borderRight: '1px solid #1C1C1E',
-          backdropFilter: 'blur(2px)',
+          background: '#0A0A0B', borderRight: '1px solid #1C1C1E',
+          position: 'relative', overflow: 'hidden',
         }}
         className="lg:flex"
       >
-        <div>
+        {/* Dot-grid pattern */}
+        <svg
+          aria-hidden
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.04, pointerEvents: 'none' }}
+        >
+          <defs>
+            <pattern id="login-dotgrid" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+              <circle cx="1.5" cy="1.5" r="1.5" fill="#ffffff"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#login-dotgrid)"/>
+        </svg>
+
+        {/* Subtle corner radial — brand tint */}
+        <div style={{
+          position: 'absolute', top: -140, right: -140, width: 360, height: 360,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }} />
+
+        <div style={{ position: 'relative' }}>
           {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 40 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 44 }}>
             <div style={{ width: 28, height: 28, borderRadius: 8, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 14, height: 14, color: 'white' }} />
             </div>
@@ -83,37 +99,45 @@ export default function Login() {
           </div>
 
           {/* Hero headline */}
-          <div style={{ marginBottom: 32 }}>
-            <h1 style={{ fontSize: 26, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.03em', lineHeight: 1.2, marginBottom: 10 }}>
-              Plataforma para<br />personal trainers
+          <div style={{ marginBottom: 36 }}>
+            <h1 style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.04em', lineHeight: 1.15, marginBottom: 12 }}>
+              <span className="gradient-text">Evolução real.</span><br />
+              <span style={{ color: '#F4F4F5' }}>Para cada aluno.</span>
             </h1>
-            <p style={{ fontSize: 13, color: '#71717A', lineHeight: 1.7 }}>
-              Gerencie alunos, prescreva treinos e acompanhe evolução com inteligência artificial.
+            <p style={{ fontSize: 13, color: '#71717A', lineHeight: 1.75 }}>
+              Plataforma completa para personal trainers: treinos, progressão de carga, gamificação e gestão financeira.
             </p>
           </div>
 
-          {/* Decorative dumbbell illustration */}
+          {/* Hero dumbbell illustration */}
           <div style={{
-            padding: '20px 24px', background: 'rgba(99,102,241,0.06)',
-            border: '1px solid rgba(99,102,241,0.15)', borderRadius: 16, marginBottom: 32,
+            padding: '20px 20px 16px',
+            background: 'rgba(99,102,241,0.05)',
+            border: '1px solid rgba(99,102,241,0.14)',
+            borderRadius: 16, marginBottom: 32,
           }}>
-            <SvgDumbbell style={{ width: '100%', color: '#6366f1', opacity: 0.5, display: 'block', marginBottom: 12 }} />
+            <SvgDumbbellHero uid="login" style={{
+              width: '100%', display: 'block', marginBottom: 14,
+              animation: 'float 5s ease-in-out infinite',
+            }} />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <SvgPlate style={{ width: 28, color: '#818cf8', opacity: 0.6 }} />
-                <SvgPlate style={{ width: 28, color: '#a78bfa', opacity: 0.4 }} />
-                <SvgPlate style={{ width: 28, color: '#6366f1', opacity: 0.5 }} />
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                <SvgPlate style={{ width: 26, color: '#818cf8', opacity: 0.7 }} />
+                <SvgPlate style={{ width: 22, color: '#a78bfa', opacity: 0.5 }} />
+                <SvgPlate style={{ width: 18, color: '#6366f1', opacity: 0.4 }} />
               </div>
-              <span style={{ fontSize: 11, color: '#52525B', fontWeight: 500 }}>Progressive overload</span>
+              <span style={{ fontSize: 10, color: '#52525B', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+                Progressive overload
+              </span>
             </div>
           </div>
 
-          {/* Features */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+          {/* Feature list */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {FEATURES.map(({ icon: Icon, title, desc }) => (
               <div key={title} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-                <div style={{ width: 30, height: 30, borderRadius: 8, background: '#1C1C1E', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <Icon style={{ width: 13, height: 13, color: '#71717A' }} />
+                <div style={{ width: 32, height: 32, borderRadius: 8, background: '#111113', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Icon style={{ width: 14, height: 14, color: '#71717A' }} />
                 </div>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 500, color: '#A1A1AA', marginBottom: 2 }}>{title}</div>
@@ -124,7 +148,7 @@ export default function Login() {
           </div>
         </div>
 
-        <p style={{ fontSize: 11, color: '#3F3F46' }}>
+        <p style={{ fontSize: 11, color: '#3F3F46', position: 'relative' }}>
           Desenvolvido por{' '}
           <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer"
             style={{ color: '#71717A', textDecoration: 'none' }}>@luuiz.dev</a>
@@ -145,7 +169,10 @@ export default function Login() {
 
           {/* Mobile dumbbell accent */}
           <div className="lg:hidden" style={{ marginBottom: 24 }}>
-            <SvgDumbbell style={{ width: '100%', maxWidth: 180, color: '#6366f1', opacity: 0.3, display: 'block', margin: '0 auto' }} />
+            <SvgDumbbellHero uid="login-m" style={{
+              width: '100%', maxWidth: 200, display: 'block', margin: '0 auto',
+              opacity: 0.55,
+            }} />
           </div>
 
           {/* Cold start banner */}

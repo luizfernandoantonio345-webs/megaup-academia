@@ -3,7 +3,7 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
 import { Zap, User, Mail, Lock, Building2, ArrowRight, Eye, EyeOff, Check, Dumbbell, TrendingUp, Shield, BarChart2 } from 'lucide-react'
-import { GymDecorBg, SvgDumbbell, SvgPlate } from '../components/GymDecorBg'
+import { GymDecorBg, SvgDumbbellHero, SvgPlate } from '../components/GymDecorBg'
 
 function senhaForca(senha) {
   if (!senha) return { score: 0, label: '', color: '' }
@@ -79,35 +79,72 @@ export default function Registrar() {
       <GymDecorBg />
 
       {/* Left panel */}
-      <div style={{ display: 'none', width: 420, flexShrink: 0, padding: '48px 40px', flexDirection: 'column', justifyContent: 'space-between', background: 'rgba(10,10,11,0.85)', borderRight: '1px solid #1C1C1E', backdropFilter: 'blur(2px)' }} className="lg:flex">
-        <div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 48 }}>
+      <div
+        style={{
+          display: 'none', width: 460, flexShrink: 0,
+          padding: '48px 40px', flexDirection: 'column', justifyContent: 'space-between',
+          background: '#0A0A0B', borderRight: '1px solid #1C1C1E',
+          position: 'relative', overflow: 'hidden',
+        }}
+        className="lg:flex"
+      >
+        {/* Dot-grid pattern */}
+        <svg
+          aria-hidden
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.04, pointerEvents: 'none' }}
+        >
+          <defs>
+            <pattern id="reg-dotgrid" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+              <circle cx="1.5" cy="1.5" r="1.5" fill="#ffffff"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#reg-dotgrid)"/>
+        </svg>
+
+        {/* Subtle corner radial — brand tint */}
+        <div style={{
+          position: 'absolute', top: -140, right: -140, width: 360, height: 360,
+          borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 70%)',
+          pointerEvents: 'none',
+        }} />
+
+        <div style={{ position: 'relative' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 44 }}>
             <div style={{ width: 28, height: 28, borderRadius: 8, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 14, height: 14, color: 'white' }} />
             </div>
             <span style={{ fontSize: 15, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em' }}>GymPro</span>
           </div>
 
-          <h1 style={{ fontSize: 24, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.03em', lineHeight: 1.25, marginBottom: 10 }}>
-            Comece grátis<br />hoje mesmo
+          <h1 style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.04em', lineHeight: 1.15, marginBottom: 12 }}>
+            <span className="gradient-text">Comece grátis.</span><br />
+            <span style={{ color: '#F4F4F5' }}>Cresça sem limite.</span>
           </h1>
-          <p style={{ fontSize: 13, color: '#71717A', lineHeight: 1.7, marginBottom: 32 }}>
+          <p style={{ fontSize: 13, color: '#71717A', lineHeight: 1.75, marginBottom: 32 }}>
             Plataforma completa para personal trainers gerirem alunos, prescreverem treinos e acompanharem resultados.
           </p>
 
-          {/* Dumbbell illustration */}
+          {/* Hero dumbbell illustration */}
           <div style={{
-            padding: '16px 20px', background: 'rgba(99,102,241,0.06)',
-            border: '1px solid rgba(99,102,241,0.15)', borderRadius: 14, marginBottom: 20,
+            padding: '20px 20px 16px',
+            background: 'rgba(99,102,241,0.05)',
+            border: '1px solid rgba(99,102,241,0.14)',
+            borderRadius: 16, marginBottom: 28,
           }}>
-            <SvgDumbbell style={{ width: '100%', color: '#6366f1', opacity: 0.5, display: 'block', marginBottom: 10 }} />
+            <SvgDumbbellHero uid="register" style={{
+              width: '100%', display: 'block', marginBottom: 14,
+              animation: 'float 5.5s ease-in-out infinite',
+            }} />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <SvgPlate style={{ width: 26, color: '#818cf8', opacity: 0.6 }} />
-                <SvgPlate style={{ width: 26, color: '#a78bfa', opacity: 0.4 }} />
-                <SvgPlate style={{ width: 26, color: '#6366f1', opacity: 0.5 }} />
+              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                <SvgPlate style={{ width: 26, color: '#818cf8', opacity: 0.7 }} />
+                <SvgPlate style={{ width: 22, color: '#a78bfa', opacity: 0.5 }} />
+                <SvgPlate style={{ width: 18, color: '#6366f1', opacity: 0.4 }} />
               </div>
-              <span style={{ fontSize: 11, color: '#52525B', fontWeight: 500 }}>Grátis para começar</span>
+              <span style={{ fontSize: 10, color: '#52525B', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+                Grátis para começar
+              </span>
             </div>
           </div>
 
@@ -122,7 +159,7 @@ export default function Registrar() {
           </div>
         </div>
 
-        <p style={{ fontSize: 11, color: '#3F3F46' }}>Sem cartão de crédito · Cancele quando quiser</p>
+        <p style={{ fontSize: 11, color: '#3F3F46', position: 'relative' }}>Sem cartão de crédito · Cancele quando quiser</p>
       </div>
 
       {/* Right panel — form */}
