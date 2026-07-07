@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+﻿import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
@@ -61,7 +61,7 @@ const qc = new QueryClient({
 function PageLoader() {
   return (
     <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ width: 24, height: 24, border: '2px solid #27272A', borderTopColor: '#6366f1', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+      <div style={{ width: 24, height: 24, border: '2px solid var(--border)', borderTopColor: '#6366f1', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
     </div>
   )
 }

@@ -23,7 +23,7 @@ export default function ChatAluno() {
 
   if (!perfil) {
     return (
-      <div style={{ textAlign: 'center', padding: '40px 20px', color: '#71717A' }}>
+      <div style={{ textAlign: 'center', padding: '40px 20px', color:'var(--text-muted)' }}>
         Perfil não encontrado.
       </div>
     )
@@ -42,10 +42,10 @@ export default function ChatAluno() {
           <MessageCircle style={{ width: 20, height: 20, color: '#f9a8d4' }} />
         </div>
         <div>
-          <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em', lineHeight: 1 }}>
+          <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em', lineHeight: 1 }}>
             Chat com seu Personal
           </h1>
-          <p style={{ fontSize: 12, color: '#71717A', marginTop: 3 }}>
+          <p style={{ fontSize: 12, color:'var(--text-muted)', marginTop: 3 }}>
             Mensagens privadas com seu treinador
           </p>
         </div>
@@ -53,7 +53,7 @@ export default function ChatAluno() {
 
       {/* Chat */}
       <div style={{
-        background: '#111113', borderRadius: 20,
+        background:'var(--bg-card)', borderRadius: 20,
         border: '1px solid rgba(255,255,255,0.07)',
         padding: '16px',
         height: 'calc(100vh - 260px)',

@@ -91,8 +91,8 @@ export default function PlanBanner() {
         <Icon style={{ width: 14, height: 14, color: config.iconColor }} />
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ fontSize: 13, fontWeight: 600, color: '#F4F4F5', margin: 0, lineHeight: 1.2 }}>{config.text}</p>
-        <p style={{ fontSize: 11, color: '#71717A', margin: '2px 0 0', lineHeight: 1.3 }}>{config.sub}</p>
+        <p style={{ fontSize: 13, fontWeight: 600, color:'var(--text-primary)', margin: 0, lineHeight: 1.2 }}>{config.text}</p>
+        <p style={{ fontSize: 11, color:'var(--text-muted)', margin: '2px 0 0', lineHeight: 1.3 }}>{config.sub}</p>
       </div>
       <button
         onClick={() => navigate('/planos')}
@@ -109,7 +109,7 @@ export default function PlanBanner() {
       </button>
       <button
         onClick={() => setDismissed(true)}
-        style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#52525B', padding: 4, display: 'flex', alignItems: 'center', flexShrink: 0 }}
+        style={{ background: 'none', border: 'none', cursor: 'pointer', color:'var(--text-disabled)', padding: 4, display: 'flex', alignItems: 'center', flexShrink: 0 }}
       >
         <X style={{ width: 13, height: 13 }} />
       </button>

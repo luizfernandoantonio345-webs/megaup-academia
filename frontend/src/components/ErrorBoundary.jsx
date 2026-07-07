@@ -1,4 +1,4 @@
-import { Component } from 'react'
+﻿import { Component } from 'react'
 import { RefreshCw } from 'lucide-react'
 
 export default class ErrorBoundary extends Component {
@@ -31,10 +31,10 @@ export default class ErrorBoundary extends Component {
             }}>
               <RefreshCw style={{ width: 20, height: 20, color: '#f87171' }} />
             </div>
-            <h2 style={{ fontSize: 17, fontWeight: 600, color: '#F4F4F5', marginBottom: 8 }}>
+            <h2 style={{ fontSize: 17, fontWeight: 600, color:'var(--text-primary)', marginBottom: 8 }}>
               Algo deu errado
             </h2>
-            <p style={{ color: '#71717A', fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>
+            <p style={{ color:'var(--text-muted)', fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>
               {this.state.error?.message || 'Erro inesperado nesta página.'}
             </p>
             <button

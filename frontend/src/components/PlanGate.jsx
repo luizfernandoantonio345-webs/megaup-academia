@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+﻿import { useQuery } from '@tanstack/react-query'
 import { billingStatus } from '../api'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
@@ -27,7 +27,7 @@ export default function PlanGate({ children }) {
   // Full-page trial expired screen
   return (
     <div style={{
-      minHeight: '100vh', background: '#0C0C0D', display: 'flex',
+      minHeight: '100vh', background:'var(--bg-page)', display: 'flex',
       alignItems: 'center', justifyContent: 'center', padding: 24,
       position: 'relative', overflow: 'hidden',
     }}>
@@ -42,10 +42,10 @@ export default function PlanGate({ children }) {
           <Lock style={{ width: 28, height: 28, color: '#818cf8' }} />
         </div>
 
-        <h1 style={{ fontSize: 22, fontWeight: 600, color: '#F4F4F5', marginBottom: 8 }}>
+        <h1 style={{ fontSize: 22, fontWeight: 600, color:'var(--text-primary)', marginBottom: 8 }}>
           Trial encerrado
         </h1>
-        <p style={{ color: '#71717A', fontSize: 13, lineHeight: 1.7, marginBottom: 28 }}>
+        <p style={{ color:'var(--text-muted)', fontSize: 13, lineHeight: 1.7, marginBottom: 28 }}>
           Seu período de teste gratuito chegou ao fim.<br />
           Escolha um plano para continuar gerenciando seus alunos sem interrupções.
         </p>
@@ -70,21 +70,21 @@ export default function PlanGate({ children }) {
           <button
             onClick={() => { logout(); navigate('/login') }}
             style={{
-              background: 'none', border: '1px solid #27272A', borderRadius: 12,
-              padding: '11px 24px', color: '#71717A', fontSize: 13,
+              background: 'none', border: '1px solid var(--border)', borderRadius: 12,
+              padding: '11px 24px', color:'var(--text-muted)', fontSize: 13,
               fontWeight: 500, cursor: 'pointer', transition: 'border-color 0.15s, color 0.15s',
             }}
-            onMouseEnter={e => { e.currentTarget.style.borderColor = '#3F3F46'; e.currentTarget.style.color = '#A1A1AA' }}
-            onMouseLeave={e => { e.currentTarget.style.borderColor = '#27272A'; e.currentTarget.style.color = '#71717A' }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color='var(--text-secondary)' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color='var(--text-muted)' }}
           >
             Sair da conta
           </button>
         </div>
 
-        <p style={{ fontSize: 11, color: '#3F3F46', marginTop: 24 }}>
+        <p style={{ fontSize: 11, color:'var(--text-disabled)', marginTop: 24 }}>
           Dúvidas?{' '}
           <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer"
-            style={{ color: '#52525B', textDecoration: 'none' }}>@luuiz.dev</a>
+            style={{ color:'var(--text-disabled)', textDecoration: 'none' }}>@luuiz.dev</a>
         </p>
       </div>
     </div>

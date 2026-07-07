@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
@@ -95,16 +95,16 @@ export default function Login() {
             <div style={{ width: 28, height: 28, borderRadius: 8, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 14, height: 14, color: 'white' }} />
             </div>
-            <span style={{ fontSize: 15, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em' }}>GymPro</span>
+            <span style={{ fontSize: 15, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em' }}>GymPro</span>
           </div>
 
           {/* Hero headline */}
           <div style={{ marginBottom: 36 }}>
             <h1 style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.04em', lineHeight: 1.15, marginBottom: 12 }}>
               <span className="gradient-text">Evolução real.</span><br />
-              <span style={{ color: '#F4F4F5' }}>Para cada aluno.</span>
+              <span style={{ color:'var(--text-primary)' }}>Para cada aluno.</span>
             </h1>
-            <p style={{ fontSize: 13, color: '#71717A', lineHeight: 1.75 }}>
+            <p style={{ fontSize: 13, color:'var(--text-muted)', lineHeight: 1.75 }}>
               Plataforma completa para personal trainers: treinos, progressão de carga, gamificação e gestão financeira.
             </p>
           </div>
@@ -126,7 +126,7 @@ export default function Login() {
                 <SvgPlate style={{ width: 22, color: '#a78bfa', opacity: 0.5 }} />
                 <SvgPlate style={{ width: 18, color: '#6366f1', opacity: 0.4 }} />
               </div>
-              <span style={{ fontSize: 10, color: '#52525B', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
+              <span style={{ fontSize: 10, color:'var(--text-disabled)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
                 Progressive overload
               </span>
             </div>
@@ -136,22 +136,22 @@ export default function Login() {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
             {FEATURES.map(({ icon: Icon, title, desc }) => (
               <div key={title} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-                <div style={{ width: 32, height: 32, borderRadius: 8, background: '#111113', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <Icon style={{ width: 14, height: 14, color: '#71717A' }} />
+                <div style={{ width: 32, height: 32, borderRadius: 8, background:'var(--bg-card)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Icon style={{ width: 14, height: 14, color:'var(--text-muted)' }} />
                 </div>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 500, color: '#A1A1AA', marginBottom: 2 }}>{title}</div>
-                  <div style={{ fontSize: 12, color: '#52525B', lineHeight: 1.5 }}>{desc}</div>
+                  <div style={{ fontSize: 13, fontWeight: 500, color:'var(--text-secondary)', marginBottom: 2 }}>{title}</div>
+                  <div style={{ fontSize: 12, color:'var(--text-disabled)', lineHeight: 1.5 }}>{desc}</div>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        <p style={{ fontSize: 11, color: '#3F3F46', position: 'relative' }}>
+        <p style={{ fontSize: 11, color:'var(--text-disabled)', position: 'relative' }}>
           Desenvolvido por{' '}
           <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer"
-            style={{ color: '#71717A', textDecoration: 'none' }}>@luuiz.dev</a>
+            style={{ color:'var(--text-muted)', textDecoration: 'none' }}>@luuiz.dev</a>
         </p>
       </div>
 
@@ -164,7 +164,7 @@ export default function Login() {
             <div style={{ width: 26, height: 26, borderRadius: 7, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 13, height: 13, color: 'white' }} />
             </div>
-            <span style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5' }}>GymPro</span>
+            <span style={{ fontSize: 14, fontWeight: 600, color:'var(--text-primary)' }}>GymPro</span>
           </div>
 
           {/* Mobile dumbbell accent */}
@@ -190,10 +190,10 @@ export default function Login() {
           )}
 
           <div style={{ marginBottom: 28 }}>
-            <h2 style={{ fontSize: 20, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em', marginBottom: 6 }}>
+            <h2 style={{ fontSize: 20, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 6 }}>
               Entrar na conta
             </h2>
-            <p style={{ fontSize: 13, color: '#71717A' }}>
+            <p style={{ fontSize: 13, color:'var(--text-muted)' }}>
               Não tem conta?{' '}
               <Link to="/registrar" style={{ color: '#6366f1', fontWeight: 500, textDecoration: 'none' }}>
                 Criar conta grátis
@@ -205,7 +205,7 @@ export default function Login() {
             <div>
               <label htmlFor="login-email" className="label">E-mail</label>
               <div style={{ position: 'relative' }}>
-                <Mail style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#52525B' }} aria-hidden="true" />
+                <Mail style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color:'var(--text-disabled)' }} aria-hidden="true" />
                 <input
                   id="login-email"
                   className={`input pl-10 ${errors.email ? 'input-error' : touched.email && form.email ? 'input-success' : ''}`}
@@ -225,7 +225,7 @@ export default function Login() {
                 </Link>
               </div>
               <div style={{ position: 'relative' }}>
-                <Lock style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#52525B' }} aria-hidden="true" />
+                <Lock style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color:'var(--text-disabled)' }} aria-hidden="true" />
                 <input
                   id="login-senha"
                   className={`input pl-10 pr-10 ${errors.senha ? 'input-error' : ''}`}
@@ -235,7 +235,7 @@ export default function Login() {
                 />
                 <button type="button" onClick={() => setShowPass(!showPass)}
                   aria-label={showPass ? 'Ocultar senha' : 'Mostrar senha'}
-                  style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', color: '#52525B', background: 'none', border: 'none', cursor: 'pointer', padding: 2 }}>
+                  style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', color:'var(--text-disabled)', background: 'none', border: 'none', cursor: 'pointer', padding: 2 }}>
                   {showPass ? <EyeOff style={{ width: 15, height: 15 }} /> : <Eye style={{ width: 15, height: 15 }} />}
                 </button>
               </div>
@@ -257,10 +257,10 @@ export default function Login() {
             </button>
           </form>
 
-          <p style={{ marginTop: 24, textAlign: 'center', fontSize: 11, color: '#3F3F46' }}>
+          <p style={{ marginTop: 24, textAlign: 'center', fontSize: 11, color:'var(--text-disabled)' }}>
             Desenvolvido por{' '}
             <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer"
-              style={{ color: '#52525B', textDecoration: 'none' }}>@luuiz.dev</a>
+              style={{ color:'var(--text-disabled)', textDecoration: 'none' }}>@luuiz.dev</a>
           </p>
         </div>
       </div>

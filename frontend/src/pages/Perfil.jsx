@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { meuPerfil, updateProfile } from '../api'
 import { useAuth } from '../contexts/AuthContext'
@@ -12,7 +12,7 @@ function Field({ label, icon: Icon, children }) {
   return (
     <div>
       <label className="label" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-        <Icon style={{ width: 13, height: 13, color: '#52525B' }} />
+        <Icon style={{ width: 13, height: 13, color:'var(--text-disabled)' }} />
         {label}
       </label>
       {children}
@@ -88,16 +88,16 @@ export default function Perfil() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className="animate-fade-in">
       {/* Header */}
       <div>
-        <h1 style={{ fontSize: 18, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em', marginBottom: 2 }}>
+        <h1 style={{ fontSize: 18, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 2 }}>
           Meu Perfil
         </h1>
-        <p style={{ fontSize: 13, color: '#71717A' }}>Informações exibidas para seus alunos</p>
+        <p style={{ fontSize: 13, color:'var(--text-muted)' }}>Informações exibidas para seus alunos</p>
       </div>
 
       <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         {/* Avatar + basic info */}
         <div className="card">
-          <h2 style={{ fontSize: 13, fontWeight: 600, color: '#A1A1AA', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 16 }}>
+          <h2 style={{ fontSize: 13, fontWeight: 600, color:'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 16 }}>
             Informações pessoais
           </h2>
 
@@ -108,15 +108,15 @@ export default function Perfil() {
                 <img
                   src={form.foto_url}
                   alt="Foto de perfil"
-                  style={{ width: 60, height: 60, borderRadius: '50%', objectFit: 'cover', border: '2px solid #27272A' }}
+                  style={{ width: 60, height: 60, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border)' }}
                   onError={e => { e.currentTarget.style.display = 'none' }}
                 />
               ) : (
                 <div style={{
                   width: 60, height: 60, borderRadius: '50%',
-                  background: '#1C1C1E', border: '2px solid #27272A',
+                  background:'var(--bg-elevated)', border: '2px solid var(--border)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 20, fontWeight: 600, color: '#A1A1AA',
+                  fontSize: 20, fontWeight: 600, color:'var(--text-secondary)',
                 }}>
                   {initials}
                 </div>
@@ -124,15 +124,15 @@ export default function Perfil() {
               <div style={{
                 position: 'absolute', bottom: 0, right: 0,
                 width: 20, height: 20, borderRadius: '50%',
-                background: '#1C1C1E', border: '1px solid #27272A',
+                background:'var(--bg-elevated)', border: '1px solid var(--border)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
-                <Camera style={{ width: 10, height: 10, color: '#71717A' }} />
+                <Camera style={{ width: 10, height: 10, color:'var(--text-muted)' }} />
               </div>
             </div>
             <div>
-              <p style={{ fontSize: 14, fontWeight: 500, color: '#F4F4F5', marginBottom: 2 }}>{form.nome || user?.nome}</p>
-              <p style={{ fontSize: 12, color: '#52525B' }}>Personal Trainer</p>
+              <p style={{ fontSize: 14, fontWeight: 500, color:'var(--text-primary)', marginBottom: 2 }}>{form.nome || user?.nome}</p>
+              <p style={{ fontSize: 12, color:'var(--text-disabled)' }}>Personal Trainer</p>
             </div>
           </div>
 
@@ -154,7 +154,7 @@ export default function Perfil() {
                 disabled
                 style={{ opacity: 0.5, cursor: 'not-allowed' }}
               />
-              <p style={{ fontSize: 11, color: '#52525B', marginTop: 4 }}>
+              <p style={{ fontSize: 11, color:'var(--text-disabled)', marginTop: 4 }}>
                 E-mail não pode ser alterado por aqui
               </p>
             </Field>
@@ -173,7 +173,7 @@ export default function Perfil() {
 
         {/* Professional info */}
         <div className="card">
-          <h2 style={{ fontSize: 13, fontWeight: 600, color: '#A1A1AA', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 16 }}>
+          <h2 style={{ fontSize: 13, fontWeight: 600, color:'var(--text-secondary)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 16 }}>
             Informações profissionais
           </h2>
 
@@ -194,7 +194,7 @@ export default function Perfil() {
                 onChange={set('especialidades')}
                 placeholder="Ex: Musculação, Funcional, Emagrecimento"
               />
-              <p style={{ fontSize: 11, color: '#52525B', marginTop: 4 }}>
+              <p style={{ fontSize: 11, color:'var(--text-disabled)', marginTop: 4 }}>
                 Separe por vírgula
               </p>
             </Field>

@@ -164,8 +164,8 @@ function MobileBottomNav({ user, onLogout }) {
                   {active && (
                     <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: 20, height: 2, borderRadius: 1, background: '#6366f1' }} />
                   )}
-                  <Icon style={{ width: 20, height: 20, color: active ? '#818cf8' : '#52525B' }} />
-                  <span style={{ fontSize: 10, fontWeight: active ? 600 : 400, color: active ? '#818cf8' : '#52525B', fontFamily: 'Inter, sans-serif' }}>
+                  <Icon style={{ width: 20, height: 20, color: active ? '#818cf8' : 'var(--text-disabled)' }} />
+                  <span style={{ fontSize: 10, fontWeight: active ? 600 : 400, color: active ? '#818cf8' : 'var(--text-disabled)', fontFamily: 'Inter, sans-serif' }}>
                     {label}
                   </span>
                 </div>
@@ -175,8 +175,8 @@ function MobileBottomNav({ user, onLogout }) {
 
           <button onClick={() => setShowMore(true)} style={{ flex: 1, background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '8px 0 6px', gap: 3 }}>
-              <MoreHorizontal style={{ width: 20, height: 20, color: isSecondaryActive ? '#818cf8' : '#52525B' }} />
-              <span style={{ fontSize: 10, fontWeight: isSecondaryActive ? 600 : 400, color: isSecondaryActive ? '#818cf8' : '#52525B', fontFamily: 'Inter, sans-serif' }}>
+              <MoreHorizontal style={{ width: 20, height: 20, color: isSecondaryActive ? '#818cf8' : 'var(--text-disabled)' }} />
+              <span style={{ fontSize: 10, fontWeight: isSecondaryActive ? 600 : 400, color: isSecondaryActive ? '#818cf8' : 'var(--text-disabled)', fontFamily: 'Inter, sans-serif' }}>
                 Mais
               </span>
             </div>
@@ -195,11 +195,11 @@ function MobileBottomNav({ user, onLogout }) {
             paddingBottom: 'calc(env(safe-area-inset-bottom) + 16px)',
             animation: 'sheetUp 0.25s cubic-bezier(0.16,1,0.3,1)',
           }}>
-            <div style={{ width: 32, height: 3, borderRadius: 2, background: '#27272A', margin: '6px auto 18px' }} />
+            <div style={{ width: 32, height: 3, borderRadius: 2, background: 'var(--border)', margin: '6px auto 18px' }} />
 
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 600, color: '#A1A1AA' }}>Ferramentas</span>
-              <button onClick={() => setShowMore(false)} style={{ width: 28, height: 28, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1C1C1E', border: '1px solid #27272A', cursor: 'pointer', color: '#71717A' }}>
+              <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: 600, color:'var(--text-secondary)' }}>Ferramentas</span>
+              <button onClick={() => setShowMore(false)} style={{ width: 28, height: 28, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', background:'var(--bg-elevated)', border: '1px solid var(--border)', cursor: 'pointer', color:'var(--text-muted)' }}>
                 <X style={{ width: 13, height: 13 }} />
               </button>
             </div>
@@ -212,31 +212,31 @@ function MobileBottomNav({ user, onLogout }) {
                     style={{
                       display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px',
                       borderRadius: 8, cursor: 'pointer', border: '1px solid',
-                      borderColor: active ? '#27272A' : '#1C1C1E',
-                      background: active ? '#1C1C1E' : '#161618',
+                      borderColor: active ? 'var(--border)' : 'var(--border-subtle)',
+                      background: active ? 'var(--bg-elevated)' : 'var(--bg-sidebar)',
                       textAlign: 'left',
                     }}>
-                    <Icon style={{ width: 16, height: 16, color: active ? '#818cf8' : '#71717A', flexShrink: 0 }} />
-                    <span style={{ fontSize: 13, fontWeight: 500, color: active ? '#F4F4F5' : '#A1A1AA', fontFamily: 'Inter, sans-serif' }}>{label}</span>
+                    <Icon style={{ width: 16, height: 16, color: active ? '#818cf8' : 'var(--text-muted)', flexShrink: 0 }} />
+                    <span style={{ fontSize: 13, fontWeight: 500, color: active ? 'var(--text-primary)' : 'var(--text-secondary)', fontFamily: 'Inter, sans-serif' }}>{label}</span>
                   </button>
                 )
               })}
             </div>
 
-            <div style={{ borderTop: '1px solid #1C1C1E', paddingTop: 12, display: 'flex', gap: 8 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, padding: '10px 14px', borderRadius: 8, background: '#161618', border: '1px solid #1C1C1E' }}>
-                <div style={{ width: 28, height: 28, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: '#A1A1AA', fontFamily: 'Inter, sans-serif' }}>
+            <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 12, display: 'flex', gap: 8 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, padding: '10px 14px', borderRadius: 8, background: 'var(--bg-sidebar)', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ width: 28, height: 28, borderRadius: '50%', background:'var(--bg-elevated)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color:'var(--text-secondary)', fontFamily: 'Inter, sans-serif' }}>
                   {(user?.nome || '??').split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()}
                 </div>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 500, color: '#A1A1AA', fontFamily: 'Inter, sans-serif' }}>{user?.nome?.split(' ')[0]}</div>
-                  <div style={{ fontSize: 11, color: '#52525B', fontFamily: 'Inter, sans-serif' }}>{user?.email}</div>
+                  <div style={{ fontSize: 13, fontWeight: 500, color:'var(--text-secondary)', fontFamily: 'Inter, sans-serif' }}>{user?.nome?.split(' ')[0]}</div>
+                  <div style={{ fontSize: 11, color:'var(--text-disabled)', fontFamily: 'Inter, sans-serif' }}>{user?.email}</div>
                 </div>
               </div>
               <button onClick={() => { onLogout(); setShowMore(false) }}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 16px', borderRadius: 8, cursor: 'pointer', border: '1px solid #1C1C1E', background: '#161618', color: '#71717A', transition: 'all 0.1s' }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 16px', borderRadius: 8, cursor: 'pointer', border: '1px solid var(--border-subtle)', background: 'var(--bg-sidebar)', color:'var(--text-muted)', transition: 'all 0.1s' }}
                 onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(248,113,113,0.2)'; e.currentTarget.style.color = '#f87171' }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = '#1C1C1E'; e.currentTarget.style.color = '#71717A' }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-subtle)'; e.currentTarget.style.color='var(--text-muted)' }}
               >
                 <LogOut style={{ width: 15, height: 15 }} />
               </button>
@@ -262,9 +262,9 @@ function NotifBell() {
     <button
       onClick={() => navigate('/inativos')}
       aria-label={`${count} aluno${count !== 1 ? 's' : ''} inativo${count !== 1 ? 's' : ''}`}
-      style={{ position: 'relative', background: 'transparent', border: '1px solid #27272A', borderRadius: 6, cursor: 'pointer', padding: '5px 10px', color: '#71717A', display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 500, fontFamily: 'Inter, sans-serif', transition: 'all 0.1s' }}
-      onMouseEnter={e => { e.currentTarget.style.borderColor = '#3F3F46'; e.currentTarget.style.color = '#A1A1AA' }}
-      onMouseLeave={e => { e.currentTarget.style.borderColor = '#27272A'; e.currentTarget.style.color = '#71717A' }}
+      style={{ position: 'relative', background: 'transparent', border: '1px solid var(--border)', borderRadius: 6, cursor: 'pointer', padding: '5px 10px', color:'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 500, fontFamily: 'Inter, sans-serif', transition: 'all 0.1s' }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color='var(--text-secondary)' }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border)'; e.currentTarget.style.color='var(--text-muted)' }}
     >
       <Bell style={{ width: 13, height: 13 }} aria-hidden="true" />
       <span style={{ background: '#f97316', color: 'white', borderRadius: 4, fontSize: 10, fontWeight: 600, padding: '0 5px', lineHeight: 1.6 }}>{count}</span>

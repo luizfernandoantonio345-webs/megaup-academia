@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+﻿import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Zap, Users, Calendar, MessageCircle, BarChart2, Trophy, Shield, ArrowRight, Check, Dumbbell, DollarSign } from 'lucide-react'
 import api from '../api/client'
@@ -20,7 +20,7 @@ const STEPS = [
 
 const PLANOS_PREVIEW = [
   {
-    tier: 'Free', preco: 0, alunos: 3, color: '#71717A',
+    tier: 'Free', preco: 0, alunos: 3, color:'var(--text-muted)',
     items: ['3 alunos', 'Treinos ilimitados', 'App mobile'],
   },
   {
@@ -43,7 +43,7 @@ export default function Landing() {
   }, [])
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0C0C0D', color: '#F4F4F5', fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
+    <div style={{ minHeight: '100vh', background:'var(--bg-page)', color:'var(--text-primary)', fontFamily: 'Inter, sans-serif', overflowX: 'hidden' }}>
       <style>{`
         @keyframes slide-up { from { opacity:0; transform:translateY(24px) } to { opacity:1; transform:translateY(0) } }
         .animate-hero { animation: slide-up 0.55s ease both; }
@@ -52,13 +52,13 @@ export default function Landing() {
         .gradient-text { background: linear-gradient(135deg,#a5b4fc 0%,#c084fc 60%,#f9a8d4 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
         .btn-cta { background:#6366f1; border:none; border-radius:12px; color:white; cursor:pointer; font-weight:600; font-size:15px; padding:12px 28px; display:inline-flex; align-items:center; gap:8px; transition:background 0.15s, transform 0.15s; font-family:Inter,sans-serif; }
         .btn-cta:hover { background:#5154d3; transform:translateY(-1px); }
-        .btn-ghost { background:transparent; border:1px solid #27272A; border-radius:12px; color:#A1A1AA; cursor:pointer; font-weight:600; font-size:15px; padding:12px 24px; transition:border-color 0.15s, color 0.15s; font-family:Inter,sans-serif; }
-        .btn-ghost:hover { border-color:#3F3F46; color:#F4F4F5; }
-        .feature-card { background:#111113; border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:22px; transition:border-color 0.2s, transform 0.2s; }
+        .btn-ghost { background:transparent; border:1px solid var(--border); border-radius:12px; color:var(--text-secondary); cursor:pointer; font-weight:600; font-size:15px; padding:12px 24px; transition:border-color 0.15s, color 0.15s; font-family:Inter,sans-serif; }
+        .btn-ghost:hover { border-color:var(--border); color:var(--text-primary); }
+        .feature-card { background:var(--bg-card); border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:22px; transition:border-color 0.2s, transform 0.2s; }
         .feature-card:hover { border-color:rgba(99,102,241,0.2); transform:translateY(-3px); }
-        .plan-card { background:#111113; border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:0; }
-        .nav-link { color:#71717A; font-size:14px; font-weight:500; text-decoration:none; transition:color 0.15s; }
-        .nav-link:hover { color:#A1A1AA; }
+        .plan-card { background:var(--bg-card); border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:0; }
+        .nav-link { color:var(--text-muted); font-size:14px; font-weight:500; text-decoration:none; transition:color 0.15s; }
+        .nav-link:hover { color:var(--text-secondary); }
       `}</style>
 
       {/* NAV */}
@@ -97,7 +97,7 @@ export default function Landing() {
             Gerencie seus alunos<br />com <span className="gradient-text">profissionalismo</span>
           </h1>
 
-          <p className="animate-hero-3" style={{ fontSize: 'clamp(16px,2vw,19px)', color: '#71717A', lineHeight: 1.65, maxWidth: 520, margin: '0 auto 40px' }}>
+          <p className="animate-hero-3" style={{ fontSize: 'clamp(16px,2vw,19px)', color:'var(--text-muted)', lineHeight: 1.65, maxWidth: 520, margin: '0 auto 40px' }}>
             Prescreva treinos, acompanhe evolução de carga, gerencie pagamentos e comunique-se com seus alunos — tudo em um único app.
           </p>
 
@@ -112,18 +112,18 @@ export default function Landing() {
             </Link>
           </div>
 
-          <p style={{ fontSize: 12, color: '#3F3F46', marginTop: 18 }}>Sem cartão de crédito · Cancele quando quiser</p>
+          <p style={{ fontSize: 12, color:'var(--text-disabled)', marginTop: 18 }}>Sem cartão de crédito · Cancele quando quiser</p>
         </div>
 
         {/* Product preview */}
         <div style={{ maxWidth: 820, margin: '64px auto 0', background: '#0E0E10', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, overflow: 'hidden', boxShadow: '0 32px 80px rgba(0,0,0,0.5)' }}>
           {/* Window chrome */}
-          <div style={{ padding: '12px 16px', background: '#111113', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', gap: 6 }}>
+          <div style={{ padding: '12px 16px', background:'var(--bg-card)', borderBottom: '1px solid rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', gap: 6 }}>
             {['#ef4444', '#fbbf24', '#34d399'].map(c => (
               <div key={c} style={{ width: 10, height: 10, borderRadius: '50%', background: c, opacity: 0.6 }} />
             ))}
-            <div style={{ flex: 1, margin: '0 12px', height: 20, background: '#1C1C1E', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span style={{ fontSize: 10, color: '#52525B' }}>gymp.ro/dashboard</span>
+            <div style={{ flex: 1, margin: '0 12px', height: 20, background:'var(--bg-elevated)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span style={{ fontSize: 10, color:'var(--text-disabled)' }}>gymp.ro/dashboard</span>
             </div>
           </div>
           {/* Dashboard mockup */}
@@ -134,26 +134,26 @@ export default function Landing() {
               { label: 'Receita do mês', value: 'R$2.8k', color: '#fbbf24' },
               { label: 'Taxa de retenção', value: '94%', color: '#f9a8d4' },
             ].map(m => (
-              <div key={m.label} style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '14px 16px' }}>
-                <div style={{ fontSize: 10, color: '#52525B', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>{m.label}</div>
+              <div key={m.label} style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '14px 16px' }}>
+                <div style={{ fontSize: 10, color:'var(--text-disabled)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>{m.label}</div>
                 <div style={{ fontSize: 22, fontWeight: 600, color: m.color, fontVariantNumeric: 'tabular-nums' }}>{m.value}</div>
               </div>
             ))}
           </div>
           <div style={{ padding: '0 24px 24px', display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 12 }}>
-            <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: 16, height: 80, display: 'flex', alignItems: 'flex-end', gap: 4 }}>
+            <div style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: 16, height: 80, display: 'flex', alignItems: 'flex-end', gap: 4 }}>
               {[40, 65, 55, 80, 72, 90, 85].map((h, i) => (
-                <div key={i} style={{ flex: 1, borderRadius: '3px 3px 0 0', background: i === 6 ? '#6366f1' : '#1C1C1E', height: `${h}%`, transition: 'height 0.3s' }} />
+                <div key={i} style={{ flex: 1, borderRadius: '3px 3px 0 0', background: i === 6 ? '#6366f1' : 'var(--bg-elevated)', height: `${h}%`, transition: 'height 0.3s' }} />
               ))}
             </div>
-            <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: 16, display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: 16, display: 'flex', flexDirection: 'column', gap: 8 }}>
               {[
                 { nome: 'João S.', streak: '🔥 12d', color: '#f97316' },
                 { nome: 'Ana C.', streak: '🔥 8d', color: '#f97316' },
                 { nome: 'Pedro M.', streak: '✅ 5d', color: '#34d399' },
               ].map(a => (
                 <div key={a.nome} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: 11, color: '#71717A' }}>{a.nome}</span>
+                  <span style={{ fontSize: 11, color:'var(--text-muted)' }}>{a.nome}</span>
                   <span style={{ fontSize: 11, color: a.color, fontWeight: 600 }}>{a.streak}</span>
                 </div>
               ))}
@@ -169,7 +169,7 @@ export default function Landing() {
             <h2 style={{ fontSize: 'clamp(26px,4vw,40px)', fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 12 }}>
               Tudo que você precisa,<br />num só lugar
             </h2>
-            <p style={{ fontSize: 15, color: '#71717A', maxWidth: 480, margin: '0 auto' }}>
+            <p style={{ fontSize: 15, color:'var(--text-muted)', maxWidth: 480, margin: '0 auto' }}>
               Do primeiro treino ao relatório mensal — o GymPro cobre cada etapa da sua operação.
             </p>
           </div>
@@ -179,8 +179,8 @@ export default function Landing() {
                 <div style={{ width: 42, height: 42, borderRadius: 12, background: f.bg, border: `1px solid ${f.color}28`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
                   <f.icon style={{ width: 19, height: 19, color: f.color }} />
                 </div>
-                <h3 style={{ fontSize: 15, fontWeight: 600, color: '#F4F4F5', marginBottom: 7 }}>{f.title}</h3>
-                <p style={{ fontSize: 13, color: '#71717A', lineHeight: 1.65, margin: 0 }}>{f.desc}</p>
+                <h3 style={{ fontSize: 15, fontWeight: 600, color:'var(--text-primary)', marginBottom: 7 }}>{f.title}</h3>
+                <p style={{ fontSize: 13, color:'var(--text-muted)', lineHeight: 1.65, margin: 0 }}>{f.desc}</p>
               </div>
             ))}
           </div>
@@ -192,7 +192,7 @@ export default function Landing() {
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: 52 }}>
             <h2 style={{ fontSize: 'clamp(26px,4vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 10 }}>Como funciona</h2>
-            <p style={{ fontSize: 15, color: '#71717A' }}>Comece a usar em minutos, não em dias</p>
+            <p style={{ fontSize: 15, color:'var(--text-muted)' }}>Comece a usar em minutos, não em dias</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))', gap: 40 }}>
             {STEPS.map(s => (
@@ -200,8 +200,8 @@ export default function Landing() {
                 <div style={{ width: 48, height: 48, borderRadius: '50%', background: `${s.color}14`, border: `1px solid ${s.color}40`, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 18 }}>
                   <span style={{ fontSize: 15, fontWeight: 600, color: s.color }}>{s.n}</span>
                 </div>
-                <h3 style={{ fontSize: 17, fontWeight: 600, color: '#F4F4F5', marginBottom: 10 }}>{s.title}</h3>
-                <p style={{ fontSize: 14, color: '#71717A', lineHeight: 1.65 }}>{s.desc}</p>
+                <h3 style={{ fontSize: 17, fontWeight: 600, color:'var(--text-primary)', marginBottom: 10 }}>{s.title}</h3>
+                <p style={{ fontSize: 14, color:'var(--text-muted)', lineHeight: 1.65 }}>{s.desc}</p>
               </div>
             ))}
           </div>
@@ -215,13 +215,13 @@ export default function Landing() {
             <h2 style={{ fontSize: 'clamp(26px,4vw,38px)', fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 12 }}>
               Preço justo para cada fase
             </h2>
-            <p style={{ fontSize: 15, color: '#71717A' }}>Comece grátis e escale conforme sua carteira de alunos cresce</p>
+            <p style={{ fontSize: 15, color:'var(--text-muted)' }}>Comece grátis e escale conforme sua carteira de alunos cresce</p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(210px,1fr))', gap: 16, alignItems: 'start' }}>
             {PLANOS_PREVIEW.map(p => (
               <div key={p.tier} className="plan-card" style={{
                 border: p.destaque ? `1px solid ${p.color}45` : '1px solid rgba(255,255,255,0.06)',
-                background: p.destaque ? `linear-gradient(135deg, #111113 0%, ${p.color}08 100%)` : '#111113',
+                background: p.destaque ? `linear-gradient(135deg, var(--bg-card) 0%, ${p.color}08 100%)` : 'var(--bg-card)',
                 transform: p.destaque ? 'scale(1.03)' : undefined,
               }}>
                 {p.destaque && (
@@ -231,14 +231,14 @@ export default function Landing() {
                 )}
                 <div style={{ fontSize: 16, fontWeight: 600, color: p.color, marginBottom: 14 }}>{p.tier}</div>
                 <div style={{ marginBottom: 20 }}>
-                  <span style={{ fontSize: p.preco === 0 ? 26 : 34, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums' }}>
+                  <span style={{ fontSize: p.preco === 0 ? 26 : 34, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.03em', fontVariantNumeric: 'tabular-nums' }}>
                     {p.preco === 0 ? 'Grátis' : `R$${p.preco}`}
                   </span>
-                  {p.preco > 0 && <span style={{ fontSize: 13, color: '#71717A', marginLeft: 4 }}>/mês</span>}
+                  {p.preco > 0 && <span style={{ fontSize: 13, color:'var(--text-muted)', marginLeft: 4 }}>/mês</span>}
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 9, marginBottom: 22 }}>
                   {p.items.map(item => (
-                    <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color: '#A1A1AA' }}>
+                    <div key={item} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13, color:'var(--text-secondary)' }}>
                       <Check style={{ width: 13, height: 13, color: '#34d399', flexShrink: 0 }} />
                       {item}
                     </div>
@@ -248,8 +248,8 @@ export default function Landing() {
                   <button style={{
                     width: '100%', padding: '10px 0', borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer',
                     background: p.destaque ? '#6366f1' : 'transparent',
-                    border: p.destaque ? 'none' : '1px solid #27272A',
-                    color: p.destaque ? 'white' : '#A1A1AA',
+                    border: p.destaque ? 'none' : '1px solid var(--border)',
+                    color: p.destaque ? 'white' : 'var(--text-secondary)',
                     fontFamily: 'Inter, sans-serif',
                     transition: 'background 0.15s, border-color 0.15s',
                   }}>
@@ -269,7 +269,7 @@ export default function Landing() {
           <h2 style={{ fontSize: 'clamp(28px,5vw,48px)', fontWeight: 600, letterSpacing: '-0.04em', lineHeight: 1.1, marginBottom: 18 }}>
             Pronto para crescer<br />sua carteira de alunos?
           </h2>
-          <p style={{ fontSize: 16, color: '#71717A', marginBottom: 36, lineHeight: 1.6 }}>
+          <p style={{ fontSize: 16, color:'var(--text-muted)', marginBottom: 36, lineHeight: 1.6 }}>
             14 dias grátis, sem cartão de crédito. Configure em menos de 5 minutos e comece a usar hoje.
           </p>
           <Link to="/registrar">
@@ -279,7 +279,7 @@ export default function Landing() {
           </Link>
           <div style={{ display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap', marginTop: 24 }}>
             {['14 dias de trial', 'Sem cartão de crédito', 'Cancele quando quiser'].map(t => (
-              <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#52525B' }}>
+              <div key={t} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color:'var(--text-disabled)' }}>
                 <Check style={{ width: 12, height: 12, color: '#34d399' }} /> {t}
               </div>
             ))}
@@ -296,14 +296,14 @@ export default function Landing() {
             </div>
             <span style={{ fontWeight: 600, fontSize: 14, letterSpacing: '-0.02em' }}>GymPro</span>
           </div>
-          <p style={{ fontSize: 12, color: '#3F3F46', margin: 0 }}>
+          <p style={{ fontSize: 12, color:'var(--text-disabled)', margin: 0 }}>
             © {new Date().getFullYear()} GymPro · Desenvolvido por{' '}
-            <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer" style={{ color: '#52525B', textDecoration: 'none' }}>@luuiz.dev</a>
+            <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer" style={{ color:'var(--text-disabled)', textDecoration: 'none' }}>@luuiz.dev</a>
           </p>
           <div style={{ display: 'flex', gap: 20 }}>
             <a href="#recursos" className="nav-link" style={{ fontSize: 13 }}>Recursos</a>
             <a href="#preco" className="nav-link" style={{ fontSize: 13 }}>Preços</a>
-            <Link to="/login" className="nav-link" style={{ fontSize: 13, textDecoration: 'none', color: '#71717A' }}>Entrar</Link>
+            <Link to="/login" className="nav-link" style={{ fontSize: 13, textDecoration: 'none', color:'var(--text-muted)' }}>Entrar</Link>
           </div>
         </div>
       </footer>

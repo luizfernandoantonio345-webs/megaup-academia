@@ -31,8 +31,8 @@ export default function Inativos() {
           <Bell style={{ width: 22, height: 22, color: '#f97316' }} />
         </div>
         <div>
-          <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em' }}>Alunos Inativos</h1>
-          <p style={{ fontSize: 13, color: '#71717A' }}>Identifique e reconecte quem sumiu</p>
+          <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em' }}>Alunos Inativos</h1>
+          <p style={{ fontSize: 13, color:'var(--text-muted)' }}>Identifique e reconecte quem sumiu</p>
         </div>
       </div>
 
@@ -42,7 +42,7 @@ export default function Inativos() {
           <button
             key={d}
             onClick={() => setDias(d)}
-            style={{ background: dias === d ? 'rgba(249,115,22,0.15)' : 'rgba(255,255,255,0.04)', border: `1px solid ${dias === d ? 'rgba(249,115,22,0.3)' : 'rgba(255,255,255,0.07)'}`, borderRadius: 12, color: dias === d ? '#f97316' : '#71717A', cursor: 'pointer', fontWeight: 600, fontSize: 13, padding: '8px 18px', transition: 'all 0.15s' }}
+            style={{ background: dias === d ? 'rgba(249,115,22,0.15)' : 'rgba(255,255,255,0.04)', border: `1px solid ${dias === d ? 'rgba(249,115,22,0.3)' : 'rgba(255,255,255,0.07)'}`, borderRadius: 12, color: dias === d ? '#f97316' : 'var(--text-muted)', cursor: 'pointer', fontWeight: 600, fontSize: 13, padding: '8px 18px', transition: 'all 0.15s' }}
           >
             +{d} dias
           </button>
@@ -52,13 +52,13 @@ export default function Inativos() {
       {/* Stat */}
       {!isLoading && data && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 14 }}>
-          <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '20px 22px' }}>
-            <p style={{ fontSize: 11, fontWeight: 600, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>Sem treinar há +{dias}d</p>
+          <div style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '20px 22px' }}>
+            <p style={{ fontSize: 11, fontWeight: 600, color:'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>Sem treinar há +{dias}d</p>
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 36, fontWeight: 600, color: '#f97316' }}>{data.total}</p>
           </div>
           <div style={{ background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.2)', borderRadius: 18, padding: '18px 22px', display: 'flex', alignItems: 'center', gap: 12 }}>
             <AlertTriangle style={{ width: 28, height: 28, color: '#f97316', flexShrink: 0 }} />
-            <p style={{ fontSize: 13, color: '#A1A1AA', lineHeight: 1.5 }}>
+            <p style={{ fontSize: 13, color:'var(--text-secondary)', lineHeight: 1.5 }}>
               {data.total === 0
                 ? 'Ótimo! Todos os alunos treinaram recentemente.'
                 : `${data.total} aluno${data.total !== 1 ? 's precisam' : ' precisa'} de atenção. Envie uma mensagem de incentivo!`}
@@ -71,30 +71,30 @@ export default function Inativos() {
       {isLoading ? (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 16, height: 80, animation: 'pulse 1.5s infinite' }} />
+            <div key={i} style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 16, height: 80, animation: 'pulse 1.5s infinite' }} />
           ))}
         </div>
       ) : alunos.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '48px 24px', background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20 }}>
+        <div style={{ textAlign: 'center', padding: '48px 24px', background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20 }}>
           <div style={{ fontSize: 40, marginBottom: 12 }}>🎉</div>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color: '#F4F4F5', marginBottom: 8 }}>Todos em dia!</p>
-          <p style={{ fontSize: 14, color: '#71717A' }}>Nenhum aluno inativo nos últimos {dias} dias.</p>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color:'var(--text-primary)', marginBottom: 8 }}>Todos em dia!</p>
+          <p style={{ fontSize: 14, color:'var(--text-muted)' }}>Nenhum aluno inativo nos últimos {dias} dias.</p>
         </div>
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {alunos.map(a => (
-            <div key={a.id} style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '16px 18px', display: 'flex', alignItems: 'center', gap: 14 }}>
+            <div key={a.id} style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, padding: '16px 18px', display: 'flex', alignItems: 'center', gap: 14 }}>
               {/* Avatar */}
               <div style={{ width: 42, height: 42, borderRadius: 14, background: 'rgba(249,115,22,0.12)', border: '1px solid rgba(249,115,22,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 16, fontWeight: 600, color: '#f97316', flexShrink: 0 }}>
                 {a.nome.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()}
               </div>
 
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5', marginBottom: 3 }}>{a.nome}</p>
+                <p style={{ fontSize: 14, fontWeight: 600, color:'var(--text-primary)', marginBottom: 3 }}>{a.nome}</p>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
                     <Clock style={{ width: 12, height: 12, color: '#f97316' }} />
-                    <span style={{ fontSize: 12, color: '#71717A' }}>
+                    <span style={{ fontSize: 12, color:'var(--text-muted)' }}>
                       {a.ultimo_treino ? `Último: ${a.ultimo_treino} (${a.dias_inativo}d atrás)` : 'Nunca treinou'}
                     </span>
                   </div>
@@ -111,7 +111,7 @@ export default function Inativos() {
                 </button>
                 <button
                   onClick={() => navigate(`/alunos/${a.id}`)}
-                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 11, color: '#71717A', cursor: 'pointer', padding: '7px 10px', display: 'flex', alignItems: 'center' }}
+                  style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 11, color:'var(--text-muted)', cursor: 'pointer', padding: '7px 10px', display: 'flex', alignItems: 'center' }}
                 >
                   <ChevronRight style={{ width: 14, height: 14 }} />
                 </button>

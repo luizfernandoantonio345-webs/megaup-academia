@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom'
+﻿import { Link } from 'react-router-dom'
 import { Home, Dumbbell } from 'lucide-react'
 import { GymDecorBg } from '../components/GymDecorBg'
 
 export default function NotFound() {
   return (
     <div style={{
-      minHeight: '100vh', background: '#0C0C0D', display: 'flex',
+      minHeight: '100vh', background:'var(--bg-page)', display: 'flex',
       alignItems: 'center', justifyContent: 'center', padding: 24,
       position: 'relative', overflow: 'hidden', textAlign: 'center',
     }}>
@@ -20,11 +20,11 @@ export default function NotFound() {
           <Dumbbell style={{ width: 28, height: 28, color: '#6366f1' }} />
         </div>
 
-        <p style={{ fontSize: 80, fontWeight: 600, color: '#1C1C1E', lineHeight: 1, margin: '0 0 4px' }}>404</p>
-        <h1 style={{ fontSize: 20, fontWeight: 600, color: '#F4F4F5', marginBottom: 8 }}>
+        <p style={{ fontSize: 80, fontWeight: 600, color: 'var(--bg-elevated)', lineHeight: 1, margin: '0 0 4px' }}>404</p>
+        <h1 style={{ fontSize: 20, fontWeight: 600, color:'var(--text-primary)', marginBottom: 8 }}>
           Página não encontrada
         </h1>
-        <p style={{ color: '#71717A', fontSize: 13, marginBottom: 28, lineHeight: 1.6 }}>
+        <p style={{ color:'var(--text-muted)', fontSize: 13, marginBottom: 28, lineHeight: 1.6 }}>
           Essa rota não existe ou foi movida. Voltamos para o dashboard?
         </p>
 

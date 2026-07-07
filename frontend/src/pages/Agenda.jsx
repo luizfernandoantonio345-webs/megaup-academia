@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 const STATUS_MAP = {
   agendada:   { label: 'Agendada',   color: '#818cf8', bg: 'rgba(129,140,248,0.12)' },
   confirmada: { label: 'Confirmada', color: '#34d399', bg: 'rgba(52,211,153,0.12)'  },
-  concluida:  { label: 'Concluída',  color: '#71717A', bg: 'rgba(75,87,104,0.12)'   },
+  concluida:  { label: 'Concluída',  color:'var(--text-muted)', bg: 'rgba(75,87,104,0.12)'   },
   cancelada:  { label: 'Cancelada',  color: '#f87171', bg: 'rgba(248,113,113,0.12)' },
 }
 
@@ -97,8 +97,8 @@ export default function Agenda() {
             <Calendar style={{ width: 22, height: 22, color: '#38bdf8' }} />
           </div>
           <div>
-            <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em' }}>Agenda</h1>
-            <p style={{ fontSize: 13, color: '#71717A' }}>Sessões agendadas com seus alunos</p>
+            <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em' }}>Agenda</h1>
+            <p style={{ fontSize: 13, color:'var(--text-muted)' }}>Sessões agendadas com seus alunos</p>
           </div>
         </div>
         <button
@@ -111,15 +111,15 @@ export default function Agenda() {
 
       <div className="rg-sidebar" style={{ gap: 20 }}>
         {/* Calendário */}
-        <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '22px 20px' }}>
+        <div style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '22px 20px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-            <button onClick={() => navMes(-1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#71717A', padding: 6 }}><ChevronLeft style={{ width: 18, height: 18 }} /></button>
-            <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 16, color: '#F4F4F5' }}>{MESES[mes-1]} {ano}</span>
-            <button onClick={() => navMes(1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#71717A', padding: 6 }}><ChevronRight style={{ width: 18, height: 18 }} /></button>
+            <button onClick={() => navMes(-1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color:'var(--text-muted)', padding: 6 }}><ChevronLeft style={{ width: 18, height: 18 }} /></button>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 16, color:'var(--text-primary)' }}>{MESES[mes-1]} {ano}</span>
+            <button onClick={() => navMes(1)} style={{ background: 'none', border: 'none', cursor: 'pointer', color:'var(--text-muted)', padding: 6 }}><ChevronRight style={{ width: 18, height: 18 }} /></button>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 4, marginBottom: 8 }}>
             {DIAS_SEMANA.map(d => (
-              <div key={d} style={{ textAlign: 'center', fontSize: 11, fontWeight: 600, color: '#71717A', padding: '4px 0', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{d}</div>
+              <div key={d} style={{ textAlign: 'center', fontSize: 11, fontWeight: 600, color:'var(--text-muted)', padding: '4px 0', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{d}</div>
             ))}
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 4 }}>
@@ -135,7 +135,7 @@ export default function Agenda() {
                   border: isHoje ? '1px solid rgba(99,102,241,0.4)' : temSessao ? '1px solid rgba(56,189,248,0.2)' : '1px solid transparent',
                   cursor: temSessao ? 'pointer' : 'default',
                 }}>
-                  <span style={{ fontSize: 12, fontWeight: isHoje ? 800 : 600, color: isHoje ? '#818cf8' : '#A1A1AA' }}>{dia}</span>
+                  <span style={{ fontSize: 12, fontWeight: isHoje ? 800 : 600, color: isHoje ? '#818cf8' : 'var(--text-secondary)' }}>{dia}</span>
                   {temSessao && (
                     <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#38bdf8', boxShadow: '0 0 6px #38bdf8' }} />
                   )}
@@ -146,20 +146,20 @@ export default function Agenda() {
         </div>
 
         {/* Próximas sessões */}
-        <div style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '22px 20px', display: 'flex', flexDirection: 'column', gap: 12, overflow: 'auto', maxHeight: 500 }}>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600, color: '#F4F4F5', marginBottom: 4 }}>Próximas sessões</p>
+        <div style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '22px 20px', display: 'flex', flexDirection: 'column', gap: 12, overflow: 'auto', maxHeight: 500 }}>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600, color:'var(--text-primary)', marginBottom: 4 }}>Próximas sessões</p>
           {proximas.length === 0 && (
-            <p style={{ color: '#71717A', fontSize: 13 }}>Nenhuma sessão agendada</p>
+            <p style={{ color:'var(--text-muted)', fontSize: 13 }}>Nenhuma sessão agendada</p>
           )}
           {proximas.map(s => {
             const dt = new Date(s.data_hora)
             const st = STATUS_MAP[s.status] || STATUS_MAP.agendada
             return (
-              <div key={s.id} style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 14, padding: '14px 16px' }}>
+              <div key={s.id} style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: 14, padding: '14px 16px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
                   <div>
-                    <p style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5' }}>{s.aluno_nome}</p>
-                    <p style={{ fontSize: 12, color: '#71717A', marginTop: 2 }}>
+                    <p style={{ fontSize: 14, fontWeight: 600, color:'var(--text-primary)' }}>{s.aluno_nome}</p>
+                    <p style={{ fontSize: 12, color:'var(--text-muted)', marginTop: 2 }}>
                       {dt.toLocaleDateString('pt-BR')} às {pad(dt.getHours())}:{pad(dt.getMinutes())} · {s.duracao_min}min
                     </p>
                   </div>
@@ -170,7 +170,7 @@ export default function Agenda() {
                     ? <Video style={{ width: 13, height: 13, color: '#818cf8' }} />
                     : <MapPin style={{ width: 13, height: 13, color: '#34d399' }} />
                   }
-                  <span style={{ fontSize: 12, color: '#71717A', textTransform: 'capitalize' }}>{s.tipo}</span>
+                  <span style={{ fontSize: 12, color:'var(--text-muted)', textTransform: 'capitalize' }}>{s.tipo}</span>
                 </div>
                 <div style={{ display: 'flex', gap: 6 }}>
                   {s.status === 'agendada' && (
@@ -199,37 +199,37 @@ export default function Agenda() {
           <div onClick={() => setShowModal(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(4px)', zIndex: 50 }} />
           <div className="modal-sheet">
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 22 }}>
-              <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color: '#F4F4F5' }}>Nova sessão</h2>
-              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#71717A' }}><X style={{ width: 18, height: 18 }} /></button>
+              <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color:'var(--text-primary)' }}>Nova sessão</h2>
+              <button onClick={() => setShowModal(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color:'var(--text-muted)' }}><X style={{ width: 18, height: 18 }} /></button>
             </div>
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 6 }}>Aluno *</label>
-                <select value={form.aluno_id} onChange={set('aluno_id')} required style={{ width: '100%', background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#F4F4F5', fontSize: 14, padding: '10px 14px' }}>
+                <label style={{ fontSize: 12, fontWeight: 600, color:'var(--text-muted)', display: 'block', marginBottom: 6 }}>Aluno *</label>
+                <select value={form.aluno_id} onChange={set('aluno_id')} required style={{ width: '100%', background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color:'var(--text-primary)', fontSize: 14, padding: '10px 14px' }}>
                   <option value="">Selecione</option>
                   {alunos.map(a => <option key={a.id} value={a.id}>{a.nome}</option>)}
                 </select>
               </div>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 6 }}>Data e hora *</label>
-                <input type="datetime-local" value={form.data_hora} onChange={set('data_hora')} required style={{ width: '100%', background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#F4F4F5', fontSize: 14, padding: '10px 14px', boxSizing: 'border-box' }} />
+                <label style={{ fontSize: 12, fontWeight: 600, color:'var(--text-muted)', display: 'block', marginBottom: 6 }}>Data e hora *</label>
+                <input type="datetime-local" value={form.data_hora} onChange={set('data_hora')} required style={{ width: '100%', background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color:'var(--text-primary)', fontSize: 14, padding: '10px 14px', boxSizing: 'border-box' }} />
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <div>
-                  <label style={{ fontSize: 12, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 6 }}>Duração (min)</label>
-                  <input type="number" value={form.duracao_min} onChange={set('duracao_min')} min={15} max={180} style={{ width: '100%', background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#F4F4F5', fontSize: 14, padding: '10px 14px', boxSizing: 'border-box' }} />
+                  <label style={{ fontSize: 12, fontWeight: 600, color:'var(--text-muted)', display: 'block', marginBottom: 6 }}>Duração (min)</label>
+                  <input type="number" value={form.duracao_min} onChange={set('duracao_min')} min={15} max={180} style={{ width: '100%', background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color:'var(--text-primary)', fontSize: 14, padding: '10px 14px', boxSizing: 'border-box' }} />
                 </div>
                 <div>
-                  <label style={{ fontSize: 12, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 6 }}>Tipo</label>
-                  <select value={form.tipo} onChange={set('tipo')} style={{ width: '100%', background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#F4F4F5', fontSize: 14, padding: '10px 14px' }}>
+                  <label style={{ fontSize: 12, fontWeight: 600, color:'var(--text-muted)', display: 'block', marginBottom: 6 }}>Tipo</label>
+                  <select value={form.tipo} onChange={set('tipo')} style={{ width: '100%', background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color:'var(--text-primary)', fontSize: 14, padding: '10px 14px' }}>
                     <option value="presencial">Presencial</option>
                     <option value="online">Online</option>
                   </select>
                 </div>
               </div>
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: '#71717A', display: 'block', marginBottom: 6 }}>Observações</label>
-                <textarea value={form.notas} onChange={set('notas')} rows={2} placeholder="Foco do treino, local..." style={{ width: '100%', background: '#111113', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color: '#F4F4F5', fontSize: 14, padding: '10px 14px', resize: 'vertical', boxSizing: 'border-box' }} />
+                <label style={{ fontSize: 12, fontWeight: 600, color:'var(--text-muted)', display: 'block', marginBottom: 6 }}>Observações</label>
+                <textarea value={form.notas} onChange={set('notas')} rows={2} placeholder="Foco do treino, local..." style={{ width: '100%', background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color:'var(--text-primary)', fontSize: 14, padding: '10px 14px', resize: 'vertical', boxSizing: 'border-box' }} />
               </div>
               <button type="submit" disabled={criar.isPending} style={{ background: '#6366f1', border: 'none', borderRadius: 14, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 15, padding: '13px', marginTop: 4 }}>
                 {criar.isPending ? 'Agendando…' : 'Confirmar agendamento'}

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+﻿import { Link } from 'react-router-dom'
 import { Zap, ArrowLeft } from 'lucide-react'
 
 const LAST_UPDATE = '07 de julho de 2026'
@@ -6,24 +6,24 @@ const LAST_UPDATE = '07 de julho de 2026'
 function Section({ title, children }) {
   return (
     <div style={{ marginBottom: 32 }}>
-      <h2 style={{ fontSize: 16, fontWeight: 600, color: '#F4F4F5', marginBottom: 12, letterSpacing: '-0.02em' }}>{title}</h2>
-      <div style={{ fontSize: 13, color: '#A1A1AA', lineHeight: 1.8 }}>{children}</div>
+      <h2 style={{ fontSize: 16, fontWeight: 600, color:'var(--text-primary)', marginBottom: 12, letterSpacing: '-0.02em' }}>{title}</h2>
+      <div style={{ fontSize: 13, color:'var(--text-secondary)', lineHeight: 1.8 }}>{children}</div>
     </div>
   )
 }
 
 export default function Termos() {
   return (
-    <div style={{ minHeight: '100vh', background: '#0C0C0D', color: '#F4F4F5', fontFamily: 'Inter, sans-serif' }}>
+    <div style={{ minHeight: '100vh', background:'var(--bg-page)', color:'var(--text-primary)', fontFamily: 'Inter, sans-serif' }}>
       {/* Header */}
-      <div style={{ borderBottom: '1px solid #1C1C1E', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: 12, position: 'sticky', top: 0, background: '#0C0C0D', zIndex: 10 }}>
+      <div style={{ borderBottom: '1px solid var(--border-subtle)', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: 12, position: 'sticky', top: 0, background:'var(--bg-page)', zIndex: 10 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginRight: 'auto' }}>
           <div style={{ width: 26, height: 26, borderRadius: 7, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Zap style={{ width: 13, height: 13, color: 'white' }} />
           </div>
-          <span style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5' }}>GymPro</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color:'var(--text-primary)' }}>GymPro</span>
         </div>
-        <Link to="/registrar" style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color: '#71717A', textDecoration: 'none' }}>
+        <Link to="/registrar" style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color:'var(--text-muted)', textDecoration: 'none' }}>
           <ArrowLeft style={{ width: 14, height: 14 }} /> Voltar ao cadastro
         </Link>
       </div>
@@ -31,7 +31,7 @@ export default function Termos() {
       <div style={{ maxWidth: 720, margin: '0 auto', padding: '48px 24px' }}>
         <div style={{ marginBottom: 40 }}>
           <h1 style={{ fontSize: 26, fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 8 }}>Termos de Uso</h1>
-          <p style={{ fontSize: 13, color: '#71717A' }}>Última atualização: {LAST_UPDATE}</p>
+          <p style={{ fontSize: 13, color:'var(--text-muted)' }}>Última atualização: {LAST_UPDATE}</p>
         </div>
 
         <Section title="1. Aceitação dos Termos">
@@ -103,7 +103,7 @@ export default function Termos() {
           <p>Dúvidas sobre estes Termos devem ser enviadas para: <span style={{ color: '#818cf8' }}>santossod345@gmail.com</span></p>
         </Section>
 
-        <div style={{ borderTop: '1px solid #1C1C1E', paddingTop: 24, marginTop: 8 }}>
+        <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 24, marginTop: 8 }}>
           <Link to="/privacidade" style={{ color: '#818cf8', fontSize: 13, textDecoration: 'none' }}>
             Ver Política de Privacidade (LGPD) →
           </Link>

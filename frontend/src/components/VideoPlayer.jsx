@@ -86,7 +86,7 @@ export function VideoThumb({ url, title }) {
           style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
         />
       ) : (
-        <div style={{ width: '100%', height: '100%', background: 'linear-gradient(135deg, #111113, #111113)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: '100%', height: '100%', background: 'var(--bg-card)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <svg width="28" height="28" fill="#71717A" viewBox="0 0 24 24">
             <path d="M17 10.5V7a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h12a1 1 0 001-1v-3.5l4 4v-11l-4 4z" />
           </svg>

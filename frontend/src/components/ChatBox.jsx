@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react'
+﻿import { useState, useEffect, useRef, useCallback } from 'react'
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { chatMensagens, chatEnviar } from '../api'
 import { Send, MessageCircle } from 'lucide-react'
@@ -147,8 +147,8 @@ export default function ChatBox({ alunoId, outroNome }) {
             <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <MessageCircle style={{ width: 20, height: 20, color: '#818cf8' }} />
             </div>
-            <p style={{ fontSize: 13, fontWeight: 600, color: '#71717A', margin: 0 }}>Nenhuma mensagem ainda</p>
-            <p style={{ fontSize: 12, color: '#3F3F46', margin: 0 }}>Envie a primeira mensagem para {outroNome}</p>
+            <p style={{ fontSize: 13, fontWeight: 600, color:'var(--text-muted)', margin: 0 }}>Nenhuma mensagem ainda</p>
+            <p style={{ fontSize: 12, color:'var(--text-disabled)', margin: 0 }}>Envie a primeira mensagem para {outroNome}</p>
           </div>
         )}
 
@@ -156,7 +156,7 @@ export default function ChatBox({ alunoId, outroNome }) {
           if (item.type === 'sep') return (
             <div key={item.key} style={{ display: 'flex', alignItems: 'center', gap: 10, margin: '12px 0 8px' }}>
               <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.05)' }} />
-              <span style={{ fontSize: 11, color: '#52525B', fontWeight: 600, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>{item.dia}</span>
+              <span style={{ fontSize: 11, color:'var(--text-disabled)', fontWeight: 600, letterSpacing: '0.02em', whiteSpace: 'nowrap' }}>{item.dia}</span>
               <div style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.05)' }} />
             </div>
           )
@@ -173,7 +173,7 @@ export default function ChatBox({ alunoId, outroNome }) {
                 maxWidth: '74%', minWidth: 64,
                 padding: '8px 12px 5px',
                 borderRadius: eu ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-                background: eu ? '#6366f1' : '#1C1C1E',
+                background: eu ? '#6366f1' : 'var(--bg-elevated)',
                 border: eu ? 'none' : '1px solid rgba(255,255,255,0.07)',
                 boxShadow: eu ? '0 2px 10px rgba(99,102,241,0.3)' : 'none',
               }}>
@@ -181,7 +181,7 @@ export default function ChatBox({ alunoId, outroNome }) {
                   {item.texto}
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 3, marginTop: 4 }}>
-                  <span style={{ fontSize: 10, color: eu ? 'rgba(255,255,255,0.42)' : '#52525B', lineHeight: 1 }}>
+                  <span style={{ fontSize: 10, color: eu ? 'rgba(255,255,255,0.42)' : 'var(--text-disabled)', lineHeight: 1 }}>
                     {fmtHora(item.criado_em)}
                   </span>
                   {eu && (
@@ -203,7 +203,7 @@ export default function ChatBox({ alunoId, outroNome }) {
       {/* Input */}
       <div style={{ paddingTop: 10, borderTop: '1px solid rgba(255,255,255,0.05)', flexShrink: 0 }}>
         {avisoChars && (
-          <p style={{ textAlign: 'right', fontSize: 11, color: restantes < 50 ? '#f87171' : '#71717A', marginBottom: 5, marginTop: 0 }}>
+          <p style={{ textAlign: 'right', fontSize: 11, color: restantes < 50 ? '#f87171' : 'var(--text-muted)', marginBottom: 5, marginTop: 0 }}>
             {restantes} restantes
           </p>
         )}
@@ -223,7 +223,7 @@ export default function ChatBox({ alunoId, outroNome }) {
               background: 'rgba(255,255,255,0.04)',
               border: '1px solid rgba(255,255,255,0.09)',
               borderRadius: 14, padding: '10px 14px',
-              color: '#F4F4F5', fontSize: 14,
+              color:'var(--text-primary)', fontSize: 14,
               fontFamily: 'Inter, sans-serif', lineHeight: 1.5,
               maxHeight: 120, overflowY: 'auto',
               transition: 'border-color 0.15s',
@@ -245,11 +245,11 @@ export default function ChatBox({ alunoId, outroNome }) {
           >
             {sending
               ? <span style={{ width: 13, height: 13, border: '2px solid rgba(255,255,255,0.25)', borderTopColor: 'white', borderRadius: '50%', display: 'inline-block', animation: 'cspin .7s linear infinite' }} />
-              : <Send style={{ width: 14, height: 14, color: texto.trim() ? 'white' : '#52525B', transition: 'color 0.15s' }} />
+              : <Send style={{ width: 14, height: 14, color: texto.trim() ? 'white' : 'var(--text-disabled)', transition: 'color 0.15s' }} />
             }
           </button>
         </div>
-        <p style={{ fontSize: 11, color: '#3F3F46', marginTop: 6, textAlign: 'center', margin: '5px 0 0' }}>
+        <p style={{ fontSize: 11, color:'var(--text-disabled)', marginTop: 6, textAlign: 'center', margin: '5px 0 0' }}>
           Enter para enviar · Shift+Enter para nova linha
         </p>
       </div>

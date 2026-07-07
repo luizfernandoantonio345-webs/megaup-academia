@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+﻿import { useState, useMemo } from 'react'
 import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
@@ -213,7 +213,7 @@ export default function Registrar() {
               <div
                 onClick={() => setTermosAceitos(!termosAceitos)}
                 style={{
-                  width: 18, height: 18, borderRadius: 5, border: `1.5px solid ${termosAceitos ? '#6366f1' : '#3F3F46'}`,
+                  width: 18, height: 18, borderRadius: 5, border: `1.5px solid ${termosAceitos ? '#6366f1' : 'var(--text-disabled)'}`,
                   background: termosAceitos ? '#6366f1' : 'transparent',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   flexShrink: 0, marginTop: 1, transition: 'all 0.15s', cursor: 'pointer',

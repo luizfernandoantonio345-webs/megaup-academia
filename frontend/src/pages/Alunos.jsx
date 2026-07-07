@@ -1,11 +1,12 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { listarAlunos, criarAluno } from '../api'
 import toast from 'react-hot-toast'
-import { UserPlus, Search, ArrowRight, X, Mail, User, Target, LayoutGrid, List } from 'lucide-react'
+import { UserPlus, Search, ArrowRight, X, Mail, User, Target, LayoutGrid, List, Pin, PinOff } from 'lucide-react'
 import { SkeletonCard } from '../components/ui/Skeleton'
 import { useDebounce } from '../hooks/useDebounce'
+import { useLocalStorage } from '../hooks/useLocalStorage'
 
 function Avatar({ nome, size = 'md' }) {
   const initials = nome?.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase()
@@ -88,6 +89,12 @@ export default function Alunos() {
   const [filtroObjetivo, setFiltroObjetivo] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [viewMode, setViewMode] = useState('grid')
+  const [pinnedIds, setPinnedIds] = useLocalStorage('gympro-pinned-alunos', [])
+
+  const togglePin = (e, id) => {
+    e.preventDefault(); e.stopPropagation()
+    setPinnedIds(prev => prev.includes(id) ? prev.filter(x => x !== id) : [...prev, id])
+  }
 
   const { data: alunos = [], isLoading } = useQuery({
     queryKey: ['alunos'],
@@ -101,13 +108,19 @@ export default function Alunos() {
     objetivosUsados.some(o => o.toLowerCase().includes(l.toLowerCase()))
   )
 
-  const filtered = alunos.filter((a) => {
-    const matchSearch = a.nome?.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
-                        a.email?.toLowerCase().includes(debouncedSearch.toLowerCase())
-    const matchObjetivo = !filtroObjetivo ||
-      a.objetivo?.toLowerCase().includes(filtroObjetivo.toLowerCase())
-    return matchSearch && matchObjetivo
-  })
+  const filtered = alunos
+    .filter((a) => {
+      const matchSearch = a.nome?.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+                          a.email?.toLowerCase().includes(debouncedSearch.toLowerCase())
+      const matchObjetivo = !filtroObjetivo ||
+        a.objetivo?.toLowerCase().includes(filtroObjetivo.toLowerCase())
+      return matchSearch && matchObjetivo
+    })
+    .sort((a, b) => {
+      const pa = pinnedIds.includes(a.id) ? 0 : 1
+      const pb = pinnedIds.includes(b.id) ? 0 : 1
+      return pa - pb
+    })
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -143,7 +156,7 @@ export default function Alunos() {
             return (
               <button key={obj}
                 onClick={() => setFiltroObjetivo(obj === 'Todos' ? '' : (filtroObjetivo === obj ? '' : obj))}
-                style={{ padding: '4px 12px', borderRadius: 6, fontSize: 12, fontWeight: 500, cursor: 'pointer', border: '1px solid', transition: 'all 0.1s', borderColor: active ? '#6366f1' : '#27272A', background: active ? 'rgba(99,102,241,0.12)' : 'transparent', color: active ? '#a5b4fc' : '#71717A' }}>
+                style={{ padding: '4px 12px', borderRadius: 6, fontSize: 12, fontWeight: 500, cursor: 'pointer', border: '1px solid', transition: 'all 0.1s', borderColor: active ? '#6366f1' : 'var(--border)', background: active ? 'rgba(99,102,241,0.12)' : 'transparent', color: active ? '#a5b4fc' : 'var(--text-muted)' }}>
                 {obj}
               </button>
             )
@@ -167,13 +180,20 @@ export default function Alunos() {
           {filtered.map((a, i) => (
             <Link key={a.id} to={`/alunos/${a.id}`} className="card-interactive stagger-item" style={{ textDecoration: 'none' }}
               onMouseEnter={e => { e.currentTarget.querySelector('.arrow-icon').style.color='#6366f1' }}
-              onMouseLeave={e => { e.currentTarget.querySelector('.arrow-icon').style.color='#52525B' }}>
+              onMouseLeave={e => { e.currentTarget.querySelector('.arrow-icon').style.color='var(--text-disabled)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
                 <Avatar nome={a.nome} />
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                    {pinnedIds.includes(a.id) && <Pin style={{ width: 10, height: 10, color: '#6366f1', flexShrink: 0 }} />}
+                    <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</div>
+                  </div>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{a.email}</div>
                 </div>
+                <button onClick={e => togglePin(e, a.id)} title={pinnedIds.includes(a.id) ? 'Desafixar' : 'Fixar no topo'}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: pinnedIds.includes(a.id) ? '#6366f1' : 'var(--text-disabled)', flexShrink: 0 }}>
+                  {pinnedIds.includes(a.id) ? <PinOff style={{ width: 12, height: 12 }} /> : <Pin style={{ width: 12, height: 12 }} />}
+                </button>
                 <ArrowRight className="arrow-icon" style={{ width: 14, height: 14, color: 'var(--text-disabled)', flexShrink: 0, transition: 'color 0.1s' }} />
               </div>
               {a.objetivo && <span className="badge-blue" style={{ fontSize: 11 }}>{a.objetivo}</span>}

@@ -17,7 +17,7 @@ const CONQUISTAS = [
 ]
 
 const RARIDADE = {
-  comum:    { label:'Comum',    bg:'rgba(100,116,139,0.12)', border:'rgba(100,116,139,0.25)', text:'#A1A1AA', glow:'none',                          dot:'#71717A' },
+  comum:    { label:'Comum',    bg:'rgba(100,116,139,0.12)', border:'rgba(100,116,139,0.25)', text:'var(--text-secondary)', glow:'none',                          dot:'var(--text-muted)' },
   raro:     { label:'Raro',     bg:'rgba(56,189,248,0.12)',  border:'rgba(56,189,248,0.3)',   text:'#38bdf8', glow:'none',                          dot:'#38bdf8' },
   epico:    { label:'Epico',    bg:'rgba(167,139,250,0.12)', border:'rgba(167,139,250,0.3)',  text:'#a78bfa', glow:'none',                          dot:'#a78bfa' },
   lendario: { label:'Lendario', bg:'rgba(251,191,36,0.12)',  border:'rgba(251,191,36,0.35)',  text:'#fbbf24', glow:'none',                          dot:'#fbbf24' },
@@ -37,17 +37,17 @@ function XPBar({ xpTotal }) {
 
   return (
     <div className="rounded-3xl p-5 relative overflow-hidden" style={{
-      background: '#111113',
+      background:'var(--bg-card)',
       border: '1px solid rgba(99,102,241,0.25)',
     }}>
       <div className="flex items-center justify-between mb-5 relative z-10">
         <div>
-          <p style={{ fontSize: 11, color: '#71717A', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>Nivel atual</p>
+          <p style={{ fontSize: 11, color:'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 4 }}>Nivel atual</p>
           <div className="flex items-end gap-3">
-            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 52, fontWeight: 600, color: '#F4F4F5', lineHeight: 1, letterSpacing: '-0.03em' }}>{level}</span>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 52, fontWeight: 600, color:'var(--text-primary)', lineHeight: 1, letterSpacing: '-0.03em' }}>{level}</span>
             <div style={{ marginBottom: 6 }}>
               <p style={{ fontSize: 13, color: '#6366f1', fontWeight: 600 }}>{xpTotal.toLocaleString('pt-BR')} XP</p>
-              <p style={{ fontSize: 11, color: '#71717A' }}>total acumulado</p>
+              <p style={{ fontSize: 11, color:'var(--text-muted)' }}>total acumulado</p>
             </div>
           </div>
         </div>
@@ -57,14 +57,14 @@ function XPBar({ xpTotal }) {
         </div>
       </div>
       <div className="relative z-10 space-y-2">
-        <div className="flex justify-between text-xs" style={{ color: '#71717A' }}>
+        <div className="flex justify-between text-xs" style={{ color:'var(--text-muted)' }}>
           <span>Progresso para nivel {level + 1}</span>
           <span style={{ color: '#6366f1', fontWeight: 600 }}>{pct}%</span>
         </div>
         <div className="progress-bar-track" style={{ height: 8 }}>
           <div className="progress-bar-fill" style={{ width: `${pct}%`, height: 8, background: '#6366f1' }} />
         </div>
-        <p style={{ fontSize: 11, color: '#71717A' }}>
+        <p style={{ fontSize: 11, color:'var(--text-muted)' }}>
           {xpParaProx - xpTotal > 0 ? `${(xpParaProx - xpTotal).toLocaleString('pt-BR')} XP para o proximo nivel` : 'Nivel maximo atingido!'}
         </p>
       </div>
@@ -79,7 +79,7 @@ function StatMini({ icon: Icon, value, label, accent }) {
         <Icon style={{ width: 20, height: 20, color: accent }} />
       </div>
       <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 26, fontWeight: 600, color: accent, letterSpacing: '-0.02em', lineHeight: 1 }}>{value}</div>
-      <div style={{ fontSize: 10, color: '#71717A', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{label}</div>
+      <div style={{ fontSize: 10, color:'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{label}</div>
     </div>
   )
 }
@@ -92,7 +92,7 @@ function ProgressMilestone({ label, current, targets, color }) {
   return (
     <div className="space-y-1.5">
       <div className="flex justify-between items-center" style={{ fontSize: 11 }}>
-        <span style={{ color: '#71717A', fontWeight: 600 }}>{label}</span>
+        <span style={{ color:'var(--text-muted)', fontWeight: 600 }}>{label}</span>
         <span style={{ color, fontWeight: 600 }}>
           {nextTarget ? `${current}/${nextTarget}` : `${current} ✓`}
         </span>
@@ -123,25 +123,25 @@ function ConquistaCard({ conquista: c, gami, desbloqueadas }) {
           fontSize: 26,
           position: 'relative',
         }}>
-          {desbloqueada ? c.emoji : <Lock style={{ width: 22, height: 22, color: '#52525B' }} />}
+          {desbloqueada ? c.emoji : <Lock style={{ width: 22, height: 22, color:'var(--text-disabled)' }} />}
           {desbloqueada && (
             <div style={{
               position: 'absolute', bottom: -4, right: -4, width: 14, height: 14, borderRadius: '50%',
-              background: R.dot, border: '2px solid #111113',
+              background: R.dot, border: '2px solid var(--bg-card)',
             }} />
           )}
         </div>
 
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap mb-0.5">
-            <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 14, color: desbloqueada ? '#F4F4F5' : '#71717A' }}>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 14, color: desbloqueada ? 'var(--text-primary)' : 'var(--text-muted)' }}>
               {c.titulo}
             </span>
             <span style={{ fontSize: 10, fontWeight: 600, color: R.text, background: `${R.bg}`, padding: '2px 8px', borderRadius: 999, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
               {R.label}
             </span>
           </div>
-          <p style={{ fontSize: 12, color: desbloqueada ? '#71717A' : '#52525B' }}>{c.descricao}</p>
+          <p style={{ fontSize: 12, color: desbloqueada ? 'var(--text-muted)' : 'var(--text-disabled)' }}>{c.descricao}</p>
           {desbloqueada && info?.desbloqueado_em && (
             <p style={{ fontSize: 11, color: '#10b981', fontWeight: 600, marginTop: 3 }}>
               Desbloqueado {new Date(info.desbloqueado_em).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })}
@@ -152,13 +152,13 @@ function ConquistaCard({ conquista: c, gami, desbloqueadas }) {
         <div style={{ flexShrink: 0, textAlign: 'center' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '5px 10px', borderRadius: 999, fontSize: 12, fontWeight: 600,
             background: desbloqueada ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)',
-            color: desbloqueada ? '#a5b4fc' : '#52525B',
+            color: desbloqueada ? '#a5b4fc' : 'var(--text-disabled)',
             fontFamily: 'Inter, sans-serif',
           }}>
             <Star style={{ width: 11, height: 11 }} />
             {c.xp}
           </div>
-          <div style={{ fontSize: 10, color: '#52525B', marginTop: 2 }}>XP</div>
+          <div style={{ fontSize: 10, color:'var(--text-disabled)', marginTop: 2 }}>XP</div>
         </div>
       </div>
     </div>
@@ -180,7 +180,7 @@ export default function Conquistas() {
         style={{ background: 'rgba(234,179,8,0.12)' }}>
         <Star style={{ width: 24, height: 24, color: '#fbbf24' }} />
       </div>
-      <p style={{ fontSize: 13, color: '#71717A' }}>Carregando conquistas...</p>
+      <p style={{ fontSize: 13, color:'var(--text-muted)' }}>Carregando conquistas...</p>
     </div>
   )
 
@@ -195,8 +195,8 @@ export default function Conquistas() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div>
-        <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 24, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em' }}>Conquistas</h1>
-        <p style={{ fontSize: 13, color: '#71717A', marginTop: 2 }}>
+        <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 24, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em' }}>Conquistas</h1>
+        <p style={{ fontSize: 13, color:'var(--text-muted)', marginTop: 2 }}>
           {desbloqueadas.size} de {CONQUISTAS.length} desbloqueadas
         </p>
       </div>
@@ -212,7 +212,7 @@ export default function Conquistas() {
 
       {/* Progress milestones */}
       <div className="card space-y-4">
-        <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 14, marginBottom: 4 }}>Progresso para proximas conquistas</h3>
+        <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color:'var(--text-primary)', fontSize: 14, marginBottom: 4 }}>Progresso para proximas conquistas</h3>
         <ProgressMilestone
           label="Treinos totais"
           current={total}

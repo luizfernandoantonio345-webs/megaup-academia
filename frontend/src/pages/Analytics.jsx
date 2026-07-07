@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useQuery, keepPreviousData } from '@tanstack/react-query'
 import { analyticsResumo } from '../api'
 import { useAuth } from '../contexts/AuthContext'
@@ -25,8 +25,8 @@ const OBJETIVO_COLORS = {
 const ChartTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
-    <div style={{ background: '#1C1C1E', border: '1px solid #27272A', borderRadius: 8, padding: '8px 12px', boxShadow: '0 4px 12px rgba(0,0,0,0.4)' }}>
-      {label && <p style={{ color: '#71717A', fontSize: 11, fontWeight: 500, marginBottom: 3 }}>{label}</p>}
+    <div style={{ background:'var(--bg-elevated)', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 12px', boxShadow: '0 4px 12px rgba(0,0,0,0.4)' }}>
+      {label && <p style={{ color:'var(--text-muted)', fontSize: 11, fontWeight: 500, marginBottom: 3 }}>{label}</p>}
       {payload.map(p => (
         <p key={p.dataKey} style={{ color: p.color || '#a5b4fc', fontWeight: 600, fontSize: 14, margin: 0 }}>{p.value}</p>
       ))}
@@ -36,19 +36,19 @@ const ChartTooltip = ({ active, payload, label }) => {
 
 function StatCard({ icon: Icon, label, value, sub }) {
   return (
-    <div style={{ background: '#111113', border: '1px solid #27272A', borderRadius: 12, padding: '18px 20px' }}>
-      <Icon style={{ width: 15, height: 15, color: '#52525B', marginBottom: 14, display: 'block' }} />
-      <p style={{ fontSize: 26, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 5 }}>{value}</p>
-      <p style={{ fontSize: 12, color: '#A1A1AA', marginBottom: sub ? 3 : 0 }}>{label}</p>
-      {sub && <p style={{ fontSize: 11, color: '#71717A' }}>{sub}</p>}
+    <div style={{ background:'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12, padding: '18px 20px' }}>
+      <Icon style={{ width: 15, height: 15, color:'var(--text-disabled)', marginBottom: 14, display: 'block' }} />
+      <p style={{ fontSize: 26, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 5 }}>{value}</p>
+      <p style={{ fontSize: 12, color:'var(--text-secondary)', marginBottom: sub ? 3 : 0 }}>{label}</p>
+      {sub && <p style={{ fontSize: 11, color:'var(--text-muted)' }}>{sub}</p>}
     </div>
   )
 }
 
 function Panel({ title, children }) {
   return (
-    <div style={{ background: '#111113', border: '1px solid #27272A', borderRadius: 12, padding: '18px 20px' }}>
-      <p style={{ fontSize: 13, fontWeight: 600, color: '#F4F4F5', marginBottom: 16 }}>{title}</p>
+    <div style={{ background:'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12, padding: '18px 20px' }}>
+      <p style={{ fontSize: 13, fontWeight: 600, color:'var(--text-primary)', marginBottom: 16 }}>{title}</p>
       {children}
     </div>
   )
@@ -74,15 +74,15 @@ export default function Analytics() {
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h1 style={{ fontSize: 18, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em', marginBottom: 2 }}>Analytics</h1>
-          <p style={{ fontSize: 13, color: '#71717A' }}>Visão geral do seu negócio</p>
+          <h1 style={{ fontSize: 18, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 2 }}>Analytics</h1>
+          <p style={{ fontSize: 13, color:'var(--text-muted)' }}>Visão geral do seu negócio</p>
         </div>
-        <div style={{ display: 'flex', gap: 6, background: '#111113', border: '1px solid #27272A', borderRadius: 10, padding: 4 }}>
+        <div style={{ display: 'flex', gap: 6, background:'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 10, padding: 4 }}>
           {PERIODOS.map(p => (
             <button key={p.dias} onClick={() => setDias(p.dias)} style={{
               padding: '5px 14px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600,
               background: dias === p.dias ? '#6366f1' : 'transparent',
-              color: dias === p.dias ? 'white' : '#71717A',
+              color: dias === p.dias ? 'white' : 'var(--text-muted)',
               transition: 'background 0.15s, color 0.15s',
             }}>{p.label}</button>
           ))}
@@ -103,14 +103,14 @@ export default function Analytics() {
         <Panel title={`Treinos — últimos ${dias} dias`}>
           {treinosDia.length === 0 ? (
             <div style={{ height: 180, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <p style={{ color: '#71717A', fontSize: 13 }}>Nenhum treino neste período</p>
+              <p style={{ color:'var(--text-muted)', fontSize: 13 }}>Nenhum treino neste período</p>
             </div>
           ) : (
             <ResponsiveContainer width="100%" height={180}>
               <LineChart data={treinosDia} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="2 4" vertical={false} stroke="#1C1C1E" />
-                <XAxis dataKey="dia" tick={{ fill: '#71717A', fontSize: 11 }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fill: '#71717A', fontSize: 11 }} axisLine={false} tickLine={false} allowDecimals={false} />
+                <XAxis dataKey="dia" tick={{ fill:'var(--text-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fill:'var(--text-muted)', fontSize: 11 }} axisLine={false} tickLine={false} allowDecimals={false} />
                 <Tooltip content={<ChartTooltip />} />
                 <Line type="monotone" dataKey="total" stroke="#6366f1" strokeWidth={2} dot={{ fill: '#6366f1', r: 2.5 }} activeDot={{ r: 4 }} isAnimationActive={false} />
               </LineChart>
@@ -122,7 +122,7 @@ export default function Analytics() {
         <Panel title="Por objetivo">
           {(d.por_objetivo || []).length === 0 ? (
             <div style={{ height: 140, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <p style={{ color: '#71717A', fontSize: 13 }}>Sem dados</p>
+              <p style={{ color:'var(--text-muted)', fontSize: 13 }}>Sem dados</p>
             </div>
           ) : (
             <>
@@ -141,9 +141,9 @@ export default function Analytics() {
                   <div key={o.objetivo} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                       <div style={{ width: 8, height: 8, borderRadius: 2, background: OBJETIVO_COLORS[o.objetivo] || '#52525B', flexShrink: 0 }} />
-                      <span style={{ fontSize: 12, color: '#71717A' }}>{o.objetivo}</span>
+                      <span style={{ fontSize: 12, color:'var(--text-muted)' }}>{o.objetivo}</span>
                     </div>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: '#A1A1AA' }}>{o.n}</span>
+                    <span style={{ fontSize: 12, fontWeight: 600, color:'var(--text-secondary)' }}>{o.n}</span>
                   </div>
                 ))}
               </div>
@@ -156,7 +156,7 @@ export default function Analytics() {
         {/* Top exercícios */}
         <Panel title={`Exercícios mais realizados (${dias}d)`}>
           {(d.top_exercicios || []).length === 0 ? (
-            <p style={{ color: '#71717A', fontSize: 13 }}>Nenhum dado ainda</p>
+            <p style={{ color:'var(--text-muted)', fontSize: 13 }}>Nenhum dado ainda</p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {(d.top_exercicios || []).map((ex, i) => {
@@ -164,10 +164,10 @@ export default function Analytics() {
                 return (
                   <div key={ex.nome}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
-                      <span style={{ fontSize: 12, color: '#A1A1AA' }}>{ex.nome}</span>
-                      <span style={{ fontSize: 11, color: '#71717A' }}>{ex.n}x</span>
+                      <span style={{ fontSize: 12, color:'var(--text-secondary)' }}>{ex.nome}</span>
+                      <span style={{ fontSize: 11, color:'var(--text-muted)' }}>{ex.n}x</span>
                     </div>
-                    <div style={{ height: 4, background: '#1C1C1E', borderRadius: 2, overflow: 'hidden' }}>
+                    <div style={{ height: 4, background:'var(--bg-elevated)', borderRadius: 2, overflow: 'hidden' }}>
                       <div style={{ height: '100%', width: `${(ex.n / max) * 100}%`, background: '#6366f1', borderRadius: 2, opacity: 0.6 + i * 0.06 }} />
                     </div>
                   </div>
@@ -180,17 +180,17 @@ export default function Analytics() {
         {/* Top streaks */}
         <Panel title="Melhores streaks atuais">
           {(d.top_streak || []).length === 0 ? (
-            <p style={{ color: '#71717A', fontSize: 13 }}>Nenhum aluno com streak ativo</p>
+            <p style={{ color:'var(--text-muted)', fontSize: 13 }}>Nenhum aluno com streak ativo</p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {(d.top_streak || []).map((a, i) => (
                 <div key={a.nome} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                  <div style={{ width: 22, height: 22, borderRadius: 6, background: '#1C1C1E', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: i === 0 ? '#fbbf24' : '#71717A', flexShrink: 0 }}>
+                  <div style={{ width: 22, height: 22, borderRadius: 6, background:'var(--bg-elevated)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: i === 0 ? '#fbbf24' : 'var(--text-muted)', flexShrink: 0 }}>
                     {i + 1}
                   </div>
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{ fontSize: 13, fontWeight: 500, color: '#F4F4F5', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</p>
-                    <p style={{ fontSize: 11, color: '#71717A' }}>Recorde: {a.streak_recorde}d</p>
+                    <p style={{ fontSize: 13, fontWeight: 500, color:'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</p>
+                    <p style={{ fontSize: 11, color:'var(--text-muted)' }}>Recorde: {a.streak_recorde}d</p>
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 4, background: 'rgba(249,115,22,0.1)', border: '1px solid rgba(249,115,22,0.2)', borderRadius: 6, padding: '3px 8px' }}>
                     <Flame style={{ width: 12, height: 12, color: '#f97316' }} />

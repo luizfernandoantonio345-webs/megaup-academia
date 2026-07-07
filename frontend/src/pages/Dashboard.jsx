@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+﻿import { useQuery } from '@tanstack/react-query'
 import { listarAlunos, analyticsResumo } from '../api'
 import { useAuth } from '../contexts/AuthContext'
 import { Link } from 'react-router-dom'
@@ -16,7 +16,7 @@ import { useCountUp } from '../hooks/useCountUp'
 const ChartTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
-    <div style={{ background: 'var(--bg-elevated)', border: '1px solid #27272A', borderRadius: 8, padding: '8px 12px', boxShadow: '0 4px 12px rgba(0,0,0,0.4)' }}>
+    <div style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 12px', boxShadow: '0 4px 12px rgba(0,0,0,0.4)' }}>
       <p style={{ color: 'var(--text-muted)', fontSize: 11, fontWeight: 500, marginBottom: 3 }}>{label}</p>
       <p style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: 14, margin: 0 }}>
         {payload[0].value} treino{payload[0].value !== 1 ? 's' : ''}
@@ -50,7 +50,7 @@ function Kpi({ value, label, to }) {
   return to
     ? <Link to={to} style={{ textDecoration: 'none', display: 'block' }}
         onMouseEnter={e => e.currentTarget.querySelector('p').style.color = '#818cf8'}
-        onMouseLeave={e => e.currentTarget.querySelector('p').style.color = '#F4F4F5'}
+        onMouseLeave={e => e.currentTarget.querySelector('p').style.color='var(--text-primary)'}
       >{inner}</Link>
     : inner
 }
@@ -151,8 +151,8 @@ export default function Dashboard() {
             <ResponsiveContainer width="100%" height={180}>
               <BarChart data={treinosDia} barSize={22} margin={{ top: 2, right: 4, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="2 4" vertical={false} stroke="#1C1C1E" />
-                <XAxis dataKey="dia" tick={{ fontSize: 11, fill: '#71717A' }} axisLine={false} tickLine={false} />
-                <YAxis tick={{ fontSize: 11, fill: '#71717A' }} axisLine={false} tickLine={false} allowDecimals={false} width={18} />
+                <XAxis dataKey="dia" tick={{ fontSize: 11, fill:'var(--text-muted)' }} axisLine={false} tickLine={false} />
+                <YAxis tick={{ fontSize: 11, fill:'var(--text-muted)' }} axisLine={false} tickLine={false} allowDecimals={false} width={18} />
                 <Tooltip content={<ChartTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)', radius: 4 }} />
                 <Bar dataKey="treinos" radius={[4, 4, 2, 2]} fill="#6366f1" fillOpacity={0.8} isAnimationActive={false} />
               </BarChart>

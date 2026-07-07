@@ -2,12 +2,26 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
 import { listarPlanos, criarPlano, inativarPlano, listarCobrancas, criarCobranca, marcarPago, resumoFinanceiro, listarAlunos } from '../api'
-import { DollarSign, Plus, CheckCircle, AlertCircle, TrendingUp, X, ExternalLink, Ban, Users, Wallet } from 'lucide-react'
+import { DollarSign, Plus, CheckCircle, AlertCircle, TrendingUp, X, ExternalLink, Ban, Users, Wallet, Download, MessageCircle } from 'lucide-react'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { SkeletonStatCard } from '../components/ui/Skeleton'
 
 const fmt     = (v) => new Intl.NumberFormat('pt-BR', { style:'currency', currency:'BRL' }).format(Number(v) || 0)
 const fmtDate = (d) => d ? new Date(d).toLocaleDateString('pt-BR') : '—'
+
+function exportCSV(cobrancas, alunos) {
+  const header = ['Aluno','Valor','Vencimento','Pago em','Status']
+  const rows = cobrancas.map(c => {
+    const nome = alunos.find(a => a.id === c.aluno_id)?.nome ?? `#${c.aluno_id}`
+    return [nome, fmt(c.valor), fmtDate(c.vencimento), fmtDate(c.pago_em), c.status]
+  })
+  const csv = [header, ...rows].map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n')
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a'); a.href = url
+  a.download = `cobrancas_${new Date().toISOString().slice(0,10)}.csv`
+  a.click(); URL.revokeObjectURL(url)
+}
 
 function StatusBadge({ status }) {
   const map = { pago:'badge-green', pendente:'badge-amber', vencido:'badge-red', cancelado:'badge-gray' }
@@ -71,6 +85,12 @@ export default function Financeiro() {
           <h1 className="page-title">Financeiro</h1>
           <p className="page-subtitle">Gerencie planos, cobranças e receitas</p>
         </div>
+        {cobrancas.length > 0 && (
+          <button className="btn-secondary btn-sm" style={{ display:'inline-flex', alignItems:'center', gap:6 }}
+            onClick={() => exportCSV(cobrancas, alunos)}>
+            <Download style={{ width:13, height:13 }} /> Exportar CSV
+          </button>
+        )}
       </div>
 
       {/* Stats */}
@@ -174,7 +194,7 @@ export default function Financeiro() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr style={{ borderBottom:'1px solid var(--border-subtle)' }}>
-                      {['Aluno','Valor','Vencimento','Pago em','Status','PIX','Ação'].map(h => (
+                      {['Aluno','Valor','Vencimento','Pago em','Status','PIX','WhatsApp','Ação'].map(h => (
                         <th key={h} className="px-4 py-3 text-left" style={{ fontSize:11, fontWeight:600, color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.06em', whiteSpace:'nowrap' }}>{h}</th>
                       ))}
                     </tr>
@@ -196,7 +216,15 @@ export default function Financeiro() {
                               <a href={c.link_pagamento} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-semibold" style={{ color:'#818cf8' }}>
                                 <ExternalLink style={{ width:12, height:12 }} /> PIX
                               </a>
-                            ) : <span style={{ color:'#52525B', fontSize:12 }}>—</span>}
+                            ) : <span style={{ color:'var(--text-disabled)', fontSize:12 }}>—</span>}
+                          </td>
+                          <td className="px-4 py-3">
+                            {aluno?.telefone ? (
+                              <a href={`https://wa.me/55${aluno.telefone.replace(/\D/g,'')}?text=${encodeURIComponent(`Olá ${aluno.nome?.split(' ')[0]}, lembrete do pagamento de ${fmt(c.valor)} com vencimento em ${fmtDate(c.vencimento)}.`)}`}
+                                target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-semibold" style={{ color:'#25d366' }}>
+                                <MessageCircle style={{ width:12, height:12 }} /> Cobrar
+                              </a>
+                            ) : <span style={{ color:'var(--text-disabled)', fontSize:12 }}>—</span>}
                           </td>
                           <td className="px-4 py-3">
                             {c.status !== 'pago' && (

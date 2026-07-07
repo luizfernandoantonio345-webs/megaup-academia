@@ -70,7 +70,7 @@ export default function Convites() {
               <Icon style={{ width: 16, height: 16, color }} />
             </div>
             <div style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 14, color }}>{value}</div>
-            <div style={{ fontSize: 11, color: '#71717A', fontWeight: 600, marginTop: 2 }}>{label}</div>
+            <div style={{ fontSize: 11, color:'var(--text-muted)', fontWeight: 600, marginTop: 2 }}>{label}</div>
           </div>
         ))}
       </div>
@@ -82,8 +82,8 @@ export default function Convites() {
             <UserPlus style={{ width: 18, height: 18, color: '#818cf8' }} />
           </div>
           <div>
-            <h2 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 15 }}>Novo convite</h2>
-            <p style={{ fontSize: 12, color: '#71717A' }}>Link valido por 7 dias, uso unico</p>
+            <h2 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color:'var(--text-primary)', fontSize: 15 }}>Novo convite</h2>
+            <p style={{ fontSize: 12, color:'var(--text-muted)' }}>Link valido por 7 dias, uso unico</p>
           </div>
         </div>
 
@@ -91,7 +91,7 @@ export default function Convites() {
           <label className="label">E-mail do aluno *</label>
           <div style={{ display: 'flex', gap: 10 }}>
             <div style={{ position: 'relative', flex: 1 }}>
-              <Mail style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#71717A', pointerEvents: 'none' }} />
+              <Mail style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color:'var(--text-muted)', pointerEvents: 'none' }} />
               <input
                 type="email"
                 className="input pl-10"
@@ -111,8 +111,8 @@ export default function Convites() {
 
         <div className="flex items-start gap-2 rounded-xl p-3" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
           <MessageCircle style={{ width: 14, height: 14, color: '#34d399', flexShrink: 0, marginTop: 1 }} />
-          <span style={{ fontSize: 12, color: '#71717A', lineHeight: 1.5 }}>
-            O link e gerado na hora e voce compartilha pelo <strong style={{ color: '#F4F4F5' }}>WhatsApp, SMS ou e-mail</strong>.
+          <span style={{ fontSize: 12, color:'var(--text-muted)', lineHeight: 1.5 }}>
+            O link e gerado na hora e voce compartilha pelo <strong style={{ color:'var(--text-primary)' }}>WhatsApp, SMS ou e-mail</strong>.
             O aluno clica, cria uma senha e ja aparece na sua lista de alunos automaticamente.
           </span>
         </div>
@@ -127,7 +127,7 @@ export default function Convites() {
             </div>
             <div>
               <p style={{ fontWeight: 600, color: '#34d399', fontSize: 14 }}>Link gerado com sucesso!</p>
-              <p style={{ fontSize: 12, color: '#71717A' }}>
+              <p style={{ fontSize: 12, color:'var(--text-muted)' }}>
                 Expira em {new Date(resultado.expira_em).toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' })}
               </p>
             </div>
@@ -140,7 +140,7 @@ export default function Convites() {
             </label>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(16,185,129,0.15)', borderRadius: 14, padding: '10px 14px' }}>
               <Link2 style={{ width: 14, height: 14, color: '#34d399', flexShrink: 0 }} />
-              <span style={{ fontSize: 11, color: '#71717A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, fontFamily: 'monospace' }}>
+              <span style={{ fontSize: 11, color:'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, fontFamily: 'monospace' }}>
                 {linkConvite}
               </span>
             </div>
@@ -172,7 +172,7 @@ export default function Convites() {
           </div>
 
           {/* Open link hint */}
-          <div className="flex items-center gap-2 text-xs" style={{ color: '#71717A' }}>
+          <div className="flex items-center gap-2 text-xs" style={{ color:'var(--text-muted)' }}>
             <ExternalLink style={{ width: 12, height: 12, flexShrink: 0 }} />
             <span>Voce tambem pode abrir o link em aba anonima para testar o cadastro como aluno.</span>
           </div>
@@ -181,7 +181,7 @@ export default function Convites() {
 
       {/* How it works */}
       <div className="card">
-        <h2 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#A1A1AA', fontSize: 13, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Como funciona</h2>
+        <h2 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color:'var(--text-secondary)', fontSize: 13, marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Como funciona</h2>
         <div className="space-y-3">
           {STEPS.map(({ n, emoji, text }) => (
             <div key={n} style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
@@ -189,8 +189,8 @@ export default function Convites() {
                 {emoji}
               </div>
               <div style={{ paddingTop: 6 }}>
-                <span style={{ fontSize: 11, fontWeight: 600, color: '#71717A', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Passo {n}</span>
-                <p style={{ fontSize: 13, color: '#71717A', marginTop: 2, lineHeight: 1.5 }}>{text}</p>
+                <span style={{ fontSize: 11, fontWeight: 600, color:'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Passo {n}</span>
+                <p style={{ fontSize: 13, color:'var(--text-muted)', marginTop: 2, lineHeight: 1.5 }}>{text}</p>
               </div>
             </div>
           ))}

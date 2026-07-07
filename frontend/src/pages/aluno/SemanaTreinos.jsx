@@ -62,7 +62,7 @@ function DayPill({ dia, isHoje, isAtivo, treinosDia, onClick }) {
       )}
       <span style={{
         fontSize: 10, fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase',
-        color: isAtivo ? (tema?.color || '#a5b4fc') : isHoje ? '#818cf8' : '#52525B',
+        color: isAtivo ? (tema?.color || '#a5b4fc') : isHoje ? '#818cf8' : 'var(--text-disabled)',
         fontFamily: 'Inter, sans-serif', transition: 'color 0.2s',
       }}>{curto}</span>
       <div style={{
@@ -88,15 +88,15 @@ function ExRow({ item, idx, exMap }) {
         width: 28, height: 28, borderRadius: 9, flexShrink: 0,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         background: 'rgba(255,255,255,0.05)',
-        fontSize: 11, fontWeight: 600, color: '#71717A',
+        fontSize: 11, fontWeight: 600, color:'var(--text-muted)',
         fontFamily: 'Inter, sans-serif',
       }}>{idx + 1}</div>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ fontSize: 13, color: '#F4F4F5', fontWeight: 600, lineHeight: 1.3 }}>
+        <p style={{ fontSize: 13, color:'var(--text-primary)', fontWeight: 600, lineHeight: 1.3 }}>
           {ex?.nome || `Exercício ${idx + 1}`}
         </p>
         {ex?.grupo_muscular && (
-          <p style={{ fontSize: 10, color: '#52525B', marginTop: 2, textTransform: 'capitalize' }}>
+          <p style={{ fontSize: 10, color:'var(--text-disabled)', marginTop: 2, textTransform: 'capitalize' }}>
             {ex.grupo_muscular}
           </p>
         )}
@@ -106,7 +106,7 @@ function ExRow({ item, idx, exMap }) {
           {item.series}×{item.repeticoes}
         </p>
         {item.carga && (
-          <p style={{ fontSize: 11, color: '#71717A' }}>{item.carga}kg</p>
+          <p style={{ fontSize: 11, color:'var(--text-muted)' }}>{item.carga}kg</p>
         )}
       </div>
     </div>
@@ -143,7 +143,7 @@ function TreinoWeekCard({ treino, exMap }) {
           <div style={{ flex: 1, minWidth: 0 }}>
             <h3 style={{
               fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600,
-              color: '#F4F4F5', lineHeight: 1.25, letterSpacing: '-0.01em',
+              color:'var(--text-primary)', lineHeight: 1.25, letterSpacing: '-0.01em',
             }}>{treino.nome}</h3>
             <div style={{ display: 'flex', gap: 14, marginTop: 6, flexWrap: 'wrap' }}>
               {[
@@ -223,7 +223,7 @@ export default function SemanaTreinos() {
       <div style={{ width: 52, height: 52, borderRadius: 18, background: 'rgba(99,102,241,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Calendar style={{ width: 22, height: 22, color: '#818cf8' }} />
       </div>
-      <p style={{ fontSize: 13, color: '#71717A' }}>Carregando semana...</p>
+      <p style={{ fontSize: 13, color:'var(--text-muted)' }}>Carregando semana...</p>
     </div>
   )
 
@@ -242,10 +242,10 @@ export default function SemanaTreinos() {
           </div>
           <h1 style={{
             fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600,
-            color: '#F4F4F5', letterSpacing: '-0.02em',
+            color:'var(--text-primary)', letterSpacing: '-0.02em',
           }}>Minha Semana</h1>
         </div>
-        <p style={{ fontSize: 13, color: '#71717A', marginLeft: 46 }}>
+        <p style={{ fontSize: 13, color:'var(--text-muted)', marginLeft: 46 }}>
           {diasComTreino > 0
             ? `${diasComTreino} dia${diasComTreino !== 1 ? 's' : ''} de treino · ${7 - diasComTreino} descanso`
             : 'Nenhum treino programado ainda'}
@@ -270,7 +270,7 @@ export default function SemanaTreinos() {
               color, lineHeight: 1, letterSpacing: '-0.02em',
             }}>{value}</span>
             <span style={{
-              fontSize: 10, color: '#71717A', fontWeight: 600,
+              fontSize: 10, color:'var(--text-muted)', fontWeight: 600,
               textTransform: 'uppercase', letterSpacing: '0.05em',
             }}>{label}</span>
           </div>
@@ -282,7 +282,7 @@ export default function SemanaTreinos() {
         borderRadius: 18, padding: '14px 16px',
         background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)',
       }}>
-        <p style={{ fontSize: 10, color: '#52525B', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 10 }}>
+        <p style={{ fontSize: 10, color:'var(--text-disabled)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 10 }}>
           Visão geral
         </p>
         <div style={{ display: 'flex', gap: 6, alignItems: 'flex-end' }}>
@@ -314,7 +314,7 @@ export default function SemanaTreinos() {
           {DIAS_ORDEM.map(dia => (
             <div key={dia} style={{ flex: 1, textAlign: 'center' }}>
               <span style={{
-                fontSize: 9, color: dia === diaAtual ? '#818cf8' : '#52525B',
+                fontSize: 9, color: dia === diaAtual ? '#818cf8' : 'var(--text-disabled)',
                 fontWeight: 600, textTransform: 'uppercase',
               }}>
                 {DIAS_INFO[dia].curto.slice(0, 1)}
@@ -346,7 +346,7 @@ export default function SemanaTreinos() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
           <h2 style={{
             fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600,
-            color: '#F4F4F5', letterSpacing: '-0.01em',
+            color:'var(--text-primary)', letterSpacing: '-0.01em',
           }}>{DIAS_INFO[diaAtivo].full}</h2>
           {diaAtivo === diaAtual && (
             <span style={{
@@ -366,9 +366,9 @@ export default function SemanaTreinos() {
             <div style={{ fontSize: 48, marginBottom: 12 }}>😴</div>
             <p style={{
               fontFamily: 'Inter, sans-serif', fontWeight: 600,
-              color: '#F4F4F5', fontSize: 17,
+              color:'var(--text-primary)', fontSize: 17,
             }}>Dia de descanso</p>
-            <p style={{ fontSize: 12, color: '#71717A', marginTop: 6 }}>
+            <p style={{ fontSize: 12, color:'var(--text-muted)', marginTop: 6 }}>
               Recuperação muscular é parte do treino
             </p>
           </div>

@@ -1,4 +1,4 @@
-import { NavLink, useNavigate } from 'react-router-dom'
+﻿import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { Dumbbell, Trophy, LogOut, Zap, CalendarDays, MessageCircle, Apple } from 'lucide-react'
 
@@ -19,7 +19,7 @@ export default function LayoutAluno({ children }) {
     <div style={{
       minHeight: '100vh',
       minHeight: '100dvh',
-      background: '#0C0C0D',
+      background:'var(--bg-page)',
       display: 'flex',
       flexDirection: 'column',
     }}>
@@ -30,7 +30,7 @@ export default function LayoutAluno({ children }) {
         background: 'rgba(10,10,11,0.97)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
-        borderBottom: '1px solid #1C1C1E',
+        borderBottom: '1px solid var(--border-subtle)',
         paddingTop: 'env(safe-area-inset-top)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 20px', height: 52, maxWidth: 640, margin: '0 auto' }}>
@@ -40,7 +40,7 @@ export default function LayoutAluno({ children }) {
             <div style={{ width: 28, height: 28, borderRadius: 8, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 14, height: 14, color: 'white' }} />
             </div>
-            <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 15, letterSpacing: '-0.01em' }}>
+            <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color:'var(--text-primary)', fontSize: 15, letterSpacing: '-0.01em' }}>
               GymPro
             </span>
           </div>
@@ -48,13 +48,13 @@ export default function LayoutAluno({ children }) {
           {/* User + logout */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 13, fontWeight: 500, color: '#A1A1AA' }}>{user?.nome?.split(' ')[0]}</div>
+              <div style={{ fontSize: 13, fontWeight: 500, color:'var(--text-secondary)' }}>{user?.nome?.split(' ')[0]}</div>
             </div>
             <div style={{
               width: 32, height: 32, borderRadius: '50%',
-              background: '#1C1C1E', border: '1px solid #27272A',
+              background:'var(--bg-elevated)', border: '1px solid var(--border)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: 12, fontWeight: 600, color: '#A1A1AA',
+              fontSize: 12, fontWeight: 600, color:'var(--text-secondary)',
             }}>
               {initials}
             </div>
@@ -63,8 +63,8 @@ export default function LayoutAluno({ children }) {
               style={{
                 width: 32, height: 32, borderRadius: 8,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                background: 'transparent', border: '1px solid #27272A',
-                cursor: 'pointer', color: '#71717A', transition: 'all 0.1s',
+                background: 'transparent', border: '1px solid var(--border)',
+                cursor: 'pointer', color:'var(--text-muted)', transition: 'all 0.1s',
               }}
               title="Sair"
             >
@@ -91,7 +91,7 @@ export default function LayoutAluno({ children }) {
         background: 'rgba(10,10,11,0.97)',
         backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
-        borderTop: '1px solid #1C1C1E',
+        borderTop: '1px solid var(--border-subtle)',
         paddingBottom: 'env(safe-area-inset-bottom)',
       }}>
         <div style={{ maxWidth: 480, margin: '0 auto', display: 'flex', padding: '4px 0' }}>
@@ -105,10 +105,10 @@ export default function LayoutAluno({ children }) {
                   {isActive && (
                     <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: 20, height: 2, borderRadius: 1, background: '#6366f1' }} />
                   )}
-                  <Icon style={{ width: 20, height: 20, color: isActive ? '#818cf8' : '#52525B' }} />
+                  <Icon style={{ width: 20, height: 20, color: isActive ? '#818cf8' : 'var(--text-disabled)' }} />
                   <span style={{
                     fontSize: 10, fontWeight: isActive ? 600 : 400,
-                    color: isActive ? '#818cf8' : '#52525B',
+                    color: isActive ? '#818cf8' : 'var(--text-disabled)',
                     fontFamily: 'Inter, sans-serif',
                   }}>{label}</span>
                 </div>

@@ -12,7 +12,7 @@ import FotosEvolucaoTab from '../components/FotosEvolucaoTab'
 function Avatar({ nome }) {
   const initials = nome?.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
   return (
-    <div style={{ width:64, height:64, borderRadius:'50%', background:'#1C1C1E', border:'1px solid #27272A', display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, fontWeight:600, color:'#A1A1AA', flexShrink:0 }}>
+    <div style={{ width:64, height:64, borderRadius:'50%', background:'var(--bg-elevated)', border:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, fontWeight:600, color:'var(--text-secondary)', flexShrink:0 }}>
       {initials}
     </div>
   )
@@ -64,9 +64,9 @@ export default function AlunoDetalhe() {
   return (
     <div className="space-y-6 animate-fade-in">
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link to="/alunos" className="inline-flex items-center gap-2 text-sm font-medium transition-colors" style={{ color:'#71717A' }}
-          onMouseEnter={e => e.currentTarget.style.color='#A1A1AA'}
-          onMouseLeave={e => e.currentTarget.style.color='#71717A'}>
+        <Link to="/alunos" className="inline-flex items-center gap-2 text-sm font-medium transition-colors" style={{ color:'var(--text-muted)' }}
+          onMouseEnter={e => e.currentTarget.style.color='var(--text-secondary)'}
+          onMouseLeave={e => e.currentTarget.style.color='var(--text-muted)'}>
           <ArrowLeft style={{ width:15, height:15 }} /> Voltar para alunos
         </Link>
         <button
@@ -97,19 +97,19 @@ export default function AlunoDetalhe() {
                 <button onClick={() => updateNome({ nome: nomeTemp })} className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background:'rgba(16,185,129,0.2)', color:'#34d399' }}>
                   <Check style={{ width:14, height:14 }} />
                 </button>
-                <button onClick={() => setEditNome(false)} className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background:'rgba(255,255,255,0.07)', color:'#71717A' }}>
+                <button onClick={() => setEditNome(false)} className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background:'rgba(255,255,255,0.07)', color:'var(--text-muted)' }}>
                   <X style={{ width:14, height:14 }} />
                 </button>
               </div>
             ) : (
               <div className="flex items-center gap-2 mb-0.5">
-                <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'#F4F4F5', letterSpacing:'-0.02em' }}>{aluno?.nome}</h1>
-                <button onClick={() => { setNomeTemp(aluno?.nome || ''); setEditNome(true) }} style={{ color:'#52525B', background:'none', border:'none', cursor:'pointer', padding:2 }}>
+                <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'var(--text-primary)', letterSpacing:'-0.02em' }}>{aluno?.nome}</h1>
+                <button onClick={() => { setNomeTemp(aluno?.nome || ''); setEditNome(true) }} style={{ color:'var(--text-disabled)', background:'none', border:'none', cursor:'pointer', padding:2 }}>
                   <Edit2 style={{ width:13, height:13 }} />
                 </button>
               </div>
             )}
-            <p style={{ fontSize:13, color:'#71717A' }}>{aluno?.email}</p>
+            <p style={{ fontSize:13, color:'var(--text-muted)' }}>{aluno?.email}</p>
             {aluno?.objetivo && <span className="badge-blue mt-2 text-xs">{aluno.objetivo}</span>}
           </div>
 
@@ -132,7 +132,7 @@ export default function AlunoDetalhe() {
             ].map(({ label, value, color }) => (
               <div key={label} className="text-center">
                 <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color }}>{value}</div>
-                <div style={{ fontSize:11, color:'#71717A', marginTop:2, fontWeight:600, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
+                <div style={{ fontSize:11, color:'var(--text-muted)', marginTop:2, fontWeight:600, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
               </div>
             ))}
           </div>
@@ -172,8 +172,8 @@ export default function AlunoDetalhe() {
                 <MessageCircle style={{ width:14, height:14, color:'#818cf8' }} />
               </div>
               <div>
-                <p style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:14, lineHeight:1 }}>Chat com {aluno?.nome?.split(' ')[0]}</p>
-                <p style={{ fontSize:11, color:'#71717A', marginTop:2 }}>As mensagens são privadas entre você e o aluno</p>
+                <p style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'var(--text-primary)', fontSize:14, lineHeight:1 }}>Chat com {aluno?.nome?.split(' ')[0]}</p>
+                <p style={{ fontSize:11, color:'var(--text-muted)', marginTop:2 }}>As mensagens são privadas entre você e o aluno</p>
               </div>
             </div>
             <ChatBox alunoId={Number(id)} outroNome={aluno?.nome?.split(' ')[0]} />
@@ -213,8 +213,8 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
   const DotTooltip = ({ active, payload, label }) => {
     if (!active || !payload?.length) return null
     return (
-      <div style={{ background: '#111113', border: '1px solid rgba(99,102,241,0.3)', borderRadius: 12, padding: '8px 14px', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
-        <p style={{ color: '#71717A', fontSize: 11, fontWeight: 600, marginBottom: 2 }}>{label}</p>
+      <div style={{ background:'var(--bg-card)', border: '1px solid rgba(99,102,241,0.3)', borderRadius: 12, padding: '8px 14px', boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
+        <p style={{ color:'var(--text-muted)', fontSize: 11, fontWeight: 600, marginBottom: 2 }}>{label}</p>
         <p style={{ color: '#a5b4fc', fontWeight: 600, fontSize: 15, fontFamily: 'Inter, sans-serif' }}>{payload[0]?.value} kg</p>
       </div>
     )
@@ -222,7 +222,7 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
 
   if (availableEx.length === 0) return (
     <div className="card empty-state py-12">
-      <div className="empty-icon"><BarChart2 style={{ width: 28, height: 28, color: '#71717A' }} /></div>
+      <div className="empty-icon"><BarChart2 style={{ width: 28, height: 28, color:'var(--text-muted)' }} /></div>
       <p className="empty-title">Sem dados de progresso</p>
       <p className="empty-message">Adicione treinos com exercicios e execute-os para ver a evolucao de carga.</p>
     </div>
@@ -240,7 +240,7 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
               <option key={ex.id} value={ex.id}>{ex.nome}{ex.grupo_muscular ? ` (${ex.grupo_muscular})` : ''}</option>
             ))}
           </select>
-          <ChevronDown style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#71717A', pointerEvents: 'none' }} />
+          <ChevronDown style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color:'var(--text-muted)', pointerEvents: 'none' }} />
         </div>
       </div>
 
@@ -250,11 +250,11 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
           {[
             { label: 'Maximo', value: `${maxCarga}kg`, color: '#a5b4fc' },
             { label: 'Ultima', value: lastCarga != null ? `${lastCarga}kg` : '--', color: '#34d399' },
-            { label: 'Variacao', value: delta != null ? `${delta > 0 ? '+' : ''}${delta}kg` : '--', color: delta == null ? '#71717A' : delta > 0 ? '#34d399' : delta < 0 ? '#f87171' : '#6366f1' },
+            { label: 'Variacao', value: delta != null ? `${delta > 0 ? '+' : ''}${delta}kg` : '--', color: delta == null ? 'var(--text-muted)' : delta > 0 ? '#34d399' : delta < 0 ? '#f87171' : '#6366f1' },
           ].map(({ label, value, color }) => (
             <div key={label} className="card text-center p-3">
               <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 600, color, letterSpacing: '-0.02em' }}>{value}</div>
-              <div style={{ fontSize: 11, color: '#71717A', fontWeight: 600, marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
+              <div style={{ fontSize: 11, color:'var(--text-muted)', fontWeight: 600, marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
             </div>
           ))}
         </div>
@@ -264,8 +264,8 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
       <div className="card">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 14 }}>Evolucao de carga</h3>
-            <p style={{ fontSize: 12, color: '#71717A', marginTop: 2 }}>
+            <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color:'var(--text-primary)', fontSize: 14 }}>Evolucao de carga</h3>
+            <p style={{ fontSize: 12, color:'var(--text-muted)', marginTop: 2 }}>
               {chartData.length > 0 ? `${chartData.length} sessao${chartData.length !== 1 ? 'es' : ''} registrada${chartData.length !== 1 ? 's' : ''}` : 'Sem execucoes registradas'}
             </p>
           </div>
@@ -288,8 +288,8 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={chartData} margin={{ top: 4, right: 8, left: -12, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="data" tick={{ fontSize: 11, fill: '#71717A' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 11, fill: '#71717A' }} axisLine={false} tickLine={false} width={40} tickFormatter={v => `${v}kg`} />
+              <XAxis dataKey="data" tick={{ fontSize: 11, fill:'var(--text-muted)' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 11, fill:'var(--text-muted)' }} axisLine={false} tickLine={false} width={40} tickFormatter={v => `${v}kg`} />
               <Tooltip content={<DotTooltip />} />
               <Line type="monotone" dataKey="carga" stroke="#6366f1" strokeWidth={2.5}
                 dot={{ fill: '#6366f1', r: 4, strokeWidth: 0 }}
@@ -321,12 +321,12 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
                     </span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p style={{ fontSize: 13, fontWeight: 600, color: '#F4F4F5', fontFamily: 'Inter, sans-serif' }}>
+                    <p style={{ fontSize: 13, fontWeight: 600, color:'var(--text-primary)', fontFamily: 'Inter, sans-serif' }}>
                       {s.carga_realizada != null ? `${s.carga_realizada}kg` : '--'}
                       {s.repeticoes_realizadas ? ` × ${s.repeticoes_realizadas} reps` : ''}
                       {s.series_realizadas ? ` × ${s.series_realizadas} series` : ''}
                     </p>
-                    <p style={{ fontSize: 11, color: '#71717A' }}>{dateStr}</p>
+                    <p style={{ fontSize: 11, color:'var(--text-muted)' }}>{dateStr}</p>
                   </div>
                 </div>
               )
@@ -348,7 +348,7 @@ function TreinosTab({ aluno, treinos, onCriar }) {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#A1A1AA', fontSize:13 }}>Treinos de {aluno?.nome?.split(' ')[0]}</h2>
+        <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'var(--text-secondary)', fontSize:13 }}>Treinos de {aluno?.nome?.split(' ')[0]}</h2>
         <button className="btn-primary btn-sm" onClick={() => setShowForm(!showForm)}>
           <Plus style={{ width:12, height:12 }} /> Novo treino
         </button>
@@ -356,7 +356,7 @@ function TreinosTab({ aluno, treinos, onCriar }) {
 
       {showForm && (
         <div className="card animate-slide-down" style={{ border:'1px solid rgba(99,102,241,0.3)' }}>
-          <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:14, marginBottom:16 }}>Novo treino</h3>
+          <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'var(--text-primary)', fontSize:14, marginBottom:16 }}>Novo treino</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
             <div>
               <label className="label">Nome do treino *</label>
@@ -379,7 +379,7 @@ function TreinosTab({ aluno, treinos, onCriar }) {
 
       {treinos.length === 0 ? (
         <div className="card empty-state">
-          <div className="empty-icon"><Dumbbell style={{ width:28, height:28, color:'#71717A' }} /></div>
+          <div className="empty-icon"><Dumbbell style={{ width:28, height:28, color:'var(--text-muted)' }} /></div>
           <p className="empty-title">Nenhum treino ainda</p>
           <p className="empty-message">Crie o primeiro treino para {aluno?.nome?.split(' ')[0]}</p>
           <button className="btn-primary" onClick={() => setShowForm(true)}>Criar primeiro treino</button>
@@ -390,8 +390,8 @@ function TreinosTab({ aluno, treinos, onCriar }) {
             <Link key={t.id} to={`/treinos/${t.id}`} className="card-interactive group">
               <div className="flex items-start justify-between mb-3">
                 <div>
-                  <div style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:14 }}>{t.nome}</div>
-                  <div style={{ fontSize:12, color:'#71717A', marginTop:2 }}>{t.itens?.length || 0} exercício{t.itens?.length !== 1 ? 's' : ''}</div>
+                  <div style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'var(--text-primary)', fontSize:14 }}>{t.nome}</div>
+                  <div style={{ fontSize:12, color:'var(--text-muted)', marginTop:2 }}>{t.itens?.length || 0} exercício{t.itens?.length !== 1 ? 's' : ''}</div>
                 </div>
                 <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background:'rgba(99,102,241,0.12)' }}>
                   <Dumbbell style={{ width:15, height:15, color:'#818cf8' }} />
@@ -428,7 +428,7 @@ function GamificacaoTab({ gami }) {
           <div key={label} className="card text-center" style={{ border:`1px solid ${border}`, background:bg }}>
             <div style={{ fontSize:26, marginBottom:4 }}>{emoji}</div>
             <div style={{ fontFamily:'Inter, sans-serif', fontSize:24, fontWeight:600, color }}>{value}</div>
-            <div style={{ fontSize:11, color:'#71717A', fontWeight:600, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
+            <div style={{ fontSize:11, color:'var(--text-muted)', fontWeight:600, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
           </div>
         ))}
       </div>
@@ -448,8 +448,8 @@ function GamificacaoTab({ gami }) {
               return (
                 <div key={c.id} className="card text-center p-4" style={{ border:`1px solid ${b.border}`, background:b.bg }}>
                   <div style={{ fontSize:28, marginBottom:6 }}>{b.emoji}</div>
-                  <div style={{ fontSize:11, fontWeight:600, color:'#F4F4F5' }}>{b.label}</div>
-                  <div style={{ fontSize:10, color:'#71717A', marginTop:4 }}>
+                  <div style={{ fontSize:11, fontWeight:600, color:'var(--text-primary)' }}>{b.label}</div>
+                  <div style={{ fontSize:10, color:'var(--text-muted)', marginTop:4 }}>
                     {new Date(c.desbloqueado_em).toLocaleDateString('pt-BR', { day:'2-digit', month:'short' })}
                   </div>
                 </div>
@@ -480,7 +480,7 @@ function SugestoesTab({ sugestoes }) {
 
       {(sugestoes.sugestoes_pendentes?.length ?? 0) === 0 ? (
         <div className="card empty-state py-10">
-          <div className="empty-icon"><BarChart2 style={{ width:28, height:28, color:'#71717A' }} /></div>
+          <div className="empty-icon"><BarChart2 style={{ width:28, height:28, color:'var(--text-muted)' }} /></div>
           <p className="empty-title">Sem sugestões ainda</p>
           <p className="empty-message">Necessário ao menos 3 execuções do mesmo exercício para gerar sugestões.</p>
         </div>
@@ -498,9 +498,9 @@ function SugestoesTab({ sugestoes }) {
                   <div>
                     <div className="flex items-center gap-2 flex-wrap mb-1">
                       <span style={{ fontSize:11, fontWeight:600, color:cfg.text, padding:'2px 10px', borderRadius:999, background:'rgba(255,255,255,0.08)', textTransform:'uppercase', letterSpacing:'0.05em' }}>{cfg.label} carga</span>
-                      {s.carga_sugerida && <span style={{ fontSize:14, fontWeight:600, color:'#F4F4F5', fontFamily:'Inter, sans-serif' }}>→ {s.carga_sugerida} kg</span>}
+                      {s.carga_sugerida && <span style={{ fontSize:14, fontWeight:600, color:'var(--text-primary)', fontFamily:'Inter, sans-serif' }}>→ {s.carga_sugerida} kg</span>}
                     </div>
-                    <p style={{ fontSize:13, color:'#A1A1AA' }}>{s.motivo}</p>
+                    <p style={{ fontSize:13, color:'var(--text-secondary)' }}>{s.motivo}</p>
                   </div>
                 </div>
               </div>
@@ -554,17 +554,17 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
 
   const TooltipPeso = ({ active, payload, label }) => {
     if (!active || !payload?.length) return null
-    return <div style={{ background:'#111113', border:'1px solid rgba(99,102,241,0.3)', borderRadius:10, padding:'8px 12px', fontSize:13 }}><span style={{ color:'#A1A1AA' }}>{label}: </span><span style={{ color:'#34d399', fontWeight:600 }}>{payload[0].value}kg</span></div>
+    return <div style={{ background:'var(--bg-card)', border:'1px solid rgba(99,102,241,0.3)', borderRadius:10, padding:'8px 12px', fontSize:13 }}><span style={{ color:'var(--text-secondary)' }}>{label}: </span><span style={{ color:'#34d399', fontWeight:600 }}>{payload[0].value}kg</span></div>
   }
   const TooltipGord = ({ active, payload, label }) => {
     if (!active || !payload?.length) return null
-    return <div style={{ background:'#111113', border:'1px solid rgba(251,191,36,0.3)', borderRadius:10, padding:'8px 12px', fontSize:13 }}><span style={{ color:'#A1A1AA' }}>{label}: </span><span style={{ color:'#fbbf24', fontWeight:600 }}>{payload[0].value}%</span></div>
+    return <div style={{ background:'var(--bg-card)', border:'1px solid rgba(251,191,36,0.3)', borderRadius:10, padding:'8px 12px', fontSize:13 }}><span style={{ color:'var(--text-secondary)' }}>{label}: </span><span style={{ color:'#fbbf24', fontWeight:600 }}>{payload[0].value}%</span></div>
   }
 
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#A1A1AA', fontSize:13 }}>Histórico de avaliações</h2>
+        <h2 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'var(--text-secondary)', fontSize:13 }}>Histórico de avaliações</h2>
         <button className="btn-primary btn-sm" onClick={() => setShowForm(!showForm)}>
           <Plus style={{ width:12, height:12 }} /> Nova avaliação
         </button>
@@ -572,7 +572,7 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
 
       {showForm && (
         <div className="card animate-slide-down" style={{ border:'1px solid rgba(99,102,241,0.3)' }}>
-          <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:14, marginBottom:16 }}>Registro de avaliação</h3>
+          <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'var(--text-primary)', fontSize:14, marginBottom:16 }}>Registro de avaliação</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-4">
             {[
               { key:'peso',               label:'Peso (kg)',        placeholder:'Ex: 75.5' },
@@ -609,7 +609,7 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
           ].map(({ label, value, color, sub }) => (
             <div key={label} className="card text-center p-3">
               <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color, letterSpacing:'-0.02em' }}>{value}</div>
-              <div style={{ fontSize:11, color:'#71717A', fontWeight:600, marginTop:2, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
+              <div style={{ fontSize:11, color:'var(--text-muted)', fontWeight:600, marginTop:2, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
               {sub && <div style={{ fontSize:10, color: Number(deltaPeso) < 0 ? '#34d399' : '#f87171', marginTop:3 }}>{sub}</div>}
             </div>
           ))}
@@ -619,12 +619,12 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
       {/* Peso chart */}
       {chartPeso.length >= 2 && (
         <div className="card">
-          <p style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:13, marginBottom:12 }}>Evolução de peso</p>
+          <p style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'var(--text-primary)', fontSize:13, marginBottom:12 }}>Evolução de peso</p>
           <ResponsiveContainer width="100%" height={160}>
             <LineChart data={chartPeso} margin={{ top:4, right:8, left:-12, bottom:0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="data" tick={{ fontSize:11, fill:'#71717A' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize:11, fill:'#71717A' }} axisLine={false} tickLine={false} width={40} tickFormatter={v => `${v}kg`} />
+              <XAxis dataKey="data" tick={{ fontSize:11, fill:'var(--text-muted)' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize:11, fill:'var(--text-muted)' }} axisLine={false} tickLine={false} width={40} tickFormatter={v => `${v}kg`} />
               <Tooltip content={<TooltipPeso />} />
               <Line type="monotone" dataKey="peso" stroke="#34d399" strokeWidth={2.5}
                 dot={{ fill:'#34d399', r:4, strokeWidth:0 }} activeDot={{ r:6, fill:'#6ee7b7', strokeWidth:0 }} isAnimationActive={false} />
@@ -636,12 +636,12 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
       {/* Gordura chart */}
       {chartGordura.length >= 2 && (
         <div className="card">
-          <p style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'#F4F4F5', fontSize:13, marginBottom:12 }}>% Gordura corporal</p>
+          <p style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'var(--text-primary)', fontSize:13, marginBottom:12 }}>% Gordura corporal</p>
           <ResponsiveContainer width="100%" height={140}>
             <LineChart data={chartGordura} margin={{ top:4, right:8, left:-12, bottom:0 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.04)" />
-              <XAxis dataKey="data" tick={{ fontSize:11, fill:'#71717A' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize:11, fill:'#71717A' }} axisLine={false} tickLine={false} width={36} tickFormatter={v => `${v}%`} />
+              <XAxis dataKey="data" tick={{ fontSize:11, fill:'var(--text-muted)' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize:11, fill:'var(--text-muted)' }} axisLine={false} tickLine={false} width={36} tickFormatter={v => `${v}%`} />
               <Tooltip content={<TooltipGord />} />
               <Line type="monotone" dataKey="gordura" stroke="#fbbf24" strokeWidth={2.5}
                 dot={{ fill:'#fbbf24', r:4, strokeWidth:0 }} activeDot={{ r:6, fill:'#fde68a', strokeWidth:0 }} isAnimationActive={false} />
@@ -653,7 +653,7 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
       {/* History table */}
       {avaliacoes.length === 0 ? (
         <div className="card empty-state py-10">
-          <div className="empty-icon"><Scale style={{ width:28, height:28, color:'#71717A' }} /></div>
+          <div className="empty-icon"><Scale style={{ width:28, height:28, color:'var(--text-muted)' }} /></div>
           <p className="empty-title">Sem avaliações ainda</p>
           <p className="empty-message">Registre a primeira avaliação para acompanhar a evolução física</p>
           <button className="btn-primary" onClick={() => setShowForm(true)}>Registrar avaliação</button>
@@ -668,14 +668,14 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
                 <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
                   {av.peso && <span style={{ fontSize:13, fontWeight:600, color:'#34d399' }}>{av.peso}kg</span>}
                   {av.percentual_gordura && <span style={{ fontSize:13, fontWeight:600, color:'#fbbf24' }}>{av.percentual_gordura}% gordura</span>}
-                  {av.medidas?.cintura && <span style={{ fontSize:12, color:'#A1A1AA' }}>Cintura {av.medidas.cintura}cm</span>}
-                  {av.medidas?.quadril && <span style={{ fontSize:12, color:'#A1A1AA' }}>Quadril {av.medidas.quadril}cm</span>}
+                  {av.medidas?.cintura && <span style={{ fontSize:12, color:'var(--text-secondary)' }}>Cintura {av.medidas.cintura}cm</span>}
+                  {av.medidas?.quadril && <span style={{ fontSize:12, color:'var(--text-secondary)' }}>Quadril {av.medidas.quadril}cm</span>}
                 </div>
-                <p style={{ fontSize:11, color:'#71717A', marginTop:3 }}>
+                <p style={{ fontSize:11, color:'var(--text-muted)', marginTop:3 }}>
                   {new Date(av.data).toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' })}
                 </p>
               </div>
-              <button onClick={() => excluir(av.id)} style={{ background:'none', border:'none', cursor:'pointer', color:'#52525B', padding:6, borderRadius:8 }}>
+              <button onClick={() => excluir(av.id)} style={{ background:'none', border:'none', cursor:'pointer', color:'var(--text-disabled)', padding:6, borderRadius:8 }}>
                 <Trash2 style={{ width:13, height:13 }} />
               </button>
             </div>

@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react'
+﻿import { useState, useRef, useCallback } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { listarFotos, uploadFoto, deletarFoto } from '../api'
 import toast from 'react-hot-toast'
@@ -41,7 +41,7 @@ function FotoCard({ foto, onDelete, onClick }) {
   return (
     <div
       onClick={onClick}
-      style={{ position: 'relative', aspectRatio: '3/4', borderRadius: 14, overflow: 'hidden', cursor: 'pointer', background: '#1C1C1E', border: '1px solid rgba(255,255,255,0.07)', transition: 'border-color 0.15s' }}
+      style={{ position: 'relative', aspectRatio: '3/4', borderRadius: 14, overflow: 'hidden', cursor: 'pointer', background:'var(--bg-elevated)', border: '1px solid rgba(255,255,255,0.07)', transition: 'border-color 0.15s' }}
       onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(99,102,241,0.4)'}
       onMouseLeave={e => e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'}
     >
@@ -119,10 +119,10 @@ function UploadModal({ alunoId, onClose, onSuccess }) {
   return (
     <div style={{ position: 'fixed', inset: 0, zIndex: 60, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
       <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.78)', backdropFilter: 'blur(4px)' }} onClick={onClose} />
-      <div style={{ position: 'relative', background: '#111113', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, padding: 28, width: '100%', maxWidth: 480, zIndex: 1, maxHeight: '92vh', overflowY: 'auto' }}>
+      <div style={{ position: 'relative', background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.09)', borderRadius: 20, padding: 28, width: '100%', maxWidth: 480, zIndex: 1, maxHeight: '92vh', overflowY: 'auto' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-          <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 17, margin: 0 }}>Adicionar foto de evolução</h3>
-          <button onClick={onClose} style={{ width: 30, height: 30, borderRadius: 8, background: 'rgba(255,255,255,0.06)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#71717A' }}>
+          <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color:'var(--text-primary)', fontSize: 17, margin: 0 }}>Adicionar foto de evolução</h3>
+          <button onClick={onClose} style={{ width: 30, height: 30, borderRadius: 8, background: 'rgba(255,255,255,0.06)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color:'var(--text-muted)' }}>
             <X style={{ width: 14, height: 14 }} />
           </button>
         </div>
@@ -139,9 +139,9 @@ function UploadModal({ alunoId, onClose, onSuccess }) {
             <img src={preview} alt="preview" style={{ width: '100%', maxHeight: 260, objectFit: 'contain', display: 'block' }} />
           ) : (
             <div>
-              <Camera style={{ width: 36, height: 36, color: '#52525B', margin: '0 auto 12px' }} />
-              <p style={{ fontSize: 14, fontWeight: 600, color: '#71717A', margin: '0 0 4px' }}>Toque para selecionar foto</p>
-              <p style={{ fontSize: 11, color: '#52525B', margin: 0 }}>Da galeria ou câmera · JPG, PNG · comprimida automaticamente</p>
+              <Camera style={{ width: 36, height: 36, color:'var(--text-disabled)', margin: '0 auto 12px' }} />
+              <p style={{ fontSize: 14, fontWeight: 600, color:'var(--text-muted)', margin: '0 0 4px' }}>Toque para selecionar foto</p>
+              <p style={{ fontSize: 11, color:'var(--text-disabled)', margin: 0 }}>Da galeria ou câmera · JPG, PNG · comprimida automaticamente</p>
             </div>
           )}
         </div>
@@ -218,8 +218,8 @@ export default function FotosEvolucaoTab({ alunoId }) {
       {/* Cabeçalho */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
         <div>
-          <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#F4F4F5', margin: 0 }}>Fotos de Evolução</h3>
-          <p style={{ fontSize: 12, color: '#71717A', marginTop: 3, marginBottom: 0 }}>
+          <h3 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color:'var(--text-primary)', margin: 0 }}>Fotos de Evolução</h3>
+          <p style={{ fontSize: 12, color:'var(--text-muted)', marginTop: 3, marginBottom: 0 }}>
             {fotos.length} foto{fotos.length !== 1 ? 's' : ''} registrada{fotos.length !== 1 ? 's' : ''}
           </p>
         </div>
@@ -232,7 +232,7 @@ export default function FotosEvolucaoTab({ alunoId }) {
       {fotos.length > 0 && (
         <div style={{ display: 'flex', gap: 8 }}>
           {['', ...TIPOS].map(t => (
-            <button key={t || 'all'} onClick={() => setFilterTipo(t)} style={{ padding: '4px 12px', borderRadius: 999, fontSize: 11, fontWeight: 600, cursor: 'pointer', border: filterTipo === t ? '1px solid rgba(99,102,241,0.4)' : '1px solid rgba(255,255,255,0.08)', background: filterTipo === t ? 'rgba(99,102,241,0.15)' : 'transparent', color: filterTipo === t ? '#a5b4fc' : '#71717A', outline: 'none' }}>
+            <button key={t || 'all'} onClick={() => setFilterTipo(t)} style={{ padding: '4px 12px', borderRadius: 999, fontSize: 11, fontWeight: 600, cursor: 'pointer', border: filterTipo === t ? '1px solid rgba(99,102,241,0.4)' : '1px solid rgba(255,255,255,0.08)', background: filterTipo === t ? 'rgba(99,102,241,0.15)' : 'transparent', color: filterTipo === t ? '#a5b4fc' : 'var(--text-muted)', outline: 'none' }}>
               {t ? TIPO_LABEL[t] : 'Todas'}
             </button>
           ))}
@@ -245,10 +245,10 @@ export default function FotosEvolucaoTab({ alunoId }) {
           {[1,2,3].map(i => <div key={i} className="skeleton" style={{ aspectRatio: '3/4', borderRadius: 14 }} />)}
         </div>
       ) : fotos.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '48px 24px', background: '#111113', borderRadius: 16, border: '1px dashed rgba(255,255,255,0.08)' }}>
-          <Camera style={{ width: 40, height: 40, color: '#3F3F46', margin: '0 auto 12px' }} />
-          <p style={{ fontSize: 14, fontWeight: 600, color: '#71717A', margin: '0 0 6px' }}>Nenhuma foto ainda</p>
-          <p style={{ fontSize: 12, color: '#52525B', margin: '0 0 16px', lineHeight: 1.6 }}>
+        <div style={{ textAlign: 'center', padding: '48px 24px', background:'var(--bg-card)', borderRadius: 16, border: '1px dashed rgba(255,255,255,0.08)' }}>
+          <Camera style={{ width: 40, height: 40, color:'var(--text-disabled)', margin: '0 auto 12px' }} />
+          <p style={{ fontSize: 14, fontWeight: 600, color:'var(--text-muted)', margin: '0 0 6px' }}>Nenhuma foto ainda</p>
+          <p style={{ fontSize: 12, color:'var(--text-disabled)', margin: '0 0 16px', lineHeight: 1.6 }}>
             Registre a evolução física com fotos mensais — frente, lado e costas
           </p>
           <button className="btn-primary btn-sm" onClick={() => setShowUpload(true)} style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
@@ -258,7 +258,7 @@ export default function FotosEvolucaoTab({ alunoId }) {
       ) : (
         monthEntries.map(([key, { label, items }]) => (
           <div key={key}>
-            <div style={{ fontSize: 11, fontWeight: 600, color: '#52525B', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>{label}</div>
+            <div style={{ fontSize: 11, fontWeight: 600, color:'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 12 }}>{label}</div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 10 }}>
               {items.map((f, idx) => (
                 <FotoCard
@@ -279,7 +279,7 @@ export default function FotosEvolucaoTab({ alunoId }) {
           style={{ position: 'fixed', inset: 0, zIndex: 70, background: 'rgba(0,0,0,0.96)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           onClick={() => setLightbox(null)}
         >
-          <button onClick={() => setLightbox(null)} style={{ position: 'absolute', top: 20, right: 20, width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.08)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#A1A1AA' }}>
+          <button onClick={() => setLightbox(null)} style={{ position: 'absolute', top: 20, right: 20, width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.08)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color:'var(--text-secondary)' }}>
             <X style={{ width: 16, height: 16 }} />
           </button>
 
