@@ -108,7 +108,14 @@
 
 @layer base {
   *, *::before, *::after { box-sizing: border-box; }
-  html { scroll-behavior: smooth; color-scheme: dark; -webkit-text-size-adjust: 100%; }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+    /* iOS Safari: usa a altura real disponível (sem barra do browser) */
+    height: -webkit-fill-available;
+  }
 
   body {
     @apply antialiased;
@@ -119,6 +126,22 @@
     line-height: 1.5;
     font-feature-settings: 'cv02', 'cv03', 'cv11';
     -webkit-font-smoothing: antialiased;
+    /* Garante que a altura do body ocupe o fill-available no iOS */
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+  }
+
+  #root {
+    /* Cascata: navegadores sem suporte usam 100vh, modernos usam 100dvh */
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  /* Altura total da tela para layouts fixos (sidebar + content area) */
+  .h-screen-dvh {
+    height: 100vh;   /* fallback para browsers antigos */
+    height: 100dvh;  /* Chrome 108+, Firefox 101+, Safari 15.4+ */
+    overflow: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -522,7 +545,12 @@
 .pb-safe { padding-bottom: env(safe-area-inset-bottom) }
 .pl-safe { padding-left:   env(safe-area-inset-left) }
 .pr-safe { padding-right:  env(safe-area-inset-right) }
-.pb-mobile-nav { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
+.pb-mobile-nav { padding-bottom: calc(80px + env(safe-area-inset-bottom)); }
+
+/* Padding bottom para conteúdo abaixo de bottom nav (personal trainer layout) */
+@media (max-width: 1024px) {
+  .main-content-mobile { padding-bottom: calc(80px + env(safe-area-inset-bottom)) !important; }
+}
 .scroll-smooth-ios { -webkit-overflow-scrolling: touch; }
 
 @media (max-width: 640px) {

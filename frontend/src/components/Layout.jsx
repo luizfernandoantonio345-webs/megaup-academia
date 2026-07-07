@@ -268,18 +268,26 @@ export default function Layout({ children }) {
   const handleLogout = () => { logout(); navigate('/login') }
 
   return (
-    <div style={{ display: 'flex', height: '100vh', background: '#0C0C0D' }}>
+    <div className="h-screen-dvh" style={{ display: 'flex', background: '#0C0C0D' }}>
       {/* Desktop sidebar */}
       <aside className="hidden lg:flex flex-col" style={{ width: 220, flexShrink: 0, background: '#0A0A0B', borderRight: '1px solid #1C1C1E' }}>
         <SidebarContent user={user} onLogout={handleLogout} />
       </aside>
 
       {/* Content area */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflowY: 'auto' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}>
 
-        {/* Mobile top bar */}
-        <header className="lg:hidden" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 48, flexShrink: 0, background: 'rgba(10,10,11,0.97)', backdropFilter: 'blur(12px)', borderBottom: '1px solid #1C1C1E' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+        {/* Mobile top bar — sticky para não sumir ao rolar */}
+        <header className="lg:hidden" style={{
+          position: 'sticky', top: 0, zIndex: 40,
+          flexShrink: 0,
+          paddingTop: 'env(safe-area-inset-top)',
+          background: 'rgba(10,10,11,0.97)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          borderBottom: '1px solid #1C1C1E',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 48, gap: 7 }}>
             <div style={{ width: 20, height: 20, borderRadius: 5, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 11, height: 11, color: 'white' }} />
             </div>
@@ -294,7 +302,7 @@ export default function Layout({ children }) {
         </div>
 
         {/* Main content */}
-        <main className="flex-1 p-4 lg:p-6 pb-24 lg:pb-6" style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
+        <main className="flex-1 p-4 lg:p-6 lg:pb-6 main-content-mobile" style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
           <PlanBanner />
           <ErrorBoundary>
             {children}

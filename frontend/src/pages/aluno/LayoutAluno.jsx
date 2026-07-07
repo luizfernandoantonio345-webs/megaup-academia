@@ -16,7 +16,13 @@ export default function LayoutAluno({ children }) {
   const initials = (user?.nome || '??').split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
 
   return (
-    <div style={{ minHeight: '100vh', background: '#0C0C0D', display: 'flex', flexDirection: 'column' }}>
+    <div style={{
+      minHeight: '100vh',
+      minHeight: '100dvh',
+      background: '#0C0C0D',
+      display: 'flex',
+      flexDirection: 'column',
+    }}>
 
       {/* Sticky header */}
       <header style={{
