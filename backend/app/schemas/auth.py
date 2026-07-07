@@ -39,6 +39,14 @@ class RegisterPersonalRequest(BaseModel):
         return v
 
 
+class UpdateProfileRequest(BaseModel):
+    nome: str | None = None
+    bio: str | None = None
+    cref: str | None = None
+    especialidades: str | None = None
+    foto_url: str | None = None
+
+
 class UserInfo(BaseModel):
     id: int
     nome: str

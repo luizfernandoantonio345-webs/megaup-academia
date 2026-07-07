@@ -118,6 +118,10 @@ export const listarFotos         = (alunoId)         => api.get(`/alunos/${aluno
 export const uploadFoto          = (alunoId, data)   => api.post(`/alunos/${alunoId}/fotos`, data)
 export const deletarFoto         = (alunoId, fotoId) => api.delete(`/alunos/${alunoId}/fotos/${fotoId}`)
 
+// Personal trainer profile
+export const meuPerfil    = ()     => api.get('/auth/me')
+export const updateProfile = (data) => api.patch('/auth/me', data)
+
 // Web Push notifications
 export const getVapidPublicKey   = ()                => api.get('/push/vapid-public-key')
 export const subscribePush       = (data)            => api.post('/push/subscribe', data)

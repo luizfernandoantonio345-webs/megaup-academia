@@ -4,46 +4,13 @@ import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
 import { Zap, Mail, Lock, ArrowRight, Eye, EyeOff, Dumbbell, TrendingUp, Users } from 'lucide-react'
 import api from '../api/client'
+import { GymDecorBg, SvgDumbbell, SvgPlate } from '../components/GymDecorBg'
 
 const FEATURES = [
   { icon: Dumbbell,   title: 'Treinos personalizados',            desc: 'Monte e prescreva treinos para cada aluno com facilidade.' },
   { icon: TrendingUp, title: 'Analytics de progressão de carga',  desc: 'Analise o histórico de carga e acompanhe a evolução de cada aluno.' },
   { icon: Users,      title: 'Gestão completa de alunos',         desc: 'Acompanhe streak, conquistas e pagamentos em tempo real.' },
 ]
-
-// ── Decorative SVG components ────────────────────────────────────────────────
-
-function SvgDumbbell({ style }) {
-  return (
-    <svg viewBox="0 0 320 100" fill="currentColor" style={style} xmlns="http://www.w3.org/2000/svg">
-      {/* Left outer plate */}
-      <rect x="0" y="18" width="36" height="64" rx="8"/>
-      {/* Left inner plate */}
-      <rect x="36" y="6" width="22" height="88" rx="6"/>
-      {/* Bar */}
-      <rect x="58" y="40" width="204" height="20" rx="10"/>
-      {/* Right inner plate */}
-      <rect x="262" y="6" width="22" height="88" rx="6"/>
-      {/* Right outer plate */}
-      <rect x="284" y="18" width="36" height="64" rx="8"/>
-    </svg>
-  )
-}
-
-function SvgPlate({ style }) {
-  // evenodd: outer filled → middle hole → inner ring filled → center hole → hub filled
-  return (
-    <svg viewBox="0 0 120 120" fill="currentColor" style={style} xmlns="http://www.w3.org/2000/svg">
-      <path fillRule="evenodd" d="
-        M60 60 m-56 0 a56 56 0 1 1 112 0 a56 56 0 1 1-112 0
-        M60 60 m-42 0 a42 42 0 1 1  84 0 a42 42 0 1 1 -84 0
-        M60 60 m-30 0 a30 30 0 1 1  60 0 a30 30 0 1 1 -60 0
-        M60 60 m-14 0 a14 14 0 1 1  28 0 a14 14 0 1 1 -28 0
-        M60 60 m -8 0 a 8  8 0 1 1  16 0 a 8  8 0 1 1 -16 0
-      "/>
-    </svg>
-  )
-}
 
 // ── Login page ───────────────────────────────────────────────────────────────
 
@@ -52,8 +19,16 @@ export default function Login() {
   const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', senha: '' })
 
+  const [serverSlow, setServerSlow] = useState(false)
+
   useEffect(() => {
-    api.get('/ping').catch(() => {})
+    let mounted = true
+    const t = setTimeout(() => { if (mounted) setServerSlow(true) }, 3000)
+    api.get('/ping')
+      .then(() => { if (mounted) setServerSlow(false) })
+      .catch(() => {})
+      .finally(() => clearTimeout(t))
+    return () => { mounted = false; clearTimeout(t) }
   }, [])
 
   const [touched, setTouched] = useState({ email: false, senha: false })
@@ -86,46 +61,7 @@ export default function Login() {
     <div style={{ minHeight: '100vh', display: 'flex', background: '#0C0C0D', position: 'relative', overflow: 'hidden' }}>
 
       {/* ── Decorative gym equipment background ── */}
-      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
-        {/* Large dumbbell — top right, tilted */}
-        <SvgDumbbell style={{
-          position: 'absolute', top: -24, right: -70,
-          width: 420, color: '#6366f1', opacity: 0.055,
-          transform: 'rotate(-14deg)', flexShrink: 0,
-        }} />
-
-        {/* Medium dumbbell — bottom left, tilted opposite */}
-        <SvgDumbbell style={{
-          position: 'absolute', bottom: -16, left: -100,
-          width: 320, color: '#818cf8', opacity: 0.04,
-          transform: 'rotate(18deg)', flexShrink: 0,
-        }} />
-
-        {/* Small dumbbell — mid right */}
-        <SvgDumbbell style={{
-          position: 'absolute', top: '48%', right: -30,
-          width: 200, color: '#6366f1', opacity: 0.03,
-          transform: 'rotate(-6deg)', flexShrink: 0,
-        }} />
-
-        {/* Weight plate — top left area */}
-        <SvgPlate style={{
-          position: 'absolute', top: '6%', left: '12%',
-          width: 130, color: '#6366f1', opacity: 0.045,
-        }} />
-
-        {/* Weight plate — bottom right */}
-        <SvgPlate style={{
-          position: 'absolute', bottom: '8%', right: '4%',
-          width: 180, color: '#818cf8', opacity: 0.035,
-        }} />
-
-        {/* Small plate — upper mid */}
-        <SvgPlate style={{
-          position: 'absolute', top: '-4%', left: '45%',
-          width: 100, color: '#6366f1', opacity: 0.03,
-        }} />
-      </div>
+      <GymDecorBg />
 
       {/* ── Left panel (desktop only) ── */}
       <div
@@ -211,6 +147,20 @@ export default function Login() {
           <div className="lg:hidden" style={{ marginBottom: 24 }}>
             <SvgDumbbell style={{ width: '100%', maxWidth: 180, color: '#6366f1', opacity: 0.3, display: 'block', margin: '0 auto' }} />
           </div>
+
+          {/* Cold start banner */}
+          {serverSlow && (
+            <div style={{
+              marginBottom: 16, padding: '10px 14px',
+              background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)',
+              borderRadius: 10, display: 'flex', alignItems: 'center', gap: 10,
+            }}>
+              <div style={{ width: 14, height: 14, border: '2px solid rgba(251,191,36,0.3)', borderTopColor: '#fbbf24', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
+              <p style={{ fontSize: 12, color: '#fbbf24', margin: 0 }}>
+                Servidor iniciando... aguarde alguns segundos.
+              </p>
+            </div>
+          )}
 
           <div style={{ marginBottom: 28 }}>
             <h2 style={{ fontSize: 20, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em', marginBottom: 6 }}>

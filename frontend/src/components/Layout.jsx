@@ -4,12 +4,13 @@ import ErrorBoundary from './ErrorBoundary'
 import {
   LayoutDashboard, Users, Dumbbell, UserPlus, LogOut,
   X, DollarSign, Zap, MoreHorizontal, ChevronRight, CreditCard,
-  BarChart2, Gift, Calendar, Bell, Apple, ChevronDown, TrendingUp,
+  BarChart2, Gift, Calendar, Bell, Apple, ChevronDown, TrendingUp, UserCircle,
 } from 'lucide-react'
 import { useState } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { resumoNotificacoes, listarAlunos, resumoFinanceiro, analyticsResumo, listarExercicios } from '../api'
 import PlanBanner from './PlanBanner'
+import PlanGate from './PlanGate'
 import CommandPalette from './CommandPalette'
 
 const ST = 5 * 60_000
@@ -115,6 +116,15 @@ function SidebarContent({ user, onLogout }) {
           </div>
           <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', flexShrink: 0 }} title="Online" />
         </div>
+        <NavLink to="/perfil" style={{ textDecoration: 'none' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9, height: 32, padding: '0 10px', borderRadius: 6, cursor: 'pointer', color: '#71717A', fontSize: 13, fontFamily: 'Inter, sans-serif', transition: 'background 0.1s, color 0.1s' }}
+            onMouseEnter={e => { e.currentTarget.style.background = '#161618'; e.currentTarget.style.color = '#A1A1AA' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#71717A' }}
+          >
+            <UserCircle style={{ width: 14, height: 14, flexShrink: 0 }} />
+            <span>Meu perfil</span>
+          </div>
+        </NavLink>
         <button onClick={onLogout}
           style={{ display: 'flex', alignItems: 'center', gap: 9, height: 32, padding: '0 10px', borderRadius: 6, cursor: 'pointer', background: 'transparent', border: 'none', width: '100%', color: '#71717A', fontSize: 13, fontFamily: 'Inter, sans-serif', transition: 'background 0.1s, color 0.1s' }}
           onMouseEnter={e => { e.currentTarget.style.background = 'rgba(248,113,113,0.08)'; e.currentTarget.style.color = '#f87171' }}
@@ -304,9 +314,11 @@ export default function Layout({ children }) {
         {/* Main content */}
         <main className="flex-1 p-4 lg:p-6 lg:pb-6 main-content-mobile" style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
           <PlanBanner />
-          <ErrorBoundary>
-            {children}
-          </ErrorBoundary>
+          <PlanGate>
+            <ErrorBoundary>
+              {children}
+            </ErrorBoundary>
+          </PlanGate>
         </main>
       </div>
 

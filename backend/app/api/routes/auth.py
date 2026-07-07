@@ -4,10 +4,10 @@ from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from app.core.db import get_db
-from app.core.security import verify_password, create_access_token, hash_password
+from app.core.security import verify_password, create_access_token, hash_password, get_current_user
 from app.core.limiter import limiter
 from app.models import User, Tenant, Aluno, Convite, Role
-from app.schemas.auth import LoginRequest, RegisterPersonalRequest, AuthResponse, UserInfo
+from app.schemas.auth import LoginRequest, RegisterPersonalRequest, AuthResponse, UserInfo, UpdateProfileRequest
 from app.schemas.convites import AceitarConviteRequest
 
 router = APIRouter()
@@ -44,6 +44,49 @@ def _auth_response(user: User, db: Session | None = None) -> AuthResponse:
             aluno_id=aluno_id,
         ),
     )
+
+
+@router.get("/me")
+def get_me(current_user: User = Depends(get_current_user)):
+    return {
+        "id": current_user.id,
+        "nome": current_user.nome,
+        "email": current_user.email,
+        "bio": getattr(current_user, "bio", None),
+        "cref": getattr(current_user, "cref", None),
+        "especialidades": getattr(current_user, "especialidades", None),
+        "foto_url": getattr(current_user, "foto_url", None),
+        "role": current_user.role.value,
+    }
+
+
+@router.patch("/me")
+def update_me(
+    body: UpdateProfileRequest,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if body.nome is not None:
+        current_user.nome = body.nome.strip()
+    if body.bio is not None:
+        current_user.bio = body.bio
+    if body.cref is not None:
+        current_user.cref = body.cref
+    if body.especialidades is not None:
+        current_user.especialidades = body.especialidades
+    if body.foto_url is not None:
+        current_user.foto_url = body.foto_url
+    db.commit()
+    db.refresh(current_user)
+    return {
+        "id": current_user.id,
+        "nome": current_user.nome,
+        "email": current_user.email,
+        "bio": getattr(current_user, "bio", None),
+        "cref": getattr(current_user, "cref", None),
+        "especialidades": getattr(current_user, "especialidades", None),
+        "foto_url": getattr(current_user, "foto_url", None),
+    }
 
 
 @router.post("/login", response_model=AuthResponse)

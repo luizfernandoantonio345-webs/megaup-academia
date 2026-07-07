@@ -3,6 +3,7 @@ import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
 import { Zap, User, Mail, Lock, Building2, ArrowRight, Eye, EyeOff, Check, Dumbbell, TrendingUp, Shield, BarChart2 } from 'lucide-react'
+import { GymDecorBg, SvgDumbbell, SvgPlate } from '../components/GymDecorBg'
 
 function senhaForca(senha) {
   if (!senha) return { score: 0, label: '', color: '' }
@@ -74,9 +75,11 @@ export default function Registrar() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', background: '#0C0C0D' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', background: '#0C0C0D', position: 'relative', overflow: 'hidden' }}>
+      <GymDecorBg />
+
       {/* Left panel */}
-      <div style={{ display: 'none', width: 420, flexShrink: 0, padding: '48px 40px', flexDirection: 'column', justifyContent: 'space-between', background: '#0A0A0B', borderRight: '1px solid #1C1C1E' }} className="lg:flex">
+      <div style={{ display: 'none', width: 420, flexShrink: 0, padding: '48px 40px', flexDirection: 'column', justifyContent: 'space-between', background: 'rgba(10,10,11,0.85)', borderRight: '1px solid #1C1C1E', backdropFilter: 'blur(2px)' }} className="lg:flex">
         <div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 48 }}>
             <div style={{ width: 28, height: 28, borderRadius: 8, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -91,6 +94,22 @@ export default function Registrar() {
           <p style={{ fontSize: 13, color: '#71717A', lineHeight: 1.7, marginBottom: 32 }}>
             Plataforma completa para personal trainers gerirem alunos, prescreverem treinos e acompanharem resultados.
           </p>
+
+          {/* Dumbbell illustration */}
+          <div style={{
+            padding: '16px 20px', background: 'rgba(99,102,241,0.06)',
+            border: '1px solid rgba(99,102,241,0.15)', borderRadius: 14, marginBottom: 20,
+          }}>
+            <SvgDumbbell style={{ width: '100%', color: '#6366f1', opacity: 0.5, display: 'block', marginBottom: 10 }} />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <SvgPlate style={{ width: 26, color: '#818cf8', opacity: 0.6 }} />
+                <SvgPlate style={{ width: 26, color: '#a78bfa', opacity: 0.4 }} />
+                <SvgPlate style={{ width: 26, color: '#6366f1', opacity: 0.5 }} />
+              </div>
+              <span style={{ fontSize: 11, color: '#52525B', fontWeight: 500 }}>Grátis para começar</span>
+            </div>
+          </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {BENEFITS.map(({ icon: Icon, text }) => (

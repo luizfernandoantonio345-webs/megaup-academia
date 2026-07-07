@@ -36,6 +36,8 @@ const Analytics      = lazy(() => import('./pages/Analytics'))
 const RelatorioAluno = lazy(() => import('./pages/RelatorioAluno'))
 const Agenda         = lazy(() => import('./pages/Agenda'))
 const Inativos       = lazy(() => import('./pages/Inativos'))
+const NotFound       = lazy(() => import('./pages/NotFound'))
+const Perfil         = lazy(() => import('./pages/Perfil'))
 const TreinoHoje     = lazy(() => import('./pages/aluno/TreinoHoje'))
 const ChatAluno      = lazy(() => import('./pages/aluno/ChatAluno'))
 const SemanaTreinos  = lazy(() => import('./pages/aluno/SemanaTreinos'))
@@ -86,6 +88,7 @@ function AnimatedRoutes() {
 
         {/* Personal trainer / Admin */}
         <Route element={<ProtectedRoute roles={['personal', 'admin_academia']} />}>
+          <Route path="/perfil" element={<Layout><P><Perfil /></P></Layout>} />
           <Route path="/dashboard" element={<Layout><P><Dashboard /></P></Layout>} />
           <Route path="/alunos" element={<Layout><P><Alunos /></P></Layout>} />
           <Route path="/alunos/:id" element={<Layout><P><AlunoDetalhe /></P></Layout>} />
@@ -124,7 +127,7 @@ function AnimatedRoutes() {
             </div>
           </P>
         } />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<P><NotFound /></P>} />
       </Routes>
     </AnimatePresence>
   )
