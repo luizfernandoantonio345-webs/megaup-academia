@@ -62,10 +62,12 @@ function CardSkeleton({ height = 200 }) {
 export default function Dashboard() {
   const { user } = useAuth()
 
+  const PD = (prev) => prev
   const { data: alunos = [], isLoading: la } = useQuery({
     queryKey: ['alunos'],
     queryFn: () => listarAlunos().then(r => r.data),
     staleTime: 5 * 60_000,
+    placeholderData: PD,
   })
 
   // Analytics already aggregates everything the dashboard needs — no need to load all treinos
@@ -73,6 +75,7 @@ export default function Dashboard() {
     queryKey: ['analytics-resumo', 7],
     queryFn: () => analyticsResumo(7).then(r => r.data),
     staleTime: 5 * 60_000,
+    placeholderData: PD,
   })
 
   const hora = new Date().getHours()

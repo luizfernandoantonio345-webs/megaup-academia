@@ -34,10 +34,11 @@ export default function Financeiro() {
   const [cobForm, setCobForm] = useState({ plano_id:'', vencimento:'' })
 
   const ST = 5 * 60_000
-  const { data: resumo, isLoading: loadingResumo } = useQuery({ queryKey:['resumo'],    queryFn: () => resumoFinanceiro().then(r => r.data), staleTime: ST })
-  const { data: planos    = [] } = useQuery({ queryKey:['planos'],    queryFn: () => listarPlanos().then(r => r.data),    staleTime: ST })
-  const { data: cobrancas = [] } = useQuery({ queryKey:['cobrancas'], queryFn: () => listarCobrancas().then(r => r.data), staleTime: ST })
-  const { data: alunos    = [] } = useQuery({ queryKey:['alunos'],    queryFn: () => listarAlunos().then(r => r.data),    staleTime: ST })
+  const PD = (prev) => prev
+  const { data: resumo, isLoading: loadingResumo } = useQuery({ queryKey:['resumo'],    queryFn: () => resumoFinanceiro().then(r => r.data), staleTime: ST, placeholderData: PD })
+  const { data: planos    = [] } = useQuery({ queryKey:['planos'],    queryFn: () => listarPlanos().then(r => r.data),    staleTime: ST, placeholderData: PD })
+  const { data: cobrancas = [] } = useQuery({ queryKey:['cobrancas'], queryFn: () => listarCobrancas().then(r => r.data), staleTime: ST, placeholderData: PD })
+  const { data: alunos    = [] } = useQuery({ queryKey:['alunos'],    queryFn: () => listarAlunos().then(r => r.data),    staleTime: ST, placeholderData: PD })
 
   const mutCriarPlano   = useMutation({ mutationFn: criarPlano,    onSuccess: () => { toast.success('Plano criado!');     qc.invalidateQueries({queryKey:['planos']});    qc.invalidateQueries({queryKey:['resumo']});    setShowPlanoForm(false) }, onError: e => toast.error(e.response?.data?.detail || 'Erro') })
   const mutInativarPlano = useMutation({ mutationFn: inativarPlano, onSuccess: () => { toast.success('Plano inativado'); qc.invalidateQueries({queryKey:['planos']});    qc.invalidateQueries({queryKey:['resumo']}) } })

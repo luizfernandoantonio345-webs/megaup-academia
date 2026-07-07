@@ -33,10 +33,12 @@ export default function AlunoDetalhe() {
   const [nomeTemp, setNomeTemp] = useState('')
 
   const ST = 5 * 60_000
-  const { data: aluno, isLoading } = useQuery({ queryKey:['aluno', id], queryFn: () => obterAluno(id).then(r => r.data), staleTime: ST })
-  const { data: treinos = [] } = useQuery({ queryKey:['treinos', id], queryFn: () => listarTreinos(id).then(r => r.data), staleTime: ST })
-  const { data: gami }   = useQuery({ queryKey:['gamificacao', id], queryFn: () => gamificacaoAluno(id).then(r => r.data), staleTime: ST })
-  const { data: sugestoes } = useQuery({ queryKey:['sugestoes', id], queryFn: () => sugestoesAluno(id).then(r => r.data), staleTime: ST })
+  const PD = (prev) => prev
+  const { data: aluno, isLoading } = useQuery({ queryKey:['aluno', id], queryFn: () => obterAluno(id).then(r => r.data), staleTime: ST, placeholderData: PD })
+  const { data: treinos = [] } = useQuery({ queryKey:['treinos', id], queryFn: () => listarTreinos(id).then(r => r.data), staleTime: ST, placeholderData: PD })
+  const { data: gami }   = useQuery({ queryKey:['gamificacao', id], queryFn: () => gamificacaoAluno(id).then(r => r.data), staleTime: ST, placeholderData: PD })
+  // sugestoes: lazy — só busca quando o tab é aberto (evita request desnecessário no carregamento)
+  const { data: sugestoes } = useQuery({ queryKey:['sugestoes', id], queryFn: () => sugestoesAluno(id).then(r => r.data), staleTime: ST, enabled: tab === 'sugestoes' })
   const { data: anamnese }  = useQuery({ queryKey:['anamnese', id], queryFn: () => obterAnamnese(id).then(r => r.data), enabled: tab === 'anamnese', staleTime: ST })
   const { data: exercicios = [] } = useQuery({ queryKey:['exercicios'], queryFn: () => listarExercicios().then(r => r.data), enabled: tab === 'progresso', staleTime: ST })
   const { data: avaliacoes = [], refetch: refetchAv } = useQuery({ queryKey:['avaliacoes', id], queryFn: () => listarAvaliacoes(id).then(r => r.data), enabled: tab === 'avaliacao', staleTime: ST })

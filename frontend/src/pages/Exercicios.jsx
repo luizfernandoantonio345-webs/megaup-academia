@@ -214,6 +214,7 @@ export default function Exercicios() {
     queryKey: ['exercicios'],
     queryFn: () => listarExercicios().then(r => r.data),
     staleTime: 5 * 60_000,
+    placeholderData: (prev) => prev,
   })
 
   const { mutate: criar, isPending: criando } = useMutation({

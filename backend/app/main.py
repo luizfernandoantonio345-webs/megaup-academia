@@ -270,6 +270,9 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request as StarletteRequest
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    # Rotas cujos dados mudam raramente — pode ser revalidado em background
+    _CACHEABLE = {"/exercicios/", "/ping", "/health"}
+
     async def dispatch(self, request: StarletteRequest, call_next):
         response = await call_next(request)
         response.headers["X-Content-Type-Options"] = "nosniff"
@@ -279,6 +282,13 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
         if request.url.scheme == "https":
             response.headers["Strict-Transport-Security"] = "max-age=63072000; includeSubDomains"
+        # Cache-Control: authenticated GET respostas ficam private, revalidam após 5 min
+        if request.method == "GET" and response.status_code == 200:
+            path = request.url.path
+            if any(path.startswith(c) for c in self._CACHEABLE):
+                response.headers["Cache-Control"] = "private, max-age=300, stale-while-revalidate=60"
+            else:
+                response.headers.setdefault("Cache-Control", "private, no-store")
         return response
 
 app.add_middleware(SecurityHeadersMiddleware)
