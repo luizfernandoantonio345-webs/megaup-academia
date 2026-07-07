@@ -1,19 +1,18 @@
 import { useQuery } from '@tanstack/react-query'
-import { listarAlunos, listarTreinos } from '../api'
+import { listarAlunos, analyticsResumo } from '../api'
 import { useAuth } from '../contexts/AuthContext'
 import { Link } from 'react-router-dom'
-import { Users, Dumbbell, UserPlus, ArrowRight, BarChart2, TrendingUp, Activity } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts'
-import { SkeletonPage } from '../components/ui/Skeleton'
+import {
+  Users, Dumbbell, UserPlus, ArrowRight,
+  BarChart2, TrendingUp, Activity,
+} from 'lucide-react'
+import {
+  BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+} from 'recharts'
 import OnboardingWizard from '../components/OnboardingWizard'
 import { useCountUp } from '../hooks/useCountUp'
 
-const DIAS     = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb']
-const DIAS_API = ['domingo','segunda','terca','quarta','quinta','sexta','sabado']
-
-// color-blind safe, muted para não virar arco-íris
-const BAR_COLOR = '#6366f1'
-
+// Days of week in PT for the chart (executions by date → last 7 entries)
 const ChartTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
@@ -34,10 +33,7 @@ function Avatar({ nome, size = 32 }) {
       background: '#1C1C1E', border: '1px solid #27272A',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       fontSize: size * 0.38, fontWeight: 600, color: '#A1A1AA', flexShrink: 0,
-      fontFamily: 'Inter, sans-serif',
-    }}>
-      {initials}
-    </div>
+    }}>{initials}</div>
   )
 }
 
@@ -45,44 +41,53 @@ function Kpi({ value, label, to }) {
   const num = typeof value === 'number' ? value : parseFloat(value)
   const counted = useCountUp(isNaN(num) ? 0 : num, 700)
   const display = isNaN(num) ? value : counted
-
   const inner = (
     <div style={{ padding: '16px 20px', borderRight: '1px solid #1C1C1E' }}>
-      <p style={{ fontSize: 24, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 4, fontFamily: 'Inter, sans-serif' }}>
-        {display}
-      </p>
-      <p style={{ fontSize: 12, color: '#71717A', fontFamily: 'Inter, sans-serif' }}>{label}</p>
+      <p style={{ fontSize: 24, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 4 }}>{display}</p>
+      <p style={{ fontSize: 12, color: '#71717A' }}>{label}</p>
     </div>
   )
   return to
-    ? <Link to={to} style={{ textDecoration: 'none', display: 'block' }} className="group"
-        onMouseEnter={e => e.currentTarget.querySelector('p:first-child').style.color='#818cf8'}
-        onMouseLeave={e => e.currentTarget.querySelector('p:first-child').style.color='#F4F4F5'}
+    ? <Link to={to} style={{ textDecoration: 'none', display: 'block' }}
+        onMouseEnter={e => e.currentTarget.querySelector('p').style.color = '#818cf8'}
+        onMouseLeave={e => e.currentTarget.querySelector('p').style.color = '#F4F4F5'}
       >{inner}</Link>
     : inner
 }
 
+function CardSkeleton({ height = 200 }) {
+  return <div className="skeleton" style={{ borderRadius: 12, height }} />
+}
+
 export default function Dashboard() {
   const { user } = useAuth()
-  const { data: alunos = [], isLoading: la } = useQuery({ queryKey: ['alunos'], queryFn: () => listarAlunos().then(r => r.data) })
-  const { data: treinos = [], isLoading: lt } = useQuery({ queryKey: ['treinos'], queryFn: () => listarTreinos().then(r => r.data) })
 
-  if (la || lt) return <SkeletonPage />
+  const { data: alunos = [], isLoading: la } = useQuery({
+    queryKey: ['alunos'],
+    queryFn: () => listarAlunos().then(r => r.data),
+    staleTime: 5 * 60_000,
+  })
 
-  const treinosPorDia = DIAS.map((dia, i) => ({
-    dia,
-    treinos: treinos.filter(t => {
-      const d = (t.dia_semana || '').toLowerCase()
-      return d === DIAS_API[i]
-    }).length,
-  }))
+  // Analytics already aggregates everything the dashboard needs — no need to load all treinos
+  const { data: analytics, isLoading: lan } = useQuery({
+    queryKey: ['analytics-resumo', 7],
+    queryFn: () => analyticsResumo(7).then(r => r.data),
+    staleTime: 5 * 60_000,
+  })
 
-  const recentAlunos = [...alunos].reverse().slice(0, 6)
   const hora = new Date().getHours()
   const saudacao = hora < 12 ? 'Bom dia' : hora < 18 ? 'Boa tarde' : 'Boa noite'
-  const avgEx = treinos.length > 0
-    ? (treinos.reduce((s, t) => s + (t.itens?.length || 0), 0) / treinos.length).toFixed(1)
-    : '0'
+  const recentAlunos = [...alunos].reverse().slice(0, 6)
+
+  // Last 7 days of training activity from analytics
+  const treinosDia = (analytics?.treinos_por_dia || []).slice(-7).map(r => ({
+    dia: r.dia.slice(5), // "MM-DD"
+    treinos: r.total,
+  }))
+
+  const totalTreinos = analytics?.treinos_semana ?? 0
+  const totalAlunos = analytics?.total_alunos ?? alunos.length
+  const ativos = analytics?.alunos_ativos_7d ?? 0
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className="animate-fade-in">
@@ -104,12 +109,12 @@ export default function Dashboard() {
         </Link>
       </div>
 
-      {/* KPI strip */}
+      {/* KPI strip — renders as soon as one query resolves */}
       <div className="kpi-strip">
-        <Kpi value={alunos.length}   label="Alunos"       to="/alunos" />
-        <Kpi value={treinos.length}  label="Treinos"       />
-        <Kpi value={Number(avgEx)}   label="Ex / treino"   />
-        <Kpi value="Analytics"       label="Ver relatório" to="/analytics" />
+        <Kpi value={la ? '…' : totalAlunos}   label="Alunos"        to="/alunos" />
+        <Kpi value={lan ? '…' : totalTreinos} label="Treinos (7d)"  />
+        <Kpi value={lan ? '…' : ativos}       label="Ativos (7d)"   />
+        <Kpi value="Analytics"                label="Ver relatório"  to="/analytics" />
       </div>
 
       {/* Charts row */}
@@ -118,24 +123,26 @@ export default function Dashboard() {
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
             <div>
-              <h2 style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5', margin: 0 }}>Distribuição semanal</h2>
-              <p style={{ fontSize: 12, color: '#71717A', marginTop: 2 }}>Treinos por dia da semana</p>
+              <h2 style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5', margin: 0 }}>Atividade — últimos 7 dias</h2>
+              <p style={{ fontSize: 12, color: '#71717A', marginTop: 2 }}>Treinos executados por dia</p>
             </div>
             <Activity style={{ width: 15, height: 15, color: '#52525B' }} />
           </div>
-          {treinos.length === 0 ? (
+          {lan ? (
+            <CardSkeleton height={180} />
+          ) : treinosDia.length === 0 ? (
             <div className="empty-state" style={{ padding: '32px 0' }}>
               <div className="empty-icon"><Dumbbell style={{ width: 16, height: 16, color: '#52525B' }} /></div>
-              <p className="empty-title">Nenhum treino ainda</p>
+              <p className="empty-title">Nenhuma execução ainda</p>
             </div>
           ) : (
             <ResponsiveContainer width="100%" height={180}>
-              <BarChart data={treinosPorDia} barSize={22} margin={{ top: 2, right: 4, left: -20, bottom: 0 }}>
+              <BarChart data={treinosDia} barSize={22} margin={{ top: 2, right: 4, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="2 4" vertical={false} stroke="#1C1C1E" />
-                <XAxis dataKey="dia" tick={{ fontSize: 11, fill: '#71717A', fontFamily: 'Inter, sans-serif' }} axisLine={false} tickLine={false} />
+                <XAxis dataKey="dia" tick={{ fontSize: 11, fill: '#71717A' }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fontSize: 11, fill: '#71717A' }} axisLine={false} tickLine={false} allowDecimals={false} width={18} />
                 <Tooltip content={<ChartTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)', radius: 4 }} />
-                <Bar dataKey="treinos" radius={[4, 4, 2, 2]} fill={BAR_COLOR} fillOpacity={0.8} isAnimationActive={false} />
+                <Bar dataKey="treinos" radius={[4, 4, 2, 2]} fill="#6366f1" fillOpacity={0.8} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           )}
@@ -147,23 +154,27 @@ export default function Dashboard() {
             <h2 style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5', margin: 0 }}>Visão geral</h2>
             <TrendingUp style={{ width: 15, height: 15, color: '#52525B' }} />
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {[
-              { label: 'Alunos',    value: alunos.length,  max: Math.max(alunos.length, 10),  color: '#6366f1' },
-              { label: 'Treinos',   value: treinos.length, max: Math.max(treinos.length, 20), color: '#4ade80' },
-              { label: 'Ex/treino', value: Number(avgEx),  max: 12,                           color: '#60a5fa' },
-            ].map(({ label, value, max, color }) => (
-              <div key={label}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                  <span style={{ fontSize: 12, color: '#71717A' }}>{label}</span>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: '#A1A1AA' }}>{value}</span>
+          {lan ? (
+            <CardSkeleton height={140} />
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {[
+                { label: 'Total alunos',   value: totalAlunos, max: Math.max(totalAlunos, 10),  color: '#6366f1' },
+                { label: 'Treinos (7d)',   value: totalTreinos, max: Math.max(totalTreinos, 20), color: '#4ade80' },
+                { label: 'Alunos ativos', value: ativos,       max: Math.max(totalAlunos, 1),   color: '#60a5fa' },
+              ].map(({ label, value, max, color }) => (
+                <div key={label}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+                    <span style={{ fontSize: 12, color: '#71717A' }}>{label}</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: '#A1A1AA' }}>{value}</span>
+                  </div>
+                  <div className="progress-bar-track">
+                    <div className="progress-bar-fill" style={{ width: `${Math.min(100, max > 0 ? (value / max) * 100 : 0)}%`, background: color }} />
+                  </div>
                 </div>
-                <div className="progress-bar-track">
-                  <div className="progress-bar-fill" style={{ width: `${Math.min(100, max > 0 ? (Number(value) / max) * 100 : 0)}%`, background: color }} />
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
           <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid #1C1C1E' }}>
             <Link to="/convites" className="btn-secondary" style={{ width: '100%', justifyContent: 'center', display: 'flex', gap: 6 }}>
               <UserPlus style={{ width: 13, height: 13 }} />
@@ -183,7 +194,13 @@ export default function Dashboard() {
               Ver todos <ArrowRight style={{ width: 12, height: 12 }} />
             </Link>
           </div>
-          {recentAlunos.length === 0 ? (
+          {la ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="skeleton" style={{ height: 40, borderRadius: 8 }} />
+              ))}
+            </div>
+          ) : recentAlunos.length === 0 ? (
             <div className="empty-state" style={{ padding: '24px 0' }}>
               <div className="empty-icon"><Users style={{ width: 16, height: 16, color: '#52525B' }} /></div>
               <p className="empty-title">Nenhum aluno ainda</p>
@@ -214,10 +231,10 @@ export default function Dashboard() {
           <h2 style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5', margin: '0 0 14px' }}>Ações rápidas</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             {[
-              { to: '/convites',   icon: UserPlus, label: 'Enviar convite por e-mail'     },
-              { to: '/exercicios', icon: Dumbbell, label: 'Gerenciar exercícios'            },
-              { to: '/ia',         icon: TrendingUp, label: 'Sugestões de progressão'        },
-              { to: '/financeiro', icon: BarChart2, label: 'Cobranças e planos'            },
+              { to: '/convites',   icon: UserPlus,   label: 'Enviar convite por e-mail'  },
+              { to: '/exercicios', icon: Dumbbell,   label: 'Gerenciar exercícios'         },
+              { to: '/ia',         icon: TrendingUp, label: 'Sugestões de progressão'      },
+              { to: '/financeiro', icon: BarChart2,  label: 'Cobranças e planos'           },
             ].map(({ to, icon: Icon, label }) => (
               <Link key={to} to={to}
                 style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 10px', borderRadius: 6, textDecoration: 'none', transition: 'background 0.1s' }}
@@ -225,7 +242,7 @@ export default function Dashboard() {
                 onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
               >
                 <Icon style={{ width: 14, height: 14, color: '#71717A', flexShrink: 0 }} />
-                <span style={{ fontSize: 13, color: '#A1A1AA', fontFamily: 'Inter, sans-serif' }}>{label}</span>
+                <span style={{ fontSize: 13, color: '#A1A1AA' }}>{label}</span>
                 <ArrowRight style={{ width: 12, height: 12, color: '#52525B', flexShrink: 0, marginLeft: 'auto' }} />
               </Link>
             ))}

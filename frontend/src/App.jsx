@@ -9,6 +9,8 @@ import Layout from './components/Layout'
 import LayoutAluno from './pages/aluno/LayoutAluno'
 import PageTransition from './components/PageTransition'
 import ErrorBoundary from './components/ErrorBoundary'
+import { useKeepAlive } from './hooks/useKeepAlive'
+import { useAuth } from './contexts/AuthContext'
 
 // Lazy-load all pages — reduces initial bundle from 1.25 MB to ~150 KB
 const Landing        = lazy(() => import('./pages/Landing'))
@@ -40,7 +42,7 @@ const Conquistas     = lazy(() => import('./pages/aluno/Conquistas'))
 const NutricaoAluno  = lazy(() => import('./pages/aluno/NutricaoAluno'))
 
 const qc = new QueryClient({
-  defaultOptions: { queries: { retry: 1, staleTime: 30_000 } },
+  defaultOptions: { queries: { retry: 1, staleTime: 5 * 60_000 } },
 })
 
 function PageLoader() {
@@ -57,6 +59,8 @@ function P({ children }) {
 
 function AnimatedRoutes() {
   const location = useLocation()
+  const { isAuthenticated } = useAuth()
+  useKeepAlive(isAuthenticated)
   return (
     <AnimatePresence mode="wait" initial={false}>
       <Routes location={location} key={location.pathname}>
