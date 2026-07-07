@@ -156,3 +156,25 @@ def enviar_convite(email_aluno: str, nome_personal: str, nome_academia: str, lin
         + _p("O link expira em 7 dias.", muted=True)
     )
     _send(email_aluno, f"Convite de {nome_personal} — GymPro", _base(content))
+
+
+def enviar_verificacao_email(email: str, nome: str, link: str) -> None:
+    content = (
+        _h2(f"Confirme seu e-mail, {nome}!")
+        + _p("Obrigado por se cadastrar no GymPro. Clique no botão abaixo para ativar sua conta.")
+        + _btn(link, "Confirmar e-mail")
+        + _p("Este link expira em <strong>24 horas</strong>. Se não foi você, ignore este e-mail.", muted=True)
+    )
+    _send(email, "Confirme seu e-mail — GymPro", _base(content))
+
+
+def enviar_cancelamento_assinatura(email: str, nome: str, plano: str) -> None:
+    link_planos = f"{settings.APP_URL}/planos"
+    content = (
+        _h2(f"Sua assinatura foi cancelada, {nome}")
+        + _p(f"O plano <strong>{plano}</strong> foi cancelado e sua conta foi movida para o plano Free (até 3 alunos).")
+        + _p("Você pode reativar a qualquer momento pelo painel de planos.")
+        + _btn(link_planos, "Ver planos disponíveis")
+        + _p("Se isso foi um erro ou deseja ajuda, responda este e-mail.", muted=True)
+    )
+    _send(email, "Assinatura cancelada — GymPro", _base(content))

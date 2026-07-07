@@ -1,4 +1,4 @@
-import { lazy, Suspense, Component } from 'react'
+import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
@@ -8,6 +8,7 @@ import { ProtectedRoute } from './components/ProtectedRoute'
 import Layout from './components/Layout'
 import LayoutAluno from './pages/aluno/LayoutAluno'
 import PageTransition from './components/PageTransition'
+import ErrorBoundary from './components/ErrorBoundary'
 
 // Lazy-load all pages — reduces initial bundle from 1.25 MB to ~150 KB
 const Landing        = lazy(() => import('./pages/Landing'))
@@ -48,38 +49,6 @@ function PageLoader() {
       <div style={{ width: 24, height: 24, border: '2px solid #27272A', borderTopColor: '#6366f1', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
     </div>
   )
-}
-
-class ErrorBoundary extends Component {
-  constructor(props) {
-    super(props)
-    this.state = { error: null }
-  }
-  static getDerivedStateFromError(error) {
-    return { error }
-  }
-  render() {
-    if (this.state.error) {
-      return (
-        <div style={{ minHeight:'100vh', background:'#0C0C0D', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center', padding:24 }}>
-          <div>
-            <div style={{ fontSize:40, marginBottom:16 }}>⚡</div>
-            <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'#F4F4F5', marginBottom:8 }}>Algo deu errado</h1>
-            <p style={{ color:'#71717A', fontSize:13, marginBottom:16, maxWidth:320, margin:'0 auto 16px' }}>
-              {this.state.error?.message || 'Erro inesperado'}
-            </p>
-            <button
-              onClick={() => { this.setState({ error: null }); window.location.href = '/login' }}
-              style={{ background:'#6366f1', color:'white', border:'none', borderRadius:8, padding:'10px 24px', fontWeight:600, cursor:'pointer', fontSize:14 }}
-            >
-              Voltar ao início
-            </button>
-          </div>
-        </div>
-      )
-    }
-    return this.props.children
-  }
 }
 
 function P({ children }) {

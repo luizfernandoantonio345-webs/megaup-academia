@@ -1,5 +1,7 @@
-﻿import { Link } from 'react-router-dom'
-import { Zap, Users, Calendar, MessageCircle, BarChart2, Trophy, Shield, ArrowRight, Check, Star, ChevronRight } from 'lucide-react'
+﻿import { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Zap, Users, Calendar, MessageCircle, BarChart2, Trophy, Shield, ArrowRight, Check, Star, Mail } from 'lucide-react'
+import axios from 'axios'
 
 const FEATURES = [
   { icon: BarChart2,     color: '#818cf8', bg: 'rgba(129,140,248,0.12)', title: 'Analytics Completo',   desc: 'Retenção, frequência, receita e exercícios mais realizados — tudo em um painel.' },
@@ -35,6 +37,64 @@ const STATS = [
   { value: '98%',   label: 'Satisfação' },
   { value: '14d',   label: 'Trial grátis' },
 ]
+
+function LeadForm() {
+  const [email, setEmail] = useState('')
+  const [sent, setSent] = useState(false)
+  const [loading, setLoading] = useState(false)
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!email) return
+    setLoading(true)
+    try {
+      await axios.post('/public/lead', { email })
+      setSent(true)
+    } catch {
+      setSent(true)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (sent) {
+    return (
+      <div style={{ textAlign: 'center', padding: '16px 0' }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '10px 20px', borderRadius: 12, background: 'rgba(52,211,153,0.1)', border: '1px solid rgba(52,211,153,0.25)' }}>
+          <Check style={{ width: 14, height: 14, color: '#34d399' }} />
+          <span style={{ fontSize: 14, color: '#34d399', fontWeight: 500 }}>Ótimo! Entraremos em contato em breve.</span>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap', maxWidth: 480, margin: '0 auto' }}>
+      <div style={{ position: 'relative', flex: 1, minWidth: 220 }}>
+        <Mail style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#52525B', pointerEvents: 'none' }} />
+        <input
+          type="email" required value={email} onChange={e => setEmail(e.target.value)}
+          placeholder="Seu melhor e-mail"
+          style={{
+            width: '100%', paddingLeft: 40, paddingRight: 16, height: 46,
+            background: '#111113', border: '1px solid #27272A', borderRadius: 12,
+            color: '#F4F4F5', fontSize: 14, outline: 'none', boxSizing: 'border-box',
+            fontFamily: 'Inter, sans-serif',
+          }}
+        />
+      </div>
+      <button type="submit" disabled={loading} style={{
+        height: 46, padding: '0 24px', borderRadius: 12, border: 'none',
+        background: '#6366f1', color: 'white', fontWeight: 600, fontSize: 14,
+        cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 6,
+        whiteSpace: 'nowrap', flexShrink: 0,
+      }}>
+        {loading ? 'Enviando…' : 'Quero saber mais'}
+        {!loading && <ArrowRight style={{ width: 14, height: 14 }} />}
+      </button>
+    </form>
+  )
+}
 
 export default function Landing() {
   return (
@@ -245,6 +305,24 @@ export default function Landing() {
               </button>
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* ── LEAD CAPTURE ── */}
+      <section style={{ padding: '60px 24px', background: '#111113', borderTop: '1px solid rgba(255,255,255,0.05)', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+        <div style={{ maxWidth: 640, margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '5px 14px', borderRadius: 999, background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', marginBottom: 20 }}>
+            <Mail style={{ width: 12, height: 12, color: '#818cf8' }} />
+            <span style={{ fontSize: 11, fontWeight: 600, color: '#818cf8', letterSpacing: '0.05em' }}>FIQUE POR DENTRO</span>
+          </div>
+          <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 'clamp(22px,3.5vw,34px)', fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 12 }}>
+            Quer ver o GymPro em ação antes de se cadastrar?
+          </h2>
+          <p style={{ fontSize: 15, color: '#71717A', marginBottom: 28, lineHeight: 1.6 }}>
+            Deixe seu e-mail e entraremos em contato para uma demonstração gratuita e personalizada.
+          </p>
+          <LeadForm />
+          <p style={{ fontSize: 11, color: '#52525B', marginTop: 14 }}>Sem spam. Apenas atualizações importantes e novidades do GymPro.</p>
         </div>
       </section>
 

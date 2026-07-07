@@ -2,16 +2,17 @@
 Rotas públicas (sem autenticação):
   POST /public/esqueci-senha
   POST /public/redefinir-senha
-  GET  /public/p/{referral_code}   → perfil público do personal
+  POST /public/lead              → captura de lead (landing page)
+  GET  /public/p/{referral_code} → perfil público do personal
 Rotas autenticadas:
-  PATCH /public/perfil             → atualizar bio/especialidades
+  PATCH /public/perfil           → atualizar bio/especialidades
 """
 import uuid
 from datetime import datetime, timedelta
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Request
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 from sqlalchemy.orm import Session
 
 from app.core.db import get_db
@@ -23,6 +24,30 @@ from app.models import User, PasswordResetToken, Tenant, Aluno, ExecucaoTreino
 from app.api.deps import get_current_user
 
 router = APIRouter()
+
+
+# ── Lead Capture ─────────────────────────────────────────────────────────────
+
+class LeadRequest(BaseModel):
+    email: EmailStr
+    nome: Optional[str] = None
+
+
+@router.post("/lead")
+@limiter.limit("10/hour")
+def capturar_lead(request: Request, body: LeadRequest):
+    """Captura email de interesse da landing page e notifica via email."""
+    try:
+        from app.core.email import _send
+        html = f"""<p style="font-family:Inter,sans-serif;font-size:14px;color:#3f3f46;">
+          Novo lead da landing page:<br><br>
+          <strong>Email:</strong> {body.email}<br>
+          {f'<strong>Nome:</strong> {body.nome}' if body.nome else ''}
+        </p>"""
+        _send(settings.EMAIL_FROM, f"Novo lead GymPro — {body.email}", html)
+    except Exception:
+        pass
+    return {"ok": True}
 
 
 # ── Password Reset ────────────────────────────────────────────────────────────
@@ -158,3 +183,74 @@ def atualizar_perfil(
         "especialidades": current_user.especialidades,
         "foto_url": current_user.foto_url,
     }
+
+
+# ── LGPD ─────────────────────────────────────────────────────────────────────
+
+@router.get("/exportar-dados")
+def exportar_dados(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """LGPD Art. 18 — exporta todos os dados do usuário em JSON."""
+    from app.models import Aluno, ExecucaoTreino, Mensagem, PlanoAluno, Cobranca
+
+    aluno = db.query(Aluno).filter(Aluno.user_id == current_user.id).first()
+    execucoes = []
+    if aluno:
+        execucoes = [
+            {"data": str(e.data), "treino_id": e.treino_id, "dificuldade": e.dificuldade}
+            for e in db.query(ExecucaoTreino).filter(ExecucaoTreino.aluno_id == aluno.id).all()
+        ]
+
+    return {
+        "usuario": {
+            "id": current_user.id,
+            "nome": current_user.nome,
+            "email": current_user.email,
+            "role": current_user.role.value,
+            "criado_em": str(current_user.criado_em),
+            "bio": current_user.bio,
+            "especialidades": current_user.especialidades,
+        },
+        "aluno": {
+            "id": aluno.id if aluno else None,
+            "objetivo": aluno.objetivo if aluno else None,
+            "streak_atual": aluno.streak_atual if aluno else None,
+        } if aluno else None,
+        "execucoes_treino": execucoes,
+        "exportado_em": str(__import__('datetime').datetime.utcnow()),
+    }
+
+
+@router.delete("/minha-conta", status_code=200)
+def excluir_conta(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """LGPD Art. 18 — anonimiza e desativa a conta do usuário."""
+    import hashlib
+
+    # Cancela assinatura Stripe se ativa
+    from app.models import Tenant
+    tenant = db.query(Tenant).filter(Tenant.id == current_user.tenant_id).first()
+    if tenant and getattr(tenant, "stripe_subscription_id", None):
+        try:
+            from app.services.billing import _get_stripe
+            stripe = _get_stripe()
+            stripe.Subscription.cancel(tenant.stripe_subscription_id)
+        except Exception:
+            pass
+
+    # Anonimiza dados pessoais
+    email_hash = hashlib.sha256(current_user.email.encode()).hexdigest()[:12]
+    current_user.nome = "Usuário Removido"
+    current_user.email = f"removed_{email_hash}@deleted.gymrpo"
+    current_user.senha_hash = ""
+    current_user.bio = None
+    current_user.especialidades = None
+    current_user.foto_url = None
+    current_user.ativo = False
+
+    db.commit()
+    return {"ok": True, "mensagem": "Conta encerrada. Seus dados foram anonimizados conforme a LGPD."}

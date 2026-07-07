@@ -238,13 +238,31 @@ def processar_webhook(payload: bytes, sig_header: str, db: Session) -> None:
             return
         tenant_id = int(tenant_id_str)
         if event["type"] == "customer.subscription.deleted" or sub.get("status") in ("canceled", "unpaid"):
+            plano_anterior = sub.get("metadata", {}).get("plano", "starter")
             _ativar_plano(tenant_id, "free", None, db)
+            _notificar_cancelamento(tenant_id, plano_anterior, db)
         else:
             plano = sub.get("metadata", {}).get("plano", "starter")
             _ativar_plano(tenant_id, plano, sub.get("id"), db)
 
     elif event["type"] == "invoice.payment_failed":
         logger.warning("Pagamento falhou: %s", data.get("customer"))
+
+
+def _notificar_cancelamento(tenant_id: int, plano: str, db: Session) -> None:
+    from app.models import Tenant, User, Role
+    from app.core.email import enviar_cancelamento_assinatura
+    try:
+        personal = (
+            db.query(User)
+            .filter(User.tenant_id == tenant_id, User.role == Role.personal, User.ativo == True)
+            .first()
+        )
+        if personal:
+            label = PLANOS.get(plano, {}).get("label", plano.capitalize())
+            enviar_cancelamento_assinatura(personal.email, personal.nome, label)
+    except Exception:
+        logger.exception("Falha ao enviar email de cancelamento para tenant_id=%s", tenant_id)
 
 
 def _ativar_plano(tenant_id: int, plano: str, subscription_id: Optional[str], db: Session):

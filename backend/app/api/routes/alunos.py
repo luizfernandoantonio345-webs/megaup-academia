@@ -64,10 +64,13 @@ def meu_perfil(
 
 @router.get("/", response_model=list[AlunoResponse])
 def listar_alunos(
+    skip: int = 0,
+    limit: int = 50,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
-    return db.query(Aluno).filter(Aluno.tenant_id == current_user.tenant_id).all()
+    limit = min(limit, 200)
+    return db.query(Aluno).filter(Aluno.tenant_id == current_user.tenant_id).offset(skip).limit(limit).all()
 
 
 @router.post("/", response_model=AlunoResponse, status_code=201)

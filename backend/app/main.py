@@ -218,9 +218,24 @@ def _billing_migration():
         logging.getLogger(__name__).warning("billing_migration: %s", exc)
 
 
+def _email_verificacao_migration():
+    """Adiciona coluna email_verificado ao users se não existir."""
+    try:
+        inspector = inspect(engine)
+        cols = {c["name"] for c in inspector.get_columns("users")}
+        if "email_verificado" not in cols:
+            with engine.connect() as conn:
+                conn.execute(text("ALTER TABLE users ADD COLUMN email_verificado BOOLEAN DEFAULT TRUE"))
+                conn.commit()
+    except Exception as exc:
+        import logging
+        logging.getLogger(__name__).warning("email_verificacao_migration: %s", exc)
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     _billing_migration()
+    _email_verificacao_migration()
     _sprint_b_migration()
     _sprint_c_migration()
     _sprint_d_migration()

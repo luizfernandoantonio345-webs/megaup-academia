@@ -1,3 +1,6 @@
+import os
+os.environ["TESTING"] = "1"  # desativa rate limiting antes de qualquer import do app
+
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine

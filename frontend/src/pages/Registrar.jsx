@@ -1,8 +1,41 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
 import { Zap, User, Mail, Lock, Building2, ArrowRight, Eye, EyeOff, Check, Dumbbell, TrendingUp, Shield, BarChart2 } from 'lucide-react'
+
+function senhaForca(senha) {
+  if (!senha) return { score: 0, label: '', color: '' }
+  let score = 0
+  if (senha.length >= 8)  score++
+  if (senha.length >= 12) score++
+  if (/[A-Z]/.test(senha)) score++
+  if (/[0-9]/.test(senha)) score++
+  if (/[^A-Za-z0-9]/.test(senha)) score++
+  if (score <= 1) return { score, label: 'Fraca',  color: '#f87171' }
+  if (score <= 2) return { score, label: 'Média',  color: '#fbbf24' }
+  if (score <= 3) return { score, label: 'Boa',    color: '#34d399' }
+  return              { score, label: 'Forte', color: '#6366f1' }
+}
+
+function PasswordStrength({ senha }) {
+  const { score, label, color } = useMemo(() => senhaForca(senha), [senha])
+  if (!senha) return null
+  return (
+    <div style={{ marginTop: 6 }}>
+      <div style={{ display: 'flex', gap: 4, marginBottom: 4 }}>
+        {[1, 2, 3, 4].map(i => (
+          <div key={i} style={{
+            flex: 1, height: 3, borderRadius: 2,
+            background: score >= i ? color : '#27272A',
+            transition: 'background 0.2s',
+          }} />
+        ))}
+      </div>
+      {label && <p style={{ fontSize: 11, color, fontWeight: 500, margin: 0 }}>{label}</p>}
+    </div>
+  )
+}
 
 const BENEFITS = [
   { icon: Dumbbell,   text: 'Gestão completa de alunos e treinos'          },
@@ -111,6 +144,7 @@ export default function Registrar() {
                   {showPass ? <EyeOff style={{ width: 14, height: 14 }} /> : <Eye style={{ width: 14, height: 14 }} />}
                 </button>
               </div>
+              <PasswordStrength senha={form.senha} />
             </div>
 
             <button type="submit" className="btn-primary btn-xl w-full" style={{ marginTop: 4 }} disabled={loading}>

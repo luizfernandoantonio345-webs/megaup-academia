@@ -78,11 +78,48 @@ def registrar_personal(request: Request, body: RegisterPersonalRequest, db: Sess
     db.add(user)
     db.commit()
     db.refresh(user)
+    # Marca como não verificado e envia email de confirmação
+    user.email_verificado = False
+    db.commit()
+
     try:
-        enviar_boas_vindas(user.email, user.nome)
+        import uuid
+        from app.core.config import settings as _s
+        token = uuid.uuid4().hex
+        from app.models import PasswordResetToken
+        prt = PasswordResetToken(
+            user_id=user.id,
+            token=f"ev_{token}",
+            expires_at=datetime.utcnow() + __import__('datetime').timedelta(hours=24),
+        )
+        db.add(prt)
+        db.commit()
+        link = f"{_s.APP_URL}/confirmar-email?token=ev_{token}"
+        from app.core.email import enviar_verificacao_email, enviar_boas_vindas
+        enviar_verificacao_email(user.email, user.nome, link)
     except Exception:
         pass
     return _auth_response(user)
+
+
+@router.get("/confirmar-email")
+def confirmar_email(token: str, db: Session = Depends(get_db)):
+    """Endpoint chamado quando o usuário clica no link do email de verificação."""
+    from app.models import PasswordResetToken
+    prt = db.query(PasswordResetToken).filter(
+        PasswordResetToken.token == token,
+        PasswordResetToken.used == False,
+    ).first()
+    if not prt:
+        raise HTTPException(400, "Link inválido ou já utilizado")
+    if datetime.utcnow() > prt.expires_at:
+        raise HTTPException(410, "Link expirado. Faça login e solicite um novo.")
+    user = db.query(User).filter(User.id == prt.user_id).first()
+    if user:
+        user.email_verificado = True
+    prt.used = True
+    db.commit()
+    return {"ok": True, "mensagem": "E-mail confirmado! Você já pode usar o GymPro."}
 
 
 @router.post("/aceitar-convite", response_model=AuthResponse, status_code=201)

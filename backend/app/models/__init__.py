@@ -43,10 +43,11 @@ class User(Base):
     role = Column(Enum(Role), nullable=False)
     cref = Column(String, nullable=True)
     ativo = Column(Boolean, default=True)
+    email_verificado = Column(Boolean, default=True)  # True = verificado ou não-exige (aluno/legado)
     criado_em = Column(DateTime, default=datetime.utcnow)
     # Perfil público
     bio = Column(Text, nullable=True)
-    especialidades = Column(String, nullable=True)  # ex: "Musculação, Emagrecimento"
+    especialidades = Column(String, nullable=True)
     foto_url = Column(String, nullable=True)
 
 

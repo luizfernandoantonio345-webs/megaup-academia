@@ -29,9 +29,12 @@ def _get_treino_or_404(treino_id: int, tenant_id: int, db: Session) -> Treino:
 @router.get("/", response_model=list[TreinoResponse])
 def listar_treinos(
     aluno_id: int | None = None,
+    skip: int = 0,
+    limit: int = 100,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
+    limit = min(limit, 200)
     q = (
         db.query(Treino)
         .options(joinedload(Treino.itens))
@@ -39,7 +42,7 @@ def listar_treinos(
     )
     if aluno_id is not None:
         q = q.filter(Treino.aluno_id == aluno_id)
-    return q.all()
+    return q.offset(skip).limit(limit).all()
 
 
 @router.post("/", response_model=TreinoResponse, status_code=201)

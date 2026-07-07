@@ -1,5 +1,6 @@
 ﻿import { NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
+import ErrorBoundary from './ErrorBoundary'
 import {
   LayoutDashboard, Users, Dumbbell, UserPlus, LogOut,
   X, DollarSign, Zap, MoreHorizontal, ChevronRight, CreditCard,
@@ -283,7 +284,9 @@ export default function Layout({ children }) {
         {/* Main content */}
         <main className="flex-1 p-4 lg:p-6 pb-24 lg:pb-6" style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
           <PlanBanner />
-          {children}
+          <ErrorBoundary>
+            {children}
+          </ErrorBoundary>
         </main>
       </div>
 

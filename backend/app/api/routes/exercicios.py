@@ -13,16 +13,21 @@ router = APIRouter()
 
 @router.get("/", response_model=list[ExercicioResponse])
 def listar_exercicios(
+    skip: int = 0,
+    limit: int = 200,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
     """Retorna exercícios globais (tenant_id=NULL) + customizados do tenant."""
+    limit = min(limit, 500)
     return (
         db.query(Exercicio)
         .filter(
             or_(Exercicio.tenant_id == None, Exercicio.tenant_id == current_user.tenant_id)
         )
         .order_by(Exercicio.nome)
+        .offset(skip)
+        .limit(limit)
         .all()
     )
 
