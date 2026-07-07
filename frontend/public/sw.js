@@ -1,4 +1,4 @@
-const CACHE = 'gymrpo-v2'
+const CACHE = 'gympro-v3'
 const STATIC = [
   '/',
   '/index.html',
@@ -28,16 +28,21 @@ self.addEventListener('fetch', (e) => {
 
   if (request.method !== 'GET') return
 
-  // API calls: network first, fall back to cache
+  // Auth endpoints: always network, never serve stale credentials
+  if (url.pathname.startsWith('/auth')) return
+
+  // API calls: stale-while-revalidate — return cached instantly, update in background
   if (url.hostname.includes('onrender.com') || url.pathname.startsWith('/api')) {
     e.respondWith(
-      fetch(request)
-        .then((res) => {
-          const clone = res.clone()
-          caches.open(CACHE).then((c) => c.put(request, clone))
+      caches.open(CACHE).then(async (cache) => {
+        const cached = await cache.match(request)
+        const netReq = fetch(request).then((res) => {
+          if (res.ok) cache.put(request, res.clone())
           return res
-        })
-        .catch(() => caches.match(request))
+        }).catch(() => cached)
+        // Serve cached immediately; network updates cache in background
+        return cached || netReq
+      })
     )
     return
   }
