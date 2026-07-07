@@ -12,6 +12,14 @@ class RegisterPersonalRequest(BaseModel):
     senha: str
     nome_academia: str
     ref_code: str | None = None
+    termos_aceitos: bool = False
+
+    @field_validator("termos_aceitos")
+    @classmethod
+    def deve_aceitar_termos(cls, v: bool) -> bool:
+        if not v:
+            raise ValueError("É obrigatório aceitar os Termos de Uso e a Política de Privacidade")
+        return v
 
     @field_validator("senha")
     @classmethod

@@ -74,6 +74,8 @@ def registrar_personal(request: Request, body: RegisterPersonalRequest, db: Sess
         email=body.email,
         senha_hash=hash_password(body.senha),
         role=Role.personal,
+        termos_aceitos=True,
+        termos_aceitos_em=datetime.utcnow(),
     )
     db.add(user)
     db.commit()

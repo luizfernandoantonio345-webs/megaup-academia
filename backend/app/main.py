@@ -25,8 +25,10 @@ def _run_migrations() -> None:
         if "bio"              not in user_cols: stmts.append("ALTER TABLE users ADD COLUMN bio TEXT")
         if "especialidades"   not in user_cols: stmts.append("ALTER TABLE users ADD COLUMN especialidades VARCHAR")
         if "foto_url"         not in user_cols: stmts.append("ALTER TABLE users ADD COLUMN foto_url VARCHAR")
-        if "email_verificado" not in user_cols: stmts.append("ALTER TABLE users ADD COLUMN email_verificado BOOLEAN DEFAULT TRUE")
-        if "cref"             not in user_cols: stmts.append("ALTER TABLE users ADD COLUMN cref VARCHAR")
+        if "email_verificado"  not in user_cols: stmts.append("ALTER TABLE users ADD COLUMN email_verificado BOOLEAN DEFAULT TRUE")
+        if "cref"              not in user_cols: stmts.append("ALTER TABLE users ADD COLUMN cref VARCHAR")
+        if "termos_aceitos"    not in user_cols: stmts.append("ALTER TABLE users ADD COLUMN termos_aceitos BOOLEAN DEFAULT FALSE")
+        if "termos_aceitos_em" not in user_cols: stmts.append("ALTER TABLE users ADD COLUMN termos_aceitos_em TIMESTAMP")
 
         # ── tenants ────────────────────────────────────────────────────────────
         if "plan_tier"              not in tenant_cols: stmts.append("ALTER TABLE tenants ADD COLUMN plan_tier VARCHAR DEFAULT 'trial'")

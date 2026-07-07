@@ -44,6 +44,8 @@ class User(Base):
     cref = Column(String, nullable=True)
     ativo = Column(Boolean, default=True)
     email_verificado = Column(Boolean, default=True)  # True = verificado ou não-exige (aluno/legado)
+    termos_aceitos = Column(Boolean, default=False)
+    termos_aceitos_em = Column(DateTime, nullable=True)
     criado_em = Column(DateTime, default=datetime.utcnow)
     # Perfil público
     bio = Column(Text, nullable=True)

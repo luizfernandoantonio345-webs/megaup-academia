@@ -50,15 +50,20 @@ export default function Registrar() {
   const [searchParams] = useSearchParams()
   const refCode = searchParams.get('ref') || ''
   const [form, setForm] = useState({ nome: '', email: '', senha: '', nome_academia: '' })
+  const [termosAceitos, setTermosAceitos] = useState(false)
   const [loading, setLoading] = useState(false)
   const [showPass, setShowPass] = useState(false)
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!termosAceitos) {
+      toast.error('Você precisa aceitar os Termos de Uso para continuar.')
+      return
+    }
     setLoading(true)
     try {
-      await registrar({ ...form, ref_code: refCode || undefined })
+      await registrar({ ...form, ref_code: refCode || undefined, termos_aceitos: true })
       toast.success('Conta criada! Bem-vindo ao GymPro.')
       navigate('/dashboard')
     } catch (err) {
@@ -147,7 +152,29 @@ export default function Registrar() {
               <PasswordStrength senha={form.senha} />
             </div>
 
-            <button type="submit" className="btn-primary btn-xl w-full" style={{ marginTop: 4 }} disabled={loading}>
+            {/* Checkbox termos */}
+            <label style={{ display: 'flex', alignItems: 'flex-start', gap: 10, cursor: 'pointer', userSelect: 'none' }}>
+              <div
+                onClick={() => setTermosAceitos(!termosAceitos)}
+                style={{
+                  width: 18, height: 18, borderRadius: 5, border: `1.5px solid ${termosAceitos ? '#6366f1' : '#3F3F46'}`,
+                  background: termosAceitos ? '#6366f1' : 'transparent',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0, marginTop: 1, transition: 'all 0.15s', cursor: 'pointer',
+                }}
+              >
+                {termosAceitos && <Check style={{ width: 11, height: 11, color: 'white' }} />}
+              </div>
+              <span style={{ fontSize: 12, color: '#71717A', lineHeight: 1.6 }}>
+                Li e aceito os{' '}
+                <Link to="/termos" target="_blank" style={{ color: '#818cf8', textDecoration: 'none', fontWeight: 500 }}>Termos de Uso</Link>
+                {' '}e a{' '}
+                <Link to="/privacidade" target="_blank" style={{ color: '#818cf8', textDecoration: 'none', fontWeight: 500 }}>Política de Privacidade</Link>
+                {' '}(LGPD)
+              </span>
+            </label>
+
+            <button type="submit" className="btn-primary btn-xl w-full" style={{ marginTop: 4 }} disabled={loading || !termosAceitos}>
               {loading ? (
                 <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
                   <span style={{ width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} />
@@ -161,13 +188,6 @@ export default function Registrar() {
               )}
             </button>
           </form>
-
-          <p style={{ fontSize: 11, color: '#52525B', textAlign: 'center', marginTop: 20, lineHeight: 1.6 }}>
-            Ao criar sua conta, você concorda com os{' '}
-            <span style={{ color: '#71717A', cursor: 'pointer' }}>Termos de Uso</span>
-            {' '}e{' '}
-            <span style={{ color: '#71717A', cursor: 'pointer' }}>Política de Privacidade</span>.
-          </p>
         </div>
       </div>
     </div>

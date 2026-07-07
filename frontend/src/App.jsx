@@ -19,6 +19,8 @@ const AceitarConvite = lazy(() => import('./pages/AceitarConvite'))
 const EsqueciSenha   = lazy(() => import('./pages/EsqueciSenha'))
 const RedefinirSenha = lazy(() => import('./pages/RedefinirSenha'))
 const PerfilPublico  = lazy(() => import('./pages/PerfilPublico'))
+const Termos         = lazy(() => import('./pages/Termos'))
+const Privacidade    = lazy(() => import('./pages/Privacidade'))
 const Dashboard      = lazy(() => import('./pages/Dashboard'))
 const Alunos         = lazy(() => import('./pages/Alunos'))
 const AlunoDetalhe   = lazy(() => import('./pages/AlunoDetalhe'))
@@ -79,6 +81,8 @@ function AnimatedRoutes() {
         <Route path="/esqueci-senha" element={<P><EsqueciSenha /></P>} />
         <Route path="/redefinir-senha" element={<P><RedefinirSenha /></P>} />
         <Route path="/p/:code" element={<P><PerfilPublico /></P>} />
+        <Route path="/termos" element={<P><Termos /></P>} />
+        <Route path="/privacidade" element={<P><Privacidade /></P>} />
 
         {/* Personal trainer / Admin */}
         <Route element={<ProtectedRoute roles={['personal', 'admin_academia']} />}>
