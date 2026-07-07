@@ -91,6 +91,7 @@ export default function Alunos() {
     queryKey: ['alunos'],
     queryFn: () => listarAlunos().then((r) => r.data),
     staleTime: 5 * 60_000,
+    placeholderData: (prev) => prev,
   })
 
   const objetivosUsados = [...new Set(alunos.map(a => a.objetivo).filter(Boolean))]

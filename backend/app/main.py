@@ -283,6 +283,9 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
 
 app.add_middleware(SecurityHeadersMiddleware)
 
+from fastapi.middleware.gzip import GZipMiddleware  # noqa: E402
+app.add_middleware(GZipMiddleware, minimum_size=500)
+
 from app.api.routes import auth, alunos, treinos, ia, convites, exercicios  # noqa: E402
 from app.api.routes import pagamentos, academia, billing, chat, avaliacoes, periodizacao, referral, analytics, agenda, nutricao, notificacoes, public  # noqa: E402
 from app.api.routes import fotos, push  # noqa: E402

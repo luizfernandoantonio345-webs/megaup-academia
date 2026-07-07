@@ -4,7 +4,7 @@ from datetime import datetime, timezone, timedelta
 # Brasil padrão: UTC-3 (sem horário de verão em Jul/Ago/Set)
 BRT = timezone(timedelta(hours=-3))
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session, joinedload
 
 from app.core.db import get_db
@@ -226,6 +226,50 @@ def historico_carga(
         aluno_id=aluno_id,
         historico=historico,
     )
+
+
+@router.get("/{aluno_id}/historico-carga-batch")
+def historico_carga_batch(
+    aluno_id: int,
+    ids: str = Query(..., description="IDs de exercícios separados por vírgula"),
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Retorna histórico de múltiplos exercícios em uma única query (evita N+1)."""
+    _get_aluno_or_404(aluno_id, current_user.tenant_id, db)
+
+    try:
+        id_list = [int(i.strip()) for i in ids.split(",") if i.strip()]
+    except ValueError:
+        raise HTTPException(400, "ids inválidos")
+
+    if not id_list:
+        return {}
+
+    rows = (
+        db.query(ExecucaoItem, ExecucaoTreino)
+        .join(ExecucaoTreino, ExecucaoItem.execucao_id == ExecucaoTreino.id)
+        .filter(
+            ExecucaoTreino.aluno_id == aluno_id,
+            ExecucaoTreino.tenant_id == current_user.tenant_id,
+            ExecucaoItem.exercicio_id.in_(id_list),
+        )
+        .order_by(ExecucaoTreino.data.desc())
+        .all()
+    )
+
+    result: dict[int, list] = {eid: [] for eid in id_list}
+    for item, execucao in rows:
+        eid = item.exercicio_id
+        if len(result.get(eid, [])) < 30:
+            result.setdefault(eid, []).append({
+                "data": execucao.data.isoformat(),
+                "carga_realizada": item.carga_realizada,
+                "repeticoes_realizadas": item.repeticoes_realizadas,
+                "dificuldade": execucao.dificuldade,
+            })
+
+    return result
 
 
 @router.get("/{aluno_id}/sugestoes", response_model=StatusAlunoSugestoesResponse)

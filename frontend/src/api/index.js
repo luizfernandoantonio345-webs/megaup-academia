@@ -107,8 +107,11 @@ export const adicionarPersonal = (data) => api.post('/academia/personais/', data
 export const removerPersonal = (userId) => api.delete(`/academia/personais/${userId}`)
 
 // Exercícios — editar e deletar
-export const atualizarExercicio  = (id, data)       => api.put(`/exercicios/${id}`, data)
-export const deletarExercicio    = (id)              => api.delete(`/exercicios/${id}`)
+export const atualizarExercicio      = (id, data)          => api.put(`/exercicios/${id}`, data)
+export const deletarExercicio        = (id)                 => api.delete(`/exercicios/${id}`)
+
+// Histórico de carga — batch (evita N+1 no TreinoHoje)
+export const historicoCargaBatch     = (alunoId, ids)       => api.get(`/alunos/${alunoId}/historico-carga-batch`, { params: { ids: ids.join(',') } })
 
 // Fotos de evolução
 export const listarFotos         = (alunoId)         => api.get(`/alunos/${alunoId}/fotos`)

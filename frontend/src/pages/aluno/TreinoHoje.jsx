@@ -1,7 +1,7 @@
-﻿import { useState, useEffect, useRef } from 'react'
+﻿import { useState, useEffect, useRef, useMemo } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '../../contexts/AuthContext'
-import { treinoDodia, listarExercicios, executarTreino, gamificacaoAluno, historicoCarga } from '../../api'
+import { treinoDodia, listarExercicios, executarTreino, gamificacaoAluno, historicoCargaBatch } from '../../api'
 import toast from 'react-hot-toast'
 import { Play, Dumbbell, CheckCircle, X, ChevronDown, ChevronUp, Timer, Zap, Check, Pause, Flame, RotateCcw, TrendingUp, TrendingDown, Minus } from 'lucide-react'
 import VideoPlayer from '../../components/VideoPlayer'
@@ -116,19 +116,11 @@ function SetTracker({ count, completedSets, onToggle }) {
 }
 
 /* ─── EXERCISE CARD COM HISTORICO ─── */
-function ExerciseExCard({ item, idx, ex, alunoId, completedSets, onToggle, videoAberto, onToggleVideo, onChange }) {
+function ExerciseExCard({ item, idx, ex, hist, completedSets, onToggle, videoAberto, onToggleVideo, onChange }) {
   const seriesCount = parseInt(item.series_realizadas) || 0
   const allDone = seriesCount > 0 && completedSets.length >= seriesCount
 
-  const { data: hist } = useQuery({
-    queryKey: ['historico-carga', alunoId, item.exercicio_id],
-    queryFn: () => historicoCarga(alunoId, item.exercicio_id).then(r => r.data),
-    enabled: !!alunoId && !!item.exercicio_id,
-    staleTime: 5 * 60_000,
-    retry: false,
-  })
-
-  const sessions = hist?.historico || hist?.execucoes || []
+  const sessions = Array.isArray(hist) ? hist : (hist?.historico || hist?.execucoes || [])
   const last = sessions.length > 0 ? sessions[sessions.length - 1] : null
   const prev = sessions.length > 1 ? sessions[sessions.length - 2] : null
 
@@ -249,6 +241,16 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
       descanso_seg: i.descanso_seg || 60,
     }))
   )
+
+  // Batch: uma query para todos os exercícios do treino (evita N+1)
+  const exIds = useMemo(() => itens.map(i => i.exercicio_id).filter(Boolean), [itens])
+  const { data: histBatch = {} } = useQuery({
+    queryKey: ['historico-carga-batch', alunoId, exIds.join(',')],
+    queryFn: () => historicoCargaBatch(alunoId, exIds).then(r => r.data),
+    enabled: !!alunoId && exIds.length > 0,
+    staleTime: 5 * 60_000,
+    retry: false,
+  })
 
   const { mutate, isPending } = useMutation({
     mutationFn: () => executarTreino(treino.id, {
@@ -392,7 +394,7 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
               item={item}
               idx={idx}
               ex={exercicioMap[item.exercicio_id]}
-              alunoId={alunoId}
+              hist={histBatch[item.exercicio_id] || []}
               completedSets={completedSetsMap[item.exercicio_id] || []}
               onToggle={setIdx => toggleSet(item.exercicio_id, setIdx)}
               videoAberto={videoAberto === item.exercicio_id}
