@@ -55,7 +55,7 @@ export default function Login() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', background: '#0C0C0D', position: 'relative', overflow: 'hidden' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', background: 'var(--bg-page)', position: 'relative', overflow: 'hidden' }}>
       <GymDecorBg />
 
       {/* ── Left panel (desktop only) ── */}
@@ -63,7 +63,7 @@ export default function Login() {
         style={{
           display: 'none', width: 460, flexShrink: 0,
           padding: '48px 40px', flexDirection: 'column', justifyContent: 'space-between',
-          background: '#0A0A0B', borderRight: '1px solid #1C1C1E',
+          background: 'var(--bg-sidebar)', borderRight: '1px solid var(--border)',
           position: 'relative', overflow: 'hidden',
         }}
         className="lg:flex"

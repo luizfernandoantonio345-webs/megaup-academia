@@ -27,7 +27,7 @@
 
     <!-- Ícone e título -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>GymPro · Academia Pro</title>
+    <title>GymPro · Plataforma para Personal Trainers</title>
 
     <!-- Prevent text size adjust on rotation -->
     <meta name="format-detection" content="telephone=no" />
@@ -56,6 +56,20 @@
     <meta name="twitter:image" content="https://fitsaas-frontend.onrender.com/og-image.png" />
   </head>
   <body>
+    <!-- Anti-FOUC: apply theme before React renders to prevent flash -->
+    <script>
+      (function() {
+        try {
+          var t = localStorage.getItem('gympro-theme');
+          if (t !== 'light' && t !== 'dark') {
+            t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+          document.documentElement.setAttribute('data-theme', t);
+        } catch(e) {
+          document.documentElement.setAttribute('data-theme', 'dark');
+        }
+      })();
+    </script>
     <div id="root" translate="no"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

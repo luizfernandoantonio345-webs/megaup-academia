@@ -4,12 +4,14 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
 import { AnimatePresence } from 'framer-motion'
 import { AuthProvider } from './contexts/AuthContext'
+import { ThemeProvider } from './contexts/ThemeContext'
 import { ProtectedRoute } from './components/ProtectedRoute'
 import Layout from './components/Layout'
 import LayoutAluno from './pages/aluno/LayoutAluno'
 import PageTransition from './components/PageTransition'
 import ErrorBoundary from './components/ErrorBoundary'
 import { useKeepAlive } from './hooks/useKeepAlive'
+import { useScrollToTop } from './hooks/useScrollToTop'
 import { useAuth } from './contexts/AuthContext'
 
 // Lazy-load all pages — reduces initial bundle from 1.25 MB to ~150 KB
@@ -72,6 +74,7 @@ function AnimatedRoutes() {
   const location = useLocation()
   const { isAuthenticated } = useAuth()
   useKeepAlive(isAuthenticated)
+  useScrollToTop()
   return (
     <AnimatePresence mode="wait" initial={false}>
       <Routes location={location} key={location.pathname}>
@@ -117,11 +120,11 @@ function AnimatedRoutes() {
 
         <Route path="/unauthorized" element={
           <P>
-            <div style={{ minHeight:'100vh', background:'#0C0C0D', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center', padding:24 }}>
+            <div style={{ minHeight:'100vh', background:'var(--bg-page)', display:'flex', alignItems:'center', justifyContent:'center', textAlign:'center', padding:24 }}>
               <div>
                 <div style={{ fontSize:40, marginBottom:16 }}>🔒</div>
-                <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'#F4F4F5', marginBottom:8 }}>Acesso negado</h1>
-                <p style={{ color:'#71717A', marginBottom:24, fontSize:14 }}>Você não tem permissão para acessar esta página.</p>
+                <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'var(--text-primary)', marginBottom:8 }}>Acesso negado</h1>
+                <p style={{ color:'var(--text-muted)', marginBottom:24, fontSize:14 }}>Você não tem permissão para acessar esta página.</p>
                 <a href="/login" style={{ color:'#818cf8', fontWeight:600, fontSize:14 }}>Voltar ao login</a>
               </div>
             </div>
@@ -136,16 +139,18 @@ function AnimatedRoutes() {
 export default function App() {
   return (
     <ErrorBoundary>
-      <QueryClientProvider client={qc}>
-        <AuthProvider>
-          <BrowserRouter>
-            <Suspense fallback={<PageLoader />}>
-              <AnimatedRoutes />
-            </Suspense>
-          </BrowserRouter>
-          <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
-        </AuthProvider>
-      </QueryClientProvider>
+      <ThemeProvider>
+        <QueryClientProvider client={qc}>
+          <AuthProvider>
+            <BrowserRouter>
+              <Suspense fallback={<PageLoader />}>
+                <AnimatedRoutes />
+              </Suspense>
+            </BrowserRouter>
+            <Toaster position="top-right" toastOptions={{ duration: 3000 }} />
+          </AuthProvider>
+        </QueryClientProvider>
+      </ThemeProvider>
     </ErrorBoundary>
   )
 }

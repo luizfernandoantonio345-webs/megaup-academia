@@ -5,12 +5,13 @@ import { listarAlunos, criarAluno } from '../api'
 import toast from 'react-hot-toast'
 import { UserPlus, Search, ArrowRight, X, Mail, User, Target, LayoutGrid, List } from 'lucide-react'
 import { SkeletonCard } from '../components/ui/Skeleton'
+import { useDebounce } from '../hooks/useDebounce'
 
 function Avatar({ nome, size = 'md' }) {
   const initials = nome?.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase()
   const px = size === 'lg' ? 48 : 40
   return (
-    <div style={{ width: px, height: px, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: px * 0.36, fontWeight: 600, color: '#A1A1AA', flexShrink: 0 }}>
+    <div style={{ width: px, height: px, borderRadius: '50%', background: 'var(--bg-elevated)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: px * 0.36, fontWeight: 600, color: 'var(--text-secondary)', flexShrink: 0 }}>
       {initials}
     </div>
   )
@@ -41,13 +42,13 @@ function ModalCriar({ onClose }) {
 
   return (
     <div style={{ position: 'fixed', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 50, padding: 16, background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}>
-      <div style={{ width: '100%', maxWidth: 400, background: '#111113', border: '1px solid #27272A', borderRadius: 12, padding: 24, boxShadow: '0 20px 40px rgba(0,0,0,0.6)' }} className="animate-scale-in">
+      <div style={{ width: '100%', maxWidth: 400, background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12, padding: 24, boxShadow: 'var(--shadow-xl)' }} className="animate-scale-in">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
           <div>
-            <h3 style={{ fontSize: 15, fontWeight: 600, color: '#F4F4F5', margin: 0 }}>Novo aluno</h3>
-            <p style={{ fontSize: 12, color: '#71717A', marginTop: 3 }}>Preencha as informações básicas</p>
+            <h3 style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Novo aluno</h3>
+            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 3 }}>Preencha as informações básicas</p>
           </div>
-          <button onClick={onClose} style={{ width: 28, height: 28, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#1C1C1E', border: '1px solid #27272A', cursor: 'pointer', color: '#71717A' }}>
+          <button onClick={onClose} style={{ width: 28, height: 28, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-elevated)', border: '1px solid var(--border)', cursor: 'pointer', color: 'var(--text-muted)' }}>
             <X style={{ width: 14, height: 14 }} />
           </button>
         </div>
@@ -61,7 +62,7 @@ function ModalCriar({ onClose }) {
             <div key={k}>
               <label className="label">{label}</label>
               <div style={{ position: 'relative' }}>
-                <Icon style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, color: '#52525B' }} />
+                <Icon style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 14, height: 14, color: 'var(--text-disabled)' }} />
                 <input className="input" style={{ paddingLeft: 36 }} type={type} placeholder={ph} value={form[k]} onChange={set(k)} />
               </div>
             </div>
@@ -83,6 +84,7 @@ const OBJETIVOS_LABELS = ['Perder peso', 'Ganhar massa', 'Condicionamento', 'Rea
 
 export default function Alunos() {
   const [search, setSearch] = useState('')
+  const debouncedSearch = useDebounce(search, 280)
   const [filtroObjetivo, setFiltroObjetivo] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [viewMode, setViewMode] = useState('grid')
@@ -100,8 +102,8 @@ export default function Alunos() {
   )
 
   const filtered = alunos.filter((a) => {
-    const matchSearch = a.nome?.toLowerCase().includes(search.toLowerCase()) ||
-                        a.email?.toLowerCase().includes(search.toLowerCase())
+    const matchSearch = a.nome?.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+                        a.email?.toLowerCase().includes(debouncedSearch.toLowerCase())
     const matchObjetivo = !filtroObjetivo ||
       a.objetivo?.toLowerCase().includes(filtroObjetivo.toLowerCase())
     return matchSearch && matchObjetivo
@@ -111,8 +113,8 @@ export default function Alunos() {
     <div className="space-y-6 animate-fade-in">
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
         <div>
-          <h1 style={{ fontSize: 18, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em', marginBottom: 2 }}>Alunos</h1>
-          <p style={{ fontSize: 13, color: '#71717A' }}>{alunos.length} aluno{alunos.length !== 1 ? 's' : ''} cadastrado{alunos.length !== 1 ? 's' : ''}</p>
+          <h1 style={{ fontSize: 18, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 2 }}>Alunos</h1>
+          <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>{alunos.length} aluno{alunos.length !== 1 ? 's' : ''} cadastrado{alunos.length !== 1 ? 's' : ''}</p>
         </div>
         <button className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }} onClick={() => setShowModal(true)}>
           <UserPlus style={{ width: 14, height: 14 }} /> Novo aluno
@@ -121,13 +123,13 @@ export default function Alunos() {
 
       <div style={{ display: 'flex', gap: 10 }}>
         <div style={{ position: 'relative', flex: 1 }}>
-          <Search style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: '#52525B' }} />
+          <Search style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color: 'var(--text-disabled)' }} />
           <input className="input" style={{ paddingLeft: 36 }} placeholder="Buscar por nome ou e-mail..." value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
-        <div style={{ display: 'flex', borderRadius: 8, overflow: 'hidden', border: '1px solid #27272A' }}>
+        <div style={{ display: 'flex', borderRadius: 8, overflow: 'hidden', border: '1px solid var(--border)' }}>
           {[{ mode: 'grid', Icon: LayoutGrid }, { mode: 'list', Icon: List }].map(({ mode, Icon }) => (
             <button key={mode} onClick={() => setViewMode(mode)}
-              style={{ padding: '0 10px', background: viewMode === mode ? '#1C1C1E' : 'transparent', color: viewMode === mode ? '#A1A1AA' : '#52525B', cursor: 'pointer', border: 'none', borderLeft: mode === 'list' ? '1px solid #27272A' : 'none', display: 'flex', alignItems: 'center' }}>
+              style={{ padding: '0 10px', background: viewMode === mode ? 'var(--bg-elevated)' : 'transparent', color: viewMode === mode ? 'var(--text-secondary)' : 'var(--text-disabled)', cursor: 'pointer', border: 'none', borderLeft: mode === 'list' ? '1px solid var(--border)' : 'none', display: 'flex', alignItems: 'center' }}>
               <Icon style={{ width: 15, height: 15 }} />
             </button>
           ))}
@@ -155,7 +157,7 @@ export default function Alunos() {
         </div>
       ) : filtered.length === 0 ? (
         <div className="card empty-state">
-          <div className="empty-icon"><UserPlus style={{ width: 28, height: 28, color: '#71717A' }} /></div>
+          <div className="empty-icon"><UserPlus style={{ width: 28, height: 28, color: 'var(--text-muted)' }} /></div>
           <p className="empty-title">{search ? 'Nenhum aluno encontrado' : 'Nenhum aluno ainda'}</p>
           <p className="empty-message">{search ? `Nenhum resultado para "${search}"` : 'Cadastre seu primeiro aluno para começar.'}</p>
           {!search && <button className="btn-primary" onClick={() => setShowModal(true)}>Cadastrar aluno</button>}
@@ -163,16 +165,16 @@ export default function Alunos() {
       ) : viewMode === 'grid' ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((a, i) => (
-            <Link key={a.id} to={`/alunos/${a.id}`} className="card-interactive" style={{ textDecoration: 'none', animationDelay: `${i * 35}ms` }}
+            <Link key={a.id} to={`/alunos/${a.id}`} className="card-interactive stagger-item" style={{ textDecoration: 'none' }}
               onMouseEnter={e => { e.currentTarget.querySelector('.arrow-icon').style.color='#6366f1' }}
               onMouseLeave={e => { e.currentTarget.querySelector('.arrow-icon').style.color='#52525B' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
                 <Avatar nome={a.nome} />
                 <div style={{ flex: 1, minWidth: 0 }}>
-                  <div style={{ fontSize: 13, fontWeight: 500, color: '#F4F4F5', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</div>
-                  <div style={{ fontSize: 11, color: '#71717A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{a.email}</div>
+                  <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</div>
+                  <div style={{ fontSize: 11, color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{a.email}</div>
                 </div>
-                <ArrowRight className="arrow-icon" style={{ width: 14, height: 14, color: '#52525B', flexShrink: 0, transition: 'color 0.1s' }} />
+                <ArrowRight className="arrow-icon" style={{ width: 14, height: 14, color: 'var(--text-disabled)', flexShrink: 0, transition: 'color 0.1s' }} />
               </div>
               {a.objetivo && <span className="badge-blue" style={{ fontSize: 11 }}>{a.objetivo}</span>}
             </Link>
@@ -182,16 +184,17 @@ export default function Alunos() {
         <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
           {filtered.map((a, i) => (
             <Link key={a.id} to={`/alunos/${a.id}`}
-              style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', textDecoration: 'none', borderBottom: i < filtered.length - 1 ? '1px solid #1C1C1E' : 'none', transition: 'background 0.1s' }}
-              onMouseEnter={e => { e.currentTarget.style.background='#161618' }}
+              className="stagger-item"
+              style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', textDecoration: 'none', borderBottom: i < filtered.length - 1 ? '1px solid var(--border-subtle)' : 'none', transition: 'background 0.1s' }}
+              onMouseEnter={e => { e.currentTarget.style.background='var(--bg-hover)' }}
               onMouseLeave={e => { e.currentTarget.style.background='transparent' }}>
               <Avatar nome={a.nome} />
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 13, fontWeight: 500, color: '#F4F4F5', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</div>
-                <div style={{ fontSize: 11, color: '#71717A', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{a.email}</div>
+                <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</div>
+                <div style={{ fontSize: 11, color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{a.email}</div>
               </div>
               {a.objetivo && <span className="badge-blue" style={{ fontSize: 11 }}>{a.objetivo}</span>}
-              <ArrowRight style={{ width: 13, height: 13, color: '#52525B', flexShrink: 0 }} />
+              <ArrowRight style={{ width: 13, height: 13, color: 'var(--text-disabled)', flexShrink: 0 }} />
             </Link>
           ))}
         </div>

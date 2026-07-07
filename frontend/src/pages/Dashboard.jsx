@@ -16,9 +16,9 @@ import { useCountUp } from '../hooks/useCountUp'
 const ChartTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
-    <div style={{ background: '#1C1C1E', border: '1px solid #27272A', borderRadius: 8, padding: '8px 12px', boxShadow: '0 4px 12px rgba(0,0,0,0.4)' }}>
-      <p style={{ color: '#71717A', fontSize: 11, fontWeight: 500, marginBottom: 3 }}>{label}</p>
-      <p style={{ color: '#F4F4F5', fontWeight: 600, fontSize: 14, margin: 0 }}>
+    <div style={{ background: 'var(--bg-elevated)', border: '1px solid #27272A', borderRadius: 8, padding: '8px 12px', boxShadow: '0 4px 12px rgba(0,0,0,0.4)' }}>
+      <p style={{ color: 'var(--text-muted)', fontSize: 11, fontWeight: 500, marginBottom: 3 }}>{label}</p>
+      <p style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: 14, margin: 0 }}>
         {payload[0].value} treino{payload[0].value !== 1 ? 's' : ''}
       </p>
     </div>
@@ -30,9 +30,9 @@ function Avatar({ nome, size = 32 }) {
   return (
     <div style={{
       width: size, height: size, borderRadius: '50%',
-      background: '#1C1C1E', border: '1px solid #27272A',
+      background: 'var(--bg-elevated)', border: '1px solid var(--border)',
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      fontSize: size * 0.38, fontWeight: 600, color: '#A1A1AA', flexShrink: 0,
+      fontSize: size * 0.38, fontWeight: 600, color: 'var(--text-secondary)', flexShrink: 0,
     }}>{initials}</div>
   )
 }
@@ -42,9 +42,9 @@ function Kpi({ value, label, to }) {
   const counted = useCountUp(isNaN(num) ? 0 : num, 700)
   const display = isNaN(num) ? value : counted
   const inner = (
-    <div style={{ padding: '16px 20px', borderRight: '1px solid #1C1C1E' }}>
-      <p style={{ fontSize: 24, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 4 }}>{display}</p>
-      <p style={{ fontSize: 12, color: '#71717A' }}>{label}</p>
+    <div style={{ padding: '16px 20px', borderRight: '1px solid var(--border-subtle)' }}>
+      <p style={{ fontSize: 24, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 4 }}>{display}</p>
+      <p style={{ fontSize: 12, color: 'var(--text-muted)' }}>{label}</p>
     </div>
   )
   return to
@@ -93,16 +93,25 @@ export default function Dashboard() {
   const ativos = analytics?.alunos_ativos_7d ?? 0
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }} className="animate-fade-in">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 20, position: 'relative' }} className="animate-fade-in">
+      {/* Subtle dot-grid pattern */}
+      <svg aria-hidden style={{ position: 'fixed', inset: 0, width: '100%', height: '100%', opacity: 0.018, pointerEvents: 'none', zIndex: 0 }}>
+        <defs>
+          <pattern id="dash-dotgrid" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
+            <circle cx="1.5" cy="1.5" r="1.5" fill="currentColor"/>
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#dash-dotgrid)" style={{ color: 'var(--text-primary)' }}/>
+      </svg>
       <OnboardingWizard />
 
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
         <div>
-          <h1 style={{ fontSize: 18, fontWeight: 600, color: '#F4F4F5', letterSpacing: '-0.02em', marginBottom: 2 }}>
+          <h1 style={{ fontSize: 18, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 2 }}>
             {saudacao}, {user?.nome?.split(' ')[0]}
           </h1>
-          <p style={{ fontSize: 13, color: '#71717A' }}>
+          <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>
             {new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })}
           </p>
         </div>
@@ -126,16 +135,16 @@ export default function Dashboard() {
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
             <div>
-              <h2 style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5', margin: 0 }}>Atividade — últimos 7 dias</h2>
-              <p style={{ fontSize: 12, color: '#71717A', marginTop: 2 }}>Treinos executados por dia</p>
+              <h2 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Atividade — últimos 7 dias</h2>
+              <p style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>Treinos executados por dia</p>
             </div>
-            <Activity style={{ width: 15, height: 15, color: '#52525B' }} />
+            <Activity style={{ width: 15, height: 15, color: 'var(--text-disabled)' }} />
           </div>
           {lan ? (
             <CardSkeleton height={180} />
           ) : treinosDia.length === 0 ? (
             <div className="empty-state" style={{ padding: '32px 0' }}>
-              <div className="empty-icon"><Dumbbell style={{ width: 16, height: 16, color: '#52525B' }} /></div>
+              <div className="empty-icon"><Dumbbell style={{ width: 16, height: 16, color: 'var(--text-disabled)' }} /></div>
               <p className="empty-title">Nenhuma execução ainda</p>
             </div>
           ) : (
@@ -154,8 +163,8 @@ export default function Dashboard() {
         {/* Overview */}
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
-            <h2 style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5', margin: 0 }}>Visão geral</h2>
-            <TrendingUp style={{ width: 15, height: 15, color: '#52525B' }} />
+            <h2 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Visão geral</h2>
+            <TrendingUp style={{ width: 15, height: 15, color: 'var(--text-disabled)' }} />
           </div>
           {lan ? (
             <CardSkeleton height={140} />
@@ -168,8 +177,8 @@ export default function Dashboard() {
               ].map(({ label, value, max, color }) => (
                 <div key={label}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <span style={{ fontSize: 12, color: '#71717A' }}>{label}</span>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: '#A1A1AA' }}>{value}</span>
+                    <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{label}</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-secondary)' }}>{value}</span>
                   </div>
                   <div className="progress-bar-track">
                     <div className="progress-bar-fill" style={{ width: `${Math.min(100, max > 0 ? (value / max) * 100 : 0)}%`, background: color }} />
@@ -178,7 +187,7 @@ export default function Dashboard() {
               ))}
             </div>
           )}
-          <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid #1C1C1E' }}>
+          <div style={{ marginTop: 20, paddingTop: 16, borderTop: '1px solid var(--border-subtle)' }}>
             <Link to="/convites" className="btn-secondary" style={{ width: '100%', justifyContent: 'center', display: 'flex', gap: 6 }}>
               <UserPlus style={{ width: 13, height: 13 }} />
               Convidar aluno
@@ -192,7 +201,7 @@ export default function Dashboard() {
         {/* Recent students */}
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-            <h2 style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5', margin: 0 }}>Alunos recentes</h2>
+            <h2 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Alunos recentes</h2>
             <Link to="/alunos" style={{ fontSize: 12, color: '#6366f1', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 3, fontWeight: 500 }}>
               Ver todos <ArrowRight style={{ width: 12, height: 12 }} />
             </Link>
@@ -205,7 +214,7 @@ export default function Dashboard() {
             </div>
           ) : recentAlunos.length === 0 ? (
             <div className="empty-state" style={{ padding: '24px 0' }}>
-              <div className="empty-icon"><Users style={{ width: 16, height: 16, color: '#52525B' }} /></div>
+              <div className="empty-icon"><Users style={{ width: 16, height: 16, color: 'var(--text-disabled)' }} /></div>
               <p className="empty-title">Nenhum aluno ainda</p>
               <Link to="/convites" className="btn-primary btn-sm">Enviar convite</Link>
             </div>
@@ -213,16 +222,17 @@ export default function Dashboard() {
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               {recentAlunos.map((a, i) => (
                 <Link key={a.id} to={`/alunos/${a.id}`}
-                  style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 0', textDecoration: 'none', borderBottom: i < recentAlunos.length - 1 ? '1px solid #1C1C1E' : 'none' }}
+                  className="stagger-item"
+                  style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 0', textDecoration: 'none', borderBottom: i < recentAlunos.length - 1 ? '1px solid var(--border-subtle)' : 'none' }}
                   onMouseEnter={e => e.currentTarget.style.opacity = '0.75'}
                   onMouseLeave={e => e.currentTarget.style.opacity = '1'}
                 >
                   <Avatar nome={a.nome} />
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: 13, fontWeight: 500, color: '#F4F4F5', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</div>
-                    {a.objetivo && <div style={{ fontSize: 11, color: '#71717A', marginTop: 1 }}>{a.objetivo}</div>}
+                    <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</div>
+                    {a.objetivo && <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 1 }}>{a.objetivo}</div>}
                   </div>
-                  <ArrowRight style={{ width: 12, height: 12, color: '#52525B', flexShrink: 0 }} />
+                  <ArrowRight style={{ width: 12, height: 12, color: 'var(--text-disabled)', flexShrink: 0 }} />
                 </Link>
               ))}
             </div>
@@ -231,7 +241,7 @@ export default function Dashboard() {
 
         {/* Quick actions */}
         <div className="card">
-          <h2 style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5', margin: '0 0 14px' }}>Ações rápidas</h2>
+          <h2 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', margin: '0 0 14px' }}>Ações rápidas</h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             {[
               { to: '/convites',   icon: UserPlus,   label: 'Enviar convite por e-mail'  },
@@ -241,12 +251,12 @@ export default function Dashboard() {
             ].map(({ to, icon: Icon, label }) => (
               <Link key={to} to={to}
                 style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 10px', borderRadius: 6, textDecoration: 'none', transition: 'background 0.1s' }}
-                onMouseEnter={e => { e.currentTarget.style.background = '#1C1C1E' }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg-elevated)' }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
               >
-                <Icon style={{ width: 14, height: 14, color: '#71717A', flexShrink: 0 }} />
-                <span style={{ fontSize: 13, color: '#A1A1AA' }}>{label}</span>
-                <ArrowRight style={{ width: 12, height: 12, color: '#52525B', flexShrink: 0, marginLeft: 'auto' }} />
+                <Icon style={{ width: 14, height: 14, color: 'var(--text-muted)', flexShrink: 0 }} />
+                <span style={{ fontSize: 13, color: 'var(--text-secondary)' }}>{label}</span>
+                <ArrowRight style={{ width: 12, height: 12, color: 'var(--text-disabled)', flexShrink: 0, marginLeft: 'auto' }} />
               </Link>
             ))}
           </div>

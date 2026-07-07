@@ -12,6 +12,7 @@ import { resumoNotificacoes, listarAlunos, resumoFinanceiro, analyticsResumo, li
 import PlanBanner from './PlanBanner'
 import PlanGate from './PlanGate'
 import CommandPalette from './CommandPalette'
+import ThemeToggle from './ThemeToggle'
 
 const ST = 5 * 60_000
 
@@ -47,7 +48,7 @@ function NavItem({ to, icon: Icon, label, prefetch }) {
   const qc = useQueryClient()
   const active = location.pathname === to || (to !== '/dashboard' && location.pathname.startsWith(to))
   const handleMouseEnter = (e) => {
-    if (!active) { e.currentTarget.style.background = '#161618'; e.currentTarget.style.color = '#A1A1AA' }
+    if (!active) { e.currentTarget.style.background = 'var(--bg-hover)'; e.currentTarget.style.color = 'var(--text-secondary)' }
     if (prefetch) qc.prefetchQuery({ ...prefetch, staleTime: ST })
   }
   return (
@@ -55,14 +56,14 @@ function NavItem({ to, icon: Icon, label, prefetch }) {
       <div style={{
         display: 'flex', alignItems: 'center', gap: 9,
         height: 34, padding: '0 10px', borderRadius: 6,
-        cursor: 'pointer', color: active ? '#F4F4F5' : '#71717A',
-        background: active ? '#1C1C1E' : 'transparent',
+        cursor: 'pointer', color: active ? 'var(--text-primary)' : 'var(--text-muted)',
+        background: active ? 'var(--bg-elevated)' : 'transparent',
         fontWeight: active ? 500 : 400,
         fontSize: 13, fontFamily: 'Inter, sans-serif',
         transition: 'color 0.1s, background 0.1s',
       }}
       onMouseEnter={handleMouseEnter}
-      onMouseLeave={e => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#71717A' } }}
+      onMouseLeave={e => { if (!active) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)' } }}
       >
         <Icon style={{ width: 15, height: 15, flexShrink: 0, opacity: active ? 1 : 0.6 }} />
         <span>{label}</span>
@@ -83,52 +84,52 @@ function SidebarContent({ user, onLogout }) {
         <div style={{ width: 22, height: 22, borderRadius: 6, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
           <Zap style={{ width: 12, height: 12, color: 'white' }} />
         </div>
-        <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 14, letterSpacing: '-0.01em' }}>GymPro</span>
+        <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: 'var(--text-primary)', fontSize: 14, letterSpacing: '-0.01em' }}>GymPro</span>
       </div>
 
-      <div style={{ height: 1, background: '#1C1C1E', margin: '0 2px 12px' }} />
+      <div style={{ height: 1, background: 'var(--border-subtle)', margin: '0 2px 12px' }} />
 
       {/* Nav */}
       <nav style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 1 }}>
-        <p style={{ fontSize: 11, fontWeight: 600, color: '#52525B', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '0 10px 6px', fontFamily: 'Inter, sans-serif' }}>
+        <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '0 10px 6px', fontFamily: 'Inter, sans-serif' }}>
           Principal
         </p>
         {NAV_MAIN.map(item => <NavItem key={item.to} {...item} />)}
 
-        <div style={{ height: 1, background: '#1C1C1E', margin: '10px 4px' }} />
+        <div style={{ height: 1, background: 'var(--border-subtle)', margin: '10px 4px' }} />
 
-        <p style={{ fontSize: 11, fontWeight: 600, color: '#52525B', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '0 10px 6px', fontFamily: 'Inter, sans-serif' }}>
+        <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '0 10px 6px', fontFamily: 'Inter, sans-serif' }}>
           Ferramentas
         </p>
         {NAV_TOOLS.map(item => <NavItem key={item.to} {...item} />)}
       </nav>
 
       {/* User */}
-      <div style={{ marginTop: 8, borderTop: '1px solid #1C1C1E', paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 1 }}>
+      <div style={{ marginTop: 8, borderTop: '1px solid var(--border-subtle)', paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 1 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '0 10px', height: 36 }}>
-          <div style={{ width: 24, height: 24, borderRadius: '50%', background: '#1C1C1E', border: '1px solid #27272A', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 600, color: '#A1A1AA', flexShrink: 0, fontFamily: 'Inter, sans-serif' }}>
+          <div style={{ width: 24, height: 24, borderRadius: '50%', background: 'var(--bg-elevated)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 600, color: 'var(--text-secondary)', flexShrink: 0, fontFamily: 'Inter, sans-serif' }}>
             {initials}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
-            <div style={{ fontSize: 13, fontWeight: 500, color: '#A1A1AA', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: 'Inter, sans-serif' }}>
+            <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: 'Inter, sans-serif' }}>
               {user?.nome?.split(' ')[0]}
             </div>
           </div>
           <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', flexShrink: 0 }} title="Online" />
         </div>
         <NavLink to="/perfil" style={{ textDecoration: 'none' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 9, height: 32, padding: '0 10px', borderRadius: 6, cursor: 'pointer', color: '#71717A', fontSize: 13, fontFamily: 'Inter, sans-serif', transition: 'background 0.1s, color 0.1s' }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#161618'; e.currentTarget.style.color = '#A1A1AA' }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#71717A' }}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 9, height: 32, padding: '0 10px', borderRadius: 6, cursor: 'pointer', color: 'var(--text-muted)', fontSize: 13, fontFamily: 'Inter, sans-serif', transition: 'background 0.1s, color 0.1s' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg-hover)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)' }}
           >
             <UserCircle style={{ width: 14, height: 14, flexShrink: 0 }} />
             <span>Meu perfil</span>
           </div>
         </NavLink>
         <button onClick={onLogout}
-          style={{ display: 'flex', alignItems: 'center', gap: 9, height: 32, padding: '0 10px', borderRadius: 6, cursor: 'pointer', background: 'transparent', border: 'none', width: '100%', color: '#71717A', fontSize: 13, fontFamily: 'Inter, sans-serif', transition: 'background 0.1s, color 0.1s' }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(248,113,113,0.08)'; e.currentTarget.style.color = '#f87171' }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#71717A' }}
+          style={{ display: 'flex', alignItems: 'center', gap: 9, height: 32, padding: '0 10px', borderRadius: 6, cursor: 'pointer', background: 'transparent', border: 'none', width: '100%', color: 'var(--text-muted)', fontSize: 13, fontFamily: 'Inter, sans-serif', transition: 'background 0.1s, color 0.1s' }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-danger-muted)'; e.currentTarget.style.color = 'var(--color-danger)' }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)' }}
         >
           <LogOut style={{ width: 14, height: 14, flexShrink: 0 }} />
           <span>Sair</span>
@@ -147,11 +148,11 @@ function MobileBottomNav({ user, onLogout }) {
 
   return (
     <>
-      <nav style={{
+      <nav className="nav-blur-bg" style={{
         position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
-        background: 'rgba(10,10,11,0.97)', backdropFilter: 'blur(16px)',
+        backdropFilter: 'blur(16px)',
         WebkitBackdropFilter: 'blur(16px)',
-        borderTop: '1px solid #1C1C1E',
+        borderTop: '1px solid var(--border-subtle)',
         paddingBottom: 'env(safe-area-inset-bottom)',
       }}>
         <div style={{ display: 'flex', maxWidth: 640, margin: '0 auto', padding: '4px 0' }}>
@@ -188,7 +189,7 @@ function MobileBottomNav({ user, onLogout }) {
           <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)' }} onClick={() => setShowMore(false)} />
           <div style={{
             position: 'relative', zIndex: 1,
-            background: '#111113', border: '1px solid #1C1C1E', borderBottom: 'none',
+            background: 'var(--bg-card)', border: '1px solid var(--border)', borderBottom: 'none',
             borderTopLeftRadius: 16, borderTopRightRadius: 16,
             padding: '8px 16px',
             paddingBottom: 'calc(env(safe-area-inset-bottom) + 16px)',
@@ -278,30 +279,35 @@ export default function Layout({ children }) {
   const handleLogout = () => { logout(); navigate('/login') }
 
   return (
-    <div className="h-screen-dvh" style={{ display: 'flex', background: '#0C0C0D' }}>
+    <div className="h-screen-dvh page-bg" style={{ display: 'flex' }}>
+      {/* Skip navigation — accessibility */}
+      <a href="#main-content" className="skip-nav">Pular para o conteúdo</a>
+
       {/* Desktop sidebar */}
-      <aside className="hidden lg:flex flex-col" style={{ width: 220, flexShrink: 0, background: '#0A0A0B', borderRight: '1px solid #1C1C1E' }}>
+      <aside className="sidebar-bg hidden lg:flex flex-col" style={{ width: 220, flexShrink: 0 }}>
         <SidebarContent user={user} onLogout={handleLogout} />
       </aside>
 
       {/* Content area */}
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}>
+      <div className="scroll-content-area" style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflowY: 'auto', WebkitOverflowScrolling: 'touch' }}>
 
-        {/* Mobile top bar — sticky para não sumir ao rolar */}
-        <header className="lg:hidden" style={{
+        {/* Mobile top bar */}
+        <header className="lg:hidden nav-blur-bg" style={{
           position: 'sticky', top: 0, zIndex: 40,
           flexShrink: 0,
           paddingTop: 'env(safe-area-inset-top)',
-          background: 'rgba(10,10,11,0.97)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
-          borderBottom: '1px solid #1C1C1E',
+          borderBottom: '1px solid var(--border-subtle)',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 48, gap: 7 }}>
-            <div style={{ width: 20, height: 20, borderRadius: 5, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Zap style={{ width: 11, height: 11, color: 'white' }} />
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 48, padding: '0 16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+              <div style={{ width: 20, height: 20, borderRadius: 5, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Zap style={{ width: 11, height: 11, color: 'white' }} />
+              </div>
+              <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: 'var(--text-primary)', fontSize: 14, letterSpacing: '-0.01em' }}>GymPro</span>
             </div>
-            <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: '#F4F4F5', fontSize: 14, letterSpacing: '-0.01em' }}>GymPro</span>
+            <ThemeToggle />
           </div>
         </header>
 
@@ -309,10 +315,11 @@ export default function Layout({ children }) {
         <div className="hidden lg:flex" style={{ alignItems: 'center', justifyContent: 'flex-end', padding: '10px 24px 0', gap: 8 }}>
           <CommandPalette />
           <NotifBell />
+          <ThemeToggle />
         </div>
 
         {/* Main content */}
-        <main className="flex-1 p-4 lg:p-6 lg:pb-6 main-content-mobile" style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
+        <main id="main-content" className="flex-1 p-4 lg:p-6 lg:pb-6 main-content-mobile" style={{ maxWidth: 1200, width: '100%', margin: '0 auto' }}>
           <PlanBanner />
           <PlanGate>
             <ErrorBoundary>
