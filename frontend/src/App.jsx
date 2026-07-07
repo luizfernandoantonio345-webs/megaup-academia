@@ -13,7 +13,6 @@ import { useKeepAlive } from './hooks/useKeepAlive'
 import { useAuth } from './contexts/AuthContext'
 
 // Lazy-load all pages — reduces initial bundle from 1.25 MB to ~150 KB
-const Landing        = lazy(() => import('./pages/Landing'))
 const Login          = lazy(() => import('./pages/Login'))
 const Registrar      = lazy(() => import('./pages/Registrar'))
 const AceitarConvite = lazy(() => import('./pages/AceitarConvite'))
@@ -73,7 +72,7 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait" initial={false}>
       <Routes location={location} key={location.pathname}>
         {/* Públicas */}
-        <Route path="/" element={<P><Landing /></P>} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/login" element={<P><Login /></P>} />
         <Route path="/registrar" element={<P><Registrar /></P>} />
         <Route path="/registro" element={<P><AceitarConvite /></P>} />
