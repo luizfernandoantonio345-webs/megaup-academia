@@ -12,7 +12,8 @@ from app.core.db import get_db
 from app.api.deps import get_current_user
 from app.models import (
     Aluno, ExecucaoTreino, ExecucaoItem, Exercicio,
-    Cobranca, CobrancaStatus, Conquista, Avaliacao, Treino, User
+    Cobranca, CobrancaStatus, Conquista, Avaliacao, Treino, User,
+    FotoEvolucao, PlanoNutricao,
 )
 
 router = APIRouter()
@@ -202,6 +203,31 @@ def relatorio_aluno(
         for c in conquistas
     ]
 
+    # Fotos de evolução
+    fotos_count = (
+        db.query(func.count(FotoEvolucao.id))
+        .filter(FotoEvolucao.aluno_id == aluno_id)
+        .scalar() or 0
+    )
+
+    # Plano nutricional mais recente
+    plano = (
+        db.query(PlanoNutricao)
+        .filter(PlanoNutricao.aluno_id == aluno_id)
+        .order_by(PlanoNutricao.criado_em.desc())
+        .first()
+    )
+    plano_nutricao = None
+    if plano:
+        plano_nutricao = {
+            "nome": plano.nome,
+            "objetivo_kcal": plano.objetivo_kcal,
+            "objetivo_proteina": plano.objetivo_proteina,
+            "objetivo_carbo": plano.objetivo_carbo,
+            "objetivo_gordura": plano.objetivo_gordura,
+            "n_refeicoes": len(plano.refeicoes),
+        }
+
     # Personal responsável
     personal = db.query(User).filter(User.id == aluno.personal_id).first()
 
@@ -224,9 +250,11 @@ def relatorio_aluno(
             "frequencia_30d": frequencia_30d,
             "total_treinos": total_treinos,
             "conquistas_total": len(conquistas_list),
+            "fotos_count": fotos_count,
         },
         "avaliacoes": avaliacoes_list,
         "progresso_exercicios": progresso_exercicios,
         "conquistas": conquistas_list,
+        "plano_nutricao": plano_nutricao,
         "gerado_em": agora.strftime("%d/%m/%Y às %H:%M"),
     }

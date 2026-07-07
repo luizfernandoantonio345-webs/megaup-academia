@@ -1,4 +1,4 @@
-﻿import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { analyticsAluno } from '../api'
 import { Printer, ArrowLeft, TrendingUp, TrendingDown, Minus } from 'lucide-react'
@@ -51,7 +51,7 @@ export default function RelatorioAluno() {
     )
   }
 
-  const { aluno, personal, periodo, resumo, avaliacoes, progresso_exercicios, conquistas, gerado_em } = data
+  const { aluno, personal, periodo, resumo, avaliacoes, progresso_exercicios, conquistas, gerado_em, plano_nutricao } = data
   const primeiraAv = avaliacoes[0]
   const ultimaAv = avaliacoes[avaliacoes.length - 1]
   const varPeso = primeiraAv && ultimaAv && primeiraAv.peso && ultimaAv.peso
@@ -60,6 +60,14 @@ export default function RelatorioAluno() {
   const varGordura = primeiraAv && ultimaAv && primeiraAv.percentual_gordura && ultimaAv.percentual_gordura
     ? (ultimaAv.percentual_gordura - primeiraAv.percentual_gordura).toFixed(1)
     : null
+
+  const kpis = [
+    { label: 'Treinos no mês', value: resumo.frequencia_30d, color: '#818cf8' },
+    { label: 'Total de treinos', value: resumo.total_treinos, color: '#34d399' },
+    { label: 'Streak atual', value: `${aluno.streak_atual}d`, note: `Recorde: ${aluno.streak_recorde}d`, color: '#f97316' },
+    { label: 'Conquistas', value: resumo.conquistas_total, color: '#fbbf24' },
+    { label: 'Fotos de evolução', value: resumo.fotos_count ?? 0, color: '#38bdf8' },
+  ]
 
   return (
     <>
@@ -73,6 +81,7 @@ export default function RelatorioAluno() {
           .print-text-sub { color: #555 !important; }
           .print-text-muted { color: #888 !important; }
           .print-badge { background: #f0f0f0 !important; color: #333 !important; border: 1px solid #ddd !important; }
+          .print-nutri-tag { background: #f0f0f0 !important; color: #333 !important; border: 1px solid #ddd !important; }
           .evolucao-pos { color: #16a34a !important; }
           .evolucao-neg { color: #dc2626 !important; }
         }
@@ -85,7 +94,7 @@ export default function RelatorioAluno() {
         </button>
         <div style={{ flex: 1 }}>
           <p style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5' }}>Relatório de {aluno.nome}</p>
-          <p style={{ fontSize: 12, color: '#71717A' }}>Período: {periodo.inicio} a {periodo.fim}</p>
+          <p style={{ fontSize: 12, color: '#71717A' }}>Período: {periodo.inicio} a {periodo.fim} · Membro desde {aluno.membro_desde}</p>
         </div>
         <button
           onClick={() => window.print()}
@@ -106,21 +115,20 @@ export default function RelatorioAluno() {
           <p className="print-text-sub" style={{ fontSize: 14, color: '#71717A', marginBottom: 4 }}>
             Aluno: <strong className="print-text-main" style={{ color: '#F4F4F5' }}>{aluno.nome}</strong> · Personal: {personal}
           </p>
-          <p className="print-text-muted" style={{ fontSize: 12, color: '#71717A' }}>
+          <p className="print-text-muted" style={{ fontSize: 12, color: '#71717A', marginBottom: 2 }}>
             Período: {periodo.inicio} a {periodo.fim} · Gerado em {gerado_em}
+          </p>
+          <p className="print-text-muted" style={{ fontSize: 12, color: '#71717A' }}>
+            Membro desde {aluno.membro_desde} · Objetivo: {aluno.objetivo || 'Não definido'}
           </p>
         </div>
 
         {/* KPIs rápidos */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14, marginBottom: 28 }}>
-          {[
-            { label: 'Treinos no mês', value: resumo.frequencia_30d, color: '#818cf8' },
-            { label: 'Total de treinos', value: resumo.total_treinos, color: '#34d399' },
-            { label: 'Streak atual', value: `${aluno.streak_atual}d`, color: '#f97316' },
-            { label: 'Conquistas', value: resumo.conquistas_total, color: '#fbbf24' },
-          ].map(k => (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))', gap: 14, marginBottom: 28 }}>
+          {kpis.map(k => (
             <div key={k.label} className="print-card" style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '16px 14px', textAlign: 'center' }}>
-              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 26, fontWeight: 600, color: k.color, lineHeight: 1, marginBottom: 6 }} className="print-text-main">{k.value}</p>
+              <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 26, fontWeight: 600, color: k.color, lineHeight: 1, marginBottom: k.note ? 4 : 6 }} className="print-text-main">{k.value}</p>
+              {k.note && <p style={{ fontSize: 10, color: '#71717A', marginBottom: 4 }} className="print-text-muted">{k.note}</p>}
               <p style={{ fontSize: 11, color: '#71717A', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em' }} className="print-text-muted">{k.label}</p>
             </div>
           ))}
@@ -239,10 +247,42 @@ export default function RelatorioAluno() {
           </div>
         )}
 
+        {/* Plano Nutricional */}
+        {plano_nutricao && (
+          <div style={{ marginBottom: 28 }}>
+            <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: '#F4F4F5', marginBottom: 14 }} className="print-text-main">
+              🥗 Plano Alimentar
+            </h2>
+            <div className="print-card" style={{ background: '#111113', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 14, padding: '18px 20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: plano_nutricao.objetivo_kcal ? 16 : 0 }}>
+                <div>
+                  <p style={{ fontSize: 14, fontWeight: 600, color: '#F4F4F5', marginBottom: 2 }} className="print-text-main">{plano_nutricao.nome}</p>
+                  <p style={{ fontSize: 12, color: '#71717A' }} className="print-text-muted">{plano_nutricao.n_refeicoes} refeição{plano_nutricao.n_refeicoes !== 1 ? 'ões' : ''} prescrita{plano_nutricao.n_refeicoes !== 1 ? 's' : ''}</p>
+                </div>
+              </div>
+              {plano_nutricao.objetivo_kcal && (
+                <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+                  {[
+                    { label: 'Calorias', value: `${plano_nutricao.objetivo_kcal} kcal`, color: '#f97316' },
+                    plano_nutricao.objetivo_proteina && { label: 'Proteína', value: `${plano_nutricao.objetivo_proteina}g`, color: '#818cf8' },
+                    plano_nutricao.objetivo_carbo && { label: 'Carboidrato', value: `${plano_nutricao.objetivo_carbo}g`, color: '#34d399' },
+                    plano_nutricao.objetivo_gordura && { label: 'Gordura', value: `${plano_nutricao.objetivo_gordura}g`, color: '#fbbf24' },
+                  ].filter(Boolean).map(t => (
+                    <div key={t.label} className="print-nutri-tag" style={{ background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 10, padding: '8px 14px', textAlign: 'center', minWidth: 90 }}>
+                      <p style={{ fontSize: 15, fontWeight: 600, color: t.color, lineHeight: 1, marginBottom: 3 }} className="print-text-main">{t.value}</p>
+                      <p style={{ fontSize: 10, color: '#71717A', textTransform: 'uppercase', fontWeight: 600, letterSpacing: '0.04em' }} className="print-text-muted">{t.label}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
         {/* Rodapé */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 20, textAlign: 'center', marginTop: 20 }}>
           <p style={{ fontSize: 11, color: '#71717A' }} className="print-text-muted">
-            Relatório gerado por <strong>GymPro</strong> · {gerado_em} · Objetivo do aluno: {aluno.objetivo || 'Não definido'}
+            Relatório gerado por <strong>GymPro</strong> · {gerado_em}
           </p>
         </div>
       </div>
