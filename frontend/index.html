@@ -74,8 +74,10 @@
     <script>
       (function() {
         try {
-          var url = 'https://fitsaas-backend.onrender.com';
-          fetch(url + '/health', { method: 'GET', cache: 'no-store' }).catch(function(){});
+          var url = '%VITE_API_URL%';
+          if (url && url.indexOf('%') === -1) {
+            fetch(url + '/ping', { method: 'GET', cache: 'no-store' }).catch(function(){});
+          }
         } catch(e) {}
       })();
     </script>

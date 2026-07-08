@@ -22,7 +22,7 @@ export default function Login() {
   useEffect(() => {
     let mounted = true
     const t = setTimeout(() => { if (mounted) setServerSlow(true) }, 2000)
-    api.get('/health', { timeout: 8000 })
+    api.get('/ping', { timeout: 8000 })
       .then(() => { if (mounted) setServerSlow(false) })
       .catch(() => { if (mounted) setServerSlow(true) })
       .finally(() => clearTimeout(t))
@@ -54,7 +54,7 @@ export default function Login() {
         navigate(user?.role === 'aluno' ? '/aluno' : '/dashboard')
         return
       } catch (err) {
-        const isNetwork = !err.response
+        const isNetwork = !err.response || err.response.status === 502 || err.response.status === 503
         const isCreds = err.response?.status === 401 || err.response?.status === 403
 
         if (isCreds) {

@@ -10,9 +10,32 @@ from app.core.db import engine
 
 logger = logging.getLogger(__name__)
 
+# Bump this string whenever you add new ALTER TABLE or CREATE TABLE statements below.
+# On cold start the DB is checked once; if version matches, all migration SQL is skipped.
+_SCHEMA_VERSION = "2026-07-08-v1"
+
 
 def _run_migrations() -> None:
-    """Todas as migrações em UMA única conexão/inspect — startup rápido."""
+    """Run DDL migrations once per schema version — skipped on warm restarts."""
+    try:
+        with engine.connect() as conn:
+            conn.execute(text(
+                "CREATE TABLE IF NOT EXISTS _schema_version "
+                "(version VARCHAR PRIMARY KEY, applied_at TIMESTAMP DEFAULT NOW())"
+            ))
+            row = conn.execute(
+                text("SELECT 1 FROM _schema_version WHERE version = :v"),
+                {"v": _SCHEMA_VERSION},
+            ).fetchone()
+            conn.commit()
+
+        if row:
+            logger.info("migrations: schema already at version %s — skipping", _SCHEMA_VERSION)
+            return
+
+    except Exception as exc:
+        logger.warning("migrations: version check failed (%s) — will attempt full run", exc)
+
     try:
         inspector = inspect(engine)
         tables    = set(inspector.get_table_names())
@@ -214,6 +237,11 @@ def _run_migrations() -> None:
             # Indexes — always attempt (IF NOT EXISTS makes them idempotent)
             for idx in idx_stmts:
                 conn.execute(text(idx))
+            # Stamp the schema version so next cold start skips all of this
+            conn.execute(text(
+                "INSERT INTO _schema_version (version) VALUES (:v) "
+                "ON CONFLICT (version) DO NOTHING"
+            ), {"v": _SCHEMA_VERSION})
             conn.commit()
 
         logger.info("migrations: ran %d DDL statement(s) + %d index(es)", len(stmts), len(idx_stmts))

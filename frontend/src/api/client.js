@@ -15,8 +15,9 @@ api.interceptors.response.use(
   (r) => r,
   async (err) => {
     const config = err.config
-    // Auto-retry once on network/timeout errors for non-auth endpoints
-    if (!err.response && !config._retried && !config.url?.includes('/auth/')) {
+    // Auto-retry once on network/timeout/503 errors for non-auth endpoints
+    const isColdStart = !err.response || err.response.status === 503 || err.response.status === 502
+    if (isColdStart && !config._retried && !config.url?.includes('/auth/')) {
       config._retried = true
       await new Promise(r => setTimeout(r, 5000))
       return api(config)
