@@ -70,6 +70,15 @@
         }
       })();
     </script>
+    <!-- Pre-warm: fires before React even initializes, giving backend a head start -->
+    <script>
+      (function() {
+        try {
+          var url = 'https://fitsaas-backend.onrender.com';
+          fetch(url + '/health', { method: 'GET', cache: 'no-store' }).catch(function(){});
+        } catch(e) {}
+      })();
+    </script>
     <div id="root" translate="no"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

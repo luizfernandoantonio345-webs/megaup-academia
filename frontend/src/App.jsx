@@ -12,7 +12,6 @@ import PageTransition from './components/PageTransition'
 import ErrorBoundary from './components/ErrorBoundary'
 import { useKeepAlive } from './hooks/useKeepAlive'
 import { useScrollToTop } from './hooks/useScrollToTop'
-import { useAuth } from './contexts/AuthContext'
 
 // Lazy-load all pages — reduces initial bundle from 1.25 MB to ~150 KB
 const Login          = lazy(() => import('./pages/Login'))
@@ -72,8 +71,7 @@ function P({ children }) {
 
 function AnimatedRoutes() {
   const location = useLocation()
-  const { isAuthenticated } = useAuth()
-  useKeepAlive(isAuthenticated)
+  useKeepAlive()
   useScrollToTop()
   return (
     <AnimatePresence mode="wait" initial={false}>

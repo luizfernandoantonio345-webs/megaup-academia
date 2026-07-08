@@ -17,13 +17,14 @@ export default function Login() {
   const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', senha: '' })
   const [serverSlow, setServerSlow] = useState(false)
+  const [warmingUp, setWarmingUp] = useState(null)
 
   useEffect(() => {
     let mounted = true
-    const t = setTimeout(() => { if (mounted) setServerSlow(true) }, 3000)
-    api.get('/ping')
+    const t = setTimeout(() => { if (mounted) setServerSlow(true) }, 2000)
+    api.get('/health', { timeout: 8000 })
       .then(() => { if (mounted) setServerSlow(false) })
-      .catch(() => {})
+      .catch(() => { if (mounted) setServerSlow(true) })
       .finally(() => clearTimeout(t))
     return () => { mounted = false; clearTimeout(t) }
   }, [])
@@ -44,14 +45,37 @@ export default function Login() {
     setTouched({ email: true, senha: true })
     if (errors.email || errors.senha) return
     setLoading(true)
-    try {
-      const user = await login(form.email, form.senha)
-      navigate(user?.role === 'aluno' ? '/aluno' : '/dashboard')
-    } catch {
-      toast.error('E-mail ou senha incorretos. Verifique suas credenciais.')
-    } finally {
-      setLoading(false)
+    setWarmingUp(null)
+
+    const MAX_RETRIES = 3
+    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+      try {
+        const user = await login(form.email, form.senha)
+        navigate(user?.role === 'aluno' ? '/aluno' : '/dashboard')
+        return
+      } catch (err) {
+        const isNetwork = !err.response
+        const isCreds = err.response?.status === 401 || err.response?.status === 403
+
+        if (isCreds) {
+          toast.error('E-mail ou senha incorretos. Verifique suas credenciais.')
+          break
+        }
+
+        if (isNetwork && attempt < MAX_RETRIES) {
+          setServerSlow(true)
+          setWarmingUp(`Servidor iniciando... tentativa ${attempt + 1}/${MAX_RETRIES}`)
+          await new Promise(r => setTimeout(r, 8000))
+          continue
+        }
+
+        toast.error('Servidor indisponível. Aguarde alguns instantes e tente novamente.')
+        break
+      }
     }
+
+    setLoading(false)
+    setWarmingUp(null)
   }
 
   return (
@@ -184,7 +208,7 @@ export default function Login() {
             }}>
               <div style={{ width: 14, height: 14, border: '2px solid rgba(251,191,36,0.3)', borderTopColor: '#fbbf24', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
               <p style={{ fontSize: 12, color: '#fbbf24', margin: 0 }}>
-                Servidor iniciando... aguarde alguns segundos.
+                Servidor acordando... o primeiro acesso pode levar até 60s.
               </p>
             </div>
           )}
@@ -246,7 +270,7 @@ export default function Login() {
               {loading ? (
                 <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} />
-                  Entrando...
+                  {warmingUp || 'Entrando...'}
                 </span>
               ) : (
                 <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
