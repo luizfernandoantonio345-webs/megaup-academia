@@ -1,7 +1,7 @@
 services:
   # ─── Backend (FastAPI) ────────────────────────────────────────────────────
   - type: web
-    name: fitsaas-api
+    name: megaup-api
     runtime: python
     rootDir: backend
     buildCommand: pip install -r requirements.txt
@@ -27,7 +27,7 @@ services:
       - key: FRONTEND_BASE_URL
         sync: false        # preencher com a URL do frontend após deploy
       - key: APP_URL
-        sync: false        # URL do backend (ex: https://fitsaas.onrender.com)
+        sync: false        # URL do backend (ex: https://megaup-api.onrender.com)
       - key: EMAIL_FROM
         value: "noreply@megaup.app"
       - key: VAPID_PUBLIC_KEY
@@ -41,7 +41,7 @@ services:
 
   # ─── Frontend (React/Vite → Static Site) ─────────────────────────────────
   - type: web
-    name: fitsaas-frontend
+    name: megaup-frontend
     runtime: static
     rootDir: frontend
     buildCommand: npm install && NODE_OPTIONS="--max-old-space-size=1536" npm run build
@@ -49,7 +49,7 @@ services:
     pullRequestPreviewsEnabled: false
     envVars:
       - key: VITE_API_URL
-        value: https://fitsaas.onrender.com
+        value: https://megaup-api.onrender.com
     headers:
       - path: /*
         name: Cache-Control
