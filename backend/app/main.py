@@ -322,10 +322,14 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # ── CORS ─────────────────────────────────────────────────────────────────────
 _ALLOWED_ORIGINS = [
+    "https://megaup-academia.onrender.com",
     "https://megaup.onrender.com",
     "http://localhost:5173",
     "http://localhost:4173",
 ]
+# Adiciona FRONTEND_BASE_URL das env vars se configurado
+if settings.FRONTEND_BASE_URL and settings.FRONTEND_BASE_URL not in _ALLOWED_ORIGINS:
+    _ALLOWED_ORIGINS.append(settings.FRONTEND_BASE_URL)
 
 app.add_middleware(
     CORSMiddleware,
