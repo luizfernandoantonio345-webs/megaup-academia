@@ -1,15 +1,29 @@
 #!/bin/bash
 # Startup script for Render / production.
-# SQLAlchemy create_all + DDL migrations are handled by the FastAPI lifespan,
-# so we just ensure the base tables exist then hand off to uvicorn.
 set -e
 
 echo "Criando tabelas base no banco de dados..."
 python -c "
-from app.core.db import engine, Base
+from app.core.db import engine, Base, SessionLocal
 import app.models
 Base.metadata.create_all(bind=engine)
 print('Tabelas verificadas.')
+"
+
+echo "Verificando seed inicial..."
+python -c "
+from app.core.db import SessionLocal
+from app.models import User
+db = SessionLocal()
+count = db.query(User).count()
+db.close()
+if count == 0:
+    print('Banco vazio — rodando seed inicial...')
+    import subprocess, sys
+    subprocess.run([sys.executable, 'scripts/seed_demo.py'])
+    print('Seed concluido.')
+else:
+    print(f'Banco ok ({count} usuarios).')
 "
 
 echo "Iniciando servidor uvicorn..."
