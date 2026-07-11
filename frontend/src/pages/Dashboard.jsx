@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { Link } from 'react-router-dom'
 import {
   Users, Dumbbell, UserPlus, ArrowRight,
-  BarChart2, TrendingUp, Activity,
+  BarChart2, TrendingUp, Activity, AlertTriangle,
 } from 'lucide-react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -49,7 +49,7 @@ function Kpi({ value, label, to }) {
   )
   return to
     ? <Link to={to} style={{ textDecoration: 'none', display: 'block' }}
-        onMouseEnter={e => e.currentTarget.querySelector('p').style.color = '#818cf8'}
+        onMouseEnter={e => e.currentTarget.querySelector('p').style.color = '#f87171'}
         onMouseLeave={e => e.currentTarget.querySelector('p').style.color='var(--text-primary)'}
       >{inner}</Link>
     : inner
@@ -154,7 +154,7 @@ export default function Dashboard() {
                 <XAxis dataKey="dia" tick={{ fontSize: 11, fill:'var(--text-muted)' }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fontSize: 11, fill:'var(--text-muted)' }} axisLine={false} tickLine={false} allowDecimals={false} width={18} />
                 <Tooltip content={<ChartTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)', radius: 4 }} />
-                <Bar dataKey="treinos" radius={[4, 4, 2, 2]} fill="#6366f1" fillOpacity={0.8} isAnimationActive={false} />
+                <Bar dataKey="treinos" radius={[4, 4, 2, 2]} fill="#ef4444" fillOpacity={0.8} isAnimationActive={false} />
               </BarChart>
             </ResponsiveContainer>
           )}
@@ -171,7 +171,7 @@ export default function Dashboard() {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               {[
-                { label: 'Total alunos',   value: totalAlunos, max: Math.max(totalAlunos, 10),  color: '#6366f1' },
+                { label: 'Total alunos',   value: totalAlunos, max: Math.max(totalAlunos, 10),  color: '#ef4444' },
                 { label: 'Treinos (7d)',   value: totalTreinos, max: Math.max(totalTreinos, 20), color: '#4ade80' },
                 { label: 'Alunos ativos', value: ativos,       max: Math.max(totalAlunos, 1),   color: '#60a5fa' },
               ].map(({ label, value, max, color }) => (
@@ -202,7 +202,7 @@ export default function Dashboard() {
         <div className="card">
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
             <h2 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Alunos recentes</h2>
-            <Link to="/alunos" style={{ fontSize: 12, color: '#6366f1', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 3, fontWeight: 500 }}>
+            <Link to="/alunos" style={{ fontSize: 12, color: '#ef4444', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 3, fontWeight: 500 }}>
               Ver todos <ArrowRight style={{ width: 12, height: 12 }} />
             </Link>
           </div>
@@ -262,6 +262,47 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {/* Churn risk panel */}
+      {!lan && analytics?.risco_abandono?.length > 0 && (
+        <div className="card">
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <AlertTriangle style={{ width: 15, height: 15, color: '#f97316' }} />
+              <h2 style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>Risco de abandono</h2>
+            </div>
+            <Link to="/inativos" style={{ fontSize: 12, color: '#f97316', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: 3, fontWeight: 500 }}>
+              Ver todos <ArrowRight style={{ width: 12, height: 12 }} />
+            </Link>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {analytics.risco_abandono.map((a, i) => {
+              const scoreColor = a.score >= 8 ? '#ef4444' : a.score >= 5 ? '#f97316' : '#fbbf24'
+              const barPct = (a.score / 10) * 100
+              return (
+                <Link key={a.id} to={`/alunos/${a.id}`} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '9px 0', textDecoration: 'none', borderBottom: i < analytics.risco_abandono.length - 1 ? '1px solid var(--border-subtle)' : 'none' }}>
+                  <Avatar nome={a.nome} />
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 4 }}>
+                      <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</span>
+                      <span style={{ fontSize: 11, fontWeight: 700, color: scoreColor, flexShrink: 0, marginLeft: 8 }}>
+                        {a.dias_inativo === 999 ? 'Nunca treinou' : `${a.dias_inativo}d sem treinar`}
+                      </span>
+                    </div>
+                    <div className="progress-bar-track">
+                      <div className="progress-bar-fill" style={{ width: `${barPct}%`, background: scoreColor }} />
+                    </div>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+          <p style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 12, lineHeight: 1.5 }}>
+            💡 Acesse <Link to="/inativos" style={{ color: '#f97316', textDecoration: 'none', fontWeight: 600 }}>Inativos</Link> para enviar mensagens de reengajamento.
+          </p>
+        </div>
+      )}
     </div>
   )
 }
+

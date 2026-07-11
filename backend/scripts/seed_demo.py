@@ -1,8 +1,8 @@
 """
-Script de seed de dados de demonstração.
+Script de seed de dados de demonstração — MegaUp Jardim das Rosas.
 
 Cria:
-  - 1 personal trainer (demo@fitsaas.com / demo1234)
+  - 1 admin da academia (admin@megaup.com.br / megaup2024)
   - 3 alunos com treinos completos e execuções históricas
   - Exercícios globais (não vinculados a tenant)
   - Execuções suficientes para IA gerar sugestões
@@ -36,18 +36,18 @@ def seed():
     print("🌱 Iniciando seed de demonstração...")
 
     # Tenant + personal
-    tenant = Tenant(nome="Academia Demo FitSaaS")
+    tenant = Tenant(nome="MegaUp — Jardim das Rosas")
     db.add(tenant); db.flush()
 
     personal = User(
         tenant_id=tenant.id,
-        nome="João Demo",
-        email="demo@fitsaas.com",
-        senha_hash=hash_senha("demo1234"),
+        nome="Admin MegaUp",
+        email="admin@megaup.com.br",
+        senha_hash=hash_senha("megaup2024"),
         role=Role.personal,
     )
     db.add(personal); db.flush()
-    print(f"  ✓ Personal criado: demo@fitsaas.com / demo1234 (tenant_id={tenant.id})")
+    print(f"  ✓ Admin criado: admin@megaup.com.br / megaup2024 (tenant_id={tenant.id})")
 
     # Exercícios globais
     exercicios_data = [
@@ -184,9 +184,9 @@ def seed():
     db.commit()
     print(f"  ✓ Alunos criados: Carlos Silva, Ana Oliveira, Rafael Mendes")
     print("\n✅ Seed concluído com sucesso!")
-    print("\n📝 Credenciais de acesso:")
-    print("   Personal: demo@fitsaas.com / demo1234")
-    print("   Aluno:    carlos@demo.com / aluno123")
+    print("\n📝 Credenciais de acesso — MegaUp Jardim das Rosas:")
+    print("   Admin:  admin@megaup.com.br / megaup2024")
+    print("   Aluno:  carlos@demo.com    / aluno123")
     db.close()
 
 if __name__ == "__main__":

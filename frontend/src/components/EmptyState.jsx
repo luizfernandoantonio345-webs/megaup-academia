@@ -11,7 +11,7 @@
       {action && actionLabel && (
         <button
           onClick={action}
-          style={{ marginTop: 8, background: '#6366f1', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '10px 24px' }}
+          style={{ marginTop: 8, background: '#ef4444', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '10px 24px' }}
         >
           {actionLabel}
         </button>
@@ -19,3 +19,4 @@
     </div>
   )
 }
+

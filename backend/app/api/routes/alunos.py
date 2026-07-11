@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.core.db import get_db
 from app.core.deps import get_current_user, require_personal
-from app.models import Aluno, Conquista, ExecucaoItem, ExecucaoTreino, SugestaoProgressao, Treino, User
+from app.models import Aluno, Cobranca, CobrancaStatus, Conquista, ExecucaoItem, ExecucaoTreino, SugestaoProgressao, Treino, User
 from app.schemas.alunos import AlunoCreate, AlunoResponse, AlunoUpdate, AnamneseData
 from app.schemas.execucoes import HistoricoCargaEntry, HistoricoCargaResponse
 from app.schemas.gamificacao import ConquistaResponse, GamificacaoResponse
@@ -41,6 +41,15 @@ def _get_aluno_or_404(aluno_id: int, tenant_id: int, db: Session) -> Aluno:
     return aluno
 
 
+def _check_aluno_access(aluno_id: int, current_user: User, db: Session) -> Aluno:
+    """Personal/admin acessa qualquer aluno do tenant; aluno só acessa seus próprios dados."""
+    aluno = _get_aluno_or_404(aluno_id, current_user.tenant_id, db)
+    if current_user.role not in ("personal", "admin_academia"):
+        if aluno.user_id != current_user.id:
+            raise HTTPException(status_code=403, detail="Acesso negado")
+    return aluno
+
+
 @router.get("/meu-perfil", response_model=AlunoResponse)
 def meu_perfil(
     current_user: User = Depends(get_current_user),
@@ -62,15 +71,89 @@ def meu_perfil(
     return aluno
 
 
-@router.get("/", response_model=list[AlunoResponse])
-def listar_alunos(
-    skip: int = 0,
-    limit: int = 50,
+@router.get("/feed-conquistas")
+def feed_conquistas(
+    limit: int = 20,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
+    """Feed das conquistas recentes de todos os alunos do tenant."""
+    rows = (
+        db.query(Conquista, Aluno.nome)
+        .join(Aluno, Aluno.id == Conquista.aluno_id)
+        .filter(Conquista.tenant_id == current_user.tenant_id)
+        .order_by(Conquista.desbloqueado_em.desc())
+        .limit(min(limit, 50))
+        .all()
+    )
+    return [
+        {
+            "aluno_nome": nome,
+            "codigo": c.codigo,
+            "desbloqueado_em": c.desbloqueado_em.isoformat() if c.desbloqueado_em else None,
+        }
+        for c, nome in rows
+    ]
+
+
+@router.patch("/meu-perfil", response_model=AlunoResponse)
+def atualizar_meu_perfil(
+    body: AlunoUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Permite que o aluno atualize seu próprio objetivo."""
+    aluno = db.query(Aluno).filter(Aluno.user_id == current_user.id).first()
+    if not aluno:
+        raise HTTPException(status_code=404, detail="Perfil de aluno não encontrado")
+    if body.objetivo is not None:
+        aluno.objetivo = body.objetivo
+    db.commit()
+    db.refresh(aluno)
+    return aluno
+
+
+@router.get("/")
+def listar_alunos(
+    skip: int = 0,
+    limit: int = 50,
+    current_user: User = Depends(require_personal),
+    db: Session = Depends(get_db),
+):
     limit = min(limit, 200)
-    return db.query(Aluno).filter(Aluno.tenant_id == current_user.tenant_id).offset(skip).limit(limit).all()
+    alunos = (
+        db.query(Aluno)
+        .filter(Aluno.tenant_id == current_user.tenant_id)
+        .offset(skip).limit(limit).all()
+    )
+    aluno_ids = [a.id for a in alunos]
+    debitos: set[int] = set()
+    if aluno_ids:
+        rows = (
+            db.query(Cobranca.aluno_id)
+            .filter(
+                Cobranca.tenant_id == current_user.tenant_id,
+                Cobranca.aluno_id.in_(aluno_ids),
+                Cobranca.status.in_([CobrancaStatus.pendente, CobrancaStatus.vencido]),
+                Cobranca.vencimento < datetime.utcnow(),
+            )
+            .distinct().all()
+        )
+        debitos = {r.aluno_id for r in rows}
+    return [
+        {
+            "id": a.id,
+            "tenant_id": a.tenant_id,
+            "personal_id": a.personal_id,
+            "nome": a.nome,
+            "email": a.email,
+            "objetivo": a.objetivo,
+            "criado_em": a.criado_em,
+            "streak_atual": a.streak_atual or 0,
+            "tem_debito": a.id in debitos,
+        }
+        for a in alunos
+    ]
 
 
 @router.post("/", response_model=AlunoResponse, status_code=201)
@@ -128,7 +211,7 @@ def deletar_aluno(
 @router.get("/{aluno_id}", response_model=AlunoResponse)
 def obter_aluno(
     aluno_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_personal),
     db: Session = Depends(get_db),
 ):
     return _get_aluno_or_404(aluno_id, current_user.tenant_id, db)
@@ -137,7 +220,7 @@ def obter_aluno(
 @router.get("/{aluno_id}/anamnese", response_model=AnamneseData)
 def obter_anamnese(
     aluno_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_personal),
     db: Session = Depends(get_db),
 ):
     aluno = _get_aluno_or_404(aluno_id, current_user.tenant_id, db)
@@ -169,7 +252,7 @@ def treino_do_dia(
     Retorna os treinos agendados para hoje (por dia_semana).
     Convenção: segunda, terca, quarta, quinta, sexta, sabado, domingo.
     """
-    _get_aluno_or_404(aluno_id, current_user.tenant_id, db)
+    _check_aluno_access(aluno_id, current_user, db)
 
     dia_hoje = _DIAS_SEMANA[datetime.now(BRT).weekday()]
 
@@ -196,7 +279,7 @@ def historico_carga(
     Retorna o histórico de carga realizada por exercício (mais recente primeiro).
     Usado pelo front para gráficos e pela IA para sugerir progressão.
     """
-    _get_aluno_or_404(aluno_id, current_user.tenant_id, db)
+    _check_aluno_access(aluno_id, current_user, db)
 
     rows = (
         db.query(ExecucaoItem, ExecucaoTreino)
@@ -236,7 +319,7 @@ def historico_carga_batch(
     db: Session = Depends(get_db),
 ):
     """Retorna histórico de múltiplos exercícios em uma única query (evita N+1)."""
-    _get_aluno_or_404(aluno_id, current_user.tenant_id, db)
+    _check_aluno_access(aluno_id, current_user, db)
 
     try:
         id_list = [int(i.strip()) for i in ids.split(",") if i.strip()]
@@ -282,7 +365,7 @@ def sugestoes_aluno(
     Retorna sugestões de progressão pendentes da IA + dias sem treinar.
     Usado pelo dashboard do personal (badge 'Sugestão da IA' e alerta de estagnação).
     """
-    _get_aluno_or_404(aluno_id, current_user.tenant_id, db)
+    _check_aluno_access(aluno_id, current_user, db)
 
     sugestoes = (
         db.query(SugestaoProgressao)
@@ -320,7 +403,7 @@ def estado_gamificacao(
     db: Session = Depends(get_db),
 ):
     """Retorna streak, recorde e conquistas desbloqueadas do aluno."""
-    aluno = _get_aluno_or_404(aluno_id, current_user.tenant_id, db)
+    aluno = _check_aluno_access(aluno_id, current_user, db)
 
     conquistas = (
         db.query(Conquista)

@@ -26,6 +26,18 @@ services:
         value: "true"
       - key: FRONTEND_BASE_URL
         sync: false        # preencher com a URL do frontend após deploy
+      - key: APP_URL
+        sync: false        # URL do backend (ex: https://fitsaas.onrender.com)
+      - key: EMAIL_FROM
+        value: "noreply@megaup.app"
+      - key: VAPID_PUBLIC_KEY
+        sync: false        # gerar com: npx web-push generate-vapid-keys
+      - key: VAPID_PRIVATE_KEY
+        sync: false
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "30"
+      - key: REFRESH_TOKEN_EXPIRE_DAYS
+        value: "30"
 
   # ─── Frontend (React/Vite → Static Site) ─────────────────────────────────
   - type: web

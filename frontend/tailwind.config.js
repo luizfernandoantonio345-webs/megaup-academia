@@ -6,12 +6,12 @@ export default {
     extend: {
       colors: {
         primary: {
-          50:  "#eef2ff", 100: "#e0e7ff", 200: "#c7d2fe",
-          300: "#a5b4fc", 400: "#818cf8", 500: "#6366f1",
-          600: "#4f46e5", 700: "#4338ca", 800: "#3730a3", 900: "#312e81",
+          50:  "#fef2f2", 100: "#fee2e2", 200: "#fecaca",
+          300: "#fca5a5", 400: "#f87171", 500: "#ef4444",
+          600: "#dc2626", 700: "#b91c1c", 800: "#991b1b", 900: "#7f1d1d",
         },
         violet: {
-          400: "#a78bfa", 500: "#8b5cf6", 600: "#7c3aed", 700: "#6d28d9",
+          400: "#f87171", 500: "#ef4444", 600: "#dc2626", 700: "#b91c1c",
         },
         base: {
           950: "#070B14",
@@ -55,20 +55,20 @@ export default {
         bounceLight: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-8px)' } },
         float:       { '0%, 100%': { transform: 'translateY(0px)' }, '50%': { transform: 'translateY(-10px)' } },
         numberIn:    { '0%': { opacity: '0', transform: 'translateY(12px) scale(0.9)' }, '100%': { opacity: '1', transform: 'translateY(0) scale(1)' } },
-        glowPulse:   { '0%, 100%': { boxShadow: '0 0 16px rgba(99,102,241,0.3)' }, '50%': { boxShadow: '0 0 32px rgba(99,102,241,0.6)' } },
+        glowPulse:   { '0%, 100%': { boxShadow: '0 0 16px rgba(239,68,68,0.3)' }, '50%': { boxShadow: '0 0 32px rgba(239,68,68,0.6)' } },
         progressBar: { '0%': { width: '0%' }, '100%': { width: 'var(--progress-width, 100%)' } },
       },
       boxShadow: {
         'xs':         '0 1px 2px rgba(0,0,0,0.2)',
         'card':       '0 1px 3px rgba(0,0,0,0.3), 0 8px 24px rgba(0,0,0,0.2)',
         'card-hover': '0 4px 12px rgba(0,0,0,0.4), 0 20px 40px rgba(0,0,0,0.3)',
-        'glow':       '0 0 24px rgba(99, 102, 241, 0.4)',
-        'glow-sm':    '0 0 12px rgba(99, 102, 241, 0.3)',
+        'glow':       '0 0 24px rgba(239, 68, 68, 0.4)',
+        'glow-sm':    '0 0 12px rgba(239, 68, 68, 0.3)',
         'glow-amber': '0 0 24px rgba(245, 158, 11, 0.4)',
         'glow-green': '0 0 20px rgba(16, 185, 129, 0.35)',
         'glow-red':   '0 0 20px rgba(239, 68, 68, 0.35)',
         'glass':      '0 8px 40px rgba(0,0,0,0.4)',
-        'inner-glow': 'inset 0 0 20px rgba(99,102,241,0.1)',
+        'inner-glow': 'inset 0 0 20px rgba(239,68,68,0.1)',
       },
       borderRadius: {
         '2xl': '1rem', '3xl': '1.25rem', '4xl': '1.5rem',

@@ -1,4 +1,6 @@
+from typing import Optional
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 from sqlalchemy.orm import Session, joinedload
 
 from app.core.db import get_db
@@ -169,3 +171,56 @@ def registrar_execucao(
     db.commit()
     db.refresh(ex)
     return ex
+
+
+class DuplicarTreinoBody(BaseModel):
+    aluno_id: Optional[int] = None   # se None, duplica para o mesmo aluno
+    nome: Optional[str] = None       # se None, usa "Cópia de {original}"
+    dia_semana: Optional[str] = None
+
+
+@router.post("/{treino_id}/duplicar", response_model=TreinoResponse, status_code=201)
+def duplicar_treino(
+    treino_id: int,
+    body: DuplicarTreinoBody,
+    current_user: User = Depends(require_personal),
+    db: Session = Depends(get_db),
+):
+    """Cria uma cópia do treino (e todos os seus itens) opcionalmente para outro aluno."""
+    original = (
+        db.query(Treino)
+        .options(joinedload(Treino.itens))
+        .filter(Treino.id == treino_id, Treino.tenant_id == current_user.tenant_id)
+        .first()
+    )
+    if not original:
+        raise HTTPException(404, "Treino não encontrado")
+
+    aluno_id = body.aluno_id or original.aluno_id
+    aluno = db.query(Aluno).filter(Aluno.id == aluno_id, Aluno.tenant_id == current_user.tenant_id).first()
+    if not aluno:
+        raise HTTPException(404, "Aluno não encontrado")
+
+    copia = Treino(
+        tenant_id=current_user.tenant_id,
+        aluno_id=aluno_id,
+        nome=body.nome or f"Cópia de {original.nome}",
+        dia_semana=body.dia_semana if body.dia_semana is not None else original.dia_semana,
+    )
+    db.add(copia)
+    db.flush()
+
+    for item in original.itens:
+        db.add(TreinoItem(
+            treino_id=copia.id,
+            exercicio_id=item.exercicio_id,
+            series=item.series,
+            repeticoes=item.repeticoes,
+            carga=item.carga,
+            descanso_seg=item.descanso_seg,
+            ordem=item.ordem,
+        ))
+
+    db.commit()
+    db.refresh(copia)
+    return db.query(Treino).options(joinedload(Treino.itens)).filter(Treino.id == copia.id).first()

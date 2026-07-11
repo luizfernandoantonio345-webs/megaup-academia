@@ -1,36 +1,80 @@
 import axios from 'axios'
 
+// In-memory token — not accessible to XSS (no predictable storage key to steal)
+// Lost on page reload; restored by the httpOnly refresh-token cookie via /auth/refresh
+let _token = null
+export function setToken(t) { _token = t }
+export function clearToken() { _token = null }
+
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
   timeout: 65_000,
+  withCredentials: true,  // Send httpOnly refresh-token cookie cross-origin
 })
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token')
-  if (token) config.headers.Authorization = `Bearer ${token}`
+  if (_token) config.headers.Authorization = `Bearer ${_token}`
   return config
 })
+
+// Concurrent 401s queue — only one refresh call in flight at a time
+let _isRefreshing = false
+let _refreshQueue = []
+
+function _drainQueue(newToken, error) {
+  _refreshQueue.forEach(({ resolve, reject, config }) => {
+    if (newToken) {
+      config.headers.Authorization = `Bearer ${newToken}`
+      resolve(api(config))
+    } else {
+      reject(error)
+    }
+  })
+  _refreshQueue = []
+}
 
 api.interceptors.response.use(
   (r) => r,
   async (err) => {
     const config = err.config
-    // Auto-retry once on network/timeout/503 errors for non-auth endpoints
+
+    // Cold-start retry — backend on Render free tier needs 5s warm-up
     const isColdStart = !err.response || err.response.status === 503 || err.response.status === 502
     if (isColdStart && !config._retried && !config.url?.includes('/auth/')) {
       config._retried = true
       await new Promise(r => setTimeout(r, 5000))
       return api(config)
     }
-    if (
-      err.response?.status === 401 &&
-      !window.location.pathname.includes('/login') &&
-      !window.location.pathname.includes('/registro')
-    ) {
-      localStorage.removeItem('token')
-      localStorage.removeItem('user')
-      window.location.replace('/login')
+
+    // 401 → try to refresh access token using the httpOnly cookie before logging out
+    if (err.response?.status === 401 && !config._refreshAttempted && !config.url?.includes('/auth/')) {
+      if (_isRefreshing) {
+        return new Promise((resolve, reject) => {
+          _refreshQueue.push({ resolve, reject, config: { ...config, _refreshAttempted: true } })
+        })
+      }
+
+      _isRefreshing = true
+      config._refreshAttempted = true
+
+      try {
+        const { data } = await api.post('/auth/refresh', {}, { _refreshAttempted: true })
+        setToken(data.access_token)
+        _drainQueue(data.access_token, null)
+        config.headers.Authorization = `Bearer ${data.access_token}`
+        return api(config)
+      } catch {
+        clearToken()
+        _drainQueue(null, new Error('Session expired'))
+        if (!window.location.pathname.includes('/login')) {
+          localStorage.removeItem('user')
+          window.location.replace('/login')
+        }
+      } finally {
+        _isRefreshing = false
+      }
     }
+
     return Promise.reject(err)
   }
 )

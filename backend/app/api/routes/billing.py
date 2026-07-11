@@ -1,5 +1,5 @@
 ﻿"""
-Rotas de billing da plataforma GymPro.
+Rotas de billing da plataforma MegaUp.
 Personal trainer paga pelo uso da plataforma via Stripe.
 """
 from fastapi import APIRouter, Depends, HTTPException, Request
@@ -128,3 +128,4 @@ def _features(tier: str) -> list[str]:
         ],
     }
     return (extra.get(tier, [])) + base
+

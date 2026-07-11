@@ -1,4 +1,4 @@
-const CACHE = 'gympro-v3'
+﻿const CACHE = 'MegaUp-v3'
 const STATIC = [
   '/',
   '/index.html',
@@ -102,16 +102,16 @@ self.addEventListener('push', (event) => {
 
   let payload
   try { payload = event.data.json() }
-  catch { payload = { titulo: 'GymPro', corpo: event.data.text(), url: '/' } }
+  catch { payload = { titulo: 'MegaUp', corpo: event.data.text(), url: '/' } }
 
   event.waitUntil(
-    self.registration.showNotification(payload.titulo || 'GymPro', {
+    self.registration.showNotification(payload.titulo || 'MegaUp', {
       body: payload.corpo || '',
       icon: '/icon-192.svg',
       badge: '/icon-192.svg',
       data: { url: payload.url || '/' },
       vibrate: [200, 100, 200],
-      tag: 'gympro',
+      tag: 'MegaUp',
     })
   )
 })
@@ -129,3 +129,4 @@ self.addEventListener('notificationclick', (event) => {
     })
   )
 })
+

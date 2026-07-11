@@ -2,8 +2,13 @@ from pydantic import BaseModel, EmailStr, field_validator
 
 
 class LoginRequest(BaseModel):
-    email: str
+    email: EmailStr
     senha: str
+
+    @field_validator("email", mode="before")
+    @classmethod
+    def normalizar_email(cls, v: str) -> str:
+        return v.strip().lower()
 
 
 class RegisterPersonalRequest(BaseModel):
@@ -45,6 +50,36 @@ class UpdateProfileRequest(BaseModel):
     cref: str | None = None
     especialidades: str | None = None
     foto_url: str | None = None
+
+    @field_validator("foto_url")
+    @classmethod
+    def validar_foto_url(cls, v: str | None) -> str | None:
+        if v is None:
+            return v
+        if not (v.startswith("https://") or v.startswith("/")):
+            raise ValueError("foto_url deve usar HTTPS ou ser um caminho relativo")
+        if len(v) > 512:
+            raise ValueError("URL muito longa (máx. 512 caracteres)")
+        return v
+
+    @field_validator("nome")
+    @classmethod
+    def validar_nome(cls, v: str | None) -> str | None:
+        if v is None:
+            return v
+        v = v.strip()
+        if len(v) < 2:
+            raise ValueError("Nome muito curto")
+        if len(v) > 120:
+            raise ValueError("Nome muito longo")
+        return v
+
+    @field_validator("bio")
+    @classmethod
+    def validar_bio(cls, v: str | None) -> str | None:
+        if v is not None and len(v) > 1000:
+            raise ValueError("Bio muito longa (máx. 1000 caracteres)")
+        return v
 
 
 class UserInfo(BaseModel):

@@ -1,7 +1,7 @@
 ﻿import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '../../contexts/AuthContext'
-import { gamificacaoAluno } from '../../api'
-import { Lock, Star, Zap, Flame, Trophy, Target } from 'lucide-react'
+import { gamificacaoAluno, feedConquistas } from '../../api'
+import { Lock, Star, Zap, Flame, Trophy, Target, Users } from 'lucide-react'
 
 const CONQUISTAS = [
   { codigo:'primeiro_treino', emoji:'🏋️', titulo:'Primeiro Passo',   descricao:'Completou o primeiro treino',       xp:50,    raridade:'comum',    categoria:'inicio'   },
@@ -25,7 +25,7 @@ const RARIDADE = {
 
 const CATEGORY_LABELS = {
   inicio:  { label:'Inicio',   color:'#34d399' },
-  volume:  { label:'Volume',   color:'#818cf8' },
+  volume:  { label:'Volume',   color:'#f87171' },
   streak:  { label:'Sequencia', color:'#f97316' },
 }
 
@@ -46,23 +46,23 @@ function XPBar({ xpTotal }) {
           <div className="flex items-end gap-3">
             <span style={{ fontFamily: 'Inter, sans-serif', fontSize: 52, fontWeight: 600, color:'var(--text-primary)', lineHeight: 1, letterSpacing: '-0.03em' }}>{level}</span>
             <div style={{ marginBottom: 6 }}>
-              <p style={{ fontSize: 13, color: '#6366f1', fontWeight: 600 }}>{xpTotal.toLocaleString('pt-BR')} XP</p>
+              <p style={{ fontSize: 13, color: '#ef4444', fontWeight: 600 }}>{xpTotal.toLocaleString('pt-BR')} XP</p>
               <p style={{ fontSize: 11, color:'var(--text-muted)' }}>total acumulado</p>
             </div>
           </div>
         </div>
         <div className="w-14 h-14 rounded-2xl flex items-center justify-center"
-          style={{ background: '#6366f1' }}>
+          style={{ background: '#ef4444' }}>
           <Zap style={{ width: 26, height: 26, color: 'white' }} />
         </div>
       </div>
       <div className="relative z-10 space-y-2">
         <div className="flex justify-between text-xs" style={{ color:'var(--text-muted)' }}>
           <span>Progresso para nivel {level + 1}</span>
-          <span style={{ color: '#6366f1', fontWeight: 600 }}>{pct}%</span>
+          <span style={{ color: '#ef4444', fontWeight: 600 }}>{pct}%</span>
         </div>
         <div className="progress-bar-track" style={{ height: 8 }}>
-          <div className="progress-bar-fill" style={{ width: `${pct}%`, height: 8, background: '#6366f1' }} />
+          <div className="progress-bar-fill" style={{ width: `${pct}%`, height: 8, background: '#ef4444' }} />
         </div>
         <p style={{ fontSize: 11, color:'var(--text-muted)' }}>
           {xpParaProx - xpTotal > 0 ? `${(xpParaProx - xpTotal).toLocaleString('pt-BR')} XP para o proximo nivel` : 'Nivel maximo atingido!'}
@@ -152,7 +152,7 @@ function ConquistaCard({ conquista: c, gami, desbloqueadas }) {
         <div style={{ flexShrink: 0, textAlign: 'center' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '5px 10px', borderRadius: 999, fontSize: 12, fontWeight: 600,
             background: desbloqueada ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)',
-            color: desbloqueada ? '#a5b4fc' : 'var(--text-disabled)',
+            color: desbloqueada ? '#fca5a5' : 'var(--text-disabled)',
             fontFamily: 'Inter, sans-serif',
           }}>
             <Star style={{ width: 11, height: 11 }} />
@@ -165,13 +165,56 @@ function ConquistaCard({ conquista: c, gami, desbloqueadas }) {
   )
 }
 
+const CONQUISTAS_MAP = Object.fromEntries(CONQUISTAS.map(c => [c.codigo, c]))
+
+function tempoRelativo(iso) {
+  if (!iso) return ''
+  const diff = Date.now() - new Date(iso).getTime()
+  const d = Math.floor(diff / 86400000)
+  if (d === 0) return 'hoje'
+  if (d === 1) return 'ontem'
+  if (d < 7) return `há ${d} dias`
+  if (d < 30) return `há ${Math.floor(d / 7)} sem.`
+  return `há ${Math.floor(d / 30)} m.`
+}
+
+function FeedItem({ item }) {
+  const nome = item.aluno_nome?.split(' ')[0] || 'Aluno'
+  const c = CONQUISTAS_MAP[item.codigo]
+  const initials = (item.aluno_nome || '??').split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
+  const R = c ? (RARIDADE[c.raridade] || RARIDADE.comum) : RARIDADE.comum
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '10px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+      <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: '#ef4444', flexShrink: 0 }}>
+        {initials}
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: 13, color: 'var(--text-primary)', fontFamily: 'Inter, sans-serif', lineHeight: 1.4 }}>
+          <strong style={{ fontWeight: 600 }}>{nome}</strong>
+          {' desbloqueou '}
+          <span style={{ color: R.text || 'var(--text-secondary)', fontWeight: 600 }}>
+            {c ? `${c.emoji} ${c.titulo}` : item.codigo}
+          </span>
+        </div>
+        <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>{tempoRelativo(item.desbloqueado_em)}</div>
+      </div>
+    </div>
+  )
+}
+
 export default function Conquistas() {
   const { user, alunoId } = useAuth()
 
-  const { data: gami, isLoading } = useQuery({
+  const { data: gami, isLoading, isError } = useQuery({
     queryKey: ['gamificacao', alunoId],
     queryFn: () => gamificacaoAluno(alunoId).then(r => r.data),
     enabled: !!alunoId,
+  })
+
+  const { data: feed = [] } = useQuery({
+    queryKey: ['feed-conquistas'],
+    queryFn: () => feedConquistas().then(r => r.data),
+    staleTime: 3 * 60_000,
   })
 
   if (isLoading) return (
@@ -181,6 +224,14 @@ export default function Conquistas() {
         <Star style={{ width: 24, height: 24, color: '#fbbf24' }} />
       </div>
       <p style={{ fontSize: 13, color:'var(--text-muted)' }}>Carregando conquistas...</p>
+    </div>
+  )
+
+  if (isError) return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '80px 24px', gap: 12, textAlign: 'center' }}>
+      <div style={{ fontSize: 40, marginBottom: 4 }}>😕</div>
+      <p style={{ fontSize: 16, fontWeight: 600, color:'var(--text-primary)' }}>Não foi possível carregar</p>
+      <p style={{ fontSize: 13, color:'var(--text-muted)' }}>Verifique sua conexão e tente novamente.</p>
     </div>
   )
 
@@ -217,7 +268,7 @@ export default function Conquistas() {
           label="Treinos totais"
           current={total}
           targets={[10, 25, 50, 100]}
-          color="#818cf8"
+          color="#f87171"
         />
         <ProgressMilestone
           label="Sequencia atual"
@@ -250,6 +301,23 @@ export default function Conquistas() {
           </div>
         </div>
       )}
+
+      {/* Feed da academia */}
+      {feed.length > 0 && (
+        <div className="card" style={{ padding: '16px 20px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+            <Users style={{ width: 14, height: 14, color: '#ef4444' }} />
+            <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: 'var(--text-primary)', fontSize: 14, margin: 0 }}>Mural da Academia</h3>
+          </div>
+          <p style={{ fontSize: 12, color: 'var(--text-muted)', margin: '0 0 12px' }}>Conquistas recentes dos colegas</p>
+          <div>
+            {feed.slice(0, 12).map((item, i) => (
+              <FeedItem key={i} item={item} />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
+

@@ -8,7 +8,7 @@ const STEPS = [
     icon: Sparkles,
     color: '#a78bfa',
     bg: 'rgba(167,139,250,0.15)',
-    title: 'Bem-vindo ao GymPro!',
+    title: 'Bem-vindo ao MegaUp!',
     desc: 'Sua conta está pronta. Vamos configurar tudo para você começar a atender seus alunos.',
     cta: 'Começar',
     route: null,
@@ -124,7 +124,7 @@ export default function OnboardingWizard() {
 
         {/* Progress bar */}
         <div style={{ height: 3, background: 'rgba(255,255,255,0.05)' }}>
-          <div style={{ height: '100%', width: `${progress}%`, background: '#6366f1', transition: 'width 0.4s ease' }} />
+          <div style={{ height: '100%', width: `${progress}%`, background: '#ef4444', transition: 'width 0.4s ease' }} />
         </div>
 
         {/* Header */}
@@ -133,7 +133,7 @@ export default function OnboardingWizard() {
             {STEPS.map((s, i) => (
               <div key={s.id} style={{
                 width: i === step ? 20 : 6, height: 6, borderRadius: 3,
-                background: i < step ? '#6366f1' : i === step ? '#818cf8' : 'rgba(255,255,255,0.1)',
+                background: i < step ? '#ef4444' : i === step ? '#f87171' : 'rgba(255,255,255,0.1)',
                 transition: 'all 0.3s',
               }} />
             ))}
@@ -210,3 +210,5 @@ export default function OnboardingWizard() {
     </>
   )
 }
+
+

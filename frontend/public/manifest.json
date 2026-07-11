@@ -1,13 +1,13 @@
-{
-  "name": "GymPro — Academia Pro",
-  "short_name": "GymPro",
-  "description": "Plataforma completa para personal trainers e alunos de academia",
+﻿{
+  "name": "MegaUp — Jardim das Rosas",
+  "short_name": "MegaUp",
+  "description": "App da academia MegaUp Jardim das Rosas — treinos, evolução e mais.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "display_override": ["standalone", "minimal-ui"],
   "background_color": "#0C0C0D",
-  "theme_color": "#6366f1",
+  "theme_color": "#ef4444",
   "orientation": "portrait-primary",
   "lang": "pt-BR",
   "categories": ["fitness", "health", "sports"],
@@ -48,3 +48,4 @@
     }
   ]
 }
+

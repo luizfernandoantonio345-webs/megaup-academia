@@ -15,7 +15,7 @@ import {
 } from 'recharts'
 
 const OBJETIVO_COLORS = {
-  'Hipertrofia':   '#818cf8',
+  'Hipertrofia':   '#f87171',
   'Emagrecimento': '#34d399',
   'Força':         '#fbbf24',
   'Condicionamento':'#f9a8d4',
@@ -28,7 +28,7 @@ const ChartTooltip = ({ active, payload, label }) => {
     <div style={{ background:'var(--bg-elevated)', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 12px', boxShadow: '0 4px 12px rgba(0,0,0,0.4)' }}>
       {label && <p style={{ color:'var(--text-muted)', fontSize: 11, fontWeight: 500, marginBottom: 3 }}>{label}</p>}
       {payload.map(p => (
-        <p key={p.dataKey} style={{ color: p.color || '#a5b4fc', fontWeight: 600, fontSize: 14, margin: 0 }}>{p.value}</p>
+        <p key={p.dataKey} style={{ color: p.color || '#fca5a5', fontWeight: 600, fontSize: 14, margin: 0 }}>{p.value}</p>
       ))}
     </div>
   )
@@ -81,7 +81,7 @@ export default function Analytics() {
           {PERIODOS.map(p => (
             <button key={p.dias} onClick={() => setDias(p.dias)} style={{
               padding: '5px 14px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600,
-              background: dias === p.dias ? '#6366f1' : 'transparent',
+              background: dias === p.dias ? '#ef4444' : 'transparent',
               color: dias === p.dias ? 'white' : 'var(--text-muted)',
               transition: 'background 0.15s, color 0.15s',
             }}>{p.label}</button>
@@ -112,7 +112,7 @@ export default function Analytics() {
                 <XAxis dataKey="dia" tick={{ fill:'var(--text-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fill:'var(--text-muted)', fontSize: 11 }} axisLine={false} tickLine={false} allowDecimals={false} />
                 <Tooltip content={<ChartTooltip />} />
-                <Line type="monotone" dataKey="total" stroke="#6366f1" strokeWidth={2} dot={{ fill: '#6366f1', r: 2.5 }} activeDot={{ r: 4 }} isAnimationActive={false} />
+                <Line type="monotone" dataKey="total" stroke="#ef4444" strokeWidth={2} dot={{ fill: '#ef4444', r: 2.5 }} activeDot={{ r: 4 }} isAnimationActive={false} />
               </LineChart>
             </ResponsiveContainer>
           )}
@@ -168,7 +168,7 @@ export default function Analytics() {
                       <span style={{ fontSize: 11, color:'var(--text-muted)' }}>{ex.n}x</span>
                     </div>
                     <div style={{ height: 4, background:'var(--bg-elevated)', borderRadius: 2, overflow: 'hidden' }}>
-                      <div style={{ height: '100%', width: `${(ex.n / max) * 100}%`, background: '#6366f1', borderRadius: 2, opacity: 0.6 + i * 0.06 }} />
+                      <div style={{ height: '100%', width: `${(ex.n / max) * 100}%`, background: '#ef4444', borderRadius: 2, opacity: 0.6 + i * 0.06 }} />
                     </div>
                   </div>
                 )
@@ -205,3 +205,4 @@ export default function Analytics() {
     </div>
   )
 }
+

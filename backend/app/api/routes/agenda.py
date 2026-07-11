@@ -30,12 +30,11 @@ class SessaoUpdate(BaseModel):
     notas: Optional[str] = None
 
 
-def _sessao_dict(s: Sessao, db: Session):
-    aluno = db.query(Aluno).filter(Aluno.id == s.aluno_id).first()
+def _sessao_dict(s: Sessao, aluno_nome: str = "—"):
     return {
         "id": s.id,
         "aluno_id": s.aluno_id,
-        "aluno_nome": aluno.nome if aluno else "—",
+        "aluno_nome": aluno_nome,
         "data_hora": s.data_hora.isoformat(),
         "duracao_min": s.duracao_min,
         "tipo": s.tipo,
@@ -63,7 +62,15 @@ def listar_sessoes(
             extract("year", Sessao.data_hora) == ano,
         )
     sessoes = q.order_by(Sessao.data_hora).all()
-    return [_sessao_dict(s, db) for s in sessoes]
+
+    # Carrega todos os alunos referenciados em 1 query (evita N+1)
+    aluno_ids = {s.aluno_id for s in sessoes}
+    alunos_map = {}
+    if aluno_ids:
+        rows = db.query(Aluno.id, Aluno.nome).filter(Aluno.id.in_(aluno_ids)).all()
+        alunos_map = {r.id: r.nome for r in rows}
+
+    return [_sessao_dict(s, alunos_map.get(s.aluno_id, "—")) for s in sessoes]
 
 
 @router.post("/", status_code=201)
@@ -90,7 +97,7 @@ def criar_sessao(
     db.add(s)
     db.commit()
     db.refresh(s)
-    return _sessao_dict(s, db)
+    return _sessao_dict(s, aluno.nome)
 
 
 @router.patch("/{sessao_id}")
@@ -116,7 +123,8 @@ def atualizar_sessao(
         s.notas = body.notas
     db.commit()
     db.refresh(s)
-    return _sessao_dict(s, db)
+    aluno = db.query(Aluno).filter(Aluno.id == s.aluno_id).first()
+    return _sessao_dict(s, aluno.nome if aluno else "—")
 
 
 @router.delete("/{sessao_id}", status_code=204)

@@ -1,4 +1,4 @@
-import uuid
+﻿import uuid
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from app.core.db import get_db
@@ -27,7 +27,8 @@ def referral_status(
     indicados = db.query(Tenant).filter(Tenant.referred_by == code).count()
     return {
         "referral_code": code,
-        "referral_link": f"https://fitsaas-frontend.onrender.com/registrar?ref={code}",
+        "referral_link": f"https://megaup.onrender.com/registrar?ref={code}",
         "total_indicados": indicados,
         "recompensa_descricao": "1 mês grátis no plano Starter para cada 3 indicações convertidas",
     }
+

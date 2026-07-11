@@ -1,4 +1,4 @@
-import logging
+﻿import logging
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 # Bump this string whenever you add new ALTER TABLE or CREATE TABLE statements below.
 # On cold start the DB is checked once; if version matches, all migration SQL is skipped.
-_SCHEMA_VERSION = "2026-07-08-v1"
+_SCHEMA_VERSION = "2026-07-11-v2"
 
 
 def _run_migrations() -> None:
@@ -174,6 +174,35 @@ def _run_migrations() -> None:
             """)
             stmts.append("CREATE INDEX IF NOT EXISTS ix_fotos_aluno_data ON fotos_evolucao(aluno_id, data DESC)")
 
+        if "templates_treino" not in tables:
+            stmts.append("""
+                CREATE TABLE IF NOT EXISTS templates_treino (
+                    id SERIAL PRIMARY KEY,
+                    tenant_id INTEGER NOT NULL REFERENCES tenants(id),
+                    personal_id INTEGER NOT NULL REFERENCES users(id),
+                    nome VARCHAR NOT NULL,
+                    objetivo VARCHAR,
+                    dia_semana VARCHAR,
+                    descricao TEXT,
+                    criado_em TIMESTAMP DEFAULT NOW()
+                )
+            """)
+            stmts.append("CREATE INDEX IF NOT EXISTS ix_templates_tenant ON templates_treino(tenant_id)")
+
+        if "templates_treino_itens" not in tables:
+            stmts.append("""
+                CREATE TABLE IF NOT EXISTS templates_treino_itens (
+                    id SERIAL PRIMARY KEY,
+                    template_id INTEGER NOT NULL REFERENCES templates_treino(id) ON DELETE CASCADE,
+                    exercicio_id INTEGER NOT NULL REFERENCES exercicios(id),
+                    series INTEGER DEFAULT 3,
+                    repeticoes VARCHAR DEFAULT '12',
+                    carga REAL,
+                    descanso_seg INTEGER DEFAULT 60,
+                    ordem INTEGER DEFAULT 0
+                )
+            """)
+
         if "push_subscriptions" not in tables:
             stmts.append("""
                 CREATE TABLE IF NOT EXISTS push_subscriptions (
@@ -187,6 +216,18 @@ def _run_migrations() -> None:
                     UNIQUE(user_id, endpoint)
                 )
             """)
+
+        if "checkins" not in tables:
+            stmts.append("""
+                CREATE TABLE IF NOT EXISTS checkins (
+                    id SERIAL PRIMARY KEY,
+                    tenant_id INTEGER NOT NULL REFERENCES tenants(id),
+                    user_id INTEGER NOT NULL REFERENCES users(id),
+                    data TIMESTAMP DEFAULT NOW()
+                )
+            """)
+            stmts.append("CREATE INDEX IF NOT EXISTS ix_checkins_user_data ON checkins(user_id, data DESC)")
+            stmts.append("CREATE INDEX IF NOT EXISTS ix_checkins_tenant_data ON checkins(tenant_id, data DESC)")
 
         # ── indexes (always included — CREATE INDEX IF NOT EXISTS is idempotent) ──
         idx_stmts = [
@@ -255,11 +296,13 @@ async def lifespan(app: FastAPI):
     _run_migrations()
     if settings.ENABLE_SCHEDULER:
         from apscheduler.schedulers.background import BackgroundScheduler
-        from app.ai.scheduler import tarefa_progressao, tarefa_lembretes_pagamento
+        from app.ai.scheduler import tarefa_progressao, tarefa_lembretes_pagamento, tarefa_lembretes_streak
 
         scheduler = BackgroundScheduler()
         scheduler.add_job(tarefa_progressao, "interval", hours=1, id="progressao")
         scheduler.add_job(tarefa_lembretes_pagamento, "interval", hours=24, id="lembretes_pagamento")
+        # Às 18h BRT (21h UTC) — horário ideal antes do fechamento da academia
+        scheduler.add_job(tarefa_lembretes_streak, "cron", hour=21, minute=0, id="lembretes_streak")
         scheduler.start()
         yield
         scheduler.shutdown(wait=False)
@@ -279,7 +322,7 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # ── CORS ─────────────────────────────────────────────────────────────────────
 _ALLOWED_ORIGINS = [
-    "https://fitsaas-frontend.onrender.com",
+    "https://megaup.onrender.com",
     "http://localhost:5173",
     "http://localhost:4173",
 ]
@@ -301,6 +344,12 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     # Rotas cujos dados mudam raramente — pode ser revalidado em background
     _CACHEABLE = {"/exercicios/", "/ping", "/health"}
 
+    # CSP restritivo para respostas de API (JSON) — defesa em profundidade
+    _CSP = (
+        "default-src 'none'; "
+        "frame-ancestors 'none'"
+    )
+
     async def dispatch(self, request: StarletteRequest, call_next):
         response = await call_next(request)
         response.headers["X-Content-Type-Options"] = "nosniff"
@@ -308,8 +357,12 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         response.headers["X-XSS-Protection"] = "0"
         response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+        response.headers["Content-Security-Policy"] = self._CSP
+        response.headers["Cross-Origin-Resource-Policy"] = "same-site"
+        # Remove header que vaza informação sobre o servidor
+        response.headers.pop("server", None)
         if request.url.scheme == "https":
-            response.headers["Strict-Transport-Security"] = "max-age=63072000; includeSubDomains"
+            response.headers["Strict-Transport-Security"] = "max-age=63072000; includeSubDomains; preload"
         # Cache-Control: authenticated GET respostas ficam private, revalidam após 5 min
         if request.method == "GET" and response.status_code == 200:
             path = request.url.path
@@ -326,7 +379,7 @@ app.add_middleware(GZipMiddleware, minimum_size=500)
 
 from app.api.routes import auth, alunos, treinos, ia, convites, exercicios  # noqa: E402
 from app.api.routes import pagamentos, academia, billing, chat, avaliacoes, periodizacao, referral, analytics, agenda, nutricao, notificacoes, public  # noqa: E402
-from app.api.routes import fotos, push  # noqa: E402
+from app.api.routes import fotos, push, templates, checkin  # noqa: E402
 
 app.include_router(auth.router,         prefix="/auth",         tags=["auth"])
 app.include_router(convites.router,     prefix="/convites",     tags=["convites"])
@@ -348,6 +401,8 @@ app.include_router(notificacoes.router, prefix="/notificacoes", tags=["notificac
 app.include_router(public.router,       prefix="/public",       tags=["public"])
 app.include_router(fotos.router,        prefix="/alunos",       tags=["fotos"])
 app.include_router(push.router,         prefix="/push",         tags=["push"])
+app.include_router(templates.router,    prefix="/templates",    tags=["templates"])
+app.include_router(checkin.router,      prefix="/checkin",      tags=["checkin"])
 
 
 @app.get("/ping", include_in_schema=False)
@@ -362,6 +417,8 @@ def health():
         with engine.connect() as conn:
             conn.execute(text("SELECT 1"))
         return {"status": "ok", "db": "ok"}
-    except Exception as e:
+    except Exception:
         from fastapi import HTTPException
-        raise HTTPException(status_code=503, detail=f"Database unavailable: {e}")
+        # Nunca vazar detalhes de conexão (string de conexão, credenciais, etc.)
+        raise HTTPException(status_code=503, detail="Database unavailable")
+

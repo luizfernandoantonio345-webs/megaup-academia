@@ -95,6 +95,70 @@ def tarefa_progressao() -> None:
         db.close()
 
 
+def tarefa_lembretes_streak() -> None:
+    """
+    Diariamente (~18h BRT): envia push para alunos com streak > 0
+    que ainda não treinaram hoje — evita que percam a sequência.
+    """
+    from datetime import timezone, timedelta
+    from app.models import Aluno, PushSubscription, ExecucaoTreino
+    from app.api.routes.push import _enviar_push_para_subscription
+
+    BRT = timezone(timedelta(hours=-3))
+    db = SessionLocal()
+    try:
+        hoje_brt = datetime.now(BRT).date()
+        ontem_brt = hoje_brt - timedelta(days=1)
+
+        # Alunos com streak ativo que têm user_id (login habilitado)
+        alunos = (
+            db.query(Aluno)
+            .filter(Aluno.streak_atual > 0, Aluno.user_id.isnot(None))
+            .all()
+        )
+
+        for aluno in alunos:
+            try:
+                # Verificar se já treinou hoje (BRT)
+                treinou_hoje = db.query(ExecucaoTreino).filter(
+                    ExecucaoTreino.aluno_id == aluno.id,
+                    func.date(ExecucaoTreino.data) == hoje_brt,
+                ).first()
+                if treinou_hoje:
+                    continue
+
+                # Verificar se treinou ontem (streak ainda vivo)
+                treinou_ontem = db.query(ExecucaoTreino).filter(
+                    ExecucaoTreino.aluno_id == aluno.id,
+                    func.date(ExecucaoTreino.data) == ontem_brt,
+                ).first()
+                if not treinou_ontem:
+                    continue  # streak já quebrou ontem — não notificar
+
+                subs = db.query(PushSubscription).filter(
+                    PushSubscription.user_id == aluno.user_id
+                ).all()
+
+                for sub in subs:
+                    enviou = _enviar_push_para_subscription(
+                        sub,
+                        titulo=f"🔥 {aluno.streak_atual} dias seguidos em risco!",
+                        corpo="Você ainda não treinou hoje. Complete um treino para manter sua sequência!",
+                        url="/aluno",
+                    )
+                    if not enviou:
+                        db.delete(sub)
+                        db.commit()
+
+            except Exception:
+                logger.exception("Erro ao notificar aluno_id=%s", aluno.id)
+
+    except Exception:
+        logger.exception("Falha geral em tarefa_lembretes_streak")
+    finally:
+        db.close()
+
+
 def tarefa_lembretes_pagamento() -> None:
     """
     Verifica cobranças vencidas há 1–3 dias e envia e-mail de lembrete ao aluno.

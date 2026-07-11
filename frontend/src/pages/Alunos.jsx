@@ -89,7 +89,7 @@ export default function Alunos() {
   const [filtroObjetivo, setFiltroObjetivo] = useState('')
   const [showModal, setShowModal] = useState(false)
   const [viewMode, setViewMode] = useState('grid')
-  const [pinnedIds, setPinnedIds] = useLocalStorage('gympro-pinned-alunos', [])
+  const [pinnedIds, setPinnedIds] = useLocalStorage('MegaUp-pinned-alunos', [])
 
   const togglePin = (e, id) => {
     e.preventDefault(); e.stopPropagation()
@@ -156,7 +156,7 @@ export default function Alunos() {
             return (
               <button key={obj}
                 onClick={() => setFiltroObjetivo(obj === 'Todos' ? '' : (filtroObjetivo === obj ? '' : obj))}
-                style={{ padding: '4px 12px', borderRadius: 6, fontSize: 12, fontWeight: 500, cursor: 'pointer', border: '1px solid', transition: 'all 0.1s', borderColor: active ? '#6366f1' : 'var(--border)', background: active ? 'rgba(99,102,241,0.12)' : 'transparent', color: active ? '#a5b4fc' : 'var(--text-muted)' }}>
+                style={{ padding: '4px 12px', borderRadius: 6, fontSize: 12, fontWeight: 500, cursor: 'pointer', border: '1px solid', transition: 'all 0.1s', borderColor: active ? '#ef4444' : 'var(--border)', background: active ? 'rgba(99,102,241,0.12)' : 'transparent', color: active ? '#fca5a5' : 'var(--text-muted)' }}>
                 {obj}
               </button>
             )
@@ -179,24 +179,28 @@ export default function Alunos() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((a, i) => (
             <Link key={a.id} to={`/alunos/${a.id}`} className="card-interactive stagger-item" style={{ textDecoration: 'none' }}
-              onMouseEnter={e => { e.currentTarget.querySelector('.arrow-icon').style.color='#6366f1' }}
+              onMouseEnter={e => { e.currentTarget.querySelector('.arrow-icon').style.color='#ef4444' }}
               onMouseLeave={e => { e.currentTarget.querySelector('.arrow-icon').style.color='var(--text-disabled)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
                 <Avatar nome={a.nome} />
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-                    {pinnedIds.includes(a.id) && <Pin style={{ width: 10, height: 10, color: '#6366f1', flexShrink: 0 }} />}
+                    {pinnedIds.includes(a.id) && <Pin style={{ width: 10, height: 10, color: '#ef4444', flexShrink: 0 }} />}
                     <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</div>
                   </div>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{a.email}</div>
                 </div>
                 <button onClick={e => togglePin(e, a.id)} title={pinnedIds.includes(a.id) ? 'Desafixar' : 'Fixar no topo'}
-                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: pinnedIds.includes(a.id) ? '#6366f1' : 'var(--text-disabled)', flexShrink: 0 }}>
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 4, color: pinnedIds.includes(a.id) ? '#ef4444' : 'var(--text-disabled)', flexShrink: 0 }}>
                   {pinnedIds.includes(a.id) ? <PinOff style={{ width: 12, height: 12 }} /> : <Pin style={{ width: 12, height: 12 }} />}
                 </button>
                 <ArrowRight className="arrow-icon" style={{ width: 14, height: 14, color: 'var(--text-disabled)', flexShrink: 0, transition: 'color 0.1s' }} />
               </div>
-              {a.objetivo && <span className="badge-blue" style={{ fontSize: 11 }}>{a.objetivo}</span>}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', marginTop: 6 }}>
+                {a.objetivo && <span className="badge-blue" style={{ fontSize: 11 }}>{a.objetivo}</span>}
+                {a.tem_debito && <span style={{ fontSize: 10, padding: '2px 7px', borderRadius: 999, background: 'rgba(239,68,68,0.12)', color: '#f87171', fontWeight: 700, border: '1px solid rgba(239,68,68,0.25)' }}>⚠ Débito</span>}
+                {a.streak_atual > 0 && <span style={{ fontSize: 10, padding: '2px 7px', borderRadius: 999, background: 'rgba(249,115,22,0.1)', color: '#fb923c', fontWeight: 700 }}>🔥 {a.streak_atual}d</span>}
+              </div>
             </Link>
           ))}
         </div>
@@ -210,7 +214,10 @@ export default function Alunos() {
               onMouseLeave={e => { e.currentTarget.style.background='transparent' }}>
               <Avatar nome={a.nome} />
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{a.nome}</span>
+                  {a.tem_debito && <span style={{ fontSize: 10, padding: '1px 6px', borderRadius: 999, background: 'rgba(239,68,68,0.12)', color: '#f87171', fontWeight: 700, flexShrink: 0 }}>⚠</span>}
+                </div>
                 <div style={{ fontSize: 11, color: 'var(--text-muted)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginTop: 1 }}>{a.email}</div>
               </div>
               {a.objetivo && <span className="badge-blue" style={{ fontSize: 11 }}>{a.objetivo}</span>}
@@ -224,3 +231,5 @@ export default function Alunos() {
     </div>
   )
 }
+
+

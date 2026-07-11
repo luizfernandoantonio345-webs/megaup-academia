@@ -1,4 +1,4 @@
-"""
+﻿"""
 Modelos do banco — multi-tenant via tenant_id.
 """
 import enum
@@ -23,7 +23,7 @@ class Tenant(Base):
     id = Column(Integer, primary_key=True)
     nome = Column(String, nullable=False)
     criado_em = Column(DateTime, default=datetime.utcnow)
-    # Billing (plataforma GymPro)
+    # Billing (plataforma MegaUp)
     plan_tier = Column(String, default="trial")          # trial/free/starter/pro/elite
     trial_ends_at = Column(DateTime, nullable=True)
     stripe_customer_id = Column(String, nullable=True)
@@ -415,6 +415,47 @@ class FotoEvolucao(Base):
     __table_args__ = (Index("ix_fotos_aluno_data", "aluno_id", "data"),)
 
 
+class TemplateTreino(Base):
+    """Template de treino reutilizável — criado pelo personal para aplicar a múltiplos alunos."""
+    __tablename__ = "templates_treino"
+    id = Column(Integer, primary_key=True)
+    tenant_id = Column(Integer, ForeignKey("tenants.id"), nullable=False)
+    personal_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    nome = Column(String, nullable=False)
+    objetivo = Column(String, nullable=True)    # hipertrofia / forca / emagrecimento / condicionamento
+    dia_semana = Column(String, nullable=True)  # sugestão de dia
+    descricao = Column(Text, nullable=True)
+    criado_em = Column(DateTime, default=datetime.utcnow)
+    itens = relationship("TemplateTreinoItem", back_populates="template", cascade="all, delete-orphan", order_by="TemplateTreinoItem.ordem")
+
+
+class TemplateTreinoItem(Base):
+    __tablename__ = "templates_treino_itens"
+    id = Column(Integer, primary_key=True)
+    template_id = Column(Integer, ForeignKey("templates_treino.id"), nullable=False)
+    exercicio_id = Column(Integer, ForeignKey("exercicios.id"), nullable=False)
+    series = Column(Integer, default=3)
+    repeticoes = Column(String, default="12")
+    carga = Column(Float, nullable=True)
+    descanso_seg = Column(Integer, default=60)
+    ordem = Column(Integer, default=0)
+    template = relationship("TemplateTreino", back_populates="itens")
+
+
+class CheckIn(Base):
+    """Registro de presença do aluno na academia via QR code."""
+    __tablename__ = "checkins"
+    id = Column(Integer, primary_key=True)
+    tenant_id = Column(Integer, ForeignKey("tenants.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    data = Column(DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        Index("ix_checkins_user_data", "user_id", "data"),
+        Index("ix_checkins_tenant_data", "tenant_id", "data"),
+    )
+
+
 class PushSubscription(Base):
     """Web Push subscription para notificações push via VAPID."""
     __tablename__ = "push_subscriptions"
@@ -427,3 +468,4 @@ class PushSubscription(Base):
     criado_em = Column(DateTime, default=datetime.utcnow)
 
     __table_args__ = (UniqueConstraint("user_id", "endpoint", name="uq_push_user_endpoint"),)
+

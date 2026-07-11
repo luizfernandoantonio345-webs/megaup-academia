@@ -16,7 +16,7 @@ function senhaForca(senha) {
   if (score <= 1) return { score, label: 'Fraca',  color: '#f87171' }
   if (score <= 2) return { score, label: 'Média',  color: '#fbbf24' }
   if (score <= 3) return { score, label: 'Boa',    color: '#34d399' }
-  return              { score, label: 'Forte', color: '#6366f1' }
+  return              { score, label: 'Forte', color: '#ef4444' }
 }
 
 function PasswordStrength({ senha }) {
@@ -65,7 +65,7 @@ export default function Registrar() {
     setLoading(true)
     try {
       await registrar({ ...form, ref_code: refCode || undefined, termos_aceitos: true })
-      toast.success('Conta criada! Bem-vindo ao GymPro.')
+      toast.success('Conta criada! Bem-vindo ao MegaUp.')
       navigate('/dashboard')
     } catch (err) {
       toast.error(err.response?.data?.detail || 'Erro ao criar conta')
@@ -111,10 +111,10 @@ export default function Registrar() {
 
         <div style={{ position: 'relative' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 44 }}>
-            <div style={{ width: 28, height: 28, borderRadius: 8, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 28, height: 28, borderRadius: 8, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 14, height: 14, color: 'white' }} />
             </div>
-            <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>GymPro</span>
+            <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>MegaUp</span>
           </div>
 
           <h1 style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.04em', lineHeight: 1.15, marginBottom: 12 }}>
@@ -138,9 +138,9 @@ export default function Registrar() {
             }} />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                <SvgPlate style={{ width: 26, color: '#818cf8', opacity: 0.7 }} />
+                <SvgPlate style={{ width: 26, color: '#f87171', opacity: 0.7 }} />
                 <SvgPlate style={{ width: 22, color: '#a78bfa', opacity: 0.5 }} />
-                <SvgPlate style={{ width: 18, color: '#6366f1', opacity: 0.4 }} />
+                <SvgPlate style={{ width: 18, color: '#ef4444', opacity: 0.4 }} />
               </div>
               <span style={{ fontSize: 10, color: 'var(--text-disabled)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
                 Grátis para começar
@@ -167,17 +167,17 @@ export default function Registrar() {
         <div style={{ width: '100%', maxWidth: 360 }} className="animate-fade-in">
           {/* Mobile logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 32 }} className="lg:hidden">
-            <div style={{ width: 26, height: 26, borderRadius: 7, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 26, height: 26, borderRadius: 7, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 13, height: 13, color: 'white' }} />
             </div>
-            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>GymPro</span>
+            <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>MegaUp</span>
           </div>
 
           <div style={{ marginBottom: 28 }}>
             <h2 style={{ fontSize: 20, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 6 }}>Criar conta de personal</h2>
             <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>
               Já tem conta?{' '}
-              <Link to="/login" style={{ color: '#6366f1', fontWeight: 500, textDecoration: 'none' }}>Entrar</Link>
+              <Link to="/login" style={{ color: '#ef4444', fontWeight: 500, textDecoration: 'none' }}>Entrar</Link>
             </p>
           </div>
 
@@ -213,8 +213,8 @@ export default function Registrar() {
               <div
                 onClick={() => setTermosAceitos(!termosAceitos)}
                 style={{
-                  width: 18, height: 18, borderRadius: 5, border: `1.5px solid ${termosAceitos ? '#6366f1' : 'var(--text-disabled)'}`,
-                  background: termosAceitos ? '#6366f1' : 'transparent',
+                  width: 18, height: 18, borderRadius: 5, border: `1.5px solid ${termosAceitos ? '#ef4444' : 'var(--text-disabled)'}`,
+                  background: termosAceitos ? '#ef4444' : 'transparent',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   flexShrink: 0, marginTop: 1, transition: 'all 0.15s', cursor: 'pointer',
                 }}
@@ -223,9 +223,9 @@ export default function Registrar() {
               </div>
               <span style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6 }}>
                 Li e aceito os{' '}
-                <Link to="/termos" target="_blank" style={{ color: '#818cf8', textDecoration: 'none', fontWeight: 500 }}>Termos de Uso</Link>
+                <Link to="/termos" target="_blank" style={{ color: '#f87171', textDecoration: 'none', fontWeight: 500 }}>Termos de Uso</Link>
                 {' '}e a{' '}
-                <Link to="/privacidade" target="_blank" style={{ color: '#818cf8', textDecoration: 'none', fontWeight: 500 }}>Política de Privacidade</Link>
+                <Link to="/privacidade" target="_blank" style={{ color: '#f87171', textDecoration: 'none', fontWeight: 500 }}>Política de Privacidade</Link>
                 {' '}(LGPD)
               </span>
             </label>
@@ -249,3 +249,5 @@ export default function Registrar() {
     </div>
   )
 }
+
+

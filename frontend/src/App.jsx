@@ -37,6 +37,9 @@ const Analytics      = lazy(() => import('./pages/Analytics'))
 const RelatorioAluno = lazy(() => import('./pages/RelatorioAluno'))
 const Agenda         = lazy(() => import('./pages/Agenda'))
 const Inativos       = lazy(() => import('./pages/Inativos'))
+const Templates      = lazy(() => import('./pages/Templates'))
+const Qr             = lazy(() => import('./pages/Qr'))
+const Checkin        = lazy(() => import('./pages/Checkin'))
 const NotFound       = lazy(() => import('./pages/NotFound'))
 const Perfil         = lazy(() => import('./pages/Perfil'))
 const TreinoHoje     = lazy(() => import('./pages/aluno/TreinoHoje'))
@@ -44,6 +47,8 @@ const ChatAluno      = lazy(() => import('./pages/aluno/ChatAluno'))
 const SemanaTreinos  = lazy(() => import('./pages/aluno/SemanaTreinos'))
 const Conquistas     = lazy(() => import('./pages/aluno/Conquistas'))
 const NutricaoAluno  = lazy(() => import('./pages/aluno/NutricaoAluno'))
+const MeusCheckins   = lazy(() => import('./pages/aluno/MeusCheckins'))
+const LogoDesigner   = lazy(() => import('./pages/LogoDesigner'))
 
 const qc = new QueryClient({
   defaultOptions: {
@@ -60,7 +65,7 @@ const qc = new QueryClient({
 function PageLoader() {
   return (
     <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ width: 24, height: 24, border: '2px solid var(--border)', borderTopColor: '#6366f1', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+      <div style={{ width: 24, height: 24, border: '2px solid var(--border)', borderTopColor: '#ef4444', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
     </div>
   )
 }
@@ -86,6 +91,8 @@ function AnimatedRoutes() {
         <Route path="/p/:code" element={<P><PerfilPublico /></P>} />
         <Route path="/termos" element={<P><Termos /></P>} />
         <Route path="/privacidade" element={<P><Privacidade /></P>} />
+        <Route path="/logo" element={<P><LogoDesigner /></P>} />
+        <Route path="/checkin" element={<P><Checkin /></P>} />
 
         {/* Personal trainer / Admin */}
         <Route element={<ProtectedRoute roles={['personal', 'admin_academia']} />}>
@@ -104,7 +111,9 @@ function AnimatedRoutes() {
           <Route path="/analytics" element={<Layout><P><Analytics /></P></Layout>} />
           <Route path="/alunos/:id/relatorio" element={<Layout><P><RelatorioAluno /></P></Layout>} />
           <Route path="/agenda" element={<Layout><P><Agenda /></P></Layout>} />
-          <Route path="/inativos" element={<Layout><P><Inativos /></P></Layout>} />
+          <Route path="/inativos"   element={<Layout><P><Inativos /></P></Layout>} />
+          <Route path="/templates"  element={<Layout><P><Templates /></P></Layout>} />
+          <Route path="/qr"         element={<Layout><P><Qr /></P></Layout>} />
         </Route>
 
         {/* Aluno */}
@@ -114,6 +123,7 @@ function AnimatedRoutes() {
           <Route path="/aluno/conquistas" element={<LayoutAluno><P><Conquistas /></P></LayoutAluno>} />
           <Route path="/aluno/chat" element={<LayoutAluno><P><ChatAluno /></P></LayoutAluno>} />
           <Route path="/aluno/nutricao" element={<LayoutAluno><P><NutricaoAluno /></P></LayoutAluno>} />
+          <Route path="/aluno/checkins" element={<LayoutAluno><P><MeusCheckins /></P></LayoutAluno>} />
         </Route>
 
         <Route path="/unauthorized" element={
@@ -123,7 +133,7 @@ function AnimatedRoutes() {
                 <div style={{ fontSize:40, marginBottom:16 }}>🔒</div>
                 <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'var(--text-primary)', marginBottom:8 }}>Acesso negado</h1>
                 <p style={{ color:'var(--text-muted)', marginBottom:24, fontSize:14 }}>Você não tem permissão para acessar esta página.</p>
-                <a href="/login" style={{ color:'#818cf8', fontWeight:600, fontSize:14 }}>Voltar ao login</a>
+                <a href="/login" style={{ color:'#f87171', fontWeight:600, fontSize:14 }}>Voltar ao login</a>
               </div>
             </div>
           </P>
@@ -152,3 +162,4 @@ export default function App() {
     </ErrorBoundary>
   )
 }
+

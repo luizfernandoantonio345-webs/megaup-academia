@@ -16,7 +16,7 @@ export default function PerfilPublico() {
   if (isLoading) {
     return (
       <div style={{ minHeight: '100vh', background:'var(--bg-page)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ width: 40, height: 40, borderRadius: '50%', border: '3px solid rgba(99,102,241,0.3)', borderTopColor: '#6366f1', animation: 'spin 0.8s linear infinite' }} />
+        <div style={{ width: 40, height: 40, borderRadius: '50%', border: '3px solid rgba(99,102,241,0.3)', borderTopColor: '#ef4444', animation: 'spin 0.8s linear infinite' }} />
         <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
       </div>
     )
@@ -46,10 +46,10 @@ export default function PerfilPublico() {
 
       {/* Nav */}
       <nav style={{ padding: '16px 24px', display: 'flex', alignItems: 'center', gap: 10, borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-        <div style={{ width: 30, height: 30, borderRadius: 10, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: 30, height: 30, borderRadius: 10, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Zap style={{ width: 14, height: 14, color: 'white' }} />
         </div>
-        <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 16, letterSpacing: '-0.02em' }}>GymPro</span>
+        <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 16, letterSpacing: '-0.02em' }}>MegaUp</span>
       </nav>
 
       {/* Hero */}
@@ -60,7 +60,7 @@ export default function PerfilPublico() {
 
         <div style={{ position: 'relative', zIndex: 1 }}>
           {/* Avatar */}
-          <div style={{ width: 100, height: 100, borderRadius: '50%', margin: '0 auto 20px', background: data.foto_url ? `url(${data.foto_url}) center/cover` : 'linear-gradient(135deg,#4f46e5,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, fontWeight: 600, color: 'white',  animation: 'float 6s ease-in-out infinite' }}>
+          <div style={{ width: 100, height: 100, borderRadius: '50%', margin: '0 auto 20px', background: data.foto_url ? `url(${data.foto_url}) center/cover` : 'linear-gradient(135deg,#dc2626,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 36, fontWeight: 600, color: 'white',  animation: 'float 6s ease-in-out infinite' }}>
             {!data.foto_url && initials}
           </div>
 
@@ -90,7 +90,7 @@ export default function PerfilPublico() {
         <div style={{ maxWidth: 600, margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
           <div style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 20, padding: '20px 22px', textAlign: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 8 }}>
-              <Users style={{ width: 18, height: 18, color: '#818cf8' }} />
+              <Users style={{ width: 18, height: 18, color: '#f87171' }} />
             </div>
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 32, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em', lineHeight: 1 }}>{data.stats.total_alunos}</p>
             <p style={{ fontSize: 12, color:'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', marginTop: 6 }}>Alunos ativos</p>
@@ -112,7 +112,7 @@ export default function PerfilPublico() {
             <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 18, fontWeight: 600, color:'var(--text-primary)', marginBottom: 16, textAlign: 'center' }}>Especialidades</h2>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, justifyContent: 'center' }}>
               {especialidades.map(e => (
-                <div key={e} style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 12, padding: '8px 18px', fontSize: 14, fontWeight: 600, color: '#a5b4fc' }}>{e}</div>
+                <div key={e} style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 12, padding: '8px 18px', fontSize: 14, fontWeight: 600, color: '#fca5a5' }}>{e}</div>
               ))}
             </div>
           </div>
@@ -129,7 +129,7 @@ export default function PerfilPublico() {
             Crie sua conta gratuitamente e comece a acompanhar seus treinos, metas e progresso.
           </p>
           <Link to={data.registro_link}>
-            <button style={{ background: '#6366f1', border: 'none', borderRadius: 16, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 16, padding: '16px 36px', display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+            <button style={{ background: '#ef4444', border: 'none', borderRadius: 16, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 16, padding: '16px 36px', display: 'inline-flex', alignItems: 'center', gap: 10 }}>
               Criar minha conta grátis <ArrowRight style={{ width: 18, height: 18 }} />
             </button>
           </Link>
@@ -138,8 +138,10 @@ export default function PerfilPublico() {
       </section>
 
       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '20px 24px', textAlign: 'center' }}>
-        <p style={{ fontSize: 12, color:'var(--text-disabled)' }}>Powered by <strong style={{ color: '#6366f1' }}>GymPro</strong> — plataforma para personal trainers</p>
+        <p style={{ fontSize: 12, color:'var(--text-disabled)' }}>Powered by <strong style={{ color: '#ef4444' }}>MegaUp</strong> — plataforma para personal trainers</p>
       </footer>
     </div>
   )
 }
+
+

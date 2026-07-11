@@ -3,10 +3,12 @@ import { useAuth } from '../contexts/AuthContext'
 import ErrorBoundary from './ErrorBoundary'
 import {
   LayoutDashboard, Users, Dumbbell, UserPlus, LogOut,
-  X, DollarSign, Zap, MoreHorizontal, ChevronRight, CreditCard,
-  BarChart2, Gift, Calendar, Bell, Apple, ChevronDown, TrendingUp, UserCircle,
+  X, DollarSign, MoreHorizontal, ChevronRight, CreditCard,
+  BarChart2, Gift, Calendar, Bell, ChevronDown, TrendingUp, UserCircle, Copy, QrCode,
+  ArrowRight, CheckCircle,
 } from 'lucide-react'
-import { useState } from 'react'
+import { LogoFull } from './LogoMegaUp'
+import { useState, useEffect } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { resumoNotificacoes, listarAlunos, resumoFinanceiro, analyticsResumo, listarExercicios } from '../api'
 import PlanBanner from './PlanBanner'
@@ -30,6 +32,8 @@ const NAV_MAIN = [
 
 const NAV_TOOLS = [
   { to: '/ia',           icon: TrendingUp,  label: 'Sugestões'         },
+  { to: '/templates',    icon: Copy,        label: 'Templates'         },
+  { to: '/qr',           icon: QrCode,      label: 'QR Check-in'       },
   { to: '/financeiro',   icon: DollarSign,  label: 'Financeiro',
     prefetch: { queryKey: ['resumo'], queryFn: () => resumoFinanceiro().then(r => r.data) } },
   { to: '/convites',     icon: UserPlus,    label: 'Convidar alunos'   },
@@ -80,11 +84,8 @@ function SidebarContent({ user, onLogout }) {
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '14px 10px' }}>
 
       {/* Logo */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '2px 8px 14px' }}>
-        <div style={{ width: 22, height: 22, borderRadius: 6, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-          <Zap style={{ width: 12, height: 12, color: 'white' }} />
-        </div>
-        <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: 'var(--text-primary)', fontSize: 14, letterSpacing: '-0.01em' }}>GymPro</span>
+      <div style={{ padding: '2px 4px 14px' }}>
+        <LogoFull size={14} useBadge showTagline />
       </div>
 
       <div style={{ height: 1, background: 'var(--border-subtle)', margin: '0 2px 12px' }} />
@@ -162,10 +163,10 @@ function MobileBottomNav({ user, onLogout }) {
               <NavLink key={to} to={to} style={{ flex: 1, textDecoration: 'none' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '8px 0 6px', gap: 3, position: 'relative' }}>
                   {active && (
-                    <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: 20, height: 2, borderRadius: 1, background: '#6366f1' }} />
+                    <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: 20, height: 2, borderRadius: 1, background: '#ef4444' }} />
                   )}
-                  <Icon style={{ width: 20, height: 20, color: active ? '#818cf8' : 'var(--text-disabled)' }} />
-                  <span style={{ fontSize: 10, fontWeight: active ? 600 : 400, color: active ? '#818cf8' : 'var(--text-disabled)', fontFamily: 'Inter, sans-serif' }}>
+                  <Icon style={{ width: 20, height: 20, color: active ? '#f87171' : 'var(--text-disabled)' }} />
+                  <span style={{ fontSize: 10, fontWeight: active ? 600 : 400, color: active ? '#f87171' : 'var(--text-disabled)', fontFamily: 'Inter, sans-serif' }}>
                     {label}
                   </span>
                 </div>
@@ -175,8 +176,8 @@ function MobileBottomNav({ user, onLogout }) {
 
           <button onClick={() => setShowMore(true)} style={{ flex: 1, background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '8px 0 6px', gap: 3 }}>
-              <MoreHorizontal style={{ width: 20, height: 20, color: isSecondaryActive ? '#818cf8' : 'var(--text-disabled)' }} />
-              <span style={{ fontSize: 10, fontWeight: isSecondaryActive ? 600 : 400, color: isSecondaryActive ? '#818cf8' : 'var(--text-disabled)', fontFamily: 'Inter, sans-serif' }}>
+              <MoreHorizontal style={{ width: 20, height: 20, color: isSecondaryActive ? '#f87171' : 'var(--text-disabled)' }} />
+              <span style={{ fontSize: 10, fontWeight: isSecondaryActive ? 600 : 400, color: isSecondaryActive ? '#f87171' : 'var(--text-disabled)', fontFamily: 'Inter, sans-serif' }}>
                 Mais
               </span>
             </div>
@@ -216,7 +217,7 @@ function MobileBottomNav({ user, onLogout }) {
                       background: active ? 'var(--bg-elevated)' : 'var(--bg-sidebar)',
                       textAlign: 'left',
                     }}>
-                    <Icon style={{ width: 16, height: 16, color: active ? '#818cf8' : 'var(--text-muted)', flexShrink: 0 }} />
+                    <Icon style={{ width: 16, height: 16, color: active ? '#f87171' : 'var(--text-muted)', flexShrink: 0 }} />
                     <span style={{ fontSize: 13, fontWeight: 500, color: active ? 'var(--text-primary)' : 'var(--text-secondary)', fontFamily: 'Inter, sans-serif' }}>{label}</span>
                   </button>
                 )
@@ -272,11 +273,111 @@ function NotifBell() {
   )
 }
 
+/* ─── Onboarding do personal ─── */
+const OB_STEPS = [
+  {
+    icon: '👋',
+    title: 'Bem-vindo ao MegaUp!',
+    desc: 'Sua plataforma completa de gestão de alunos. Vamos configurar tudo em 3 passos rápidos.',
+    cta: 'Começar',
+  },
+  {
+    icon: '👤',
+    title: 'Adicione seu primeiro aluno',
+    desc: 'Vá em Alunos → Novo aluno para cadastrar. Depois envie um convite pelo e-mail para ele criar o login.',
+    cta: 'Entendido',
+    action: { label: 'Ir para Alunos', to: '/alunos' },
+  },
+  {
+    icon: '🏋️',
+    title: 'Monte o treino',
+    desc: 'Em Alunos → escolha o aluno → Novo treino. Adicione exercícios, séries e cargas. Use templates para agilizar.',
+    cta: 'Entendido',
+    action: { label: 'Ver templates', to: '/templates' },
+  },
+  {
+    icon: '🚀',
+    title: 'Tudo pronto!',
+    desc: 'Acompanhe o progresso pelo Dashboard, envie sugestões de carga via IA e monitore pagamentos no Financeiro.',
+    cta: 'Explorar',
+  },
+]
+
+function OnboardingPersonal({ userId, onDone }) {
+  const [step, setStep] = useState(0)
+  const navigate = useNavigate()
+  const s = OB_STEPS[step]
+  const isLast = step === OB_STEPS.length - 1
+
+  const advance = () => {
+    if (isLast) { onDone(); return }
+    setStep(s => s + 1)
+  }
+
+  return (
+    <div style={{
+      position: 'fixed', inset: 0, zIndex: 200,
+      background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)',
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      padding: 20,
+    }}>
+      <div style={{
+        background: 'var(--bg-card)', border: '1px solid var(--border)',
+        borderRadius: 24, padding: '36px 32px', maxWidth: 420, width: '100%',
+        textAlign: 'center',
+      }}>
+        {/* Progress dots */}
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginBottom: 28 }}>
+          {OB_STEPS.map((_, i) => (
+            <div key={i} style={{
+              width: i === step ? 20 : 6, height: 6, borderRadius: 3,
+              background: i === step ? '#ef4444' : i < step ? 'rgba(239,68,68,0.4)' : 'var(--border)',
+              transition: 'all 0.3s',
+            }} />
+          ))}
+        </div>
+
+        <div style={{ fontSize: 52, marginBottom: 16 }}>{s.icon}</div>
+        <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 12 }}>
+          {s.title}
+        </h2>
+        <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.65, marginBottom: 28 }}>
+          {s.desc}
+        </p>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {s.action && (
+            <button onClick={() => { advance(); navigate(s.action.to) }}
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '11px 20px', borderRadius: 12, border: '1px solid var(--border)', background: 'var(--bg-elevated)', color: 'var(--text-secondary)', fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>
+              <ArrowRight style={{ width: 14, height: 14 }} /> {s.action.label}
+            </button>
+          )}
+          <button onClick={advance}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '13px 20px', borderRadius: 12, background: '#ef4444', border: 'none', color: 'white', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
+            {isLast ? <><CheckCircle style={{ width: 15, height: 15 }} /> {s.cta}</> : <>{s.cta} <ArrowRight style={{ width: 14, height: 14 }} /></>}
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /* ─── Main layout ─── */
 export default function Layout({ children }) {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
   const handleLogout = () => { logout(); navigate('/login') }
+
+  const [showOnboarding, setShowOnboarding] = useState(false)
+  useEffect(() => {
+    if (!user?.id) return
+    const key = `megaup_personal_ob_${user.id}`
+    if (!localStorage.getItem(key)) setShowOnboarding(true)
+  }, [user?.id])
+  const handleDoneOnboarding = () => {
+    if (user?.id) localStorage.setItem(`megaup_personal_ob_${user.id}`, '1')
+    setShowOnboarding(false)
+  }
 
   return (
     <div className="h-screen-dvh page-bg" style={{ display: 'flex' }}>
@@ -301,11 +402,8 @@ export default function Layout({ children }) {
           borderBottom: '1px solid var(--border-subtle)',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 48, padding: '0 16px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-              <div style={{ width: 20, height: 20, borderRadius: 5, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Zap style={{ width: 11, height: 11, color: 'white' }} />
-              </div>
-              <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: 'var(--text-primary)', fontSize: 14, letterSpacing: '-0.01em' }}>GymPro</span>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <LogoFull size={14} useBadge />
             </div>
             <ThemeToggle />
           </div>
@@ -333,6 +431,12 @@ export default function Layout({ children }) {
       <div className="lg:hidden">
         <MobileBottomNav user={user} onLogout={handleLogout} />
       </div>
+
+      {showOnboarding && (
+        <OnboardingPersonal userId={user?.id} onDone={handleDoneOnboarding} />
+      )}
     </div>
   )
 }
+
+

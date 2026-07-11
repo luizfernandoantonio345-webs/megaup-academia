@@ -2,7 +2,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { listarFotos, uploadFoto, deletarFoto } from '../api'
 import toast from 'react-hot-toast'
-import { Camera, Trash2, ChevronLeft, ChevronRight, X, Upload, Scale } from 'lucide-react'
+import { Camera, Trash2, ChevronLeft, ChevronRight, X, Upload, Scale, GitCompare } from 'lucide-react'
 
 const TIPOS = ['frente', 'lado', 'costas']
 const TIPO_LABEL = { frente: 'Frente', lado: 'Lado', costas: 'Costas' }
@@ -179,11 +179,95 @@ function UploadModal({ alunoId, onClose, onSuccess }) {
   )
 }
 
+/* ─── COMPARE SLIDER MODAL ─── */
+function CompareModal({ fotoA, fotoB, onClose }) {
+  const [pos, setPos] = useState(50)
+  const containerRef = useRef()
+  const dragging = useRef(false)
+
+  const move = (clientX) => {
+    if (!containerRef.current) return
+    const rect = containerRef.current.getBoundingClientRect()
+    const pct = Math.min(97, Math.max(3, ((clientX - rect.left) / rect.width) * 100))
+    setPos(pct)
+  }
+
+  const fmt = (f) => new Date(f.data).toLocaleDateString('pt-BR', { day: '2-digit', month: 'short', year: '2-digit' })
+
+  return (
+    <div style={{ position: 'fixed', inset: 0, zIndex: 80, background: 'rgba(0,0,0,0.97)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '16px 12px' }}>
+      <button onClick={onClose} style={{ position: 'absolute', top: 18, right: 18, width: 36, height: 36, borderRadius: 10, background: 'rgba(255,255,255,0.08)', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+        <X style={{ width: 16, height: 16 }} />
+      </button>
+
+      {/* Date labels */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', maxWidth: 400, marginBottom: 10, padding: '0 4px' }}>
+        <div>
+          <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Antes</div>
+          <div style={{ fontSize: 13, color: 'white', fontWeight: 600, fontFamily: 'Inter, sans-serif' }}>{fmt(fotoA)}</div>
+          {fotoA.peso && <div style={{ fontSize: 11, color: '#34d399' }}>{fotoA.peso} kg</div>}
+        </div>
+        <div style={{ textAlign: 'right' }}>
+          <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', letterSpacing: '0.07em' }}>Depois</div>
+          <div style={{ fontSize: 13, color: 'white', fontWeight: 600, fontFamily: 'Inter, sans-serif' }}>{fmt(fotoB)}</div>
+          {fotoB.peso && <div style={{ fontSize: 11, color: '#34d399' }}>{fotoB.peso} kg</div>}
+        </div>
+      </div>
+
+      {/* Slider container */}
+      <div
+        ref={containerRef}
+        style={{ position: 'relative', width: '100%', maxWidth: 400, aspectRatio: '3/4', overflow: 'hidden', borderRadius: 16, cursor: 'col-resize', touchAction: 'none', userSelect: 'none', WebkitUserSelect: 'none' }}
+        onMouseDown={() => { dragging.current = true }}
+        onMouseUp={() => { dragging.current = false }}
+        onMouseLeave={() => { dragging.current = false }}
+        onMouseMove={e => { if (dragging.current) move(e.clientX) }}
+        onTouchStart={() => { dragging.current = true }}
+        onTouchEnd={() => { dragging.current = false }}
+        onTouchMove={e => { e.preventDefault(); move(e.touches[0].clientX) }}
+      >
+        {/* Before (left) */}
+        <img
+          src={`data:image/jpeg;base64,${fotoA.foto_base64}`}
+          alt="antes"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
+        />
+        {/* After (right, clipped) */}
+        <div style={{ position: 'absolute', inset: 0, clipPath: `inset(0 0 0 ${pos}%)`, willChange: 'clip-path' }}>
+          <img
+            src={`data:image/jpeg;base64,${fotoB.foto_base64}`}
+            alt="depois"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }}
+          />
+        </div>
+
+        {/* Divider line */}
+        <div style={{ position: 'absolute', top: 0, bottom: 0, left: `${pos}%`, width: 2, background: 'white', transform: 'translateX(-50%)', pointerEvents: 'none', boxShadow: '0 0 8px rgba(0,0,0,0.6)' }}>
+          {/* Handle */}
+          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: 36, height: 36, background: 'white', borderRadius: '50%', boxShadow: '0 2px 10px rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+            <ChevronLeft style={{ width: 12, height: 12, color: '#333' }} />
+            <ChevronRight style={{ width: 12, height: 12, color: '#333' }} />
+          </div>
+        </div>
+
+        {/* Corner labels */}
+        <div style={{ position: 'absolute', top: 10, left: 12, fontSize: 10, fontWeight: 700, color: 'white', background: 'rgba(0,0,0,0.55)', padding: '2px 8px', borderRadius: 999, letterSpacing: '0.05em', pointerEvents: 'none' }}>ANTES</div>
+        <div style={{ position: 'absolute', top: 10, right: 12, fontSize: 10, fontWeight: 700, color: 'white', background: 'rgba(0,0,0,0.55)', padding: '2px 8px', borderRadius: 999, letterSpacing: '0.05em', pointerEvents: 'none' }}>DEPOIS</div>
+      </div>
+
+      <p style={{ marginTop: 14, fontSize: 12, color: 'rgba(255,255,255,0.35)', fontFamily: 'Inter, sans-serif' }}>
+        ← Arraste para comparar →
+      </p>
+    </div>
+  )
+}
+
 export default function FotosEvolucaoTab({ alunoId }) {
   const qc = useQueryClient()
   const [showUpload, setShowUpload] = useState(false)
   const [lightbox, setLightbox] = useState(null)  // { fotos: [], index: 0 }
   const [filterTipo, setFilterTipo] = useState('')
+  const [compareTarget, setCompareTarget] = useState(null)  // { fotoA, fotoB }
 
   const { data: fotos = [], isLoading } = useQuery({
     queryKey: ['fotos', String(alunoId)],
@@ -201,6 +285,16 @@ export default function FotosEvolucaoTab({ alunoId }) {
   }
 
   const filtered = filterTipo ? fotos.filter(f => f.tipo === filterTipo) : fotos
+
+  // Pick the tipo with most fotos for the compare button
+  const compareTipo = filterTipo || (() => {
+    const counts = {}
+    fotos.forEach(f => { counts[f.tipo] = (counts[f.tipo] || 0) + 1 })
+    return Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0]
+  })()
+  const compareCandidates = fotos.filter(f => f.tipo === compareTipo).sort((a, b) => new Date(a.data) - new Date(b.data))
+  const canCompare = compareCandidates.length >= 2
+  const openCompare = () => setCompareTarget({ fotoA: compareCandidates[0], fotoB: compareCandidates[compareCandidates.length - 1] })
 
   // Agrupar por mês/ano
   const byMonth = {}
@@ -223,16 +317,23 @@ export default function FotosEvolucaoTab({ alunoId }) {
             {fotos.length} foto{fotos.length !== 1 ? 's' : ''} registrada{fotos.length !== 1 ? 's' : ''}
           </p>
         </div>
-        <button className="btn-primary btn-sm" onClick={() => setShowUpload(true)} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <Camera style={{ width: 13, height: 13 }} />Adicionar foto
-        </button>
+        <div style={{ display: 'flex', gap: 8 }}>
+          {canCompare && (
+            <button onClick={openCompare} style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '6px 12px', borderRadius: 8, background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.3)', color: '#a5b4fc', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'Inter, sans-serif' }}>
+              <GitCompare style={{ width: 12, height: 12 }} />Comparar
+            </button>
+          )}
+          <button className="btn-primary btn-sm" onClick={() => setShowUpload(true)} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <Camera style={{ width: 13, height: 13 }} />Adicionar foto
+          </button>
+        </div>
       </div>
 
       {/* Filtro por tipo */}
       {fotos.length > 0 && (
         <div style={{ display: 'flex', gap: 8 }}>
           {['', ...TIPOS].map(t => (
-            <button key={t || 'all'} onClick={() => setFilterTipo(t)} style={{ padding: '4px 12px', borderRadius: 999, fontSize: 11, fontWeight: 600, cursor: 'pointer', border: filterTipo === t ? '1px solid rgba(99,102,241,0.4)' : '1px solid rgba(255,255,255,0.08)', background: filterTipo === t ? 'rgba(99,102,241,0.15)' : 'transparent', color: filterTipo === t ? '#a5b4fc' : 'var(--text-muted)', outline: 'none' }}>
+            <button key={t || 'all'} onClick={() => setFilterTipo(t)} style={{ padding: '4px 12px', borderRadius: 999, fontSize: 11, fontWeight: 600, cursor: 'pointer', border: filterTipo === t ? '1px solid rgba(99,102,241,0.4)' : '1px solid rgba(255,255,255,0.08)', background: filterTipo === t ? 'rgba(99,102,241,0.15)' : 'transparent', color: filterTipo === t ? '#fca5a5' : 'var(--text-muted)', outline: 'none' }}>
               {t ? TIPO_LABEL[t] : 'Todas'}
             </button>
           ))}
@@ -320,6 +421,11 @@ export default function FotosEvolucaoTab({ alunoId }) {
       {showUpload && (
         <UploadModal alunoId={alunoId} onClose={() => setShowUpload(false)} onSuccess={() => setShowUpload(false)} />
       )}
+
+      {compareTarget && (
+        <CompareModal fotoA={compareTarget.fotoA} fotoB={compareTarget.fotoB} onClose={() => setCompareTarget(null)} />
+      )}
     </div>
   )
 }
+

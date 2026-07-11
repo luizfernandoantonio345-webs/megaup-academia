@@ -1,4 +1,4 @@
-import api from './client'
+﻿import api from './client'
 
 // Auth
 export const login = (data) => api.post('/auth/login', data)
@@ -12,6 +12,7 @@ export const infoConvite = (token) => api.get(`/convites/${token}`)
 // Alunos
 export const listarAlunos = () => api.get('/alunos/')
 export const meuPerfilAluno = () => api.get('/alunos/meu-perfil')
+export const atualizarMeuPerfil = (data) => api.patch('/alunos/meu-perfil', data)
 export const criarAluno = (data) => api.post('/alunos/', data)
 export const obterAluno = (id) => api.get(`/alunos/${id}`)
 export const atualizarAluno = (id, data) => api.patch(`/alunos/${id}`, data)
@@ -22,6 +23,7 @@ export const historicoCarga = (alunoId, exercicioId) =>
   api.get(`/alunos/${alunoId}/historico-carga/${exercicioId}`)
 export const sugestoesAluno = (id) => api.get(`/alunos/${id}/sugestoes`)
 export const gamificacaoAluno = (id) => api.get(`/alunos/${id}/gamificacao`)
+export const feedConquistas = () => api.get('/alunos/feed-conquistas')
 
 // Treinos
 export const listarTreinos = (alunoId) =>
@@ -33,6 +35,8 @@ export const removerItem = (treinoId, itemId) =>
   api.delete(`/treinos/${treinoId}/itens/${itemId}`)
 export const executarTreino = (treinoId, data) =>
   api.post(`/treinos/${treinoId}/executar`, data)
+export const duplicarTreino = (treinoId, data = {}) =>
+  api.post(`/treinos/${treinoId}/duplicar`, data)
 
 // Exercícios
 export const listarExercicios = () => api.get('/exercicios/')
@@ -41,6 +45,7 @@ export const criarExercicio = (data) => api.post('/exercicios/', data)
 // IA
 export const sugerirCarga = (historico) => api.post('/ia/sugerir-carga', historico)
 export const treinoAlternativo = (data) => api.post('/ia/treino-alternativo', data)
+export const gerarTreino = (data) => api.post('/ia/gerar-treino', data)
 
 // Pagamentos
 export const listarPlanos = () => api.get('/pagamentos/planos/')
@@ -51,7 +56,7 @@ export const criarCobranca = (data) => api.post('/pagamentos/cobrancas/', data)
 export const marcarPago = (id, data) => api.patch(`/pagamentos/cobrancas/${id}/pagar`, data || {})
 export const resumoFinanceiro = () => api.get('/pagamentos/resumo')
 
-// Billing (plataforma GymPro)
+// Billing (plataforma MegaUp)
 export const billingStatus    = ()       => api.get('/billing/status')
 export const billingPlanos    = ()       => api.get('/billing/planos')
 export const billingCheckout  = (plano)  => api.post('/billing/checkout', { plano })
@@ -69,6 +74,11 @@ export const seedExercicios     = ()            => api.post('/exercicios/seed-gl
 export const chatMensagens  = (alunoId, desdeId = 0) => api.get(`/chat/${alunoId}?desde_id=${desdeId}`)
 export const chatEnviar     = (alunoId, texto)        => api.post(`/chat/${alunoId}`, { texto })
 export const chatNaoLidas   = (alunoId)               => api.get(`/chat/${alunoId}/nao-lidas`)
+
+// Check-in por QR code
+export const getCheckinToken = () => api.get('/checkin/qr-data')
+export const fazerCheckin    = (token) => api.post('/checkin/', { token })
+export const meusCheckins    = () => api.get('/checkin/meus')
 
 // Avaliações físicas
 export const listarAvaliacoes = (alunoId)       => api.get(`/alunos/${alunoId}/avaliacoes`)
@@ -122,7 +132,15 @@ export const deletarFoto         = (alunoId, fotoId) => api.delete(`/alunos/${al
 export const meuPerfil    = ()     => api.get('/auth/me')
 export const updateProfile = (data) => api.patch('/auth/me', data)
 
+// Templates de treino
+export const listarTemplates     = ()                     => api.get('/templates/')
+export const criarTemplate       = (data)                 => api.post('/templates/', data)
+export const deletarTemplate     = (id)                   => api.delete(`/templates/${id}`)
+export const templateFromTreino  = (treinoId, data)       => api.post(`/templates/from-treino/${treinoId}`, data)
+export const aplicarTemplate     = (id, data)             => api.post(`/templates/${id}/aplicar`, data)
+
 // Web Push notifications
 export const getVapidPublicKey   = ()                => api.get('/push/vapid-public-key')
 export const subscribePush       = (data)            => api.post('/push/subscribe', data)
 export const unsubscribePush     = (data)            => api.delete('/push/subscribe', { data })
+

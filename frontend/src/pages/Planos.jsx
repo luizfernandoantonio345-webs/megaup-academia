@@ -174,7 +174,7 @@ export default function Planos() {
           )}
           <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 40, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.03em', lineHeight: 1.1, marginBottom: 14 }}>
             Escolha o plano{' '}
-            <span style={{ background: 'linear-gradient(135deg, #a5b4fc, #c084fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+            <span style={{ background: 'linear-gradient(135deg, #fca5a5, #c084fc)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
               ideal
             </span>{' '}
             para você
@@ -191,7 +191,7 @@ export default function Planos() {
             onClick={() => setAnual(!anual)}
             style={{
               width: 52, height: 28, borderRadius: 14, position: 'relative', cursor: 'pointer', border: 'none',
-              background: anual ? '#6366f1' : 'rgba(255,255,255,0.1)',
+              background: anual ? '#ef4444' : 'rgba(255,255,255,0.1)',
               transition: 'background 0.3s',
             }}
           >
@@ -384,7 +384,7 @@ export default function Planos() {
           </div>
           <p style={{ fontSize: 12, color:'var(--text-disabled)' }}>
             Dúvidas? Fale conosco:{' '}
-            <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer" style={{ color: '#6366f1', fontWeight: 600, textDecoration: 'none' }}>@luuiz.dev</a>
+            <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer" style={{ color: '#ef4444', fontWeight: 600, textDecoration: 'none' }}>@luuiz.dev</a>
           </p>
         </div>
       </div>
@@ -393,3 +393,4 @@ export default function Planos() {
     </div>
   )
 }
+

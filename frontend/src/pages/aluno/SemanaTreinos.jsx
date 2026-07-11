@@ -31,7 +31,7 @@ function getTema(nome = '') {
     return { color: '#c084fc', bg: 'rgba(192,132,252,0.1)', border: 'rgba(192,132,252,0.3)', glow: 'rgba(192,132,252,0.22)' }
   if (n.includes('core') || n.includes('abdom'))
     return { color: '#fbbf24', bg: 'rgba(251,191,36,0.1)', border: 'rgba(251,191,36,0.3)', glow: 'rgba(251,191,36,0.22)' }
-  return { color: '#818cf8', bg: 'rgba(129,140,248,0.1)', border: 'rgba(129,140,248,0.3)', glow: 'rgba(129,140,248,0.22)' }
+  return { color: '#f87171', bg: 'rgba(129,140,248,0.1)', border: 'rgba(129,140,248,0.3)', glow: 'rgba(129,140,248,0.22)' }
 }
 
 function DayPill({ dia, isHoje, isAtivo, treinosDia, onClick }) {
@@ -57,19 +57,19 @@ function DayPill({ dia, isHoje, isAtivo, treinosDia, onClick }) {
           width: 24, height: 2, borderRadius: 2,
           background: isAtivo
             ? `linear-gradient(90deg, transparent, ${tema?.color || '#a78bfa'}, transparent)`
-            : 'linear-gradient(90deg, transparent, #6366f1, transparent)',
+            : 'linear-gradient(90deg, transparent, #ef4444, transparent)',
         }} />
       )}
       <span style={{
         fontSize: 10, fontWeight: 600, letterSpacing: '0.05em', textTransform: 'uppercase',
-        color: isAtivo ? (tema?.color || '#a5b4fc') : isHoje ? '#818cf8' : 'var(--text-disabled)',
+        color: isAtivo ? (tema?.color || '#fca5a5') : isHoje ? '#f87171' : 'var(--text-disabled)',
         fontFamily: 'Inter, sans-serif', transition: 'color 0.2s',
       }}>{curto}</span>
       <div style={{
         width: 7, height: 7, borderRadius: '50%',
         background: tema
           ? isAtivo ? tema.color : `${tema.color}66`
-          : isHoje ? '#6366f1' : 'rgba(255,255,255,0.08)',
+          : isHoje ? '#ef4444' : 'rgba(255,255,255,0.08)',
         boxShadow: isAtivo && tema ? `0 0 8px ${tema.glow}` : 'none',
         transition: 'all 0.2s',
       }} />
@@ -102,7 +102,7 @@ function ExRow({ item, idx, exMap }) {
         )}
       </div>
       <div style={{ textAlign: 'right', flexShrink: 0 }}>
-        <p style={{ fontSize: 12, fontWeight: 600, color: '#818cf8', fontFamily: 'Inter, sans-serif' }}>
+        <p style={{ fontSize: 12, fontWeight: 600, color: '#f87171', fontFamily: 'Inter, sans-serif' }}>
           {item.series}×{item.repeticoes}
         </p>
         {item.carga && (
@@ -193,7 +193,7 @@ export default function SemanaTreinos() {
   const [diaAtivo, setDiaAtivo] = useState(diaAtual)
   const { alunoId } = useAuth()
 
-  const { data: treinos = [], isLoading } = useQuery({
+  const { data: treinos = [], isLoading, isError } = useQuery({
     queryKey: ['todos-treinos', alunoId],
     queryFn: () => listarTreinos(alunoId).then(r => r.data),
     enabled: !!alunoId,
@@ -221,9 +221,17 @@ export default function SemanaTreinos() {
   if (isLoading) return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '80px 0', gap: 12 }}>
       <div style={{ width: 52, height: 52, borderRadius: 18, background: 'rgba(99,102,241,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Calendar style={{ width: 22, height: 22, color: '#818cf8' }} />
+        <Calendar style={{ width: 22, height: 22, color: '#f87171' }} />
       </div>
       <p style={{ fontSize: 13, color:'var(--text-muted)' }}>Carregando semana...</p>
+    </div>
+  )
+
+  if (isError) return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '80px 24px', gap: 12, textAlign: 'center' }}>
+      <div style={{ fontSize: 40, marginBottom: 4 }}>😕</div>
+      <p style={{ fontSize: 16, fontWeight: 600, color:'var(--text-primary)' }}>Não foi possível carregar</p>
+      <p style={{ fontSize: 13, color:'var(--text-muted)' }}>Verifique sua conexão e tente novamente.</p>
     </div>
   )
 
@@ -235,7 +243,7 @@ export default function SemanaTreinos() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
           <div style={{
             width: 36, height: 36, borderRadius: 13,
-            background: '#6366f1',
+            background: '#ef4444',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             <Calendar style={{ width: 17, height: 17, color: 'white' }} />
@@ -255,7 +263,7 @@ export default function SemanaTreinos() {
       {/* ── Stats ── */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10 }}>
         {[
-          { label: 'Treinos', value: diasComTreino, Icon: Dumbbell, color: '#818cf8' },
+          { label: 'Treinos', value: diasComTreino, Icon: Dumbbell, color: '#f87171' },
           { label: 'Descanso', value: 7 - diasComTreino, Icon: Moon, color: '#38bdf8' },
           { label: 'Exercícios', value: totalExercicios, Icon: Target, color: '#34d399' },
         ].map(({ label, value, Icon, color }) => (
@@ -298,11 +306,11 @@ export default function SemanaTreinos() {
                 style={{
                   flex: 1, height: qt > 0 ? 38 : 18, borderRadius: 6,
                   background: isAtivo
-                    ? (tema?.color || '#6366f1')
+                    ? (tema?.color || '#ef4444')
                     : qt > 0
-                      ? `${tema?.color || '#6366f1'}40`
+                      ? `${tema?.color || '#ef4444'}40`
                       : 'rgba(255,255,255,0.05)',
-                  border: isHoje ? `1px solid ${tema?.color || '#6366f1'}` : 'none',
+                  border: isHoje ? `1px solid ${tema?.color || '#ef4444'}` : 'none',
                   cursor: 'pointer', transition: 'all 0.2s',
                 }}
                 title={DIAS_INFO[dia].full}
@@ -314,7 +322,7 @@ export default function SemanaTreinos() {
           {DIAS_ORDEM.map(dia => (
             <div key={dia} style={{ flex: 1, textAlign: 'center' }}>
               <span style={{
-                fontSize: 9, color: dia === diaAtual ? '#818cf8' : 'var(--text-disabled)',
+                fontSize: 9, color: dia === diaAtual ? '#f87171' : 'var(--text-disabled)',
                 fontWeight: 600, textTransform: 'uppercase',
               }}>
                 {DIAS_INFO[dia].curto.slice(0, 1)}
@@ -350,7 +358,7 @@ export default function SemanaTreinos() {
           }}>{DIAS_INFO[diaAtivo].full}</h2>
           {diaAtivo === diaAtual && (
             <span style={{
-              fontSize: 10, fontWeight: 600, color: '#818cf8',
+              fontSize: 10, fontWeight: 600, color: '#f87171',
               background: 'rgba(99,102,241,0.15)', padding: '2px 9px',
               borderRadius: 999, textTransform: 'uppercase', letterSpacing: '0.06em',
               border: '1px solid rgba(99,102,241,0.25)',
@@ -384,3 +392,4 @@ export default function SemanaTreinos() {
     </div>
   )
 }
+

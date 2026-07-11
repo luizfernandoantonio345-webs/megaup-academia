@@ -1,4 +1,4 @@
-"""
+﻿"""
 Envio de e-mail via SMTP (smtplib) ou Resend HTTP API.
 
 Prioridade:
@@ -34,8 +34,8 @@ def _base(content: str) -> str:
       <table width="100%" style="max-width:520px;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e4e4e7;">
         <!-- Header -->
         <tr>
-          <td style="background:#6366f1;padding:24px 32px;">
-            <span style="font-size:18px;font-weight:600;color:#ffffff;letter-spacing:-0.02em;">GymPro</span>
+          <td style="background:#ef4444;padding:24px 32px;">
+            <span style="font-size:18px;font-weight:600;color:#ffffff;letter-spacing:-0.02em;">MegaUp</span>
           </td>
         </tr>
         <!-- Body -->
@@ -48,8 +48,8 @@ def _base(content: str) -> str:
         <tr>
           <td style="padding:20px 32px;border-top:1px solid #f4f4f5;">
             <p style="margin:0;font-size:12px;color:#71717a;">
-              GymPro · Plataforma para Personal Trainers<br>
-              <a href="{settings.FRONTEND_BASE_URL}" style="color:#6366f1;text-decoration:none;">{settings.FRONTEND_BASE_URL}</a>
+              MegaUp · Plataforma para Personal Trainers<br>
+              <a href="{settings.FRONTEND_BASE_URL}" style="color:#ef4444;text-decoration:none;">{settings.FRONTEND_BASE_URL}</a>
             </p>
           </td>
         </tr>
@@ -61,7 +61,7 @@ def _base(content: str) -> str:
 
 
 def _btn(href: str, label: str) -> str:
-    return f'<a href="{href}" style="display:inline-block;background:#6366f1;color:#ffffff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;margin:20px 0;">{label}</a>'
+    return f'<a href="{href}" style="display:inline-block;background:#ef4444;color:#ffffff;padding:12px 24px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;margin:20px 0;">{label}</a>'
 
 
 def _h2(text: str) -> str:
@@ -135,37 +135,37 @@ def enviar_reset_senha(email: str, nome: str, link: str) -> None:
         + _btn(link, "Redefinir senha")
         + _p("Este link expira em <strong>1 hora</strong>. Se não foi você, ignore este e-mail.", muted=True)
     )
-    _send(email, "Redefinição de senha — GymPro", _base(content))
+    _send(email, "Redefinição de senha — MegaUp", _base(content))
 
 
 def enviar_boas_vindas(email: str, nome: str) -> None:
     content = (
-        _h2(f"Bem-vindo ao GymPro, {nome}!")
+        _h2(f"Bem-vindo ao MegaUp, {nome}!")
         + _p("Sua conta foi criada com sucesso. Você tem <strong>14 dias</strong> de acesso completo para explorar todas as funcionalidades.")
         + _btn(f"{settings.FRONTEND_BASE_URL}/dashboard", "Acessar plataforma")
         + _p("Qualquer dúvida, basta responder este e-mail.", muted=True)
     )
-    _send(email, "Bem-vindo ao GymPro!", _base(content))
+    _send(email, "Bem-vindo ao MegaUp!", _base(content))
 
 
 def enviar_convite(email_aluno: str, nome_personal: str, nome_academia: str, link: str) -> None:
     content = (
         _h2(f"Você foi convidado para {nome_academia}")
-        + _p(f"<strong>{nome_personal}</strong> te convidou para acompanhar seus treinos no GymPro.")
+        + _p(f"<strong>{nome_personal}</strong> te convidou para acompanhar seus treinos no MegaUp.")
         + _btn(link, "Aceitar convite")
         + _p("O link expira em 7 dias.", muted=True)
     )
-    _send(email_aluno, f"Convite de {nome_personal} — GymPro", _base(content))
+    _send(email_aluno, f"Convite de {nome_personal} — MegaUp", _base(content))
 
 
 def enviar_verificacao_email(email: str, nome: str, link: str) -> None:
     content = (
         _h2(f"Confirme seu e-mail, {nome}!")
-        + _p("Obrigado por se cadastrar no GymPro. Clique no botão abaixo para ativar sua conta.")
+        + _p("Obrigado por se cadastrar no MegaUp. Clique no botão abaixo para ativar sua conta.")
         + _btn(link, "Confirmar e-mail")
         + _p("Este link expira em <strong>24 horas</strong>. Se não foi você, ignore este e-mail.", muted=True)
     )
-    _send(email, "Confirme seu e-mail — GymPro", _base(content))
+    _send(email, "Confirme seu e-mail — MegaUp", _base(content))
 
 
 def enviar_lembrete_pagamento(
@@ -198,4 +198,6 @@ def enviar_cancelamento_assinatura(email: str, nome: str, plano: str) -> None:
         + _btn(link_planos, "Ver planos disponíveis")
         + _p("Se isso foi um erro ou deseja ajuda, responda este e-mail.", muted=True)
     )
-    _send(email, "Assinatura cancelada — GymPro", _base(content))
+    _send(email, "Assinatura cancelada — MegaUp", _base(content))
+
+

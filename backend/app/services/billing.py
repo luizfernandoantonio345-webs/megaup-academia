@@ -1,8 +1,8 @@
-"""
-Serviço de billing da plataforma GymPro.
+﻿"""
+Serviço de billing da plataforma MegaUp.
 
 Modelo de negócio:
-  - Personal trainer paga pelo GymPro (B2B SaaS)
+  - Personal trainer paga pelo MegaUp (B2B SaaS)
   - Planos por número de alunos ativos
   - Trial gratuito de 14 dias com acesso Pro
   - Stripe para cobrança recorrente
@@ -164,7 +164,7 @@ def criar_checkout_session(tenant, plano: str, db: Session) -> str:
                 "currency": "brl",
                 "unit_amount": PLANOS[plano]["preco"] * 100,
                 "recurring": {"interval": "month"},
-                "product_data": {"name": f"GymPro {PLANOS[plano]['label']}"},
+                "product_data": {"name": f"MegaUp {PLANOS[plano]['label']}"},
             },
             "quantity": 1,
         }
@@ -276,3 +276,4 @@ def _ativar_plano(tenant_id: int, plano: str, subscription_id: Optional[str], db
         tenant.stripe_subscription_id = subscription_id
     db.commit()
     logger.info("Tenant %s ativado no plano %s", tenant_id, plano)
+

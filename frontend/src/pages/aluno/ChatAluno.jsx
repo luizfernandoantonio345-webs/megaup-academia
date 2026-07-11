@@ -7,7 +7,7 @@ import { useAuth } from '../../contexts/AuthContext'
 export default function ChatAluno() {
   const { user } = useAuth()
 
-  const { data: perfil, isLoading } = useQuery({
+  const { data: perfil, isLoading, isError } = useQuery({
     queryKey: ['meu-perfil'],
     queryFn: () => meuPerfilAluno().then(r => r.data),
   })
@@ -15,16 +15,18 @@ export default function ChatAluno() {
   if (isLoading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
-        <Loader2 style={{ width: 24, height: 24, color: '#6366f1', animation: 'spin 1s linear infinite' }} />
+        <Loader2 style={{ width: 24, height: 24, color: '#ef4444', animation: 'spin 1s linear infinite' }} />
         <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
       </div>
     )
   }
 
-  if (!perfil) {
+  if (isError || !perfil) {
     return (
-      <div style={{ textAlign: 'center', padding: '40px 20px', color:'var(--text-muted)' }}>
-        Perfil não encontrado.
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px 24px', gap: 12, textAlign: 'center' }}>
+        <MessageCircle style={{ width: 36, height: 36, color: 'var(--text-disabled)' }} />
+        <p style={{ fontSize: 15, fontWeight: 600, color:'var(--text-secondary)' }}>Chat indisponível</p>
+        <p style={{ fontSize: 13, color:'var(--text-muted)' }}>Não foi possível carregar seu perfil. Tente novamente.</p>
       </div>
     )
   }
@@ -68,3 +70,4 @@ export default function ChatAluno() {
     </div>
   )
 }
+

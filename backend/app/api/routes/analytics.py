@@ -6,10 +6,11 @@ GET /analytics/aluno/{id}     → dados completos para relatório PDF do aluno
 from datetime import datetime, timedelta
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy import func
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from app.core.db import get_db
 from app.api.deps import get_current_user
+from app.core.deps import require_personal
 from app.models import (
     Aluno, ExecucaoTreino, ExecucaoItem, Exercicio,
     Cobranca, CobrancaStatus, Conquista, Avaliacao, Treino, User,
@@ -100,6 +101,36 @@ def resumo(
         .all()
     )
 
+    # Churn risk: alunos sem treino no período → score de risco 1-10
+    inativos_lista = (
+        db.query(Aluno)
+        .filter(
+            Aluno.tenant_id == tid,
+            ~Aluno.id.in_(ativos_ids),  # sem treino no período
+        )
+        .all()
+    )
+    risco_abandono = []
+    for a in inativos_lista:
+        ultimo = (
+            db.query(func.max(ExecucaoTreino.data))
+            .filter(ExecucaoTreino.aluno_id == a.id)
+            .scalar()
+        )
+        dias = (agora - ultimo).days if ultimo else 999
+        # Score: 1-10 baseado em dias sem treinar (7d=3, 14d=5, 21d=7, 30d+=9)
+        score = min(10, max(1, round(dias / 3)))
+        risco_abandono.append({
+            "id": a.id,
+            "nome": a.nome,
+            "dias_inativo": dias,
+            "streak_atual": a.streak_atual or 0,
+            "score": score,
+            "ultimo_treino": ultimo.strftime("%d/%m/%Y") if ultimo else None,
+        })
+    # Ordena por maior risco e limita a 5
+    risco_abandono = sorted(risco_abandono, key=lambda x: -x["score"])[:5]
+
     return {
         "total_alunos": total_alunos,
         "alunos_ativos_7d": alunos_ativos,
@@ -110,13 +141,14 @@ def resumo(
         "por_objetivo": por_objetivo,
         "top_streak": [{"nome": r.nome, "streak_atual": r.streak_atual, "streak_recorde": r.streak_recorde} for r in top_streak],
         "top_exercicios": [{"nome": r.nome, "n": r.n} for r in top_exercicios],
+        "risco_abandono": risco_abandono,
     }
 
 
 @router.get("/aluno/{aluno_id}")
 def relatorio_aluno(
     aluno_id: int,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(require_personal),
     db: Session = Depends(get_db),
 ):
     tid = _tenant_id(current_user)
@@ -210,9 +242,10 @@ def relatorio_aluno(
         .scalar() or 0
     )
 
-    # Plano nutricional mais recente
+    # Plano nutricional mais recente (joinedload evita N+1 em refeicoes)
     plano = (
         db.query(PlanoNutricao)
+        .options(joinedload(PlanoNutricao.refeicoes))
         .filter(PlanoNutricao.aluno_id == aluno_id)
         .order_by(PlanoNutricao.criado_em.desc())
         .first()

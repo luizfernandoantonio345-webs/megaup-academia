@@ -40,7 +40,7 @@ export default function Convites() {
   }
 
   const compartilharWhatsApp = () => {
-    const msg = `Ola! Voce foi convidado para acompanhar seus treinos no GymPro. Clique no link para criar sua conta: ${linkConvite}`
+    const msg = `Ola! Voce foi convidado para acompanhar seus treinos no MegaUp. Clique no link para criar sua conta: ${linkConvite}`
     window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank')
   }
 
@@ -53,7 +53,7 @@ export default function Convites() {
           <p className="page-subtitle">Gere um link e envie para o aluno via WhatsApp ou e-mail.</p>
         </div>
         <div className="w-11 h-11 rounded-2xl flex items-center justify-center"
-          style={{ background: '#6366f1' }}>
+          style={{ background: '#ef4444' }}>
           <UserPlus style={{ width: 20, height: 20, color: 'white' }} />
         </div>
       </div>
@@ -61,7 +61,7 @@ export default function Convites() {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3">
         {[
-          { icon: Users,  value: 'Ilimitado', label: 'Alunos',   color: '#a5b4fc', bg: 'rgba(99,102,241,0.1)'  },
+          { icon: Users,  value: 'Ilimitado', label: 'Alunos',   color: '#fca5a5', bg: 'rgba(99,102,241,0.1)'  },
           { icon: Zap,    value: '7 dias',     label: 'Validade', color: '#fbbf24', bg: 'rgba(245,158,11,0.1)'  },
           { icon: Shield, value: '100%',       label: 'Seguro',   color: '#34d399', bg: 'rgba(16,185,129,0.1)'  },
         ].map(({ icon: Icon, value, label, color, bg }) => (
@@ -79,7 +79,7 @@ export default function Convites() {
       <div className="card space-y-5">
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{ width: 40, height: 40, background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <UserPlus style={{ width: 18, height: 18, color: '#818cf8' }} />
+            <UserPlus style={{ width: 18, height: 18, color: '#f87171' }} />
           </div>
           <div>
             <h2 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color:'var(--text-primary)', fontSize: 15 }}>Novo convite</h2>
@@ -199,3 +199,5 @@ export default function Convites() {
     </div>
   )
 }
+
+

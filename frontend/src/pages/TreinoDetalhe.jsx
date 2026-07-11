@@ -1,14 +1,14 @@
 ﻿import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { obterTreino, listarExercicios, adicionarItem, removerItem, executarTreino } from '../api'
+import { obterTreino, listarExercicios, adicionarItem, removerItem, executarTreino, templateFromTreino, duplicarTreino } from '../api'
 import toast from 'react-hot-toast'
-import { ArrowLeft, Plus, Trash2, Play, Loader2, X, Video, Clock, Dumbbell, GripVertical, ChevronDown } from 'lucide-react'
+import { ArrowLeft, Plus, Trash2, Play, Loader2, X, Video, Clock, Dumbbell, GripVertical, ChevronDown, Copy, CopyPlus } from 'lucide-react'
 import { VideoThumb } from '../components/VideoPlayer'
 
 const DIFICULDADE = [
   { key:'facil',   emoji:'😊', label:'Fácil',  bg:'rgba(16,185,129,0.12)', border:'rgba(16,185,129,0.35)', text:'#34d399' },
-  { key:'ok',      emoji:'💪', label:'Normal', bg:'rgba(99,102,241,0.12)', border:'rgba(99,102,241,0.35)', text:'#a5b4fc' },
+  { key:'ok',      emoji:'💪', label:'Normal', bg:'rgba(99,102,241,0.12)', border:'rgba(99,102,241,0.35)', text:'#fca5a5' },
   { key:'dificil', emoji:'🔥', label:'Pesado', bg:'rgba(239,68,68,0.12)',  border:'rgba(239,68,68,0.35)',  text:'#f87171' },
 ]
 
@@ -127,8 +127,8 @@ function ModalExecutar({ treino, onClose }) {
         <div style={{ borderTop:'1px solid rgba(255,255,255,0.05)', padding:'14px 24px' }}>
           {volumeTotal > 0 && (
             <div style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:6, marginBottom:12, padding:'7px 12px', borderRadius:8, background:'rgba(99,102,241,0.08)', border:'1px solid rgba(99,102,241,0.15)' }}>
-              <Dumbbell style={{ width:12, height:12, color:'#818cf8' }} />
-              <span style={{ fontSize:12, color:'#a5b4fc', fontWeight:600 }}>Volume total: {volumeTotal.toLocaleString('pt-BR')} kg</span>
+              <Dumbbell style={{ width:12, height:12, color:'#f87171' }} />
+              <span style={{ fontSize:12, color:'#fca5a5', fontWeight:600 }}>Volume total: {volumeTotal.toLocaleString('pt-BR')} kg</span>
             </div>
           )}
           <div style={{ display:'flex', gap:10 }}>
@@ -153,7 +153,7 @@ const GRUPO_COLORS = {
   Costas:   { bg:'rgba(6,182,212,0.1)',    text:'#22d3ee' },
   Pernas:   { bg:'rgba(16,185,129,0.1)',   text:'#34d399' },
   Ombros:   { bg:'rgba(245,158,11,0.1)',   text:'#fbbf24' },
-  Bíceps:   { bg:'rgba(99,102,241,0.1)',   text:'#a5b4fc' },
+  Bíceps:   { bg:'rgba(99,102,241,0.1)',   text:'#fca5a5' },
   Tríceps:  { bg:'rgba(124,58,237,0.1)',   text:'#c084fc' },
   Abdômen:  { bg:'rgba(249,115,22,0.1)',   text:'#fb923c' },
   Glúteos:  { bg:'rgba(236,72,153,0.1)',   text:'#f472b6' },
@@ -166,6 +166,9 @@ export default function TreinoDetalhe() {
   const [showExecutar, setShowExecutar] = useState(false)
   const [showAddItem, setShowAddItem] = useState(false)
   const [itemForm, setItemForm] = useState({ exercicio_id: '', series: 3, repeticoes: '12', carga: '', descanso_seg: 60 })
+  const [showSalvarTemplate, setShowSalvarTemplate] = useState(false)
+  const [templateNome, setTemplateNome] = useState('')
+  const [duplicando, setDuplicando] = useState(false)
 
   const { data: treino, isLoading } = useQuery({ queryKey:['treino', id], queryFn: () => obterTreino(id).then(r => r.data) })
   const { data: exercicios = [] } = useQuery({ queryKey:['exercicios'], queryFn: () => listarExercicios().then(r => r.data) })
@@ -180,12 +183,30 @@ export default function TreinoDetalhe() {
     onSuccess: () => { qc.invalidateQueries({ queryKey:['treino', id] }); toast.success('Exercício removido') },
     onError: () => toast.error('Erro ao remover'),
   })
+  const { mutate: salvarTemplate, isPending: salvandoTemplate } = useMutation({
+    mutationFn: () => templateFromTreino(id, { nome: templateNome || treino?.nome }),
+    onSuccess: () => { toast.success('Template salvo! Acesse em Ferramentas → Templates ✅'); setShowSalvarTemplate(false); setTemplateNome('') },
+    onError: err => toast.error(err.response?.data?.detail || 'Erro ao salvar template'),
+  })
+
+  const handleDuplicar = async () => {
+    setDuplicando(true)
+    try {
+      const { data } = await duplicarTreino(id)
+      qc.invalidateQueries({ queryKey: ['treino'] })
+      toast.success(`Treino duplicado! "${data.nome}" criado.`)
+    } catch {
+      toast.error('Erro ao duplicar treino')
+    } finally {
+      setDuplicando(false)
+    }
+  }
 
   const exercicioMap = Object.fromEntries(exercicios.map(e => [e.id, e]))
 
   if (isLoading) return (
     <div style={{ display:'flex', alignItems:'center', justifyContent:'center', height:256 }}>
-      <Loader2 style={{ width:32, height:32, color:'#6366f1', animation:'spin 1s linear infinite' }} />
+      <Loader2 style={{ width:32, height:32, color:'#ef4444', animation:'spin 1s linear infinite' }} />
     </div>
   )
 
@@ -210,10 +231,25 @@ export default function TreinoDetalhe() {
             {totalVolume > 0 && <span style={{ fontSize:13, color:'var(--text-muted)' }}>{totalVolume.toFixed(0)} kg volume total</span>}
           </div>
         </div>
-        <button className="btn-primary flex-shrink-0" onClick={() => setShowExecutar(true)}>
-          <Play style={{ width:15, height:15 }} />
-          Registrar execução
-        </button>
+        <div style={{ display:'flex', gap:8 }}>
+          <button onClick={handleDuplicar} disabled={duplicando}
+            title="Duplicar treino para o mesmo aluno"
+            style={{ display:'flex', alignItems:'center', gap:6, padding:'9px 14px', borderRadius:10, border:'1px solid var(--border)', background:'var(--bg-elevated)', color:'var(--text-muted)', fontSize:13, cursor: duplicando ? 'wait' : 'pointer', fontWeight:500 }}
+            onMouseEnter={e => { e.currentTarget.style.color='var(--text-secondary)'; e.currentTarget.style.borderColor='rgba(52,211,153,0.35)' }}
+            onMouseLeave={e => { e.currentTarget.style.color='var(--text-muted)'; e.currentTarget.style.borderColor='var(--border)' }}>
+            <CopyPlus style={{ width:13, height:13 }} /> {duplicando ? 'Duplicando...' : 'Duplicar'}
+          </button>
+          <button onClick={() => { setTemplateNome(treino?.nome || ''); setShowSalvarTemplate(true) }}
+            style={{ display:'flex', alignItems:'center', gap:6, padding:'9px 14px', borderRadius:10, border:'1px solid var(--border)', background:'var(--bg-elevated)', color:'var(--text-muted)', fontSize:13, cursor:'pointer', fontWeight:500 }}
+            onMouseEnter={e => { e.currentTarget.style.color='var(--text-secondary)'; e.currentTarget.style.borderColor='rgba(99,102,241,0.35)' }}
+            onMouseLeave={e => { e.currentTarget.style.color='var(--text-muted)'; e.currentTarget.style.borderColor='var(--border)' }}>
+            <Copy style={{ width:13, height:13 }} /> Template
+          </button>
+          <button className="btn-primary flex-shrink-0" onClick={() => setShowExecutar(true)}>
+            <Play style={{ width:15, height:15 }} />
+            Registrar execução
+          </button>
+        </div>
       </div>
 
       {/* Exercise list card */}
@@ -287,7 +323,7 @@ export default function TreinoDetalhe() {
                   <div style={{ color:'var(--text-disabled)', marginTop:2, cursor:'grab' }}>
                     <GripVertical style={{ width:15, height:15 }} />
                   </div>
-                  <div style={{ width:26, height:26, background:'#6366f1', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontSize:11, fontWeight:600, flexShrink:0, marginTop:2 }}>
+                  <div style={{ width:26, height:26, background:'#ef4444', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', color:'white', fontSize:11, fontWeight:600, flexShrink:0, marginTop:2 }}>
                     {idx + 1}
                   </div>
                   <div style={{ flex:1, minWidth:0 }}>
@@ -318,6 +354,33 @@ export default function TreinoDetalhe() {
       </div>
 
       {showExecutar && treino && <ModalExecutar treino={treino} onClose={() => setShowExecutar(false)} />}
+
+      {/* Modal: Salvar como template */}
+      {showSalvarTemplate && (
+        <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.75)', backdropFilter:'blur(8px)', display:'flex', alignItems:'center', justifyContent:'center', zIndex:50, padding:16 }}>
+          <div style={{ background:'var(--bg-card)', border:'1px solid var(--border)', borderRadius:20, width:'100%', maxWidth:400, padding:24 }}>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 }}>
+              <h3 style={{ fontSize:16, fontWeight:600, color:'var(--text-primary)', margin:0 }}>Salvar como template</h3>
+              <button onClick={() => setShowSalvarTemplate(false)} style={{ background:'none', border:'none', cursor:'pointer', color:'var(--text-muted)' }}><X style={{ width:18, height:18 }} /></button>
+            </div>
+            <p style={{ fontSize:13, color:'var(--text-muted)', marginBottom:16 }}>
+              Este treino será salvo como template com todos os {treino?.itens?.length} exercício(s). Você poderá aplicá-lo a qualquer aluno depois.
+            </p>
+            <div style={{ marginBottom:16 }}>
+              <label className="label">Nome do template</label>
+              <input className="input" value={templateNome} onChange={e => setTemplateNome(e.target.value)} placeholder={treino?.nome} />
+            </div>
+            <div style={{ display:'flex', gap:8 }}>
+              <button onClick={() => setShowSalvarTemplate(false)} className="btn-secondary flex-1">Cancelar</button>
+              <button onClick={() => salvarTemplate()} disabled={salvandoTemplate} className="btn-primary flex-1" style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
+                <Copy style={{ width:13, height:13 }} />
+                {salvandoTemplate ? 'Salvando...' : 'Salvar template'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
+

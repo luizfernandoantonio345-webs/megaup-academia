@@ -62,7 +62,7 @@ export default function RelatorioAluno() {
     : null
 
   const kpis = [
-    { label: 'Treinos no mês', value: resumo.frequencia_30d, color: '#818cf8' },
+    { label: 'Treinos no mês', value: resumo.frequencia_30d, color: '#f87171' },
     { label: 'Total de treinos', value: resumo.total_treinos, color: '#34d399' },
     { label: 'Streak atual', value: `${aluno.streak_atual}d`, note: `Recorde: ${aluno.streak_recorde}d`, color: '#f97316' },
     { label: 'Conquistas', value: resumo.conquistas_total, color: '#fbbf24' },
@@ -98,7 +98,7 @@ export default function RelatorioAluno() {
         </div>
         <button
           onClick={() => window.print()}
-          style={{ background: '#6366f1', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '10px 22px', display: 'flex', alignItems: 'center', gap: 8 }}
+          style={{ background: '#ef4444', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '10px 22px', display: 'flex', alignItems: 'center', gap: 8 }}
         >
           <Printer style={{ width: 16, height: 16 }} /> Imprimir / Salvar PDF
         </button>
@@ -110,7 +110,7 @@ export default function RelatorioAluno() {
         {/* Cabeçalho */}
         <div style={{ textAlign: 'center', marginBottom: 36, borderBottom: '2px solid rgba(99,102,241,0.3)', paddingBottom: 24 }}>
           <div style={{ fontSize: 28, fontFamily: 'Inter, sans-serif', fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 6 }} className="print-text-main">
-            ⚡ GymPro — Relatório de Evolução
+            ⚡ MegaUp — Relatório de Evolução
           </div>
           <p className="print-text-sub" style={{ fontSize: 14, color:'var(--text-muted)', marginBottom: 4 }}>
             Aluno: <strong className="print-text-main" style={{ color:'var(--text-primary)' }}>{aluno.nome}</strong> · Personal: {personal}
@@ -238,7 +238,7 @@ export default function RelatorioAluno() {
             </h2>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
               {conquistas.map(c => (
-                <div key={c.codigo} className="print-badge" style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 10, padding: '6px 14px', fontSize: 13, color: '#a5b4fc' }}>
+                <div key={c.codigo} className="print-badge" style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 10, padding: '6px 14px', fontSize: 13, color: '#fca5a5' }}>
                   {BADGE_LABELS[c.codigo] || c.codigo}
                   <span style={{ fontSize: 11, color:'var(--text-muted)', marginLeft: 8 }}>· {c.data}</span>
                 </div>
@@ -264,7 +264,7 @@ export default function RelatorioAluno() {
                 <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                   {[
                     { label: 'Calorias', value: `${plano_nutricao.objetivo_kcal} kcal`, color: '#f97316' },
-                    plano_nutricao.objetivo_proteina && { label: 'Proteína', value: `${plano_nutricao.objetivo_proteina}g`, color: '#818cf8' },
+                    plano_nutricao.objetivo_proteina && { label: 'Proteína', value: `${plano_nutricao.objetivo_proteina}g`, color: '#f87171' },
                     plano_nutricao.objetivo_carbo && { label: 'Carboidrato', value: `${plano_nutricao.objetivo_carbo}g`, color: '#34d399' },
                     plano_nutricao.objetivo_gordura && { label: 'Gordura', value: `${plano_nutricao.objetivo_gordura}g`, color: '#fbbf24' },
                   ].filter(Boolean).map(t => (
@@ -282,10 +282,12 @@ export default function RelatorioAluno() {
         {/* Rodapé */}
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: 20, textAlign: 'center', marginTop: 20 }}>
           <p style={{ fontSize: 11, color:'var(--text-muted)' }} className="print-text-muted">
-            Relatório gerado por <strong>GymPro</strong> · {gerado_em}
+            Relatório gerado por <strong>MegaUp</strong> · {gerado_em}
           </p>
         </div>
       </div>
     </>
   )
 }
+
+

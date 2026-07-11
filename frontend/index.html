@@ -1,24 +1,24 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR" translate="no">
   <head>
     <meta charset="UTF-8" />
     <meta name="google" content="notranslate" />
 
     <!-- Preconnect ao backend para eliminar handshake DNS+TCP+TLS no primeiro request -->
-    <link rel="preconnect" href="https://fitsaas-backend.onrender.com" crossorigin />
-    <link rel="dns-prefetch" href="https://fitsaas-backend.onrender.com" />
+    <link rel="preconnect" href="https://megaup-backend.onrender.com" crossorigin />
+    <link rel="dns-prefetch" href="https://megaup-backend.onrender.com" />
 
     <!-- Viewport com suporte a notch/safe area -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 
     <!-- PWA básico -->
     <link rel="manifest" href="/manifest.json" />
-    <meta name="theme-color" content="#6366f1" />
+    <meta name="theme-color" content="#ef4444" />
 
     <!-- iOS PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <meta name="apple-mobile-web-app-title" content="GymPro" />
+    <meta name="apple-mobile-web-app-title" content="MegaUp" />
     <link rel="apple-touch-icon" href="/icon-192.svg" />
     <link rel="apple-touch-startup-image" href="/icon-512.svg" />
 
@@ -27,40 +27,40 @@
 
     <!-- Ícone e título -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>GymPro · Plataforma para Personal Trainers</title>
+    <title>MegaUp · Academia Jardim das Rosas</title>
 
     <!-- Prevent text size adjust on rotation -->
     <meta name="format-detection" content="telephone=no" />
 
     <!-- SEO -->
-    <meta name="description" content="GymPro — plataforma completa para personal trainers. Gerencie alunos, prescreva treinos personalizados, acompanhe evolução e pagamentos em tempo real." />
-    <meta name="keywords" content="personal trainer, academia, gestão de alunos, treino personalizado, software personal" />
-    <link rel="canonical" href="https://fitsaas-frontend.onrender.com/" />
+    <meta name="description" content="MegaUp Jardim das Rosas — academia completa com musculação, funcional, dança livre e Ritbox. App exclusivo para acompanhar sua evolução." />
+    <meta name="keywords" content="academia, musculação, funcional, ritbox, dança, jardim das rosas, megaup, treino" />
+    <link rel="canonical" href="https://megaup.onrender.com/" />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://fitsaas-frontend.onrender.com/" />
-    <meta property="og:title" content="GymPro · Plataforma para Personal Trainers" />
-    <meta property="og:description" content="Gerencie alunos, prescreva treinos personalizados e acompanhe a evolução dos seus alunos em tempo real." />
-    <meta property="og:image" content="https://fitsaas-frontend.onrender.com/og-image.png" />
+    <meta property="og:url" content="https://megaup.onrender.com/" />
+    <meta property="og:title" content="MegaUp · Academia Jardim das Rosas" />
+    <meta property="og:description" content="Academia MegaUp Jardim das Rosas — musculação, funcional, dança livre e Ritbox com app exclusivo de acompanhamento." />
+    <meta property="og:image" content="https://megaup.onrender.com/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="pt_BR" />
-    <meta property="og:site_name" content="GymPro" />
+    <meta property="og:site_name" content="MegaUp Jardim das Rosas" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:url" content="https://fitsaas-frontend.onrender.com/" />
-    <meta name="twitter:title" content="GymPro · Plataforma para Personal Trainers" />
-    <meta name="twitter:description" content="Gerencie alunos, prescreva treinos personalizados e acompanhe a evolução dos seus alunos em tempo real." />
-    <meta name="twitter:image" content="https://fitsaas-frontend.onrender.com/og-image.png" />
+    <meta name="twitter:url" content="https://megaup.onrender.com/" />
+    <meta name="twitter:title" content="MegaUp · Academia Jardim das Rosas" />
+    <meta name="twitter:description" content="Academia MegaUp Jardim das Rosas — musculação, funcional, dança livre e Ritbox com app exclusivo de acompanhamento." />
+    <meta name="twitter:image" content="https://megaup.onrender.com/og-image.png" />
   </head>
   <body>
     <!-- Anti-FOUC: apply theme before React renders to prevent flash -->
     <script>
       (function() {
         try {
-          var t = localStorage.getItem('gympro-theme');
+          var t = localStorage.getItem('MegaUp-theme');
           if (t !== 'light' && t !== 'dark') {
             t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
           }
@@ -85,3 +85,5 @@
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
+
+

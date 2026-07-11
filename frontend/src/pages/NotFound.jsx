@@ -17,7 +17,7 @@ export default function NotFound() {
           background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px',
         }}>
-          <Dumbbell style={{ width: 28, height: 28, color: '#6366f1' }} />
+          <Dumbbell style={{ width: 28, height: 28, color: '#ef4444' }} />
         </div>
 
         <p style={{ fontSize: 80, fontWeight: 600, color: 'var(--bg-elevated)', lineHeight: 1, margin: '0 0 4px' }}>404</p>
@@ -32,7 +32,7 @@ export default function NotFound() {
           to="/dashboard"
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
-            background: '#6366f1', color: 'white', borderRadius: 12,
+            background: '#ef4444', color: 'white', borderRadius: 12,
             padding: '11px 22px', fontWeight: 600, fontSize: 13, textDecoration: 'none',
             transition: 'opacity 0.15s',
           }}
@@ -46,3 +46,4 @@ export default function NotFound() {
     </div>
   )
 }
+

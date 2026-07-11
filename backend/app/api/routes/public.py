@@ -1,4 +1,4 @@
-"""
+﻿"""
 Rotas públicas (sem autenticação):
   POST /public/esqueci-senha
   POST /public/redefinir-senha
@@ -44,7 +44,7 @@ def capturar_lead(request: Request, body: LeadRequest):
           <strong>Email:</strong> {body.email}<br>
           {f'<strong>Nome:</strong> {body.nome}' if body.nome else ''}
         </p>"""
-        _send(settings.EMAIL_FROM, f"Novo lead GymPro — {body.email}", html)
+        _send(settings.EMAIL_FROM, f"Novo lead MegaUp — {body.email}", html)
     except Exception:
         pass
     return {"ok": True}
@@ -254,3 +254,4 @@ def excluir_conta(
 
     db.commit()
     return {"ok": True, "mensagem": "Conta encerrada. Seus dados foram anonimizados conforme a LGPD."}
+

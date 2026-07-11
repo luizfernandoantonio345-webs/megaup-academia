@@ -1,37 +1,38 @@
+import os
 from pydantic_settings import BaseSettings
 
 
+_DEFAULT_SECRET = "change-me-in-production"
+
+
 class Settings(BaseSettings):
-    DATABASE_URL: str = "postgresql://postgres:postgres@localhost:5432/fitsaas"
-    SECRET_KEY: str = "change-me"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 1440
+    DATABASE_URL: str = "sqlite:///./megaup.db"
+    SECRET_KEY: str = _DEFAULT_SECRET
+    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
+    REFRESH_TOKEN_EXPIRE_DAYS: int = 30
     ALGORITHM: str = "HS256"
     ANTHROPIC_API_KEY: str = ""
-    ENABLE_SCHEDULER: bool = False  # habilitar via .env em produção
-    # E-mail — usa Resend (recomendado) ou SMTP puro
-    # Resend: crie conta em resend.com → gera RESEND_API_KEY → 3 000 emails/mês grátis
+    ENABLE_SCHEDULER: bool = False
+    # E-mail (Resend recomendado — resend.com, 3000 emails/mês grátis)
     RESEND_API_KEY: str = ""
-    # SMTP alternativo (ex: Brevo smtp-relay.brevo.com:587)
     SMTP_HOST: str = ""
     SMTP_PORT: int = 587
     SMTP_USER: str = ""
     SMTP_PASSWORD: str = ""
-    EMAIL_FROM: str = "GymPro <noreply@gympr.app>"
+    EMAIL_FROM: str = "MegaUp <noreply@megaup.com.br>"
     FRONTEND_BASE_URL: str = "http://localhost:5173"
-    # Asaas (gateway de pagamento) — opcional
+    # Asaas (gateway de pagamento nacional) — opcional
     ASAAS_API_KEY: str = ""
-    ASAAS_SANDBOX: bool = True  # False em produção
-    # Stripe — plataforma SaaS (personal paga pelo GymPro)
+    ASAAS_SANDBOX: bool = True
+    # Stripe — opcional (plataforma SaaS)
     STRIPE_SECRET_KEY: str = ""
     STRIPE_PUBLISHABLE_KEY: str = ""
     STRIPE_WEBHOOK_SECRET: str = ""
-    STRIPE_PRICE_STARTER: str = ""   # price_xxx do Stripe Dashboard
+    STRIPE_PRICE_STARTER: str = ""
     STRIPE_PRICE_PRO: str = ""
     STRIPE_PRICE_ELITE: str = ""
-    APP_URL: str = "https://fitsaas-frontend.onrender.com"
-    # VAPID keys para Web Push notifications
-    # Gere com: python -c "from py_vapid import Vapid; v=Vapid(); v.generate_keys(); print(v.private_key.decode()); print(v.public_key.decode())"
-    # Ou use: npx web-push generate-vapid-keys
+    APP_URL: str = "http://localhost:5173"
+    # VAPID — Web Push notifications
     VAPID_PUBLIC_KEY: str = ""
     VAPID_PRIVATE_KEY: str = ""
 
@@ -40,3 +41,11 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
+# Fail fast on production with unsafe defaults
+_is_prod = not settings.DATABASE_URL.startswith("sqlite")
+if _is_prod and settings.SECRET_KEY == _DEFAULT_SECRET:
+    raise RuntimeError(
+        "SECURITY: SECRET_KEY está com o valor padrão. "
+        "Defina uma chave aleatória forte no .env antes de usar em produção."
+    )

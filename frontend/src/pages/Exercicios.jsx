@@ -89,7 +89,7 @@ function ExercicioCard({ exercicio: e, onEdit, onDelete }) {
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10, flexWrap: 'wrap' }}>
           <GroupBadge grupo={e.grupo_muscular} />
           {e.video_url && (
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '2px 8px', borderRadius: 999, fontSize: 10, fontWeight: 600, background: 'rgba(99,102,241,0.12)', color: '#a5b4fc', border: '1px solid rgba(99,102,241,0.2)' }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, padding: '2px 8px', borderRadius: 999, fontSize: 10, fontWeight: 600, background: 'rgba(99,102,241,0.12)', color: '#fca5a5', border: '1px solid rgba(99,102,241,0.2)' }}>
               <Play style={{ width: 8, height: 8 }} />Video
             </span>
           )}
@@ -97,7 +97,7 @@ function ExercicioCard({ exercicio: e, onEdit, onDelete }) {
         <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600, color: '#e2e8f0', lineHeight: 1.3, marginBottom: 8 }}>{e.nome}</div>
         {e.equipamento && <div style={{ fontSize: 12, color:'var(--text-muted)', lineHeight: 1.5 }}>{e.equipamento}</div>}
         {isCustom && !e.video_url && (
-          <button onClick={() => onEdit(e)} style={{ marginTop: 10, display: 'inline-flex', alignItems: 'center', gap: 6, padding: '5px 10px', borderRadius: 8, background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)', color: '#818cf8', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}>
+          <button onClick={() => onEdit(e)} style={{ marginTop: 10, display: 'inline-flex', alignItems: 'center', gap: 6, padding: '5px 10px', borderRadius: 8, background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)', color: '#f87171', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}>
             <Video style={{ width: 10, height: 10 }} />Adicionar vídeo
           </button>
         )}
@@ -170,7 +170,7 @@ function ExercicioModal({ mode, initial, onClose, onSubmit, isPending }) {
             <input className="input" placeholder="https://youtube.com/watch?v=..." value={form.video_url} onChange={set('video_url')} />
             <div style={{ marginTop: 8, padding: '10px 12px', background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.15)', borderRadius: 8 }}>
               <p style={{ fontSize: 11, color:'var(--text-muted)', margin: 0, lineHeight: 1.6 }}>
-                💡 <strong style={{ color: '#818cf8' }}>Dica:</strong> Grave seu vídeo → suba no YouTube como <em>não listado</em> → cole o link aqui. Só você e seus alunos têm acesso.
+                💡 <strong style={{ color: '#f87171' }}>Dica:</strong> Grave seu vídeo → suba no YouTube como <em>não listado</em> → cole o link aqui. Só você e seus alunos têm acesso.
               </p>
             </div>
           </div>
@@ -287,7 +287,7 @@ export default function Exercicios() {
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-              <div style={{ width: 36, height: 36, borderRadius: 12, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 36, height: 36, borderRadius: 12, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Dumbbell style={{ width: 17, height: 17, color: 'white' }} />
               </div>
               <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 26, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.03em', margin: 0 }}>Biblioteca de Exercícios</h1>
@@ -296,7 +296,7 @@ export default function Exercicios() {
             {exercicios.length > 0 && (
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
                 {[
-                  { label: `${exercicios.length} exercícios`, color: '#a5b4fc', bg: 'rgba(99,102,241,0.12)', border: 'rgba(99,102,241,0.25)' },
+                  { label: `${exercicios.length} exercícios`, color: '#fca5a5', bg: 'rgba(99,102,241,0.12)', border: 'rgba(99,102,241,0.25)' },
                   { label: `${comVideo} com vídeo`, color: '#34d399', bg: 'rgba(16,185,129,0.1)', border: 'rgba(16,185,129,0.2)' },
                   { label: `${grupos.length} grupos`, color: '#fbbf24', bg: 'rgba(245,158,11,0.1)', border: 'rgba(245,158,11,0.2)' },
                 ].map(({ label, color, bg, border }) => (
@@ -360,7 +360,7 @@ export default function Exercicios() {
             const key2 = g in GRUPO_META ? g : 'Outro'
             const m = GRUPO_META[key2]
             return (
-              <button key={g || '__all__'} onClick={() => setFilterGrupo(active && g ? '' : g)} style={{ padding: '5px 14px', borderRadius: 999, cursor: 'pointer', fontSize: 12, fontWeight: 600, transition: 'all 0.15s', background: active ? (g ? m.bg : 'rgba(99,102,241,0.2)') : 'rgba(255,255,255,0.04)', color: active ? (g ? m.color : '#a5b4fc') : 'var(--text-disabled)', border: active ? `1px solid ${g ? m.border : 'rgba(99,102,241,0.35)'}` : '1px solid rgba(255,255,255,0.07)', outline: 'none' }}>
+              <button key={g || '__all__'} onClick={() => setFilterGrupo(active && g ? '' : g)} style={{ padding: '5px 14px', borderRadius: 999, cursor: 'pointer', fontSize: 12, fontWeight: 600, transition: 'all 0.15s', background: active ? (g ? m.bg : 'rgba(99,102,241,0.2)') : 'rgba(255,255,255,0.04)', color: active ? (g ? m.color : '#fca5a5') : 'var(--text-disabled)', border: active ? `1px solid ${g ? m.border : 'rgba(99,102,241,0.35)'}` : '1px solid rgba(255,255,255,0.07)', outline: 'none' }}>
                 {g || 'Todos'}
               </button>
             )
@@ -420,3 +420,4 @@ export default function Exercicios() {
     </div>
   )
 }
+

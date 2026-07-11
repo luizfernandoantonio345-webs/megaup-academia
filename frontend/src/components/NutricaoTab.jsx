@@ -166,7 +166,7 @@ export default function NutricaoTab({ alunoId }) {
           <div style={{ fontSize: 36, marginBottom: 12 }}>🥗</div>
           <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 17, fontWeight: 600, color:'var(--text-primary)', marginBottom: 8 }}>Nenhum plano nutricional</p>
           <p style={{ fontSize: 13, color:'var(--text-muted)', marginBottom: 20 }}>Crie um plano alimentar personalizado para este aluno.</p>
-          <button onClick={() => setShowNovoPlan(true)} style={{ background: '#6366f1', border: 'none', borderRadius: 13, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '11px 24px' }}>
+          <button onClick={() => setShowNovoPlan(true)} style={{ background: '#ef4444', border: 'none', borderRadius: 13, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '11px 24px' }}>
             Criar plano alimentar
           </button>
         </div>
@@ -185,7 +185,7 @@ export default function NutricaoTab({ alunoId }) {
               </div>
               <textarea value={formPlan.observacoes} onChange={setFP('observacoes')} rows={2} placeholder="Observações / restrições alimentares…" style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 11, color:'var(--text-primary)', fontSize: 14, padding: '10px 14px', resize: 'vertical' }} />
               <div style={{ display: 'flex', gap: 10 }}>
-                <button type="submit" disabled={criar.isPending} style={{ flex: 1, background: '#6366f1', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '11px' }}>
+                <button type="submit" disabled={criar.isPending} style={{ flex: 1, background: '#ef4444', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '11px' }}>
                   {criar.isPending ? 'Criando…' : 'Criar plano'}
                 </button>
                 <button type="button" onClick={() => setShowNovoPlan(false)} style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color:'var(--text-muted)', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '11px 18px' }}>Cancelar</button>
@@ -227,7 +227,7 @@ export default function NutricaoTab({ alunoId }) {
               <div style={{ height: '100%', width: `${plano.objetivo_kcal ? Math.min(100, Math.round((totalKcal/plano.objetivo_kcal)*100)) : 0}%`, background: 'linear-gradient(90deg,#f97316,#fbbf24)', borderRadius: 3 }} />
             </div>
           </div>
-          <MacroBar label="Proteína" current={Math.round(totalProt)} meta={plano.objetivo_proteina} color="#818cf8" />
+          <MacroBar label="Proteína" current={Math.round(totalProt)} meta={plano.objetivo_proteina} color="#f87171" />
           <MacroBar label="Carboidrato" current={Math.round(totalCarbo)} meta={plano.objetivo_carbo} color="#34d399" />
           <MacroBar label="Gordura" current={Math.round(totalGord)} meta={plano.objetivo_gordura} color="#f9a8d4" />
         </div>
@@ -274,7 +274,7 @@ export default function NutricaoTab({ alunoId }) {
                 <button type="button" onClick={() => removeAlim(i)} style={{ background: 'none', border: 'none', color:'var(--text-muted)', cursor: 'pointer', padding: 0, marginTop: i === 0 ? 16 : 0 }}>✕</button>
               </div>
             ))}
-            <button type="button" onClick={addAlim} style={{ background: 'none', border: 'none', color: '#818cf8', cursor: 'pointer', fontSize: 13, fontWeight: 600, textAlign: 'left', padding: 0 }}>+ Adicionar alimento</button>
+            <button type="button" onClick={addAlim} style={{ background: 'none', border: 'none', color: '#f87171', cursor: 'pointer', fontSize: 13, fontWeight: 600, textAlign: 'left', padding: 0 }}>+ Adicionar alimento</button>
             <div style={{ display: 'flex', gap: 10 }}>
               <button type="submit" disabled={!nomeRef || addRef.isPending} style={{ flex: 1, background: 'linear-gradient(135deg,#10b981,#059669)', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '11px' }}>
                 {addRef.isPending ? 'Salvando…' : 'Salvar refeição'}
@@ -287,3 +287,4 @@ export default function NutricaoTab({ alunoId }) {
     </div>
   )
 }
+

@@ -1,5 +1,5 @@
 ﻿import { useState, useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
 import { Zap, Mail, Lock, ArrowRight, Eye, EyeOff, Dumbbell, TrendingUp, Users } from 'lucide-react'
@@ -15,6 +15,8 @@ const FEATURES = [
 export default function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
+  const nextUrl = searchParams.get('next')
   const [form, setForm] = useState({ email: '', senha: '' })
   const [serverSlow, setServerSlow] = useState(false)
   const [warmingUp, setWarmingUp] = useState(null)
@@ -51,7 +53,7 @@ export default function Login() {
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
       try {
         const user = await login(form.email, form.senha)
-        navigate(user?.role === 'aluno' ? '/aluno' : '/dashboard')
+        navigate(nextUrl || (user?.role === 'aluno' ? '/aluno' : '/dashboard'))
         return
       } catch (err) {
         const isNetwork = !err.response || err.response.status === 502 || err.response.status === 503
@@ -116,10 +118,10 @@ export default function Login() {
         <div style={{ position: 'relative' }}>
           {/* Logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 44 }}>
-            <div style={{ width: 28, height: 28, borderRadius: 8, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 28, height: 28, borderRadius: 8, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 14, height: 14, color: 'white' }} />
             </div>
-            <span style={{ fontSize: 15, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em' }}>GymPro</span>
+            <span style={{ fontSize: 15, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em' }}>MegaUp</span>
           </div>
 
           {/* Hero headline */}
@@ -146,9 +148,9 @@ export default function Login() {
             }} />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                <SvgPlate style={{ width: 26, color: '#818cf8', opacity: 0.7 }} />
+                <SvgPlate style={{ width: 26, color: '#f87171', opacity: 0.7 }} />
                 <SvgPlate style={{ width: 22, color: '#a78bfa', opacity: 0.5 }} />
-                <SvgPlate style={{ width: 18, color: '#6366f1', opacity: 0.4 }} />
+                <SvgPlate style={{ width: 18, color: '#ef4444', opacity: 0.4 }} />
               </div>
               <span style={{ fontSize: 10, color:'var(--text-disabled)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
                 Progressive overload
@@ -185,10 +187,10 @@ export default function Login() {
 
           {/* Mobile logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 28 }} className="lg:hidden">
-            <div style={{ width: 26, height: 26, borderRadius: 7, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 26, height: 26, borderRadius: 7, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 13, height: 13, color: 'white' }} />
             </div>
-            <span style={{ fontSize: 14, fontWeight: 600, color:'var(--text-primary)' }}>GymPro</span>
+            <span style={{ fontSize: 14, fontWeight: 600, color:'var(--text-primary)' }}>MegaUp</span>
           </div>
 
           {/* Mobile dumbbell accent */}
@@ -219,7 +221,7 @@ export default function Login() {
             </h2>
             <p style={{ fontSize: 13, color:'var(--text-muted)' }}>
               Não tem conta?{' '}
-              <Link to="/registrar" style={{ color: '#6366f1', fontWeight: 500, textDecoration: 'none' }}>
+              <Link to="/registrar" style={{ color: '#ef4444', fontWeight: 500, textDecoration: 'none' }}>
                 Criar conta grátis
               </Link>
             </p>
@@ -244,7 +246,7 @@ export default function Login() {
             <div>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                 <label htmlFor="login-senha" className="label" style={{ margin: 0 }}>Senha</label>
-                <Link to="/esqueci-senha" style={{ fontSize: 11, color: '#6366f1', textDecoration: 'none' }}>
+                <Link to="/esqueci-senha" style={{ fontSize: 11, color: '#ef4444', textDecoration: 'none' }}>
                   Esqueci minha senha
                 </Link>
               </div>
@@ -291,3 +293,5 @@ export default function Login() {
     </div>
   )
 }
+
+

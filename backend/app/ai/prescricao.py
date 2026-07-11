@@ -43,6 +43,29 @@ class _TreinoAlternativoOutput(BaseModel):
     observacoes: str = ""
 
 
+class _ExercicioGerado(BaseModel):
+    exercicio: str
+    grupo_muscular: str
+    equipamento: str
+    series: int
+    repeticoes: str
+    descanso_seg: int
+    carga_inicial_kg: float | None = None
+    observacao: str = ""
+
+
+class _SessaoGerada(BaseModel):
+    dia: str
+    nome: str
+    exercicios: list[_ExercicioGerado]
+
+
+class _TreinoCompletoOutput(BaseModel):
+    sessoes: list[_SessaoGerada]
+    observacoes: str = ""
+    metodologia: str = ""
+
+
 # ---------------------------------------------------------------------------
 # Helpers internos
 # ---------------------------------------------------------------------------
@@ -110,6 +133,56 @@ def sugerir_ajuste_carga(historico_feedback: list[dict]) -> dict:
         return {"acao": "manter", "carga_sugerida": None, "motivo": f"saída inválida da IA: {e}"}
     except Exception as e:
         return {"acao": "manter", "carga_sugerida": None, "motivo": f"IA indisponível: {e}"}
+
+
+def gerar_treino_completo(
+    objetivo: str,
+    nivel: str,
+    dias_por_semana: int,
+    equipamentos: list[str],
+    restricoes: str = "",
+) -> dict:
+    """
+    Gera um plano de treino completo e periodizado com base no perfil do aluno.
+
+    objetivo: "hipertrofia" | "perda_de_peso" | "condicionamento" | "definicao" | "forca"
+    nivel: "iniciante" | "intermediario" | "avancado"
+    dias_por_semana: 2-6
+    equipamentos: ex. ["halteres", "barra", "maquinas", "cabo", "peso_corporal"]
+    restricoes: ex. "dor no joelho direito, evitar agachamento profundo"
+    """
+    _DIAS = ["segunda", "terca", "quarta", "quinta", "sexta", "sabado", "domingo"]
+    dias_treino = _DIAS[:dias_por_semana]
+
+    system = (
+        "Você é um especialista em prescrição de treino de musculação com 15 anos de experiência. "
+        "Crie um plano de treino completo, periodizado e adaptado ao perfil informado. "
+        "Escolha a divisão de treino mais adequada para os dias disponíveis (Full Body, A/B, PPL, etc.). "
+        "Para cada exercício inclua: séries, repetições, descanso em segundos, carga inicial sugerida (se aplicável) e uma observação técnica curta. "
+        "Responda SOMENTE com JSON válido, sem markdown, neste formato exato:\n"
+        '{"sessoes": [{"dia": "segunda", "nome": "Treino A - ...", "exercicios": ['
+        '{"exercicio": "...", "grupo_muscular": "...", "equipamento": "...", '
+        '"series": 4, "repeticoes": "8-12", "descanso_seg": 90, '
+        '"carga_inicial_kg": 20.0, "observacao": "..."}]}, ...],'
+        '"observacoes": "...", "metodologia": "..."}'
+    )
+    user = (
+        f"Objetivo: {objetivo}\n"
+        f"Nível: {nivel}\n"
+        f"Dias de treino por semana: {dias_por_semana} ({', '.join(dias_treino)})\n"
+        f"Equipamentos disponíveis: {', '.join(equipamentos) if equipamentos else 'halteres e peso corporal'}\n"
+        f"Restrições/lesões: {restricoes or 'nenhuma'}"
+    )
+
+    try:
+        texto = _call_claude(system, user, max_tokens=2500)
+        raw = _parse_json(texto)
+        validated = _TreinoCompletoOutput(**raw)
+        return validated.model_dump()
+    except (ValidationError, json.JSONDecodeError, KeyError) as e:
+        return {"sessoes": [], "observacoes": f"Saída inválida da IA: {e}", "metodologia": ""}
+    except Exception as e:
+        return {"sessoes": [], "observacoes": f"IA indisponível: {e}", "metodologia": ""}
 
 
 def gerar_treino_alternativo(treino_original: dict, equipamento_indisponivel: str) -> dict:

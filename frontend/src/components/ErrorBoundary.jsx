@@ -40,7 +40,7 @@ export default class ErrorBoundary extends Component {
             <button
               onClick={() => this.setState({ error: null, errorInfo: null })}
               style={{
-                background: '#6366f1', color: 'white', border: 'none', borderRadius: 8,
+                background: '#ef4444', color: 'white', border: 'none', borderRadius: 8,
                 padding: '10px 24px', fontWeight: 600, cursor: 'pointer', fontSize: 13,
                 display: 'inline-flex', alignItems: 'center', gap: 6,
               }}
@@ -55,3 +55,4 @@ export default class ErrorBoundary extends Component {
     return this.props.children
   }
 }
+

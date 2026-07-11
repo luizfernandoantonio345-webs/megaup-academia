@@ -24,7 +24,7 @@ function highlight(text, query) {
   return (
     <>
       {text.slice(0, idx)}
-      <mark style={{ background: 'rgba(99,102,241,0.3)', color: '#a5b4fc', borderRadius: 3, padding: '0 2px' }}>
+      <mark style={{ background: 'rgba(99,102,241,0.3)', color: '#fca5a5', borderRadius: 3, padding: '0 2px' }}>
         {text.slice(idx, idx + query.length)}
       </mark>
       {text.slice(idx + query.length)}
@@ -166,7 +166,7 @@ export default function CommandPalette() {
             >
               {/* Input */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '14px 18px', borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-                <Search style={{ width: 18, height: 18, color: '#6366f1', flexShrink: 0 }} aria-hidden="true" />
+                <Search style={{ width: 18, height: 18, color: '#ef4444', flexShrink: 0 }} aria-hidden="true" />
                 <input
                   ref={inputRef}
                   value={query}
@@ -215,12 +215,12 @@ export default function CommandPalette() {
                               display: 'flex', alignItems: 'center', gap: 12,
                               padding: '10px 18px', cursor: 'pointer',
                               background: isActive ? 'rgba(99,102,241,0.12)' : 'transparent',
-                              borderLeft: isActive ? '2px solid #6366f1' : '2px solid transparent',
+                              borderLeft: isActive ? '2px solid #ef4444' : '2px solid transparent',
                               transition: 'all 0.1s',
                             }}
                           >
                             <div style={{ width: 34, height: 34, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: isActive ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)' }}>
-                              <item.icon style={{ width: 15, height: 15, color: isActive ? '#818cf8' : 'var(--text-muted)' }} aria-hidden="true" />
+                              <item.icon style={{ width: 15, height: 15, color: isActive ? '#f87171' : 'var(--text-muted)' }} aria-hidden="true" />
                             </div>
                             <div style={{ flex: 1, minWidth: 0 }}>
                               <div style={{ fontSize: 14, fontWeight: 600, color: isActive ? 'var(--text-primary)' : 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
@@ -232,7 +232,7 @@ export default function CommandPalette() {
                                 </div>
                               )}
                             </div>
-                            {isActive && <ArrowRight style={{ width: 14, height: 14, color: '#6366f1', flexShrink: 0 }} aria-hidden="true" />}
+                            {isActive && <ArrowRight style={{ width: 14, height: 14, color: '#ef4444', flexShrink: 0 }} aria-hidden="true" />}
                           </div>
                         )
                       })}
@@ -263,3 +263,4 @@ export default function CommandPalette() {
     </>
   )
 }
+

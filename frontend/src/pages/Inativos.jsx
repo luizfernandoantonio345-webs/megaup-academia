@@ -2,8 +2,14 @@
 import { useQuery, useMutation } from '@tanstack/react-query'
 import { alunosInativos, enviarNudge } from '../api'
 import { useNavigate } from 'react-router-dom'
-import { Bell, Send, AlertTriangle, Clock, ChevronRight } from 'lucide-react'
+import { Bell, Send, AlertTriangle, Clock, ChevronRight, MessageCircle } from 'lucide-react'
 import toast from 'react-hot-toast'
+
+const openWhatsApp = (nome, diasInativo) => {
+  const dias = diasInativo ? `há ${diasInativo} dias` : 'faz um tempo'
+  const msg = `Oi ${nome.split(' ')[0]}! 👋 Vi que você não treina ${dias}. Tudo bem? A academia está com saudades! Bora voltar? 💪🔥`
+  window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank', 'noopener')
+}
 
 export default function Inativos() {
   const [dias, setDias] = useState(7)
@@ -103,9 +109,17 @@ export default function Inativos() {
 
               <div style={{ display: 'flex', gap: 8, flexShrink: 0 }}>
                 <button
+                  onClick={() => openWhatsApp(a.nome, a.dias_inativo)}
+                  title="Enviar mensagem via WhatsApp"
+                  style={{ background: 'rgba(37,211,102,0.1)', border: '1px solid rgba(37,211,102,0.25)', borderRadius: 11, color: '#25d366', cursor: 'pointer', fontWeight: 600, fontSize: 12, padding: '7px 11px', display: 'flex', alignItems: 'center', gap: 5 }}
+                >
+                  <MessageCircle style={{ width: 13, height: 13 }} /> WA
+                </button>
+                <button
                   onClick={() => nudge.mutate(a.id)}
                   disabled={nudge.isPending}
-                  style={{ background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: 11, color: '#818cf8', cursor: 'pointer', fontWeight: 600, fontSize: 12, padding: '7px 13px', display: 'flex', alignItems: 'center', gap: 5 }}
+                  title="Enviar mensagem de incentivo pelo chat do app"
+                  style={{ background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: 11, color: '#f87171', cursor: 'pointer', fontWeight: 600, fontSize: 12, padding: '7px 13px', display: 'flex', alignItems: 'center', gap: 5 }}
                 >
                   <Send style={{ width: 12, height: 12 }} /> Nudge
                 </button>
@@ -123,3 +137,4 @@ export default function Inativos() {
     </div>
   )
 }
+

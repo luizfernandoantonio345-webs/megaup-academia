@@ -1,4 +1,4 @@
-// Shared gym equipment SVG decorations + hero variants for Login/Registrar
+﻿// Shared gym equipment SVG decorations + hero variants for Login/Registrar
 
 // ── Background decorator — used at low opacity (no gradients needed, shape is what matters)
 export function SvgDumbbell({ style }) {
@@ -52,11 +52,11 @@ export function SvgDumbbellHero({ style, uid = 'hero' }) {
           <stop offset="78%"  stopColor="#3F3F46"/>
           <stop offset="100%" stopColor="#9CA3AF"/>
         </linearGradient>
-        {/* Collar — indigo metallic (brand color) */}
+        {/* Collar — MegaUp red metallic */}
         <linearGradient id={`${p}-cl`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stopColor="#a78bfa"/>
-          <stop offset="50%"  stopColor="#4338CA"/>
-          <stop offset="100%" stopColor="#818cf8"/>
+          <stop offset="0%"   stopColor="#f87171"/>
+          <stop offset="50%"  stopColor="#ef4444"/>
+          <stop offset="100%" stopColor="#b91c1c"/>
         </linearGradient>
         {/* Bar — chrome / steel */}
         <linearGradient id={`${p}-br`} x1="0" y1="0" x2="0" y2="1">
@@ -120,34 +120,35 @@ export function GymDecorBg() {
     <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
       <SvgDumbbell style={{
         position: 'absolute', top: -30, right: -80, width: 460,
-        color: '#6366f1', opacity: 0.05, transform: 'rotate(-13deg)',
+        color: '#ef4444', opacity: 0.05, transform: 'rotate(-13deg)',
         animation: 'float 9s ease-in-out infinite',
       }} />
       <SvgDumbbell style={{
         position: 'absolute', bottom: -20, left: -110, width: 360,
-        color: '#818cf8', opacity: 0.038, transform: 'rotate(17deg)',
+        color: '#f87171', opacity: 0.038, transform: 'rotate(17deg)',
         animation: 'float 11s ease-in-out infinite 2s',
       }} />
       <SvgDumbbell style={{
         position: 'absolute', top: '44%', right: -40, width: 220,
-        color: '#6366f1', opacity: 0.028, transform: 'rotate(-7deg)',
+        color: '#ef4444', opacity: 0.028, transform: 'rotate(-7deg)',
         animation: 'float 7s ease-in-out infinite 1s',
       }} />
       <SvgPlate style={{
         position: 'absolute', top: '4%', left: '10%', width: 140,
-        color: '#6366f1', opacity: 0.04,
+        color: '#ef4444', opacity: 0.04,
         animation: 'float 13s ease-in-out infinite 0.5s',
       }} />
       <SvgPlate style={{
         position: 'absolute', bottom: '6%', right: '3%', width: 190,
-        color: '#818cf8', opacity: 0.032,
+        color: '#f87171', opacity: 0.032,
         animation: 'float 10s ease-in-out infinite 3s',
       }} />
       <SvgPlate style={{
         position: 'absolute', top: '-5%', left: '43%', width: 110,
-        color: '#6366f1', opacity: 0.025,
+        color: '#ef4444', opacity: 0.025,
         animation: 'float 8s ease-in-out infinite 1.5s',
       }} />
     </div>
   )
 }
+

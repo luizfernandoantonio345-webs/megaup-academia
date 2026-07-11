@@ -15,6 +15,22 @@ router = APIRouter()
 
 MAX_B64_SIZE = 210_000  # ~150KB após encoding base64
 
+# Magic bytes dos formatos de imagem aceitos
+_MAGIC: list[tuple[bytes, bytes | None]] = [
+    (b"\xff\xd8\xff", None),           # JPEG
+    (b"\x89PNG",      None),           # PNG
+    (b"GIF8",         None),           # GIF
+    (b"RIFF",         b"WEBP"),        # WebP (bytes 8-11 = WEBP)
+]
+
+
+def _validate_image_mime(raw: bytes) -> None:
+    for magic, extra in _MAGIC:
+        if raw[: len(magic)] == magic:
+            if extra is None or raw[8 : 8 + len(extra)] == extra:
+                return
+    raise HTTPException(400, "Formato de imagem inválido. Use JPEG, PNG, GIF ou WebP.")
+
 
 class FotoCreate(BaseModel):
     foto_base64: str  # data:image/jpeg;base64,... ou apenas a parte base64
@@ -84,9 +100,11 @@ def upload_foto(
         )
 
     try:
-        base64.b64decode(b64, validate=True)
+        raw = base64.b64decode(b64, validate=True)
     except Exception:
         raise HTTPException(400, "Base64 inválido")
+
+    _validate_image_mime(raw)
 
     data_foto = datetime.utcnow()
     if body.data:

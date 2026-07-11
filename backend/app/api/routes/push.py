@@ -1,4 +1,4 @@
-"""Web Push notifications via VAPID — subscribe, unsubscribe, send."""
+﻿"""Web Push notifications via VAPID — subscribe, unsubscribe, send."""
 import json
 import logging
 from typing import Optional
@@ -74,6 +74,21 @@ def unsubscribe(
     return {"ok": True}
 
 
+@router.post("/lembrete-streak", status_code=200)
+def disparar_lembrete_streak(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Dispara manualmente lembretes de streak para testar o fluxo de push."""
+    from app.models import Role
+    if current_user.role not in (Role.personal, Role.admin_academia):
+        raise HTTPException(403, "Acesso negado")
+    from app.ai.scheduler import tarefa_lembretes_streak
+    import threading
+    threading.Thread(target=tarefa_lembretes_streak, daemon=True).start()
+    return {"ok": True, "msg": "Lembrete de streak disparado em background"}
+
+
 def _enviar_push_para_subscription(sub: PushSubscription, titulo: str, corpo: str, url: str = "/") -> bool:
     """
     Tenta enviar push notification para uma subscription.
@@ -93,7 +108,7 @@ def _enviar_push_para_subscription(sub: PushSubscription, titulo: str, corpo: st
             },
             data=json.dumps({"titulo": titulo, "corpo": corpo, "url": url}),
             vapid_private_key=vapid_private,
-            vapid_claims={"sub": f"mailto:{settings.EMAIL_FROM or 'noreply@gympro.app'}"},
+            vapid_claims={"sub": f"mailto:{settings.EMAIL_FROM or 'noreply@MegaUp.app'}"},
         )
         return True
     except Exception as exc:
@@ -102,3 +117,4 @@ def _enviar_push_para_subscription(sub: PushSubscription, titulo: str, corpo: st
             return False   # subscription expirada — pode ser removida
         logger.warning("Push falhou para endpoint=%s: %s", sub.endpoint[:40], exc)
         return False
+

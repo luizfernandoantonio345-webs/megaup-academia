@@ -73,7 +73,7 @@ export default function Financeiro() {
 
   const STATS = [
     { icon:TrendingUp,  label:'Receita mensal prevista', value:fmt(resumo?.receita_mensal_prevista ?? 0), gradient:'linear-gradient(135deg,#059669,#10b981)', accent:'#10b981', loading:loadingResumo },
-    { icon:Users,       label:'Alunos com plano',        value:resumo?.total_alunos_com_plano ?? 0,       gradient:'linear-gradient(135deg,#4f46e5,#7c3aed)', accent:'#6366f1', loading:loadingResumo },
+    { icon:Users,       label:'Alunos com plano',        value:resumo?.total_alunos_com_plano ?? 0,       gradient:'linear-gradient(135deg,#dc2626,#7c3aed)', accent:'#ef4444', loading:loadingResumo },
     { icon:AlertCircle, label:'Inadimplentes',            value:resumo?.inadimplentes ?? 0,                gradient:'linear-gradient(135deg,#e11d48,#f43f5e)', accent:'#f87171', loading:loadingResumo },
     { icon:Wallet,      label:'Valor inadimplente',       value:fmt(resumo?.valor_inadimplente ?? 0),      gradient:'linear-gradient(135deg,#d97706,#f59e0b)', accent:'#fbbf24', loading:loadingResumo },
   ]
@@ -213,7 +213,7 @@ export default function Financeiro() {
                           <td className="px-4 py-3 whitespace-nowrap"><StatusBadge status={c.status} /></td>
                           <td className="px-4 py-3">
                             {c.link_pagamento ? (
-                              <a href={c.link_pagamento} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-semibold" style={{ color:'#818cf8' }}>
+                              <a href={c.link_pagamento} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-semibold" style={{ color:'#f87171' }}>
                                 <ExternalLink style={{ width:12, height:12 }} /> PIX
                               </a>
                             ) : <span style={{ color:'var(--text-disabled)', fontSize:12 }}>—</span>}
@@ -334,3 +334,4 @@ export default function Financeiro() {
     </div>
   )
 }
+

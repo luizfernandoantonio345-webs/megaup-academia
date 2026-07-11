@@ -26,10 +26,10 @@ export default function Privacidade() {
       {/* Header */}
       <div style={{ borderBottom: '1px solid var(--border-subtle)', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: 12, position: 'sticky', top: 0, background:'var(--bg-page)', zIndex: 10 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginRight: 'auto' }}>
-          <div style={{ width: 26, height: 26, borderRadius: 7, background: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 26, height: 26, borderRadius: 7, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Zap style={{ width: 13, height: 13, color: 'white' }} />
           </div>
-          <span style={{ fontSize: 14, fontWeight: 600, color:'var(--text-primary)' }}>GymPro</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color:'var(--text-primary)' }}>MegaUp</span>
         </div>
         <Link to="/registrar" style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, color:'var(--text-muted)', textDecoration: 'none' }}>
           <ArrowLeft style={{ width: 14, height: 14 }} /> Voltar ao cadastro
@@ -40,17 +40,17 @@ export default function Privacidade() {
         <div style={{ marginBottom: 40 }}>
           <h1 style={{ fontSize: 26, fontWeight: 600, letterSpacing: '-0.03em', marginBottom: 8 }}>Política de Privacidade</h1>
           <p style={{ fontSize: 13, color:'var(--text-muted)', marginBottom: 16 }}>Última atualização: {LAST_UPDATE}</p>
-          <div style={{ background:'var(--bg-card)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 12, padding: '14px 18px', fontSize: 13, color: '#a5b4fc', lineHeight: 1.7 }}>
-            Esta Política descreve como o GymPro coleta, usa e protege seus dados pessoais em conformidade com a <strong>Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018)</strong>.
+          <div style={{ background:'var(--bg-card)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 12, padding: '14px 18px', fontSize: 13, color: '#fca5a5', lineHeight: 1.7 }}>
+            Esta Política descreve como o MegaUp coleta, usa e protege seus dados pessoais em conformidade com a <strong>Lei Geral de Proteção de Dados (LGPD — Lei nº 13.709/2018)</strong>.
           </div>
         </div>
 
         <Section title="1. Quem somos (Controlador e Operador)">
-          <p style={{ marginBottom: 8 }}>O GymPro é desenvolvido e operado de forma autônoma. Para fins da LGPD:</p>
+          <p style={{ marginBottom: 8 }}>O MegaUp é desenvolvido e operado de forma autônoma. Para fins da LGPD:</p>
           <ul style={{ paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 4 }}>
             <li><strong style={{ color:'var(--text-primary)' }}>Controlador dos dados dos alunos:</strong> o personal trainer que utiliza a plataforma.</li>
-            <li><strong style={{ color:'var(--text-primary)' }}>Operador:</strong> o GymPro, que processa os dados por instrução do personal trainer.</li>
-            <li><strong style={{ color:'var(--text-primary)' }}>Controlador dos dados de conta:</strong> o GymPro, em relação aos dados dos personal trainers cadastrados.</li>
+            <li><strong style={{ color:'var(--text-primary)' }}>Operador:</strong> o MegaUp, que processa os dados por instrução do personal trainer.</li>
+            <li><strong style={{ color:'var(--text-primary)' }}>Controlador dos dados de conta:</strong> o MegaUp, em relação aos dados dos personal trainers cadastrados.</li>
           </ul>
         </Section>
 
@@ -58,7 +58,7 @@ export default function Privacidade() {
           <p style={{ marginBottom: 12 }}>Coletamos os seguintes tipos de dados:</p>
           <div style={{ marginBottom: 12 }}>
             <p style={{ color:'var(--text-primary)', fontWeight: 500, marginBottom: 6 }}>Dados de conta (Personal Trainer)</p>
-            <div><Tag color="#818cf8">Nome completo</Tag><Tag color="#818cf8">E-mail</Tag><Tag color="#818cf8">Nome da academia</Tag><Tag color="#818cf8">Data de aceite dos termos</Tag></div>
+            <div><Tag color="#f87171">Nome completo</Tag><Tag color="#f87171">E-mail</Tag><Tag color="#f87171">Nome da academia</Tag><Tag color="#f87171">Data de aceite dos termos</Tag></div>
           </div>
           <div style={{ marginBottom: 12 }}>
             <p style={{ color:'var(--text-primary)', fontWeight: 500, marginBottom: 6 }}>Dados dos alunos (inseridos pelo personal)</p>
@@ -100,7 +100,7 @@ export default function Privacidade() {
           <ul style={{ paddingLeft: 20, display: 'flex', flexDirection: 'column', gap: 6 }}>
             <li><strong style={{ color:'var(--text-primary)' }}>Render.com</strong> — infraestrutura de hospedagem (servidores nos EUA, com cláusulas contratuais padrão).</li>
             <li><strong style={{ color:'var(--text-primary)' }}>Resend</strong> — serviço de envio de e-mails transacionais.</li>
-            <li><strong style={{ color:'var(--text-primary)' }}>Stripe</strong> — processamento de pagamentos (dados de cartão nunca passam pelos servidores do GymPro).</li>
+            <li><strong style={{ color:'var(--text-primary)' }}>Stripe</strong> — processamento de pagamentos (dados de cartão nunca passam pelos servidores do MegaUp).</li>
           </ul>
           <p style={{ marginTop: 10 }}>Não vendemos, alugamos ou compartilhamos dados com terceiros para fins de marketing.</p>
         </Section>
@@ -119,7 +119,7 @@ export default function Privacidade() {
             <li><strong style={{ color:'var(--text-primary)' }}>Revogação de consentimento</strong> — a qualquer momento, sem prejuízo ao uso anterior.</li>
             <li><strong style={{ color:'var(--text-primary)' }}>Oposição</strong> — ao tratamento baseado em legítimo interesse.</li>
           </ul>
-          <p style={{ marginTop: 10 }}>Para exercer seus direitos, envie e-mail para: <span style={{ color: '#818cf8' }}>santossod345@gmail.com</span></p>
+          <p style={{ marginTop: 10 }}>Para exercer seus direitos, envie e-mail para: <span style={{ color: '#f87171' }}>santossod345@gmail.com</span></p>
         </Section>
 
         <Section title="7. Retenção de Dados">
@@ -131,7 +131,7 @@ export default function Privacidade() {
         </Section>
 
         <Section title="9. Cookies e Armazenamento Local">
-          <p>O GymPro utiliza localStorage do navegador para armazenar o token de autenticação. Não utilizamos cookies de rastreamento ou analytics de terceiros.</p>
+          <p>O MegaUp utiliza localStorage do navegador para armazenar o token de autenticação. Não utilizamos cookies de rastreamento ou analytics de terceiros.</p>
         </Section>
 
         <Section title="10. Transferência Internacional">
@@ -140,7 +140,7 @@ export default function Privacidade() {
 
         <Section title="11. Contato e Encarregado (DPO)">
           <p>Responsável pelo tratamento de dados pessoais:</p>
-          <p style={{ marginTop: 8 }}>E-mail: <span style={{ color: '#818cf8' }}>santossod345@gmail.com</span></p>
+          <p style={{ marginTop: 8 }}>E-mail: <span style={{ color: '#f87171' }}>santossod345@gmail.com</span></p>
           <p>Tempo de resposta: até 15 dias úteis.</p>
         </Section>
 
@@ -149,7 +149,7 @@ export default function Privacidade() {
         </Section>
 
         <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 24, marginTop: 8 }}>
-          <Link to="/termos" style={{ color: '#818cf8', fontSize: 13, textDecoration: 'none' }}>
+          <Link to="/termos" style={{ color: '#f87171', fontSize: 13, textDecoration: 'none' }}>
             Ver Termos de Uso →
           </Link>
         </div>
@@ -157,3 +157,5 @@ export default function Privacidade() {
     </div>
   )
 }
+
+

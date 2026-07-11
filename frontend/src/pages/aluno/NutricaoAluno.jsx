@@ -5,7 +5,8 @@ import { useState } from 'react'
 
 function RefeicaoCard({ r }) {
   const [open, setOpen] = useState(false)
-  const kcal = r.alimentos.reduce((s, a) => s + (a.kcal || 0), 0)
+  const alimentos = Array.isArray(r.alimentos) ? r.alimentos : []
+  const kcal = alimentos.reduce((s, a) => s + (a.kcal || 0), 0)
   return (
     <div style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 16, overflow: 'hidden' }}>
       <div onClick={() => setOpen(o => !o)} style={{ padding: '14px 16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', cursor: 'pointer' }}>
@@ -23,10 +24,10 @@ function RefeicaoCard({ r }) {
           {open ? <ChevronUp style={{ width: 14, height: 14, color:'var(--text-muted)' }} /> : <ChevronDown style={{ width: 14, height: 14, color:'var(--text-muted)' }} />}
         </div>
       </div>
-      {open && r.alimentos.length > 0 && (
+      {open && alimentos.length > 0 && (
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '12px 16px' }}>
-          {r.alimentos.map((a, i) => (
-            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderBottom: i < r.alimentos.length - 1 ? '1px solid rgba(255,255,255,0.03)' : 'none' }}>
+          {alimentos.map((a, i) => (
+            <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '6px 0', borderBottom: i < alimentos.length - 1 ? '1px solid rgba(255,255,255,0.03)' : 'none' }}>
               <div>
                 <p style={{ fontSize: 13, fontWeight: 600, color:'var(--text-secondary)' }}>{a.nome}</p>
                 <p style={{ fontSize: 11, color:'var(--text-muted)' }}>{a.qtd}</p>
@@ -69,10 +70,11 @@ export default function NutricaoAluno() {
     )
   }
 
-  const totalKcal = plano.refeicoes.reduce((s, r) => s + r.alimentos.reduce((ss, a) => ss + (a.kcal || 0), 0), 0)
-  const totalProt = plano.refeicoes.reduce((s, r) => s + r.alimentos.reduce((ss, a) => ss + (a.prot || 0), 0), 0)
-  const totalCarbo = plano.refeicoes.reduce((s, r) => s + r.alimentos.reduce((ss, a) => ss + (a.carbo || 0), 0), 0)
-  const totalGord = plano.refeicoes.reduce((s, r) => s + r.alimentos.reduce((ss, a) => ss + (a.gord || 0), 0), 0)
+  const refeicoes = Array.isArray(plano.refeicoes) ? plano.refeicoes : []
+  const totalKcal = refeicoes.reduce((s, r) => s + (Array.isArray(r.alimentos) ? r.alimentos : []).reduce((ss, a) => ss + (a.kcal || 0), 0), 0)
+  const totalProt = refeicoes.reduce((s, r) => s + (Array.isArray(r.alimentos) ? r.alimentos : []).reduce((ss, a) => ss + (a.prot || 0), 0), 0)
+  const totalCarbo = refeicoes.reduce((s, r) => s + (Array.isArray(r.alimentos) ? r.alimentos : []).reduce((ss, a) => ss + (a.carbo || 0), 0), 0)
+  const totalGord = refeicoes.reduce((s, r) => s + (Array.isArray(r.alimentos) ? r.alimentos : []).reduce((ss, a) => ss + (a.gord || 0), 0), 0)
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
@@ -87,7 +89,7 @@ export default function NutricaoAluno() {
         <div className="grid-macros">
           {[
             { label: 'Kcal', value: `${totalKcal}`, meta: plano.objetivo_kcal, color: '#fbbf24' },
-            { label: 'Prot.', value: `${Math.round(totalProt)}g`, meta: plano.objetivo_proteina ? `${plano.objetivo_proteina}g` : null, color: '#818cf8' },
+            { label: 'Prot.', value: `${Math.round(totalProt)}g`, meta: plano.objetivo_proteina ? `${plano.objetivo_proteina}g` : null, color: '#f87171' },
             { label: 'Carbo', value: `${Math.round(totalCarbo)}g`, meta: plano.objetivo_carbo ? `${plano.objetivo_carbo}g` : null, color: '#34d399' },
             { label: 'Gord.', value: `${Math.round(totalGord)}g`, meta: plano.objetivo_gordura ? `${plano.objetivo_gordura}g` : null, color: '#f9a8d4' },
           ].map(m => (
@@ -102,8 +104,9 @@ export default function NutricaoAluno() {
 
       {/* Lista de refeições */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {plano.refeicoes.map(r => <RefeicaoCard key={r.id} r={r} />)}
+        {refeicoes.map(r => <RefeicaoCard key={r.id} r={r} />)}
       </div>
     </div>
   )
 }
+
