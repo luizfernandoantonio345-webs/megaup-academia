@@ -8,7 +8,7 @@ export function clearToken() { _token = null }
 
 const _PROD_URL = 'https://megaup-api.onrender.com'
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || _PROD_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL || _PROD_URL,
   timeout: 65_000,
   withCredentials: true,  // Send httpOnly refresh-token cookie cross-origin
 })

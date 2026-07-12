@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-const API = import.meta.env.VITE_API_URL || 'https://megaup-api.onrender.com'
+const API = process.env.NEXT_PUBLIC_API_URL || 'https://megaup-api.onrender.com'
 
 export default function Debug() {
   const [ping, setPing] = useState('testando...')
