@@ -38,11 +38,13 @@ api.interceptors.response.use(
   async (err) => {
     const config = err.config
 
-    // Cold-start retry — backend on Render free tier needs 5s warm-up
+    // Cold-start retry — backend on Render free tier needs warm-up
+    // Exclude only /auth/refresh and /auth/login to avoid confusing duplicate credential errors
     const isColdStart = !err.response || err.response.status === 503 || err.response.status === 502
-    if (isColdStart && !config._retried && !config.url?.includes('/auth/')) {
+    const isRefreshOrLogin = config.url?.includes('/auth/refresh') || config.url?.includes('/auth/login')
+    if (isColdStart && !config._retried && !isRefreshOrLogin) {
       config._retried = true
-      await new Promise(r => setTimeout(r, 5000))
+      await new Promise(r => setTimeout(r, 6000))
       return api(config)
     }
 

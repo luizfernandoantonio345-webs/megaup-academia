@@ -63,12 +63,23 @@ export default function Registrar() {
       return
     }
     setLoading(true)
+    const toastId = toast.loading('Criando sua conta...')
     try {
       await registrar({ ...form, ref_code: refCode || undefined, termos_aceitos: true })
-      toast.success('Conta criada! Bem-vindo ao MegaUp.')
+      toast.success('Conta criada! Bem-vindo ao MegaUp.', { id: toastId })
       navigate('/dashboard')
     } catch (err) {
-      toast.error(err.response?.data?.detail || 'Erro ao criar conta')
+      const status = err.response?.status
+      const detail = err.response?.data?.detail
+      if (!err.response || status === 502 || status === 503) {
+        toast.error('Servidor iniciando, aguarde e tente novamente em 30s.', { id: toastId })
+      } else if (status === 409) {
+        toast.error('Este e-mail já está cadastrado.', { id: toastId })
+      } else if (status === 429) {
+        toast.error('Muitas tentativas. Aguarde 1 minuto.', { id: toastId })
+      } else {
+        toast.error(typeof detail === 'string' ? detail : 'Erro ao criar conta', { id: toastId })
+      }
     } finally {
       setLoading(false)
     }

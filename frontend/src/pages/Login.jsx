@@ -53,13 +53,12 @@ export default function Login() {
         }
 
         if (isNetwork && attempt < MAX_RETRIES) {
-          setServerSlow(true)
           setWarmingUp(`Servidor iniciando... tentativa ${attempt + 1}/${MAX_RETRIES}`)
           await new Promise(r => setTimeout(r, 8000))
           continue
         }
 
-        toast.error('Servidor indisponível. Aguarde alguns instantes e tente novamente.')
+        toast.error('Servidor iniciando. Aguarde 30 segundos e tente novamente.')
         break
       }
     }
