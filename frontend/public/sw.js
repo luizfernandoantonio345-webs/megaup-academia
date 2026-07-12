@@ -1,4 +1,4 @@
-﻿const CACHE = 'MegaUp-v3'
+﻿const CACHE = 'MegaUp-v4'
 const STATIC = [
   '/',
   '/index.html',
