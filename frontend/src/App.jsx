@@ -49,6 +49,7 @@ const Conquistas     = lazy(() => import('./pages/aluno/Conquistas'))
 const NutricaoAluno  = lazy(() => import('./pages/aluno/NutricaoAluno'))
 const MeusCheckins   = lazy(() => import('./pages/aluno/MeusCheckins'))
 const LogoDesigner   = lazy(() => import('./pages/LogoDesigner'))
+const Debug          = lazy(() => import('./pages/Debug'))
 
 const qc = new QueryClient({
   defaultOptions: {
@@ -93,6 +94,7 @@ function AnimatedRoutes() {
         <Route path="/privacidade" element={<P><Privacidade /></P>} />
         <Route path="/logo" element={<P><LogoDesigner /></P>} />
         <Route path="/checkin" element={<P><Checkin /></P>} />
+        <Route path="/debug" element={<Debug />} />
 
         {/* Personal trainer / Admin */}
         <Route element={<ProtectedRoute roles={['personal', 'admin_academia']} />}>
