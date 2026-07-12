@@ -13,162 +13,194 @@ import {
   X, DollarSign, MoreHorizontal, Calendar, Bell,
   BarChart2, Gift, CreditCard, Copy, QrCode,
   ArrowRight, CheckCircle, TrendingUp, UserCircle, Sun, Moon,
+  Zap, Activity,
 } from 'lucide-react'
 
 const ST = 5 * 60_000
 
 const NAV_MAIN = [
-  { to: '/dashboard',  icon: LayoutDashboard, label: 'Dashboard',   prefetch: { queryKey: ['analytics-resumo', 7], queryFn: () => analyticsResumo(7).then((r) => r.data) } },
-  { to: '/alunos',     icon: Users,            label: 'Alunos',      prefetch: { queryKey: ['alunos'],              queryFn: () => listarAlunos().then((r) => r.data) } },
-  { to: '/analytics',  icon: BarChart2,        label: 'Analytics' },
-  { to: '/agenda',     icon: Calendar,         label: 'Agenda' },
-  { to: '/exercicios', icon: Dumbbell,         label: 'Exercícios',  prefetch: { queryKey: ['exercicios'],          queryFn: () => listarExercicios().then((r) => r.data) } },
+  { to: '/dashboard',  icon: LayoutDashboard, label: 'Dashboard',     color: '#6366f1', bg: '#6366f115', prefetch: { queryKey: ['analytics-resumo', 7], queryFn: () => analyticsResumo(7).then(r => r.data) } },
+  { to: '/alunos',     icon: Users,           label: 'Alunos',        color: '#22c55e', bg: '#22c55e15', prefetch: { queryKey: ['alunos'], queryFn: () => listarAlunos().then(r => r.data) } },
+  { to: '/analytics',  icon: BarChart2,       label: 'Analytics',     color: '#a855f7', bg: '#a855f715' },
+  { to: '/agenda',     icon: Calendar,        label: 'Agenda',        color: '#f97316', bg: '#f9731615' },
+  { to: '/exercicios', icon: Dumbbell,        label: 'Exercícios',    color: '#ef4444', bg: '#ef444415', prefetch: { queryKey: ['exercicios'], queryFn: () => listarExercicios().then(r => r.data) } },
 ] as const
 
 const NAV_TOOLS = [
-  { to: '/ia',           icon: TrendingUp, label: 'Sugestões IA' },
-  { to: '/templates',    icon: Copy,       label: 'Templates' },
-  { to: '/qr',           icon: QrCode,     label: 'QR Check-in' },
-  { to: '/financeiro',   icon: DollarSign, label: 'Financeiro',    prefetch: { queryKey: ['resumo'], queryFn: () => resumoFinanceiro().then((r) => r.data) } },
-  { to: '/convites',     icon: UserPlus,   label: 'Convidar alunos' },
-  { to: '/periodizacao', icon: BarChart2,  label: 'Periodização' },
-  { to: '/inativos',     icon: Bell,       label: 'Inativos' },
-  { to: '/planos',       icon: CreditCard, label: 'Planos & Billing' },
-  { to: '/referral',     icon: Gift,       label: 'Indicação' },
+  { to: '/ia',           icon: Zap,        label: 'Sugestões IA',    color: '#eab308', bg: '#eab30815' },
+  { to: '/templates',    icon: Copy,       label: 'Templates',       color: '#06b6d4', bg: '#06b6d415' },
+  { to: '/qr',           icon: QrCode,     label: 'QR Check-in',     color: '#14b8a6', bg: '#14b8a615' },
+  { to: '/financeiro',   icon: DollarSign, label: 'Financeiro',      color: '#10b981', bg: '#10b98115', prefetch: { queryKey: ['resumo'], queryFn: () => resumoFinanceiro().then(r => r.data) } },
+  { to: '/convites',     icon: UserPlus,   label: 'Convidar alunos', color: '#f43f5e', bg: '#f43f5e15' },
+  { to: '/periodizacao', icon: Activity,   label: 'Periodização',    color: '#8b5cf6', bg: '#8b5cf615' },
+  { to: '/inativos',     icon: Bell,       label: 'Inativos',        color: '#f59e0b', bg: '#f59e0b15' },
+  { to: '/planos',       icon: CreditCard, label: 'Planos & Billing',color: '#0ea5e9', bg: '#0ea5e915' },
+  { to: '/referral',     icon: Gift,       label: 'Indicação',       color: '#ec4899', bg: '#ec489915' },
 ] as const
 
 const MOBILE_TABS = NAV_MAIN
 
-/* ── Nav item ─────────────────────────────────────────────── */
-function NavItem({ to, icon: Icon, label, prefetch }: { to: string; icon: React.ElementType; label: string; prefetch?: { queryKey: unknown[]; queryFn: () => Promise<unknown> } }) {
+/* ── Nav item ─────────────────────────────────────────────────── */
+type NavItemProps = { to: string; icon: React.ElementType; label: string; color: string; bg: string; prefetch?: { queryKey: unknown[]; queryFn: () => Promise<unknown> } }
+
+function NavItem({ to, icon: Icon, label, color, bg, prefetch }: NavItemProps) {
   const pathname = usePathname()
   const qc = useQueryClient()
   const active = pathname === to || (to !== '/dashboard' && pathname.startsWith(to))
 
   return (
     <Link href={to} style={{ textDecoration: 'none' }}
-      onMouseEnter={() => {
-        if (prefetch) qc.prefetchQuery({ ...prefetch, staleTime: ST })
-      }}
+      onMouseEnter={() => { if (prefetch) qc.prefetchQuery({ ...prefetch, staleTime: ST }) }}
     >
-      <div className={active ? 'nav-item nav-item-active' : 'nav-item'}>
-        <Icon style={{ width: 15, height: 15, flexShrink: 0, opacity: active ? 1 : 0.6 }} />
-        <span>{label}</span>
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 10, height: 34, padding: '0 10px',
+        borderRadius: 8, cursor: 'pointer', transition: 'all 0.15s',
+        background: active ? `${color}12` : 'transparent',
+        border: active ? `1px solid ${color}25` : '1px solid transparent',
+        position: 'relative', overflow: 'hidden',
+      }}
+        onMouseEnter={e => { if (!active) e.currentTarget.style.background = 'rgba(255,255,255,0.04)' }}
+        onMouseLeave={e => { if (!active) e.currentTarget.style.background = 'transparent' }}
+      >
+        {active && <div style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', width: 3, height: 16, borderRadius: 2, background: color }} />}
+        <div style={{ width: 22, height: 22, borderRadius: 6, background: active ? bg : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.15s', flexShrink: 0 }}>
+          <Icon style={{ width: 13, height: 13, color: active ? color : 'var(--text-muted)', transition: 'color 0.15s' }} />
+        </div>
+        <span style={{ fontSize: 13, fontWeight: active ? 600 : 400, color: active ? 'var(--text-primary)' : 'var(--text-muted)', transition: 'all 0.15s' }}>{label}</span>
       </div>
     </Link>
   )
 }
 
-/* ── Theme toggle ─────────────────────────────────────────── */
+/* ── Theme toggle ─────────────────────────────────────────────── */
 function ThemeToggle() {
   const { theme, toggle } = useTheme()
   return (
     <button onClick={toggle} aria-label="Alternar tema"
-      style={{ width: 32, height: 32, borderRadius: 6, background: 'transparent', border: '1px solid var(--border)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', transition: 'all 0.1s' }}
-      onMouseEnter={e => { e.currentTarget.style.background = 'var(--bg-hover)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
-      onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)' }}
+      style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', transition: 'all 0.15s' }}
+      onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
+      onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = 'var(--text-muted)' }}
     >
       {theme === 'dark' ? <Sun style={{ width: 14, height: 14 }} /> : <Moon style={{ width: 14, height: 14 }} />}
     </button>
   )
 }
 
-/* ── Notification bell ────────────────────────────────────── */
+/* ── Notification bell ────────────────────────────────────────── */
 function NotifBell() {
   const { data } = useQuery({ queryKey: ['notif-resumo'], queryFn: async () => (await resumoNotificacoes()).data, staleTime: 120_000, retry: false })
   const count = (data as { alunos_inativos?: number })?.alunos_inativos || 0
   const router = useRouter()
-  if (!count) return null
+  if (!count) return (
+    <button aria-label="Notificações" style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(255,255,255,0.04)', border: '1px solid var(--border)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}>
+      <Bell style={{ width: 14, height: 14 }} />
+    </button>
+  )
   return (
-    <button onClick={() => router.push('/inativos')} aria-label={`${count} aluno${count !== 1 ? 's' : ''} inativo${count !== 1 ? 's' : ''}`}
-      style={{ position: 'relative', background: 'transparent', border: '1px solid var(--border)', borderRadius: 6, cursor: 'pointer', padding: '5px 10px', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 500, transition: 'all 0.1s' }}>
-      <Bell style={{ width: 13, height: 13 }} />
-      <span style={{ background: '#f97316', color: 'white', borderRadius: 4, fontSize: 10, fontWeight: 600, padding: '0 5px', lineHeight: 1.6 }}>{count}</span>
+    <button onClick={() => router.push('/inativos')} aria-label={`${count} inativos`}
+      style={{ position: 'relative', width: 32, height: 32, borderRadius: 8, background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.2)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f97316' }}>
+      <Bell style={{ width: 14, height: 14 }} />
+      <span style={{ position: 'absolute', top: -4, right: -4, width: 16, height: 16, borderRadius: '50%', background: '#f97316', color: '#fff', fontSize: 9, fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--bg-page)' }}>{count}</span>
     </button>
   )
 }
 
-/* ── Sidebar content ──────────────────────────────────────── */
-function SidebarContent({ user, onLogout }: { user: { nome: string; email?: string } | null; onLogout: () => void }) {
+/* ── Sidebar ──────────────────────────────────────────────────── */
+function SidebarContent({ user, onLogout }: { user: { nome: string; email?: string; role?: string } | null; onLogout: () => void }) {
+  const initials = getInitials(user?.nome || '??')
+  const roleLabel = user?.role === 'admin_academia' ? 'Admin' : user?.role === 'personal' ? 'Personal' : 'Aluno'
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '14px 10px' }}>
-      <div style={{ padding: '2px 4px 14px', display: 'flex', alignItems: 'center', gap: 8 }}>
-        <div style={{ width: 22, height: 22, background: '#ef4444', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <span style={{ fontSize: 11, fontWeight: 800, color: 'white', letterSpacing: '-1px' }}>M</span>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', padding: '16px 10px 12px' }}>
+
+      {/* Logo */}
+      <div style={{ padding: '0 4px 18px', display: 'flex', alignItems: 'center', gap: 10 }}>
+        <div style={{ width: 32, height: 32, background: 'linear-gradient(135deg, #ef4444, #dc2626)', borderRadius: 9, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 12px rgba(239,68,68,0.4)', flexShrink: 0 }}>
+          <span style={{ fontSize: 15, fontWeight: 900, color: 'white', letterSpacing: '-1px' }}>M</span>
         </div>
-        <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>MegaUp</span>
+        <div>
+          <div style={{ fontSize: 14, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.03em', lineHeight: 1.1 }}>MegaUp</div>
+          <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 500 }}>Jardim das Rosas</div>
+        </div>
       </div>
 
-      <div style={{ height: 1, background: 'var(--border-subtle)', margin: '0 2px 12px' }} />
+      <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, var(--border), transparent)', margin: '0 4px 14px' }} />
 
+      {/* Nav */}
       <nav style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 1 }}>
-        <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '0 10px 6px' }}>Principal</p>
-        {NAV_MAIN.map((item) => <NavItem key={item.to} {...item} />)}
+        <p style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.08em', padding: '0 10px 8px' }}>Principal</p>
+        {NAV_MAIN.map(item => <NavItem key={item.to} {...item} />)}
 
-        <div style={{ height: 1, background: 'var(--border-subtle)', margin: '10px 4px' }} />
+        <div style={{ height: 1, background: 'linear-gradient(90deg, transparent, var(--border), transparent)', margin: '12px 4px' }} />
 
-        <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.06em', padding: '0 10px 6px' }}>Ferramentas</p>
-        {NAV_TOOLS.map((item) => <NavItem key={item.to} {...item} />)}
+        <p style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-disabled)', textTransform: 'uppercase', letterSpacing: '0.08em', padding: '0 10px 8px' }}>Ferramentas</p>
+        {NAV_TOOLS.map(item => <NavItem key={item.to} {...item} />)}
       </nav>
 
-      <div style={{ marginTop: 8, borderTop: '1px solid var(--border-subtle)', paddingTop: 10, display: 'flex', flexDirection: 'column', gap: 1 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '0 10px', height: 36 }}>
-          <div style={{ width: 24, height: 24, borderRadius: '50%', background: 'var(--bg-elevated)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 600, color: 'var(--text-secondary)', flexShrink: 0 }}>
-            {getInitials(user?.nome || '??')}
+      {/* User card */}
+      <div style={{ marginTop: 8, borderTop: '1px solid var(--border-subtle)', paddingTop: 12 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 9, padding: '8px 10px', borderRadius: 10, background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-subtle)', marginBottom: 6 }}>
+          <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg, #ef4444, #7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 700, color: 'white', flexShrink: 0, position: 'relative' }}>
+            {initials}
+            <div style={{ position: 'absolute', bottom: 0, right: 0, width: 8, height: 8, borderRadius: '50%', background: '#22c55e', border: '1.5px solid var(--bg-sidebar)' }} />
           </div>
-          <div style={{ flex: 1, minWidth: 0, fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {user?.nome?.split(' ')[0]}
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-primary)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.nome?.split(' ')[0]}</div>
+            <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>{roleLabel}</div>
           </div>
-          <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', flexShrink: 0 }} title="Online" />
         </div>
 
-        <Link href="/perfil" style={{ textDecoration: 'none' }}>
-          <div className="nav-item">
-            <UserCircle style={{ width: 14, height: 14, flexShrink: 0 }} />
-            <span>Meu perfil</span>
-          </div>
-        </Link>
-
-        <button onClick={onLogout}
-          style={{ display: 'flex', alignItems: 'center', gap: 9, height: 32, padding: '0 10px', borderRadius: 6, cursor: 'pointer', background: 'transparent', border: 'none', width: '100%', color: 'var(--text-muted)', fontSize: 13, transition: 'background 0.1s, color 0.1s', textAlign: 'left' }}
-          onMouseEnter={e => { e.currentTarget.style.background = 'var(--color-danger-muted)'; e.currentTarget.style.color = 'var(--color-danger)' }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--text-muted)' }}
-        >
-          <LogOut style={{ width: 14, height: 14, flexShrink: 0 }} />
-          <span>Sair</span>
-        </button>
+        <div style={{ display: 'flex', gap: 6 }}>
+          <Link href="/perfil" style={{ flex: 1, textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, height: 30, borderRadius: 7, background: 'transparent', border: '1px solid var(--border-subtle)', fontSize: 12, color: 'var(--text-muted)', fontWeight: 500, transition: 'all 0.15s' }}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.04)'; (e.currentTarget as HTMLElement).style.color = 'var(--text-secondary)' }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; (e.currentTarget as HTMLElement).style.color = 'var(--text-muted)' }}
+          >
+            <UserCircle style={{ width: 13, height: 13 }} /> Perfil
+          </Link>
+          <button onClick={onLogout}
+            style={{ width: 30, height: 30, borderRadius: 7, background: 'transparent', border: '1px solid var(--border-subtle)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', transition: 'all 0.15s', flexShrink: 0 }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'rgba(239,68,68,0.08)'; e.currentTarget.style.borderColor = 'rgba(239,68,68,0.3)'; e.currentTarget.style.color = '#ef4444' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'var(--border-subtle)'; e.currentTarget.style.color = 'var(--text-muted)' }}
+          >
+            <LogOut style={{ width: 13, height: 13 }} />
+          </button>
+        </div>
       </div>
     </div>
   )
 }
 
-/* ── Mobile bottom nav ────────────────────────────────────── */
+/* ── Mobile bottom nav ────────────────────────────────────────── */
 function MobileBottomNav({ user, onLogout }: { user: { nome: string; email?: string } | null; onLogout: () => void }) {
   const pathname = usePathname()
   const router = useRouter()
   const [showMore, setShowMore] = useState(false)
-  const isSecondaryActive = NAV_TOOLS.some((n) => pathname.startsWith(n.to))
+  const isSecondaryActive = NAV_TOOLS.some(n => pathname.startsWith(n.to))
 
   return (
     <>
       <nav className="nav-blur-bg" style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50, backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', borderTop: '1px solid var(--border-subtle)', paddingBottom: 'env(safe-area-inset-bottom)' }}>
         <div style={{ display: 'flex', maxWidth: 640, margin: '0 auto', padding: '4px 0' }}>
-          {MOBILE_TABS.map(({ to, icon: Icon, label }) => {
+          {MOBILE_TABS.map(({ to, icon: Icon, label, color }) => {
             const active = pathname === to || (to !== '/dashboard' && pathname.startsWith(to))
             return (
               <Link key={to} href={to} style={{ flex: 1, textDecoration: 'none' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '8px 0 6px', gap: 3, position: 'relative' }}>
-                  {active && <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: 20, height: 2, borderRadius: 1, background: '#ef4444' }} />}
-                  <Icon style={{ width: 20, height: 20, color: active ? '#f87171' : 'var(--text-disabled)' }} />
-                  <span style={{ fontSize: 10, fontWeight: active ? 600 : 400, color: active ? '#f87171' : 'var(--text-disabled)' }}>{label}</span>
+                  {active && <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: 20, height: 2, borderRadius: 1, background: color }} />}
+                  <div style={{ width: 28, height: 28, borderRadius: 7, background: active ? `${color}18` : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.15s' }}>
+                    <Icon style={{ width: 18, height: 18, color: active ? color : 'var(--text-disabled)', transition: 'color 0.15s' }} />
+                  </div>
+                  <span style={{ fontSize: 10, fontWeight: active ? 700 : 400, color: active ? color : 'var(--text-disabled)', transition: 'all 0.15s' }}>{label}</span>
                 </div>
               </Link>
             )
           })}
           <button onClick={() => setShowMore(true)} style={{ flex: 1, background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '8px 0 6px', gap: 3 }}>
-              <MoreHorizontal style={{ width: 20, height: 20, color: isSecondaryActive ? '#f87171' : 'var(--text-disabled)' }} />
-              <span style={{ fontSize: 10, fontWeight: isSecondaryActive ? 600 : 400, color: isSecondaryActive ? '#f87171' : 'var(--text-disabled)' }}>Mais</span>
+              <div style={{ width: 28, height: 28, borderRadius: 7, background: isSecondaryActive ? 'rgba(239,68,68,0.12)' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <MoreHorizontal style={{ width: 18, height: 18, color: isSecondaryActive ? '#ef4444' : 'var(--text-disabled)' }} />
+              </div>
+              <span style={{ fontSize: 10, fontWeight: isSecondaryActive ? 700 : 400, color: isSecondaryActive ? '#ef4444' : 'var(--text-disabled)' }}>Mais</span>
             </div>
           </button>
         </div>
@@ -176,40 +208,40 @@ function MobileBottomNav({ user, onLogout }: { user: { nome: string; email?: str
 
       {showMore && (
         <div style={{ position: 'fixed', inset: 0, zIndex: 60, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)' }} onClick={() => setShowMore(false)} />
-          <div style={{ position: 'relative', zIndex: 1, background: 'var(--bg-card)', border: '1px solid var(--border)', borderBottom: 'none', borderTopLeftRadius: 16, borderTopRightRadius: 16, padding: '8px 16px', paddingBottom: 'calc(env(safe-area-inset-bottom) + 16px)', animation: 'sheetUp 0.25s cubic-bezier(0.16,1,0.3,1)' }}>
-            <div style={{ width: 32, height: 3, borderRadius: 2, background: 'var(--border)', margin: '6px auto 18px' }} />
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-              <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-secondary)' }}>Ferramentas</span>
-              <button onClick={() => setShowMore(false)} style={{ width: 28, height: 28, borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-elevated)', border: '1px solid var(--border)', cursor: 'pointer', color: 'var(--text-muted)' }}>
+          <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.65)', backdropFilter: 'blur(4px)' }} onClick={() => setShowMore(false)} />
+          <div style={{ position: 'relative', zIndex: 1, background: 'var(--bg-card)', border: '1px solid var(--border)', borderBottom: 'none', borderTopLeftRadius: 20, borderTopRightRadius: 20, padding: '8px 16px', paddingBottom: 'calc(env(safe-area-inset-bottom) + 16px)', animation: 'sheetUp 0.25s cubic-bezier(0.16,1,0.3,1)' }}>
+            <div style={{ width: 36, height: 4, borderRadius: 2, background: 'var(--border)', margin: '8px auto 16px' }} />
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+              <span style={{ fontSize: 15, fontWeight: 700, color: 'var(--text-primary)' }}>Ferramentas</span>
+              <button onClick={() => setShowMore(false)} style={{ width: 28, height: 28, borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-elevated)', border: '1px solid var(--border)', cursor: 'pointer', color: 'var(--text-muted)' }}>
                 <X style={{ width: 13, height: 13 }} />
               </button>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginBottom: 14 }}>
-              {NAV_TOOLS.map(({ to, icon: Icon, label }) => {
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 14 }}>
+              {NAV_TOOLS.map(({ to, icon: Icon, label, color, bg }) => {
                 const active = pathname.startsWith(to)
                 return (
                   <button key={to} onClick={() => { router.push(to); setShowMore(false) }}
-                    style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', borderRadius: 8, cursor: 'pointer', border: '1px solid', borderColor: active ? 'var(--border)' : 'var(--border-subtle)', background: active ? 'var(--bg-elevated)' : 'var(--bg-sidebar)', textAlign: 'left' }}>
-                    <Icon style={{ width: 16, height: 16, color: active ? '#f87171' : 'var(--text-muted)', flexShrink: 0 }} />
+                    style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px', borderRadius: 10, cursor: 'pointer', border: `1px solid ${active ? color + '30' : 'var(--border-subtle)'}`, background: active ? bg : 'var(--bg-elevated)', textAlign: 'left' }}>
+                    <div style={{ width: 28, height: 28, borderRadius: 7, background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <Icon style={{ width: 14, height: 14, color }} />
+                    </div>
                     <span style={{ fontSize: 13, fontWeight: 500, color: active ? 'var(--text-primary)' : 'var(--text-secondary)' }}>{label}</span>
                   </button>
                 )
               })}
             </div>
             <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 12, display: 'flex', gap: 8 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, padding: '10px 14px', borderRadius: 8, background: 'var(--bg-sidebar)', border: '1px solid var(--border-subtle)' }}>
-                <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'var(--bg-elevated)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 600, color: 'var(--text-secondary)' }}>
-                  {getInitials(user?.nome || '??')}
-                </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: 1, padding: '10px 14px', borderRadius: 10, background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)' }}>
+                <div style={{ width: 30, height: 30, borderRadius: '50%', background: 'linear-gradient(135deg,#ef4444,#7c3aed)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, color: 'white' }}>{getInitials(user?.nome || '??')}</div>
                 <div>
-                  <div style={{ fontSize: 13, fontWeight: 500, color: 'var(--text-secondary)' }}>{user?.nome?.split(' ')[0]}</div>
+                  <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)' }}>{user?.nome?.split(' ')[0]}</div>
                   <div style={{ fontSize: 11, color: 'var(--text-disabled)' }}>{user?.email}</div>
                 </div>
               </div>
               <button onClick={() => { onLogout(); setShowMore(false) }}
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 16px', borderRadius: 8, cursor: 'pointer', border: '1px solid var(--border-subtle)', background: 'var(--bg-sidebar)', color: 'var(--text-muted)', transition: 'all 0.1s' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(248,113,113,0.2)'; e.currentTarget.style.color = '#f87171' }}
+                style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 16px', borderRadius: 10, cursor: 'pointer', border: '1px solid var(--border-subtle)', background: 'var(--bg-elevated)', color: 'var(--text-muted)', transition: 'all 0.15s' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(239,68,68,0.3)'; e.currentTarget.style.color = '#ef4444' }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-subtle)'; e.currentTarget.style.color = 'var(--text-muted)' }}>
                 <LogOut style={{ width: 15, height: 15 }} />
               </button>
@@ -221,24 +253,18 @@ function MobileBottomNav({ user, onLogout }: { user: { nome: string; email?: str
   )
 }
 
-/* ── Main App Shell ───────────────────────────────────────── */
+/* ── Main App Shell ───────────────────────────────────────────── */
 export function AppShell({ children }: { children: ReactNode }) {
   const { user, logout } = useAuth()
   const router = useRouter()
+  const handleLogout = async () => { await logout(); router.push('/login') }
 
-  const handleLogout = async () => {
-    await logout()
-    router.push('/login')
-  }
-
-  // Onboarding
   const [showOnboarding, setShowOnboarding] = useState(false)
   useEffect(() => {
     if (!user?.id) return
     const key = `megaup_personal_ob_${user.id}`
     if (!localStorage.getItem(key)) setShowOnboarding(true)
   }, [user?.id])
-
   const doneOnboarding = () => {
     if (user?.id) localStorage.setItem(`megaup_personal_ob_${user.id}`, '1')
     setShowOnboarding(false)
@@ -249,27 +275,27 @@ export function AppShell({ children }: { children: ReactNode }) {
       <a href="#main-content" className="skip-nav">Pular para o conteúdo</a>
 
       {/* Desktop sidebar */}
-      <aside className="sidebar-bg hidden lg:flex flex-col" style={{ width: 220, flexShrink: 0 }}>
+      <aside className="sidebar-bg hidden lg:flex flex-col" style={{ width: 224, flexShrink: 0, borderRight: '1px solid var(--border-subtle)' }}>
         <SidebarContent user={user} onLogout={handleLogout} />
       </aside>
 
       {/* Content */}
       <div className="scroll-content-area">
         {/* Mobile top bar */}
-        <header className="lg:hidden nav-blur-bg" style={{ position: 'sticky', top: 0, zIndex: 40, flexShrink: 0, paddingTop: 'env(safe-area-inset-top)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderBottom: '1px solid var(--border-subtle)' }}>
+        <header className="lg:hidden nav-blur-bg" style={{ position: 'sticky', top: 0, zIndex: 40, flexShrink: 0, paddingTop: 'env(safe-area-inset-top)', backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)', borderBottom: '1px solid var(--border-subtle)' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 48, padding: '0 16px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div style={{ width: 20, height: 20, background: '#ef4444', borderRadius: 5, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span style={{ fontSize: 10, fontWeight: 800, color: 'white', letterSpacing: '-1px' }}>M</span>
+              <div style={{ width: 26, height: 26, background: 'linear-gradient(135deg,#ef4444,#dc2626)', borderRadius: 7, display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 2px 8px rgba(239,68,68,0.4)' }}>
+                <span style={{ fontSize: 12, fontWeight: 900, color: 'white', letterSpacing: '-1px' }}>M</span>
               </div>
-              <span style={{ fontSize: 14, fontWeight: 700, color: 'var(--text-primary)' }}>MegaUp</span>
+              <span style={{ fontSize: 14, fontWeight: 800, color: 'var(--text-primary)' }}>MegaUp</span>
             </div>
             <ThemeToggle />
           </div>
         </header>
 
         {/* Desktop header */}
-        <div className="hidden lg:flex" style={{ alignItems: 'center', justifyContent: 'flex-end', padding: '10px 24px 0', gap: 8 }}>
+        <div className="hidden lg:flex" style={{ alignItems: 'center', justifyContent: 'flex-end', padding: '12px 28px 0', gap: 8 }}>
           <NotifBell />
           <ThemeToggle />
         </div>
@@ -290,7 +316,7 @@ export function AppShell({ children }: { children: ReactNode }) {
   )
 }
 
-/* ── Onboarding ───────────────────────────────────────────── */
+/* ── Onboarding ───────────────────────────────────────────────── */
 const OB_STEPS = [
   { icon: '👋', title: 'Bem-vindo ao MegaUp!', desc: 'Sua plataforma completa de gestão de alunos. Vamos configurar tudo em 3 passos rápidos.', cta: 'Começar' },
   { icon: '👤', title: 'Adicione seu primeiro aluno', desc: 'Vá em Alunos → Novo aluno para cadastrar. Depois envie um convite pelo e-mail para ele criar o login.', cta: 'Entendido', action: { label: 'Ir para Alunos', to: '/alunos' } },
@@ -303,24 +329,23 @@ function OnboardingPersonal({ onDone }: { onDone: () => void }) {
   const router = useRouter()
   const s = OB_STEPS[step]
   const isLast = step === OB_STEPS.length - 1
-  const advance = () => { if (isLast) { onDone(); return } setStep((s) => s + 1) }
-
+  const advance = () => { if (isLast) { onDone(); return } setStep(s => s + 1) }
   return (
-    <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
-      <div style={{ background: 'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 24, padding: '36px 32px', maxWidth: 420, width: '100%', textAlign: 'center' }}>
-        <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginBottom: 28 }}>
-          {OB_STEPS.map((_, i) => <div key={i} style={{ width: i === step ? 20 : 6, height: 6, borderRadius: 3, background: i === step ? '#ef4444' : i < step ? 'rgba(239,68,68,0.4)' : 'var(--border)', transition: 'all 0.3s' }} />)}
+    <div style={{ position: 'fixed', inset: 0, zIndex: 200, background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(12px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+      <div style={{ background: 'linear-gradient(160deg, #18191e 0%, #111113 100%)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 24, padding: '40px 36px', maxWidth: 420, width: '100%', textAlign: 'center', boxShadow: '0 32px 64px rgba(0,0,0,0.7)' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginBottom: 32 }}>
+          {OB_STEPS.map((_, i) => <div key={i} style={{ width: i === step ? 24 : 6, height: 6, borderRadius: 3, background: i === step ? '#ef4444' : i < step ? 'rgba(239,68,68,0.4)' : 'var(--border)', transition: 'all 0.3s' }} />)}
         </div>
-        <div style={{ fontSize: 52, marginBottom: 16 }}>{s.icon}</div>
-        <h2 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 12 }}>{s.title}</h2>
-        <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.65, marginBottom: 28 }}>{s.desc}</p>
+        <div style={{ fontSize: 56, marginBottom: 20 }}>{s.icon}</div>
+        <h2 style={{ fontSize: 22, fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.03em', marginBottom: 12 }}>{s.title}</h2>
+        <p style={{ fontSize: 14, color: 'var(--text-muted)', lineHeight: 1.7, marginBottom: 32 }}>{s.desc}</p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {s.action && (
-            <button onClick={() => { advance(); router.push(s.action!.to) }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '11px 20px', borderRadius: 12, border: '1px solid var(--border)', background: 'var(--bg-elevated)', color: 'var(--text-secondary)', fontSize: 13, fontWeight: 500, cursor: 'pointer' }}>
+            <button onClick={() => { advance(); router.push(s.action!.to) }} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '12px 20px', borderRadius: 12, border: '1px solid var(--border)', background: 'rgba(255,255,255,0.04)', color: 'var(--text-secondary)', fontSize: 13, fontWeight: 600, cursor: 'pointer', transition: 'all 0.15s' }}>
               <ArrowRight style={{ width: 14, height: 14 }} /> {s.action.label}
             </button>
           )}
-          <button onClick={advance} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '13px 20px', borderRadius: 12, background: '#ef4444', border: 'none', color: 'white', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
+          <button onClick={advance} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '14px 20px', borderRadius: 12, background: 'linear-gradient(135deg,#ef4444,#dc2626)', border: 'none', color: 'white', fontSize: 14, fontWeight: 700, cursor: 'pointer', boxShadow: '0 4px 16px rgba(239,68,68,0.4)', transition: 'all 0.15s' }}>
             {isLast ? <><CheckCircle style={{ width: 15, height: 15 }} /> {s.cta}</> : <>{s.cta} <ArrowRight style={{ width: 14, height: 14 }} /></>}
           </button>
         </div>
