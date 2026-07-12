@@ -37,7 +37,14 @@ export default function Login() {
     setLoading(true)
     setWarmingUp(null)
 
-    const MAX_RETRIES = 3
+    // Pré-aquece o backend antes de tentar login (cold start do Render free tier)
+    setWarmingUp('Conectando ao servidor...')
+    try {
+      await fetch(import.meta.env.VITE_API_URL + '/ping', { signal: AbortSignal.timeout(3000) })
+    } catch { /* ignora — backend pode estar dormindo, retries abaixo resolvem */ }
+    setWarmingUp(null)
+
+    const MAX_RETRIES = 5
     for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
       try {
         const user = await login(form.email, form.senha)
@@ -53,12 +60,12 @@ export default function Login() {
         }
 
         if (isNetwork && attempt < MAX_RETRIES) {
-          setWarmingUp(`Servidor iniciando... tentativa ${attempt + 1}/${MAX_RETRIES}`)
-          await new Promise(r => setTimeout(r, 8000))
+          setWarmingUp(`Servidor acordando... ${attempt * 10}s`)
+          await new Promise(r => setTimeout(r, 10000))
           continue
         }
 
-        toast.error('Servidor iniciando. Aguarde 30 segundos e tente novamente.')
+        toast.error('Servidor demorando para responder. Tente novamente em 1 minuto.')
         break
       }
     }
