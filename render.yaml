@@ -41,7 +41,7 @@ services:
 
   # ─── Frontend (React/Vite → Static Site) ─────────────────────────────────
   - type: web
-    name: megaup-frontend
+    name: megaup-academia
     runtime: static
     rootDir: frontend
     buildCommand: npm install && NODE_OPTIONS="--max-old-space-size=1536" npm run build
