@@ -37,36 +37,35 @@ export default function Login() {
     setLoading(true)
     setWarmingUp(null)
 
-    // Pré-aquece o backend antes de tentar login (cold start do Render free tier)
-    setWarmingUp('Conectando ao servidor...')
-    try {
-      await fetch(import.meta.env.VITE_API_URL + '/ping', { signal: AbortSignal.timeout(3000) })
-    } catch { /* ignora — backend pode estar dormindo, retries abaixo resolvem */ }
+    // Aguarda backend acordar antes de tentar login (Render free tier dorme após 15min)
+    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
+    let backendPronto = false
+    for (let w = 0; w < 12; w++) {
+      setWarmingUp(w === 0 ? 'Conectando...' : `Servidor acordando... ${w * 5}s`)
+      try {
+        const r = await fetch(apiUrl + '/ping', { signal: AbortSignal.timeout(5000) })
+        if (r.ok) { backendPronto = true; break }
+      } catch { /* ainda dormindo */ }
+      await new Promise(r => setTimeout(r, 5000))
+    }
     setWarmingUp(null)
 
-    const MAX_RETRIES = 5
-    for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
-      try {
-        const user = await login(form.email, form.senha)
-        navigate(nextUrl || (user?.role === 'aluno' ? '/aluno' : '/dashboard'))
-        return
-      } catch (err) {
-        const isNetwork = !err.response || err.response.status === 502 || err.response.status === 503
-        const isCreds = err.response?.status === 401 || err.response?.status === 403
+    if (!backendPronto) {
+      toast.error('Servidor não respondeu. Tente novamente em alguns segundos.')
+      setLoading(false)
+      return
+    }
 
-        if (isCreds) {
-          toast.error('E-mail ou senha incorretos. Verifique suas credenciais.')
-          break
-        }
-
-        if (isNetwork && attempt < MAX_RETRIES) {
-          setWarmingUp(`Servidor acordando... ${attempt * 10}s`)
-          await new Promise(r => setTimeout(r, 10000))
-          continue
-        }
-
-        toast.error('Servidor demorando para responder. Tente novamente em 1 minuto.')
-        break
+    try {
+      const user = await login(form.email, form.senha)
+      navigate(nextUrl || (user?.role === 'aluno' ? '/aluno' : '/dashboard'))
+    } catch (err) {
+      const status = err.response?.status
+      const detail = err.response?.data?.detail
+      if (status === 401 || status === 403) {
+        toast.error('E-mail ou senha incorretos.')
+      } else {
+        toast.error(typeof detail === 'string' ? detail : 'Erro ao entrar. Tente novamente.')
       }
     }
 
