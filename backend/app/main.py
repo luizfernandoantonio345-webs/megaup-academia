@@ -364,7 +364,10 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["Content-Security-Policy"] = self._CSP
         response.headers["Cross-Origin-Resource-Policy"] = "same-site"
         # Remove header que vaza informação sobre o servidor
-        response.headers.pop("server", None)
+        try:
+            del response.headers["server"]
+        except KeyError:
+            pass
         if request.url.scheme == "https":
             response.headers["Strict-Transport-Security"] = "max-age=63072000; includeSubDomains; preload"
         # Cache-Control: authenticated GET respostas ficam private, revalidam após 5 min
