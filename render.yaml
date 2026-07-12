@@ -25,9 +25,9 @@ services:
       - key: ASAAS_SANDBOX
         value: "true"
       - key: FRONTEND_BASE_URL
-        sync: false        # preencher com a URL do frontend após deploy
+        value: https://megaup-academia.onrender.com
       - key: APP_URL
-        sync: false        # URL do backend (ex: https://megaup-api.onrender.com)
+        value: https://megaup-api.onrender.com
       - key: EMAIL_FROM
         value: "noreply@megaup.app"
       - key: VAPID_PUBLIC_KEY

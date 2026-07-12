@@ -176,12 +176,11 @@ def registrar_personal(request: Request, response: Response, body: RegisterPerso
         role=Role.personal,
         termos_aceitos=True,
         termos_aceitos_em=datetime.utcnow(),
+        email_verificado=False,
     )
     db.add(user)
     db.commit()
     db.refresh(user)
-    user.email_verificado = False
-    db.commit()
 
     try:
         import uuid

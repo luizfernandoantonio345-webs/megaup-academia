@@ -20,7 +20,10 @@ db.close()
 if count == 0:
     print('Banco vazio — rodando seed inicial...')
     import subprocess, sys
-    subprocess.run([sys.executable, 'scripts/seed_demo.py'])
+    result = subprocess.run([sys.executable, 'scripts/seed_demo.py'])
+    if result.returncode != 0:
+        print('ERRO: seed falhou com codigo', result.returncode)
+        sys.exit(1)
     print('Seed concluido.')
 else:
     print(f'Banco ok ({count} usuarios).')

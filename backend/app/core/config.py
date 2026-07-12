@@ -31,7 +31,7 @@ class Settings(BaseSettings):
     STRIPE_PRICE_STARTER: str = ""
     STRIPE_PRICE_PRO: str = ""
     STRIPE_PRICE_ELITE: str = ""
-    APP_URL: str = "http://localhost:5173"
+    APP_URL: str = "http://localhost:8000"
     # VAPID — Web Push notifications
     VAPID_PUBLIC_KEY: str = ""
     VAPID_PRIVATE_KEY: str = ""

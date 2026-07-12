@@ -16,20 +16,17 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from datetime import datetime, timedelta
 from passlib.context import CryptContext
-from app.core.db import Base, SessionLocal
+from app.core.db import engine, Base, SessionLocal
 from app.models import (
     Tenant, User, Role, Aluno, Exercicio, Treino, TreinoItem,
     ExecucaoTreino, ExecucaoItem,
 )
-from sqlalchemy import create_engine
-from app.core.config import settings
 
 pwd_ctx = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 def hash_senha(s): return pwd_ctx.hash(s)
 
 def seed():
-    engine = create_engine(settings.DATABASE_URL, pool_pre_ping=True)
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
 
