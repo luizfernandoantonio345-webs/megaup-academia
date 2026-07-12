@@ -39,15 +39,14 @@ api.interceptors.response.use(
   async (err) => {
     const config = err.config
 
-    // Cold-start retry — backend on Render free tier sleeps after 15 min
-    // For network errors (no response at all), retry once for all routes including login
-    // For 502/503, retry all non-refresh routes
-    const noResponse = !err.response
-    const isColdStart = noResponse || err.response.status === 503 || err.response.status === 502
-    const isRefresh = config.url?.includes('/auth/refresh')
-    if (isColdStart && !config._retried && !isRefresh) {
+    // Cold-start retry for non-auth routes (dashboard API calls).
+    // Auth routes (/auth/*) are retried directly by Login.jsx / Registrar.jsx
+    // with proper UI feedback — keeping retry logic in one place per route type.
+    const isColdStart = !err.response || err.response.status === 503 || err.response.status === 502
+    const isAuthRoute = config.url?.startsWith('/auth/')
+    if (isColdStart && !config._retried && !isAuthRoute) {
       config._retried = true
-      await new Promise(r => setTimeout(r, 6000))
+      await new Promise(r => setTimeout(r, 8000))
       return api(config)
     }
 

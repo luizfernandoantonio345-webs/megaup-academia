@@ -20,6 +20,7 @@ export default function Login() {
   const [touched, setTouched] = useState({ email: false, senha: false })
   const [loading, setLoading] = useState(false)
   const [showPass, setShowPass] = useState(false)
+  const [warmMsg, setWarmMsg] = useState(null)
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
   const touch = (k) => () => setTouched(t => ({ ...t, [k]: true }))
 
@@ -31,23 +32,38 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setTouched({ email: true, senha: true })
-    if (errors.email || errors.senha) return
+    if (errors.email || errors.senha || loading) return
     setLoading(true)
-    try {
-      const user = await login(form.email, form.senha)
-      navigate(nextUrl || (user?.role === 'aluno' ? '/aluno' : '/dashboard'))
-    } catch (err) {
-      const status = err.response?.status
-      const detail = err.response?.data?.detail
-      if (status === 401 || status === 403) {
-        toast.error('E-mail ou senha incorretos.')
-      } else if (!err.response) {
-        toast.error('Servidor iniciando. Aguarde 30s e tente novamente.')
-      } else {
-        toast.error(typeof detail === 'string' ? detail : 'Erro ao entrar. Tente novamente.')
+    setWarmMsg(null)
+
+    // Retry loop: up to 8 attempts with 7s gap = ~56s max wait.
+    // Covers Render free-tier cold start (backend sleeps after 15min inactivity).
+    const isColdErr = (err) => !err.response || err.response.status === 502 || err.response.status === 503
+    let lastErr = null
+    for (let i = 0; i < 8; i++) {
+      if (i > 0) {
+        setWarmMsg(`Servidor acordando... ${i * 7}s`)
+        await new Promise(r => setTimeout(r, 7000))
       }
-    } finally {
-      setLoading(false)
+      try {
+        const user = await login(form.email, form.senha)
+        return navigate(nextUrl || (user?.role === 'aluno' ? '/aluno' : '/dashboard'))
+      } catch (err) {
+        lastErr = err
+        if (!isColdErr(err)) break  // definitive error (401, 422, 500…) — stop
+      }
+    }
+
+    setWarmMsg(null)
+    setLoading(false)
+    const status = lastErr?.response?.status
+    const detail = lastErr?.response?.data?.detail
+    if (status === 401 || status === 403) {
+      toast.error('E-mail ou senha incorretos.')
+    } else if (isColdErr(lastErr)) {
+      toast.error('Servidor não respondeu. Tente novamente em instantes.')
+    } else {
+      toast.error(typeof detail === 'string' ? detail : 'Erro ao entrar. Tente novamente.')
     }
   }
 
@@ -172,6 +188,13 @@ export default function Login() {
             }} />
           </div>
 
+          {warmMsg && (
+            <div style={{ marginBottom: 14, padding: '10px 14px', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 10, display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ width: 13, height: 13, border: '2px solid rgba(251,191,36,0.3)', borderTopColor: '#fbbf24', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
+              <p style={{ fontSize: 12, color: '#fbbf24', margin: 0 }}>{warmMsg}</p>
+            </div>
+          )}
+
           <div style={{ marginBottom: 28 }}>
             <h2 style={{ fontSize: 20, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 6 }}>
               Entrar na conta
@@ -229,7 +252,7 @@ export default function Login() {
               {loading ? (
                 <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} />
-                  Entrando...
+                  {warmMsg ? 'Aguardando servidor...' : 'Entrando...'}
                 </span>
               ) : (
                 <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>

@@ -54,6 +54,7 @@ export default function Registrar() {
   const [termosAceitos, setTermosAceitos] = useState(false)
   const [loading, setLoading] = useState(false)
   const [showPass, setShowPass] = useState(false)
+  const [warmMsg, setWarmMsg] = useState(null)
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
 
   const handleSubmit = async (e) => {
@@ -62,26 +63,41 @@ export default function Registrar() {
       toast.error('Você precisa aceitar os Termos de Uso para continuar.')
       return
     }
+    if (loading) return
     setLoading(true)
-    const toastId = toast.loading('Criando sua conta...')
-    try {
-      await registrar({ ...form, ref_code: refCode || undefined, termos_aceitos: true })
-      toast.success('Conta criada! Bem-vindo ao MegaUp.', { id: toastId })
-      navigate('/dashboard')
-    } catch (err) {
-      const status = err.response?.status
-      const detail = err.response?.data?.detail
-      if (!err.response || status === 502 || status === 503) {
-        toast.error('Servidor iniciando, aguarde e tente novamente em 30s.', { id: toastId })
-      } else if (status === 409) {
-        toast.error('Este e-mail já está cadastrado.', { id: toastId })
-      } else if (status === 429) {
-        toast.error('Muitas tentativas. Aguarde 1 minuto.', { id: toastId })
-      } else {
-        toast.error(typeof detail === 'string' ? detail : 'Erro ao criar conta', { id: toastId })
+    setWarmMsg(null)
+
+    // Retry loop: up to 5 attempts with 12s gap = ~48s max wait.
+    // Rate limit is 5/min — 5 attempts in 48s is safe.
+    const isColdErr = (err) => !err.response || err.response.status === 502 || err.response.status === 503
+    let lastErr = null
+    for (let i = 0; i < 5; i++) {
+      if (i > 0) {
+        setWarmMsg(`Servidor acordando... ${i * 12}s`)
+        await new Promise(r => setTimeout(r, 12000))
       }
-    } finally {
-      setLoading(false)
+      try {
+        await registrar({ ...form, ref_code: refCode || undefined, termos_aceitos: true })
+        toast.success('Conta criada! Bem-vindo ao MegaUp.')
+        return navigate('/dashboard')
+      } catch (err) {
+        lastErr = err
+        if (!isColdErr(err)) break
+      }
+    }
+
+    setWarmMsg(null)
+    setLoading(false)
+    const status = lastErr?.response?.status
+    const detail = lastErr?.response?.data?.detail
+    if (status === 409) {
+      toast.error('Este e-mail já está cadastrado.')
+    } else if (status === 429) {
+      toast.error('Muitas tentativas. Aguarde 1 minuto.')
+    } else if (isColdErr(lastErr)) {
+      toast.error('Servidor não respondeu. Tente novamente em instantes.')
+    } else {
+      toast.error(typeof detail === 'string' ? detail : 'Erro ao criar conta.')
     }
   }
 
@@ -184,6 +200,13 @@ export default function Registrar() {
             <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>MegaUp</span>
           </div>
 
+          {warmMsg && (
+            <div style={{ marginBottom: 14, padding: '10px 14px', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 10, display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ width: 13, height: 13, border: '2px solid rgba(251,191,36,0.3)', borderTopColor: '#fbbf24', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
+              <p style={{ fontSize: 12, color: '#fbbf24', margin: 0 }}>{warmMsg}</p>
+            </div>
+          )}
+
           <div style={{ marginBottom: 28 }}>
             <h2 style={{ fontSize: 20, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 6 }}>Criar conta de personal</h2>
             <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>
@@ -245,7 +268,7 @@ export default function Registrar() {
               {loading ? (
                 <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}>
                   <span style={{ width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} />
-                  Criando conta...
+                  {warmMsg ? 'Aguardando servidor...' : 'Criando conta...'}
                 </span>
               ) : (
                 <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
