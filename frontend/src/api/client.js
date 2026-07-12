@@ -38,11 +38,13 @@ api.interceptors.response.use(
   async (err) => {
     const config = err.config
 
-    // Cold-start retry — backend on Render free tier needs warm-up
-    // Exclude only /auth/refresh and /auth/login to avoid confusing duplicate credential errors
-    const isColdStart = !err.response || err.response.status === 503 || err.response.status === 502
-    const isRefreshOrLogin = config.url?.includes('/auth/refresh') || config.url?.includes('/auth/login')
-    if (isColdStart && !config._retried && !isRefreshOrLogin) {
+    // Cold-start retry — backend on Render free tier sleeps after 15 min
+    // For network errors (no response at all), retry once for all routes including login
+    // For 502/503, retry all non-refresh routes
+    const noResponse = !err.response
+    const isColdStart = noResponse || err.response.status === 503 || err.response.status === 502
+    const isRefresh = config.url?.includes('/auth/refresh')
+    if (isColdStart && !config._retried && !isRefresh) {
       config._retried = true
       await new Promise(r => setTimeout(r, 6000))
       return api(config)

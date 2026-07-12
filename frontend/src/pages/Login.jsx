@@ -17,8 +17,6 @@ export default function Login() {
   const [searchParams] = useSearchParams()
   const nextUrl = searchParams.get('next')
   const [form, setForm] = useState({ email: '', senha: '' })
-  const [warmingUp, setWarmingUp] = useState(null)
-
   const [touched, setTouched] = useState({ email: false, senha: false })
   const [loading, setLoading] = useState(false)
   const [showPass, setShowPass] = useState(false)
@@ -35,27 +33,6 @@ export default function Login() {
     setTouched({ email: true, senha: true })
     if (errors.email || errors.senha) return
     setLoading(true)
-    setWarmingUp(null)
-
-    // Aguarda backend acordar antes de tentar login (Render free tier dorme após 15min)
-    const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000'
-    let backendPronto = false
-    for (let w = 0; w < 12; w++) {
-      setWarmingUp(w === 0 ? 'Conectando...' : `Servidor acordando... ${w * 5}s`)
-      try {
-        const r = await fetch(apiUrl + '/ping', { signal: AbortSignal.timeout(5000) })
-        if (r.ok) { backendPronto = true; break }
-      } catch { /* ainda dormindo */ }
-      await new Promise(r => setTimeout(r, 5000))
-    }
-    setWarmingUp(null)
-
-    if (!backendPronto) {
-      toast.error('Servidor não respondeu. Tente novamente em alguns segundos.')
-      setLoading(false)
-      return
-    }
-
     try {
       const user = await login(form.email, form.senha)
       navigate(nextUrl || (user?.role === 'aluno' ? '/aluno' : '/dashboard'))
@@ -64,13 +41,14 @@ export default function Login() {
       const detail = err.response?.data?.detail
       if (status === 401 || status === 403) {
         toast.error('E-mail ou senha incorretos.')
+      } else if (!err.response) {
+        toast.error('Servidor iniciando. Aguarde 30s e tente novamente.')
       } else {
         toast.error(typeof detail === 'string' ? detail : 'Erro ao entrar. Tente novamente.')
       }
+    } finally {
+      setLoading(false)
     }
-
-    setLoading(false)
-    setWarmingUp(null)
   }
 
   return (
@@ -194,18 +172,6 @@ export default function Login() {
             }} />
           </div>
 
-          {/* Warming up banner — shown only during login retry */}
-          {warmingUp && (
-            <div style={{
-              marginBottom: 16, padding: '10px 14px',
-              background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)',
-              borderRadius: 10, display: 'flex', alignItems: 'center', gap: 10,
-            }}>
-              <div style={{ width: 14, height: 14, border: '2px solid rgba(251,191,36,0.3)', borderTopColor: '#fbbf24', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
-              <p style={{ fontSize: 12, color: '#fbbf24', margin: 0 }}>{warmingUp}</p>
-            </div>
-          )}
-
           <div style={{ marginBottom: 28 }}>
             <h2 style={{ fontSize: 20, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 6 }}>
               Entrar na conta
@@ -263,7 +229,7 @@ export default function Login() {
               {loading ? (
                 <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                   <span style={{ width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} />
-                  {warmingUp || 'Entrando...'}
+                  Entrando...
                 </span>
               ) : (
                 <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
