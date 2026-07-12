@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/Checkin'
+import dynamic from 'next/dynamic'
+const Checkin = dynamic(() => import('@/page-components/Checkin'), { ssr: false })
+export default Checkin

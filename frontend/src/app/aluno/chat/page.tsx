@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/aluno/ChatAluno'
+import dynamic from 'next/dynamic'
+const ChatAluno = dynamic(() => import('@/page-components/aluno/ChatAluno'), { ssr: false })
+export default ChatAluno

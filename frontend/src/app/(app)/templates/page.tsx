@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/Templates'
+import dynamic from 'next/dynamic'
+const Templates = dynamic(() => import('@/page-components/Templates'), { ssr: false })
+export default Templates

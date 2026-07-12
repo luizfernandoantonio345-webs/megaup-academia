@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/AceitarConvite'
+import dynamic from 'next/dynamic'
+const AceitarConvite = dynamic(() => import('@/page-components/AceitarConvite'), { ssr: false })
+export default AceitarConvite

@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/Analytics'
+import dynamic from 'next/dynamic'
+const Analytics = dynamic(() => import('@/page-components/Analytics'), { ssr: false })
+export default Analytics

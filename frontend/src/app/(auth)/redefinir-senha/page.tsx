@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/RedefinirSenha'
+import dynamic from 'next/dynamic'
+const RedefinirSenha = dynamic(() => import('@/page-components/RedefinirSenha'), { ssr: false })
+export default RedefinirSenha

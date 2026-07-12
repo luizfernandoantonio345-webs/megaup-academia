@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/Periodizacao'
+import dynamic from 'next/dynamic'
+const Periodizacao = dynamic(() => import('@/page-components/Periodizacao'), { ssr: false })
+export default Periodizacao

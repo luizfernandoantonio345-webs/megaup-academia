@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/aluno/MeusCheckins'
+import dynamic from 'next/dynamic'
+const MeusCheckins = dynamic(() => import('@/page-components/aluno/MeusCheckins'), { ssr: false })
+export default MeusCheckins

@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/Registrar'
+import dynamic from 'next/dynamic'
+const Registrar = dynamic(() => import('@/page-components/Registrar'), { ssr: false })
+export default Registrar

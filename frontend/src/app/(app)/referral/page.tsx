@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/Referral'
+import dynamic from 'next/dynamic'
+const Referral = dynamic(() => import('@/page-components/Referral'), { ssr: false })
+export default Referral

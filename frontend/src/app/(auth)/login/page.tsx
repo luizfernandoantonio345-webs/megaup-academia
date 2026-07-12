@@ -1,7 +1,6 @@
 'use client'
-export const dynamic = 'force-dynamic'
 
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/auth-context'
@@ -32,7 +31,7 @@ function Bracket({ top, right, bottom, left }: { top?: number; right?: number; b
   )
 }
 
-export default function LoginPage() {
+function LoginContent() {
   const { login } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -169,5 +168,13 @@ export default function LoginPage() {
         </p>
       </motion.div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginContent />
+    </Suspense>
   )
 }

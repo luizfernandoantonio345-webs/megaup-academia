@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/PerfilPublico'
+import dynamic from 'next/dynamic'
+const PerfilPublico = dynamic(() => import('@/page-components/PerfilPublico'), { ssr: false })
+export default PerfilPublico

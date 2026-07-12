@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/Agenda'
+import dynamic from 'next/dynamic'
+const Agenda = dynamic(() => import('@/page-components/Agenda'), { ssr: false })
+export default Agenda

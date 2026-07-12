@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/LogoDesigner'
+import dynamic from 'next/dynamic'
+const LogoDesigner = dynamic(() => import('@/page-components/LogoDesigner'), { ssr: false })
+export default LogoDesigner

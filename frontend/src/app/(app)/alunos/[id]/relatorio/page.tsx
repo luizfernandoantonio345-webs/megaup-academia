@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/RelatorioAluno'
+import dynamic from 'next/dynamic'
+const RelatorioAluno = dynamic(() => import('@/page-components/RelatorioAluno'), { ssr: false })
+export default RelatorioAluno

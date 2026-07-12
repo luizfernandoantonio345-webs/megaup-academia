@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/Perfil'
+import dynamic from 'next/dynamic'
+const Perfil = dynamic(() => import('@/page-components/Perfil'), { ssr: false })
+export default Perfil

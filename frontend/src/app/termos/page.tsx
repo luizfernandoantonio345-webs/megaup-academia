@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/Termos'
+import dynamic from 'next/dynamic'
+const Termos = dynamic(() => import('@/page-components/Termos'), { ssr: false })
+export default Termos

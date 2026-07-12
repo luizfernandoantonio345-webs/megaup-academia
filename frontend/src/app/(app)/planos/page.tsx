@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/Planos'
+import dynamic from 'next/dynamic'
+const Planos = dynamic(() => import('@/page-components/Planos'), { ssr: false })
+export default Planos

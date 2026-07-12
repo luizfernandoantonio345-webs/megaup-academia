@@ -1,3 +1,4 @@
 'use client'
-export const dynamic = 'force-dynamic'
-export { default } from '@/page-components/Qr'
+import dynamic from 'next/dynamic'
+const Qr = dynamic(() => import('@/page-components/Qr'), { ssr: false })
+export default Qr
