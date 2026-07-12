@@ -2,130 +2,83 @@ import { useState } from 'react'
 import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
-import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 
-/* ── Circuit board corner SVGs ─────────────────────────────── */
-function CircuitCorner({ pos }) {
-  const posStyle = {
-    'tl': { top: 0, left: 0 },
-    'tr': { top: 0, right: 0, transform: 'scaleX(-1)' },
-    'bl': { bottom: 0, left: 0, transform: 'scaleY(-1)' },
-    'br': { bottom: 0, right: 0, transform: 'scale(-1,-1)' },
-  }[pos]
-
+/* ── Brand logo ─────────────────────────────────────────────── */
+function LogoM() {
   return (
-    <svg
-      aria-hidden
-      width="220"
-      height="220"
-      viewBox="0 0 220 220"
-      fill="none"
-      style={{
-        position: 'absolute',
-        pointerEvents: 'none',
-        ...posStyle,
-      }}
-    >
-      {/* Outer frame lines */}
-      <line x1="0" y1="60" x2="60" y2="60" stroke="#ef4444" strokeWidth="1.5" strokeOpacity="0.7" />
-      <line x1="60" y1="0" x2="60" y2="60" stroke="#ef4444" strokeWidth="1.5" strokeOpacity="0.7" />
-
-      {/* Inner corner bracket */}
-      <line x1="0" y1="30" x2="30" y2="30" stroke="#ef4444" strokeWidth="1" strokeOpacity="0.5" />
-      <line x1="30" y1="0" x2="30" y2="30" stroke="#ef4444" strokeWidth="1" strokeOpacity="0.5" />
-
-      {/* Circuit traces extending inward */}
-      <path d="M60 60 L100 60 L100 90 L140 90" stroke="#ef4444" strokeWidth="1" strokeOpacity="0.35" />
-      <path d="M60 60 L60 100 L90 100 L90 140" stroke="#ef4444" strokeWidth="1" strokeOpacity="0.35" />
-      <path d="M60 60 L80 60 L80 80 L110 80 L110 120" stroke="#ef4444" strokeWidth="0.8" strokeOpacity="0.2" />
-      <path d="M60 60 L60 80 L80 80 L80 110 L120 110" stroke="#ef4444" strokeWidth="0.8" strokeOpacity="0.2" />
-
-      {/* Long horizontal/vertical fades */}
-      <line x1="0" y1="80" x2="55" y2="80" stroke="#ef4444" strokeWidth="0.8" strokeOpacity="0.25" />
-      <line x1="80" y1="0" x2="80" y2="55" stroke="#ef4444" strokeWidth="0.8" strokeOpacity="0.25" />
-      <line x1="0" y1="100" x2="45" y2="100" stroke="#ef4444" strokeWidth="0.5" strokeOpacity="0.15" />
-      <line x1="100" y1="0" x2="100" y2="45" stroke="#ef4444" strokeWidth="0.5" strokeOpacity="0.15" />
-
-      {/* Nodes / dots at junctions */}
-      <circle cx="60" cy="60" r="3" fill="#ef4444" fillOpacity="0.9" />
-      <circle cx="100" cy="60" r="2" fill="#ef4444" fillOpacity="0.6" />
-      <circle cx="100" cy="90" r="2" fill="#ef4444" fillOpacity="0.5" />
-      <circle cx="60" cy="100" r="2" fill="#ef4444" fillOpacity="0.6" />
-      <circle cx="90" cy="100" r="2" fill="#ef4444" fillOpacity="0.5" />
-      <circle cx="140" cy="90" r="1.5" fill="#ef4444" fillOpacity="0.35" />
-      <circle cx="90" cy="140" r="1.5" fill="#ef4444" fillOpacity="0.35" />
-
-      {/* Outer glow via blurred rect */}
-      <rect x="0" y="55" width="65" height="10" fill="url(#glow-h)" />
-      <rect x="55" y="0" width="10" height="65" fill="url(#glow-v)" />
-
-      <defs>
-        <linearGradient id="glow-h" x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="#ef4444" stopOpacity="0.25" />
-          <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
-        </linearGradient>
-        <linearGradient id="glow-v" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="#ef4444" stopOpacity="0.25" />
-          <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
-        </linearGradient>
-      </defs>
-    </svg>
+    <div style={{
+      width: 68,
+      height: 68,
+      background: 'linear-gradient(145deg, #272930 0%, #16171c 100%)',
+      border: '2px solid #ef4444',
+      borderRadius: 18,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      boxShadow: '0 0 28px rgba(239,68,68,0.28), 0 0 8px rgba(239,68,68,0.12) inset',
+      position: 'relative',
+      flexShrink: 0,
+    }}>
+      {/* carbon fiber */}
+      <div style={{
+        position: 'absolute', inset: 0, borderRadius: 16, overflow: 'hidden', pointerEvents: 'none',
+        backgroundImage: 'repeating-linear-gradient(45deg, rgba(255,255,255,0.015) 0px, rgba(255,255,255,0.015) 2px, transparent 2px, transparent 8px)',
+      }} />
+      <span style={{
+        fontSize: 30,
+        fontWeight: 800,
+        color: '#ef4444',
+        letterSpacing: '-2px',
+        lineHeight: 1,
+        position: 'relative',
+        fontFamily: "'Inter', sans-serif",
+        textShadow: '0 0 20px rgba(239,68,68,0.55)',
+      }}>M</span>
+    </div>
   )
 }
 
-/* ── Logo M ─────────────────────────────────────────────────── */
-function LogoM({ size = 64 }) {
+/* ── Corner bracket ─────────────────────────────────────────── */
+function Bracket({ top, right, bottom, left }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden>
-      <defs>
-        <linearGradient id="logo-bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#2a2a2a" />
-          <stop offset="100%" stopColor="#111113" />
-        </linearGradient>
-        <linearGradient id="logo-stroke" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stopColor="#ef4444" />
-          <stop offset="100%" stopColor="#b91c1c" />
-        </linearGradient>
-        {/* Carbon fiber pattern */}
-        <pattern id="carbon" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
-          <rect width="4" height="4" fill="rgba(255,255,255,0.025)" />
-          <rect x="4" y="4" width="4" height="4" fill="rgba(255,255,255,0.025)" />
-        </pattern>
-      </defs>
-      <rect width="64" height="64" rx="14" fill="url(#logo-bg)" />
-      <rect width="64" height="64" rx="14" fill="url(#carbon)" />
-      <rect width="64" height="64" rx="14" stroke="url(#logo-stroke)" strokeWidth="1.5" />
-      {/* M letter */}
-      <path
-        d="M13 46V18L32 36L51 18V46"
-        stroke="url(#logo-stroke)"
-        strokeWidth="4"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        fill="none"
-      />
-    </svg>
+    <div style={{
+      position: 'absolute',
+      width: 22, height: 22,
+      top, right, bottom, left,
+      borderTop:    top    != null ? '2px solid rgba(239,68,68,0.55)' : undefined,
+      borderLeft:   left   != null ? '2px solid rgba(239,68,68,0.55)' : undefined,
+      borderBottom: bottom != null ? '2px solid rgba(239,68,68,0.55)' : undefined,
+      borderRight:  right  != null ? '2px solid rgba(239,68,68,0.55)' : undefined,
+      borderRadius:
+        top    != null && left   != null ? '16px 0 0 0' :
+        top    != null && right  != null ? '0 16px 0 0' :
+        bottom != null && left   != null ? '0 0 0 16px' : '0 0 16px 0',
+      pointerEvents: 'none',
+    }} />
   )
 }
 
-/* ── Main component ──────────────────────────────────────────── */
+/* ── Main ───────────────────────────────────────────────────── */
 export default function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const nextUrl = searchParams.get('next')
-  const [form, setForm] = useState({ email: '', senha: '' })
+
+  const [form, setForm]       = useState({ email: '', senha: '' })
   const [touched, setTouched] = useState({ email: false, senha: false })
   const [loading, setLoading] = useState(false)
   const [showPass, setShowPass] = useState(false)
   const [warmMsg, setWarmMsg] = useState(null)
 
-  const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
-  const touch = (k) => () => setTouched(t => ({ ...t, [k]: true }))
+  const set   = (k) => (e) => setForm(f => ({ ...f, [k]: e.target.value }))
+  const touch = (k) => ()  => setTouched(t => ({ ...t, [k]: true }))
 
   const errors = {
     email: touched.email && !form.email.includes('@') ? 'Digite um e-mail válido' : '',
-    senha: touched.senha && form.senha.length < 4 ? 'Senha muito curta' : '',
+    senha: touched.senha && form.senha.length < 4    ? 'Senha muito curta'        : '',
   }
 
   const handleSubmit = async (e) => {
@@ -135,11 +88,13 @@ export default function Login() {
     setLoading(true)
     setWarmMsg(null)
 
-    const isColdErr = (err) => !err.response || err.response.status === 502 || err.response.status === 503
+    const isColdErr = (err) =>
+      !err.response || err.response.status === 502 || err.response.status === 503
+
     let lastErr = null
     for (let i = 0; i < 8; i++) {
       if (i > 0) {
-        setWarmMsg(`Servidor acordando... ${i * 7}s`)
+        setWarmMsg(`Servidor acordando… ${i * 7}s`)
         await new Promise(r => setTimeout(r, 7000))
       }
       try {
@@ -165,88 +120,109 @@ export default function Login() {
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'var(--bg-page)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '24px 16px',
-      position: 'relative',
-      overflow: 'hidden',
-    }}>
-      {/* Circuit corner decorations */}
-      <CircuitCorner pos="tl" />
-      <CircuitCorner pos="tr" />
-      <CircuitCorner pos="bl" />
-      <CircuitCorner pos="br" />
-
-      {/* Subtle red ambient glow top */}
-      <div style={{
-        position: 'absolute',
-        top: -200,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        width: 600,
-        height: 400,
-        borderRadius: '50%',
-        background: 'radial-gradient(ellipse, rgba(239,68,68,0.08) 0%, transparent 70%)',
-        pointerEvents: 'none',
+    <div
+      className="login-grid-bg"
+      style={{
+        minHeight: '100vh',
+        minHeight: '100dvh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: '24px 16px',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* Ambient glow — top-left */}
+      <div aria-hidden style={{
+        position: 'absolute', top: '-15%', left: '-15%',
+        width: 600, height: 600, pointerEvents: 'none', zIndex: 1,
+        background: 'radial-gradient(circle, rgba(239,68,68,0.11) 0%, transparent 65%)',
+        filter: 'blur(60px)',
+      }} />
+      {/* Ambient glow — bottom-right */}
+      <div aria-hidden style={{
+        position: 'absolute', bottom: '-15%', right: '-15%',
+        width: 600, height: 600, pointerEvents: 'none', zIndex: 1,
+        background: 'radial-gradient(circle, rgba(239,68,68,0.09) 0%, transparent 65%)',
+        filter: 'blur(60px)',
       }} />
 
-      {/* Login card */}
-      <div style={{
-        width: '100%',
-        maxWidth: 420,
-        background: 'rgba(17,17,19,0.95)',
-        border: '1px solid rgba(239,68,68,0.2)',
-        borderRadius: 20,
-        padding: '40px 32px 36px',
-        position: 'relative',
-        boxShadow: '0 0 60px rgba(239,68,68,0.07), 0 20px 40px rgba(0,0,0,0.5)',
-        backdropFilter: 'blur(12px)',
-      }}>
-        {/* Inner corner accents */}
-        <div style={{ position: 'absolute', top: 0, left: 0, width: 28, height: 28, borderTop: '2px solid rgba(239,68,68,0.5)', borderLeft: '2px solid rgba(239,68,68,0.5)', borderRadius: '14px 0 0 0', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', top: 0, right: 0, width: 28, height: 28, borderTop: '2px solid rgba(239,68,68,0.5)', borderRight: '2px solid rgba(239,68,68,0.5)', borderRadius: '0 14px 0 0', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: 0, left: 0, width: 28, height: 28, borderBottom: '2px solid rgba(239,68,68,0.5)', borderLeft: '2px solid rgba(239,68,68,0.5)', borderRadius: '0 0 0 14px', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: 0, right: 0, width: 28, height: 28, borderBottom: '2px solid rgba(239,68,68,0.5)', borderRight: '2px solid rgba(239,68,68,0.5)', borderRadius: '0 0 14px 0', pointerEvents: 'none' }} />
+      {/* ── Card ── */}
+      <motion.div
+        initial={{ opacity: 0, y: 28, scale: 0.97 }}
+        animate={{ opacity: 1, y: 0,  scale: 1    }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          position: 'relative',
+          zIndex: 10,
+          width: '100%',
+          maxWidth: 440,
+          background: '#1c1d22',
+          borderRadius: 24,
+          border: '1px solid rgba(255,255,255,0.055)',
+          padding: 'clamp(28px,7vw,48px) clamp(20px,6vw,40px)',
+          boxShadow: '0 32px 64px -12px rgba(0,0,0,0.7), 0 0 0 1px rgba(239,68,68,0.06)',
+          textAlign: 'center',
+        }}
+      >
+        {/* Corner brackets */}
+        <Bracket top={0}    left={0}  />
+        <Bracket top={0}    right={0} />
+        <Bracket bottom={0} left={0}  />
+        <Bracket bottom={0} right={0} />
 
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
-            <LogoM size={64} />
+        {/* ── Logo + header ── */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 14, marginBottom: 32 }}>
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1,   opacity: 1 }}
+            transition={{ delay: 0.15, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <LogoM />
+          </motion.div>
+          <div>
+            <h1 style={{ fontSize: 'clamp(20px,4vw,26px)', fontWeight: 700, color: '#F4F4F5', letterSpacing: '-0.03em', marginBottom: 3 }}>
+              MegaUp
+            </h1>
+            <h2 style={{ fontSize: 14, fontWeight: 500, color: '#A1A1AA', marginBottom: 3 }}>
+              Área de Login MegaUp
+            </h2>
+            <p style={{ fontSize: 13, color: '#52525B' }}>
+              Acesse sua conta corporativa
+            </p>
           </div>
-          <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 4 }}>
-            MegaUp
-          </h1>
-          <h2 style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 4 }}>
-            Área de Login MegaUp
-          </h2>
-          <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>
-            Acesse sua conta corporativa
-          </p>
         </div>
 
-        {/* Warm server message */}
-        {warmMsg && (
-          <div style={{ marginBottom: 16, padding: '10px 14px', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 10, display: 'flex', alignItems: 'center', gap: 10 }}>
-            <div style={{ width: 13, height: 13, border: '2px solid rgba(251,191,36,0.3)', borderTopColor: '#fbbf24', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
-            <p style={{ fontSize: 12, color: '#fbbf24', margin: 0 }}>{warmMsg}</p>
-          </div>
-        )}
+        {/* ── Warm server alert ── */}
+        <AnimatePresence>
+          {warmMsg && (
+            <motion.div
+              initial={{ opacity: 0, height: 0, marginBottom: 0 }}
+              animate={{ opacity: 1, height: 'auto', marginBottom: 16 }}
+              exit={{   opacity: 0, height: 0, marginBottom: 0 }}
+              transition={{ duration: 0.25 }}
+              style={{ padding: '10px 14px', background: 'rgba(251,191,36,0.07)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 10, display: 'flex', alignItems: 'center', gap: 10, textAlign: 'left', overflow: 'hidden' }}
+            >
+              <div style={{ width: 13, height: 13, border: '2px solid rgba(251,191,36,0.3)', borderTopColor: '#fbbf24', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
+              <p style={{ fontSize: 12, color: '#fbbf24', margin: 0 }}>{warmMsg}</p>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        {/* ── Form ── */}
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14, textAlign: 'left' }}>
+
           {/* Email */}
           <div>
             <div style={{ position: 'relative' }}>
-              <Mail style={{
-                position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)',
-                width: 16, height: 16, color: 'var(--text-disabled)',
-              }} aria-hidden />
+              <Mail
+                aria-hidden
+                style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', width: 17, height: 17, color: '#3f3f46', pointerEvents: 'none' }}
+              />
               <input
                 id="login-email"
+                className="login-input"
                 type="email"
                 placeholder="E-mail"
                 value={form.email}
@@ -254,37 +230,36 @@ export default function Login() {
                 onBlur={touch('email')}
                 required
                 autoComplete="email"
-                aria-describedby={errors.email ? 'email-error' : undefined}
-                style={{
-                  width: '100%',
-                  background: 'rgba(255,255,255,0.04)',
-                  border: errors.email
-                    ? '1px solid rgba(239,68,68,0.6)'
-                    : '1px solid rgba(255,255,255,0.08)',
-                  borderRadius: 10,
-                  color: 'var(--text-primary)',
-                  fontSize: 14,
-                  padding: '13px 14px 13px 42px',
-                  boxSizing: 'border-box',
-                  outline: 'none',
-                  transition: 'border-color 150ms ease',
-                }}
-                onFocus={e => { if (!errors.email) e.target.style.borderColor = 'rgba(239,68,68,0.4)' }}
-                onBlurCapture={e => { e.target.style.borderColor = errors.email ? 'rgba(239,68,68,0.6)' : 'rgba(255,255,255,0.08)' }}
+                aria-describedby={errors.email ? 'email-err' : undefined}
+                style={errors.email ? { borderColor: 'rgba(239,68,68,0.7)', boxShadow: '0 0 0 4px rgba(239,68,68,0.10)' } : {}}
               />
             </div>
-            {errors.email && <p id="email-error" style={{ fontSize: 11, color: '#f87171', margin: '5px 0 0 2px' }} role="alert">{errors.email}</p>}
+            <AnimatePresence>
+              {errors.email && (
+                <motion.p
+                  id="email-err"
+                  role="alert"
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{   opacity: 0, y: -4 }}
+                  style={{ fontSize: 11, color: '#f87171', marginTop: 5, marginLeft: 4 }}
+                >
+                  {errors.email}
+                </motion.p>
+              )}
+            </AnimatePresence>
           </div>
 
           {/* Password */}
           <div>
             <div style={{ position: 'relative' }}>
-              <Lock style={{
-                position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)',
-                width: 16, height: 16, color: 'var(--text-disabled)',
-              }} aria-hidden />
+              <Lock
+                aria-hidden
+                style={{ position: 'absolute', left: 16, top: '50%', transform: 'translateY(-50%)', width: 17, height: 17, color: '#3f3f46', pointerEvents: 'none' }}
+              />
               <input
                 id="login-senha"
+                className="login-input login-input-password"
                 type={showPass ? 'text' : 'password'}
                 placeholder="Senha"
                 value={form.senha}
@@ -292,45 +267,46 @@ export default function Login() {
                 onBlur={touch('senha')}
                 required
                 autoComplete="current-password"
-                aria-describedby={errors.senha ? 'senha-error' : undefined}
-                style={{
-                  width: '100%',
-                  background: 'rgba(255,255,255,0.04)',
-                  border: errors.senha
-                    ? '1px solid rgba(239,68,68,0.6)'
-                    : '1px solid rgba(255,255,255,0.08)',
-                  borderRadius: 10,
-                  color: 'var(--text-primary)',
-                  fontSize: 14,
-                  padding: '13px 42px 13px 42px',
-                  boxSizing: 'border-box',
-                  outline: 'none',
-                  transition: 'border-color 150ms ease',
-                }}
-                onFocus={e => { if (!errors.senha) e.target.style.borderColor = 'rgba(239,68,68,0.4)' }}
-                onBlurCapture={e => { e.target.style.borderColor = errors.senha ? 'rgba(239,68,68,0.6)' : 'rgba(255,255,255,0.08)' }}
+                aria-describedby={errors.senha ? 'senha-err' : undefined}
+                style={errors.senha ? { borderColor: 'rgba(239,68,68,0.7)', boxShadow: '0 0 0 4px rgba(239,68,68,0.10)' } : {}}
               />
               <button
                 type="button"
-                onClick={() => setShowPass(!showPass)}
+                onClick={() => setShowPass(v => !v)}
                 aria-label={showPass ? 'Ocultar senha' : 'Mostrar senha'}
-                style={{
-                  position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
-                  color: 'var(--text-disabled)', background: 'none', border: 'none',
-                  cursor: 'pointer', padding: 4, display: 'flex', alignItems: 'center',
-                }}
+                style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#3f3f46', padding: 4, display: 'flex', alignItems: 'center', transition: 'color 150ms' }}
+                onMouseEnter={e => e.currentTarget.style.color = '#A1A1AA'}
+                onMouseLeave={e => e.currentTarget.style.color = '#3f3f46'}
               >
-                {showPass ? <EyeOff style={{ width: 15, height: 15 }} /> : <Eye style={{ width: 15, height: 15 }} />}
+                {showPass
+                  ? <EyeOff style={{ width: 16, height: 16 }} />
+                  : <Eye    style={{ width: 16, height: 16 }} />
+                }
               </button>
             </div>
-            {errors.senha && <p id="senha-error" style={{ fontSize: 11, color: '#f87171', margin: '5px 0 0 2px' }} role="alert">{errors.senha}</p>}
+            <AnimatePresence>
+              {errors.senha && (
+                <motion.p
+                  id="senha-err"
+                  role="alert"
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{   opacity: 0, y: -4 }}
+                  style={{ fontSize: 11, color: '#f87171', marginTop: 5, marginLeft: 4 }}
+                >
+                  {errors.senha}
+                </motion.p>
+              )}
+            </AnimatePresence>
           </div>
 
-          {/* Forgot password */}
-          <div style={{ textAlign: 'right', marginTop: -6 }}>
+          {/* Forgot link */}
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: -2 }}>
             <Link
               to="/esqueci-senha"
-              style={{ fontSize: 12, color: 'var(--text-muted)', textDecoration: 'none' }}
+              style={{ fontSize: 13, color: '#52525B', textDecoration: 'none', fontWeight: 500, transition: 'color 150ms' }}
+              onMouseEnter={e => e.currentTarget.style.color = '#ef4444'}
+              onMouseLeave={e => e.currentTarget.style.color = '#52525B'}
             >
               Esqueci minha senha
             </Link>
@@ -340,42 +316,28 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            style={{
-              marginTop: 4,
-              width: '100%',
-              background: loading ? 'rgba(239,68,68,0.7)' : '#ef4444',
-              border: 'none',
-              borderRadius: 10,
-              color: 'white',
-              fontSize: 15,
-              fontWeight: 600,
-              padding: '14px',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              transition: 'background 150ms ease',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 8,
-            }}
-            onMouseEnter={e => { if (!loading) e.currentTarget.style.background = '#f87171' }}
-            onMouseLeave={e => { if (!loading) e.currentTarget.style.background = '#ef4444' }}
+            className="login-btn-submit"
+            style={{ marginTop: 10 }}
           >
             {loading ? (
               <>
-                <span style={{ width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite', display: 'inline-block', flexShrink: 0 }} />
-                {warmMsg ? 'Aguardando servidor...' : 'Entrando...'}
+                <span style={{ width: 15, height: 15, border: '2px solid rgba(255,255,255,0.25)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.7s linear infinite', display: 'inline-block', flexShrink: 0 }} />
+                {warmMsg ? 'Aguardando servidor…' : 'Entrando…'}
               </>
             ) : (
-              'Entrar na Conta'
+              <>
+                <span>Entrar na Conta</span>
+                <ArrowRight style={{ width: 16, height: 16 }} />
+              </>
             )}
           </button>
         </form>
 
         {/* Footer */}
-        <p style={{ marginTop: 28, textAlign: 'center', fontSize: 11, color: 'var(--text-disabled)' }}>
-          MegaUp Corp &copy; 2024 - Todos os Direitos Reservados
+        <p style={{ marginTop: 36, fontSize: 12, color: 'rgba(82,82,91,0.65)', letterSpacing: '0.2px' }}>
+          MegaUp Corp &copy; 2026 &mdash; Todos os Direitos Reservados
         </p>
-      </div>
+      </motion.div>
     </div>
   )
 }
