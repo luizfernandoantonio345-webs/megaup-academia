@@ -1,16 +1,114 @@
-﻿import { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
-import { Zap, Mail, Lock, ArrowRight, Eye, EyeOff, Dumbbell, TrendingUp, Users } from 'lucide-react'
-import { GymDecorBg, SvgDumbbellHero, SvgPlate } from '../components/GymDecorBg'
+import { Mail, Lock, Eye, EyeOff } from 'lucide-react'
 
-const FEATURES = [
-  { icon: Dumbbell,   title: 'Treinos personalizados',           desc: 'Monte e prescreva treinos para cada aluno com facilidade.' },
-  { icon: TrendingUp, title: 'Analytics de progressão de carga', desc: 'Analise o histórico de carga e acompanhe a evolução de cada aluno.' },
-  { icon: Users,      title: 'Gestão completa de alunos',        desc: 'Acompanhe streak, conquistas e pagamentos em tempo real.' },
-]
+/* ── Circuit board corner SVGs ─────────────────────────────── */
+function CircuitCorner({ pos }) {
+  const posStyle = {
+    'tl': { top: 0, left: 0 },
+    'tr': { top: 0, right: 0, transform: 'scaleX(-1)' },
+    'bl': { bottom: 0, left: 0, transform: 'scaleY(-1)' },
+    'br': { bottom: 0, right: 0, transform: 'scale(-1,-1)' },
+  }[pos]
 
+  return (
+    <svg
+      aria-hidden
+      width="220"
+      height="220"
+      viewBox="0 0 220 220"
+      fill="none"
+      style={{
+        position: 'absolute',
+        pointerEvents: 'none',
+        ...posStyle,
+      }}
+    >
+      {/* Outer frame lines */}
+      <line x1="0" y1="60" x2="60" y2="60" stroke="#ef4444" strokeWidth="1.5" strokeOpacity="0.7" />
+      <line x1="60" y1="0" x2="60" y2="60" stroke="#ef4444" strokeWidth="1.5" strokeOpacity="0.7" />
+
+      {/* Inner corner bracket */}
+      <line x1="0" y1="30" x2="30" y2="30" stroke="#ef4444" strokeWidth="1" strokeOpacity="0.5" />
+      <line x1="30" y1="0" x2="30" y2="30" stroke="#ef4444" strokeWidth="1" strokeOpacity="0.5" />
+
+      {/* Circuit traces extending inward */}
+      <path d="M60 60 L100 60 L100 90 L140 90" stroke="#ef4444" strokeWidth="1" strokeOpacity="0.35" />
+      <path d="M60 60 L60 100 L90 100 L90 140" stroke="#ef4444" strokeWidth="1" strokeOpacity="0.35" />
+      <path d="M60 60 L80 60 L80 80 L110 80 L110 120" stroke="#ef4444" strokeWidth="0.8" strokeOpacity="0.2" />
+      <path d="M60 60 L60 80 L80 80 L80 110 L120 110" stroke="#ef4444" strokeWidth="0.8" strokeOpacity="0.2" />
+
+      {/* Long horizontal/vertical fades */}
+      <line x1="0" y1="80" x2="55" y2="80" stroke="#ef4444" strokeWidth="0.8" strokeOpacity="0.25" />
+      <line x1="80" y1="0" x2="80" y2="55" stroke="#ef4444" strokeWidth="0.8" strokeOpacity="0.25" />
+      <line x1="0" y1="100" x2="45" y2="100" stroke="#ef4444" strokeWidth="0.5" strokeOpacity="0.15" />
+      <line x1="100" y1="0" x2="100" y2="45" stroke="#ef4444" strokeWidth="0.5" strokeOpacity="0.15" />
+
+      {/* Nodes / dots at junctions */}
+      <circle cx="60" cy="60" r="3" fill="#ef4444" fillOpacity="0.9" />
+      <circle cx="100" cy="60" r="2" fill="#ef4444" fillOpacity="0.6" />
+      <circle cx="100" cy="90" r="2" fill="#ef4444" fillOpacity="0.5" />
+      <circle cx="60" cy="100" r="2" fill="#ef4444" fillOpacity="0.6" />
+      <circle cx="90" cy="100" r="2" fill="#ef4444" fillOpacity="0.5" />
+      <circle cx="140" cy="90" r="1.5" fill="#ef4444" fillOpacity="0.35" />
+      <circle cx="90" cy="140" r="1.5" fill="#ef4444" fillOpacity="0.35" />
+
+      {/* Outer glow via blurred rect */}
+      <rect x="0" y="55" width="65" height="10" fill="url(#glow-h)" />
+      <rect x="55" y="0" width="10" height="65" fill="url(#glow-v)" />
+
+      <defs>
+        <linearGradient id="glow-h" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#ef4444" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
+        </linearGradient>
+        <linearGradient id="glow-v" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#ef4444" stopOpacity="0.25" />
+          <stop offset="100%" stopColor="#ef4444" stopOpacity="0" />
+        </linearGradient>
+      </defs>
+    </svg>
+  )
+}
+
+/* ── Logo M ─────────────────────────────────────────────────── */
+function LogoM({ size = 64 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 64 64" fill="none" aria-hidden>
+      <defs>
+        <linearGradient id="logo-bg" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#2a2a2a" />
+          <stop offset="100%" stopColor="#111113" />
+        </linearGradient>
+        <linearGradient id="logo-stroke" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#ef4444" />
+          <stop offset="100%" stopColor="#b91c1c" />
+        </linearGradient>
+        {/* Carbon fiber pattern */}
+        <pattern id="carbon" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+          <rect width="4" height="4" fill="rgba(255,255,255,0.025)" />
+          <rect x="4" y="4" width="4" height="4" fill="rgba(255,255,255,0.025)" />
+        </pattern>
+      </defs>
+      <rect width="64" height="64" rx="14" fill="url(#logo-bg)" />
+      <rect width="64" height="64" rx="14" fill="url(#carbon)" />
+      <rect width="64" height="64" rx="14" stroke="url(#logo-stroke)" strokeWidth="1.5" />
+      {/* M letter */}
+      <path
+        d="M13 46V18L32 36L51 18V46"
+        stroke="url(#logo-stroke)"
+        strokeWidth="4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+    </svg>
+  )
+}
+
+/* ── Main component ──────────────────────────────────────────── */
 export default function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
@@ -21,6 +119,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false)
   const [showPass, setShowPass] = useState(false)
   const [warmMsg, setWarmMsg] = useState(null)
+
   const set = (k) => (e) => setForm({ ...form, [k]: e.target.value })
   const touch = (k) => () => setTouched(t => ({ ...t, [k]: true }))
 
@@ -36,8 +135,6 @@ export default function Login() {
     setLoading(true)
     setWarmMsg(null)
 
-    // Retry loop: up to 8 attempts with 7s gap = ~56s max wait.
-    // Covers Render free-tier cold start (backend sleeps after 15min inactivity).
     const isColdErr = (err) => !err.response || err.response.status === 502 || err.response.status === 503
     let lastErr = null
     for (let i = 0; i < 8; i++) {
@@ -50,7 +147,7 @@ export default function Login() {
         return navigate(nextUrl || (user?.role === 'aluno' ? '/aluno' : '/dashboard'))
       } catch (err) {
         lastErr = err
-        if (!isColdErr(err)) break  // definitive error (401, 422, 500…) — stop
+        if (!isColdErr(err)) break
       }
     }
 
@@ -68,210 +165,217 @@ export default function Login() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', background: 'var(--bg-page)', position: 'relative', overflow: 'hidden' }}>
-      <GymDecorBg />
+    <div style={{
+      minHeight: '100vh',
+      background: 'var(--bg-page)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '24px 16px',
+      position: 'relative',
+      overflow: 'hidden',
+    }}>
+      {/* Circuit corner decorations */}
+      <CircuitCorner pos="tl" />
+      <CircuitCorner pos="tr" />
+      <CircuitCorner pos="bl" />
+      <CircuitCorner pos="br" />
 
-      {/* ── Left panel (desktop only) ── */}
-      <div
-        style={{
-          display: 'none', width: 460, flexShrink: 0,
-          padding: '48px 40px', flexDirection: 'column', justifyContent: 'space-between',
-          background: 'var(--bg-sidebar)', borderRight: '1px solid var(--border)',
-          position: 'relative', overflow: 'hidden',
-        }}
-        className="lg:flex"
-      >
-        {/* Dot-grid pattern */}
-        <svg
-          aria-hidden
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.04, pointerEvents: 'none' }}
-        >
-          <defs>
-            <pattern id="login-dotgrid" x="0" y="0" width="28" height="28" patternUnits="userSpaceOnUse">
-              <circle cx="1.5" cy="1.5" r="1.5" fill="#ffffff"/>
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#login-dotgrid)"/>
-        </svg>
+      {/* Subtle red ambient glow top */}
+      <div style={{
+        position: 'absolute',
+        top: -200,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        width: 600,
+        height: 400,
+        borderRadius: '50%',
+        background: 'radial-gradient(ellipse, rgba(239,68,68,0.08) 0%, transparent 70%)',
+        pointerEvents: 'none',
+      }} />
 
-        {/* Subtle corner radial — brand tint */}
-        <div style={{
-          position: 'absolute', top: -140, right: -140, width: 360, height: 360,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }} />
+      {/* Login card */}
+      <div style={{
+        width: '100%',
+        maxWidth: 420,
+        background: 'rgba(17,17,19,0.95)',
+        border: '1px solid rgba(239,68,68,0.2)',
+        borderRadius: 20,
+        padding: '40px 32px 36px',
+        position: 'relative',
+        boxShadow: '0 0 60px rgba(239,68,68,0.07), 0 20px 40px rgba(0,0,0,0.5)',
+        backdropFilter: 'blur(12px)',
+      }}>
+        {/* Inner corner accents */}
+        <div style={{ position: 'absolute', top: 0, left: 0, width: 28, height: 28, borderTop: '2px solid rgba(239,68,68,0.5)', borderLeft: '2px solid rgba(239,68,68,0.5)', borderRadius: '14px 0 0 0', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', top: 0, right: 0, width: 28, height: 28, borderTop: '2px solid rgba(239,68,68,0.5)', borderRight: '2px solid rgba(239,68,68,0.5)', borderRadius: '0 14px 0 0', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: 0, left: 0, width: 28, height: 28, borderBottom: '2px solid rgba(239,68,68,0.5)', borderLeft: '2px solid rgba(239,68,68,0.5)', borderRadius: '0 0 0 14px', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: 0, right: 0, width: 28, height: 28, borderBottom: '2px solid rgba(239,68,68,0.5)', borderRight: '2px solid rgba(239,68,68,0.5)', borderRadius: '0 0 14px 0', pointerEvents: 'none' }} />
 
-        <div style={{ position: 'relative' }}>
-          {/* Logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 44 }}>
-            <div style={{ width: 28, height: 28, borderRadius: 8, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Zap style={{ width: 14, height: 14, color: 'white' }} />
-            </div>
-            <span style={{ fontSize: 15, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em' }}>MegaUp</span>
+        {/* Header */}
+        <div style={{ textAlign: 'center', marginBottom: 32 }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 16 }}>
+            <LogoM size={64} />
           </div>
-
-          {/* Hero headline */}
-          <div style={{ marginBottom: 36 }}>
-            <h1 style={{ fontSize: 30, fontWeight: 600, letterSpacing: '-0.04em', lineHeight: 1.15, marginBottom: 12 }}>
-              <span className="gradient-text">Evolução real.</span><br />
-              <span style={{ color:'var(--text-primary)' }}>Para cada aluno.</span>
-            </h1>
-            <p style={{ fontSize: 13, color:'var(--text-muted)', lineHeight: 1.75 }}>
-              Plataforma completa para personal trainers: treinos, progressão de carga, gamificação e gestão financeira.
-            </p>
-          </div>
-
-          {/* Hero dumbbell illustration */}
-          <div style={{
-            padding: '20px 20px 16px',
-            background: 'rgba(99,102,241,0.05)',
-            border: '1px solid rgba(99,102,241,0.14)',
-            borderRadius: 16, marginBottom: 32,
-          }}>
-            <SvgDumbbellHero uid="login" style={{
-              width: '100%', display: 'block', marginBottom: 14,
-              animation: 'float 5s ease-in-out infinite',
-            }} />
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                <SvgPlate style={{ width: 26, color: '#f87171', opacity: 0.7 }} />
-                <SvgPlate style={{ width: 22, color: '#a78bfa', opacity: 0.5 }} />
-                <SvgPlate style={{ width: 18, color: '#ef4444', opacity: 0.4 }} />
-              </div>
-              <span style={{ fontSize: 10, color:'var(--text-disabled)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
-                Progressive overload
-              </span>
-            </div>
-          </div>
-
-          {/* Feature list */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            {FEATURES.map(({ icon: Icon, title, desc }) => (
-              <div key={title} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-                <div style={{ width: 32, height: 32, borderRadius: 8, background:'var(--bg-card)', border: '1px solid var(--border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <Icon style={{ width: 14, height: 14, color:'var(--text-muted)' }} />
-                </div>
-                <div>
-                  <div style={{ fontSize: 13, fontWeight: 500, color:'var(--text-secondary)', marginBottom: 2 }}>{title}</div>
-                  <div style={{ fontSize: 12, color:'var(--text-disabled)', lineHeight: 1.5 }}>{desc}</div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <p style={{ fontSize: 11, color:'var(--text-disabled)', position: 'relative' }}>
-          Desenvolvido por{' '}
-          <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer"
-            style={{ color:'var(--text-muted)', textDecoration: 'none' }}>@luuiz.dev</a>
-        </p>
-      </div>
-
-      {/* ── Right panel — form ── */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, position: 'relative' }}>
-        <div style={{ width: '100%', maxWidth: 360 }} className="animate-fade-in">
-
-          {/* Mobile logo */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 28 }} className="lg:hidden">
-            <div style={{ width: 26, height: 26, borderRadius: 7, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Zap style={{ width: 13, height: 13, color: 'white' }} />
-            </div>
-            <span style={{ fontSize: 14, fontWeight: 600, color:'var(--text-primary)' }}>MegaUp</span>
-          </div>
-
-          {/* Mobile dumbbell accent */}
-          <div className="lg:hidden" style={{ marginBottom: 24 }}>
-            <SvgDumbbellHero uid="login-m" style={{
-              width: '100%', maxWidth: 200, display: 'block', margin: '0 auto',
-              opacity: 0.55,
-            }} />
-          </div>
-
-          {warmMsg && (
-            <div style={{ marginBottom: 14, padding: '10px 14px', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 10, display: 'flex', alignItems: 'center', gap: 10 }}>
-              <div style={{ width: 13, height: 13, border: '2px solid rgba(251,191,36,0.3)', borderTopColor: '#fbbf24', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
-              <p style={{ fontSize: 12, color: '#fbbf24', margin: 0 }}>{warmMsg}</p>
-            </div>
-          )}
-
-          <div style={{ marginBottom: 28 }}>
-            <h2 style={{ fontSize: 20, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 6 }}>
-              Entrar na conta
-            </h2>
-            <p style={{ fontSize: 13, color:'var(--text-muted)' }}>
-              Não tem conta?{' '}
-              <Link to="/registrar" style={{ color: '#ef4444', fontWeight: 500, textDecoration: 'none' }}>
-                Criar conta grátis
-              </Link>
-            </p>
-          </div>
-
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-            <div>
-              <label htmlFor="login-email" className="label">E-mail</label>
-              <div style={{ position: 'relative' }}>
-                <Mail style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color:'var(--text-disabled)' }} aria-hidden="true" />
-                <input
-                  id="login-email"
-                  className={`input pl-10 ${errors.email ? 'input-error' : touched.email && form.email ? 'input-success' : ''}`}
-                  type="email" placeholder="seu@email.com"
-                  value={form.email} onChange={set('email')} onBlur={touch('email')}
-                  required autoComplete="email" aria-describedby={errors.email ? 'email-error' : undefined}
-                />
-              </div>
-              {errors.email && <p id="email-error" className="field-error" role="alert">{errors.email}</p>}
-            </div>
-
-            <div>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                <label htmlFor="login-senha" className="label" style={{ margin: 0 }}>Senha</label>
-                <Link to="/esqueci-senha" style={{ fontSize: 11, color: '#ef4444', textDecoration: 'none' }}>
-                  Esqueci minha senha
-                </Link>
-              </div>
-              <div style={{ position: 'relative' }}>
-                <Lock style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', width: 15, height: 15, color:'var(--text-disabled)' }} aria-hidden="true" />
-                <input
-                  id="login-senha"
-                  className={`input pl-10 pr-10 ${errors.senha ? 'input-error' : ''}`}
-                  type={showPass ? 'text' : 'password'} placeholder="Sua senha"
-                  value={form.senha} onChange={set('senha')} onBlur={touch('senha')}
-                  required autoComplete="current-password" aria-describedby={errors.senha ? 'senha-error' : undefined}
-                />
-                <button type="button" onClick={() => setShowPass(!showPass)}
-                  aria-label={showPass ? 'Ocultar senha' : 'Mostrar senha'}
-                  style={{ position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)', color:'var(--text-disabled)', background: 'none', border: 'none', cursor: 'pointer', padding: 2 }}>
-                  {showPass ? <EyeOff style={{ width: 15, height: 15 }} /> : <Eye style={{ width: 15, height: 15 }} />}
-                </button>
-              </div>
-              {errors.senha && <p id="senha-error" className="field-error" role="alert">{errors.senha}</p>}
-            </div>
-
-            <button type="submit" className="btn-primary btn-xl w-full" style={{ marginTop: 4 }} disabled={loading}>
-              {loading ? (
-                <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <span style={{ width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite', display: 'inline-block' }} />
-                  {warmMsg ? 'Aguardando servidor...' : 'Entrando...'}
-                </span>
-              ) : (
-                <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  Entrar
-                  <ArrowRight style={{ width: 15, height: 15 }} />
-                </span>
-              )}
-            </button>
-          </form>
-
-          <p style={{ marginTop: 24, textAlign: 'center', fontSize: 11, color:'var(--text-disabled)' }}>
-            Desenvolvido por{' '}
-            <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer"
-              style={{ color:'var(--text-disabled)', textDecoration: 'none' }}>@luuiz.dev</a>
+          <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 4 }}>
+            MegaUp
+          </h1>
+          <h2 style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-secondary)', marginBottom: 4 }}>
+            Área de Login MegaUp
+          </h2>
+          <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>
+            Acesse sua conta corporativa
           </p>
         </div>
+
+        {/* Warm server message */}
+        {warmMsg && (
+          <div style={{ marginBottom: 16, padding: '10px 14px', background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)', borderRadius: 10, display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 13, height: 13, border: '2px solid rgba(251,191,36,0.3)', borderTopColor: '#fbbf24', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
+            <p style={{ fontSize: 12, color: '#fbbf24', margin: 0 }}>{warmMsg}</p>
+          </div>
+        )}
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          {/* Email */}
+          <div>
+            <div style={{ position: 'relative' }}>
+              <Mail style={{
+                position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)',
+                width: 16, height: 16, color: 'var(--text-disabled)',
+              }} aria-hidden />
+              <input
+                id="login-email"
+                type="email"
+                placeholder="E-mail"
+                value={form.email}
+                onChange={set('email')}
+                onBlur={touch('email')}
+                required
+                autoComplete="email"
+                aria-describedby={errors.email ? 'email-error' : undefined}
+                style={{
+                  width: '100%',
+                  background: 'rgba(255,255,255,0.04)',
+                  border: errors.email
+                    ? '1px solid rgba(239,68,68,0.6)'
+                    : '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: 10,
+                  color: 'var(--text-primary)',
+                  fontSize: 14,
+                  padding: '13px 14px 13px 42px',
+                  boxSizing: 'border-box',
+                  outline: 'none',
+                  transition: 'border-color 150ms ease',
+                }}
+                onFocus={e => { if (!errors.email) e.target.style.borderColor = 'rgba(239,68,68,0.4)' }}
+                onBlurCapture={e => { e.target.style.borderColor = errors.email ? 'rgba(239,68,68,0.6)' : 'rgba(255,255,255,0.08)' }}
+              />
+            </div>
+            {errors.email && <p id="email-error" style={{ fontSize: 11, color: '#f87171', margin: '5px 0 0 2px' }} role="alert">{errors.email}</p>}
+          </div>
+
+          {/* Password */}
+          <div>
+            <div style={{ position: 'relative' }}>
+              <Lock style={{
+                position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)',
+                width: 16, height: 16, color: 'var(--text-disabled)',
+              }} aria-hidden />
+              <input
+                id="login-senha"
+                type={showPass ? 'text' : 'password'}
+                placeholder="Senha"
+                value={form.senha}
+                onChange={set('senha')}
+                onBlur={touch('senha')}
+                required
+                autoComplete="current-password"
+                aria-describedby={errors.senha ? 'senha-error' : undefined}
+                style={{
+                  width: '100%',
+                  background: 'rgba(255,255,255,0.04)',
+                  border: errors.senha
+                    ? '1px solid rgba(239,68,68,0.6)'
+                    : '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: 10,
+                  color: 'var(--text-primary)',
+                  fontSize: 14,
+                  padding: '13px 42px 13px 42px',
+                  boxSizing: 'border-box',
+                  outline: 'none',
+                  transition: 'border-color 150ms ease',
+                }}
+                onFocus={e => { if (!errors.senha) e.target.style.borderColor = 'rgba(239,68,68,0.4)' }}
+                onBlurCapture={e => { e.target.style.borderColor = errors.senha ? 'rgba(239,68,68,0.6)' : 'rgba(255,255,255,0.08)' }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPass(!showPass)}
+                aria-label={showPass ? 'Ocultar senha' : 'Mostrar senha'}
+                style={{
+                  position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
+                  color: 'var(--text-disabled)', background: 'none', border: 'none',
+                  cursor: 'pointer', padding: 4, display: 'flex', alignItems: 'center',
+                }}
+              >
+                {showPass ? <EyeOff style={{ width: 15, height: 15 }} /> : <Eye style={{ width: 15, height: 15 }} />}
+              </button>
+            </div>
+            {errors.senha && <p id="senha-error" style={{ fontSize: 11, color: '#f87171', margin: '5px 0 0 2px' }} role="alert">{errors.senha}</p>}
+          </div>
+
+          {/* Forgot password */}
+          <div style={{ textAlign: 'right', marginTop: -6 }}>
+            <Link
+              to="/esqueci-senha"
+              style={{ fontSize: 12, color: 'var(--text-muted)', textDecoration: 'none' }}
+            >
+              Esqueci minha senha
+            </Link>
+          </div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              marginTop: 4,
+              width: '100%',
+              background: loading ? 'rgba(239,68,68,0.7)' : '#ef4444',
+              border: 'none',
+              borderRadius: 10,
+              color: 'white',
+              fontSize: 15,
+              fontWeight: 600,
+              padding: '14px',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              transition: 'background 150ms ease',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+            }}
+            onMouseEnter={e => { if (!loading) e.currentTarget.style.background = '#f87171' }}
+            onMouseLeave={e => { if (!loading) e.currentTarget.style.background = '#ef4444' }}
+          >
+            {loading ? (
+              <>
+                <span style={{ width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: 'white', borderRadius: '50%', animation: 'spin 0.7s linear infinite', display: 'inline-block', flexShrink: 0 }} />
+                {warmMsg ? 'Aguardando servidor...' : 'Entrando...'}
+              </>
+            ) : (
+              'Entrar na Conta'
+            )}
+          </button>
+        </form>
+
+        {/* Footer */}
+        <p style={{ marginTop: 28, textAlign: 'center', fontSize: 11, color: 'var(--text-disabled)' }}>
+          MegaUp Corp &copy; 2024 - Todos os Direitos Reservados
+        </p>
       </div>
     </div>
   )
 }
-
-
