@@ -1,9 +1,8 @@
-﻿import { useState, useEffect } from 'react'
+﻿import { useState } from 'react'
 import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
 import { Zap, Mail, Lock, ArrowRight, Eye, EyeOff, Dumbbell, TrendingUp, Users } from 'lucide-react'
-import api from '../api/client'
 import { GymDecorBg, SvgDumbbellHero, SvgPlate } from '../components/GymDecorBg'
 
 const FEATURES = [
@@ -18,18 +17,7 @@ export default function Login() {
   const [searchParams] = useSearchParams()
   const nextUrl = searchParams.get('next')
   const [form, setForm] = useState({ email: '', senha: '' })
-  const [serverSlow, setServerSlow] = useState(false)
   const [warmingUp, setWarmingUp] = useState(null)
-
-  useEffect(() => {
-    let mounted = true
-    const t = setTimeout(() => { if (mounted) setServerSlow(true) }, 2000)
-    api.get('/ping', { timeout: 8000 })
-      .then(() => { if (mounted) setServerSlow(false) })
-      .catch(() => { if (mounted) setServerSlow(true) })
-      .finally(() => clearTimeout(t))
-    return () => { mounted = false; clearTimeout(t) }
-  }, [])
 
   const [touched, setTouched] = useState({ email: false, senha: false })
   const [loading, setLoading] = useState(false)
@@ -201,17 +189,15 @@ export default function Login() {
             }} />
           </div>
 
-          {/* Cold start banner */}
-          {serverSlow && (
+          {/* Warming up banner — shown only during login retry */}
+          {warmingUp && (
             <div style={{
               marginBottom: 16, padding: '10px 14px',
               background: 'rgba(251,191,36,0.08)', border: '1px solid rgba(251,191,36,0.2)',
               borderRadius: 10, display: 'flex', alignItems: 'center', gap: 10,
             }}>
               <div style={{ width: 14, height: 14, border: '2px solid rgba(251,191,36,0.3)', borderTopColor: '#fbbf24', borderRadius: '50%', animation: 'spin 0.7s linear infinite', flexShrink: 0 }} />
-              <p style={{ fontSize: 12, color: '#fbbf24', margin: 0 }}>
-                Servidor acordando... o primeiro acesso pode levar até 60s.
-              </p>
+              <p style={{ fontSize: 12, color: '#fbbf24', margin: 0 }}>{warmingUp}</p>
             </div>
           )}
 
