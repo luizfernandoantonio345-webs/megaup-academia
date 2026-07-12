@@ -55,9 +55,9 @@ const qc = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 1,
-      staleTime: 5 * 60_000,       // dados frescos por 5 min
-      gcTime: 30 * 60_000,          // mantém no cache por 30 min após desmontar
-      refetchOnWindowFocus: false,  // não refetch ao trocar de aba — maior ganho
+      staleTime: 10 * 60_000,      // dados frescos por 10 min — evita refetch na navegação
+      gcTime: 60 * 60_000,          // mantém no cache por 1h após desmontar
+      refetchOnWindowFocus: false,  // não refetch ao trocar de aba
       refetchOnReconnect: false,
     },
   },
@@ -80,7 +80,7 @@ function AnimatedRoutes() {
   useKeepAlive()
   useScrollToTop()
   return (
-    <AnimatePresence mode="wait" initial={false}>
+    <AnimatePresence initial={false}>
       <Routes location={location} key={location.pathname}>
         {/* Públicas */}
         <Route path="/" element={<Navigate to="/login" replace />} />

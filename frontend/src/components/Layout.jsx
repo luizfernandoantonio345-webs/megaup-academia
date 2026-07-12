@@ -20,40 +20,55 @@ const ST = 5 * 60_000
 
 const NAV_MAIN = [
   { to: '/dashboard',  icon: LayoutDashboard, label: 'Dashboard',
+    preload: () => import('../pages/Dashboard'),
     prefetch: { queryKey: ['analytics-resumo', 7], queryFn: () => analyticsResumo(7).then(r => r.data) } },
   { to: '/alunos',     icon: Users,            label: 'Alunos',
+    preload: () => import('../pages/Alunos'),
     prefetch: { queryKey: ['alunos'], queryFn: () => listarAlunos().then(r => r.data) } },
   { to: '/analytics',  icon: BarChart2,        label: 'Analytics',
+    preload: () => import('../pages/Analytics'),
     prefetch: { queryKey: ['analytics-resumo', 7], queryFn: () => analyticsResumo(7).then(r => r.data) } },
-  { to: '/agenda',     icon: Calendar,         label: 'Agenda'          },
+  { to: '/agenda',     icon: Calendar,         label: 'Agenda',
+    preload: () => import('../pages/Agenda') },
   { to: '/exercicios', icon: Dumbbell,         label: 'Exercícios',
+    preload: () => import('../pages/Exercicios'),
     prefetch: { queryKey: ['exercicios'], queryFn: () => listarExercicios().then(r => r.data) } },
 ]
 
 const NAV_TOOLS = [
-  { to: '/ia',           icon: TrendingUp,  label: 'Sugestões'         },
-  { to: '/templates',    icon: Copy,        label: 'Templates'         },
-  { to: '/qr',           icon: QrCode,      label: 'QR Check-in'       },
+  { to: '/ia',           icon: TrendingUp,  label: 'Sugestões',
+    preload: () => import('../pages/IA') },
+  { to: '/templates',    icon: Copy,        label: 'Templates',
+    preload: () => import('../pages/Templates') },
+  { to: '/qr',           icon: QrCode,      label: 'QR Check-in',
+    preload: () => import('../pages/Qr') },
   { to: '/financeiro',   icon: DollarSign,  label: 'Financeiro',
+    preload: () => import('../pages/Financeiro'),
     prefetch: { queryKey: ['resumo'], queryFn: () => resumoFinanceiro().then(r => r.data) } },
-  { to: '/convites',     icon: UserPlus,    label: 'Convidar alunos'   },
-  { to: '/periodizacao', icon: BarChart2,   label: 'Periodização'      },
-  { to: '/inativos',     icon: Bell,        label: 'Inativos'          },
-  { to: '/planos',       icon: CreditCard,  label: 'Planos & Billing'  },
-  { to: '/referral',     icon: Gift,        label: 'Indicação'         },
+  { to: '/convites',     icon: UserPlus,    label: 'Convidar alunos',
+    preload: () => import('../pages/Convites') },
+  { to: '/periodizacao', icon: BarChart2,   label: 'Periodização',
+    preload: () => import('../pages/Periodizacao') },
+  { to: '/inativos',     icon: Bell,        label: 'Inativos',
+    preload: () => import('../pages/Inativos') },
+  { to: '/planos',       icon: CreditCard,  label: 'Planos & Billing',
+    preload: () => import('../pages/Planos') },
+  { to: '/referral',     icon: Gift,        label: 'Indicação',
+    preload: () => import('../pages/Referral') },
 ]
 
 const ALL_NAV    = [...NAV_MAIN, ...NAV_TOOLS]
 const MOBILE_TABS = NAV_MAIN
 
 /* ─── Nav item ─── */
-function NavItem({ to, icon: Icon, label, prefetch }) {
+function NavItem({ to, icon: Icon, label, prefetch, preload }) {
   const location = useLocation()
   const qc = useQueryClient()
   const active = location.pathname === to || (to !== '/dashboard' && location.pathname.startsWith(to))
   const handleMouseEnter = (e) => {
     if (!active) { e.currentTarget.style.background = 'var(--bg-hover)'; e.currentTarget.style.color = 'var(--text-secondary)' }
     if (prefetch) qc.prefetchQuery({ ...prefetch, staleTime: ST })
+    if (preload) preload()  // inicia download do chunk JS antes do clique
   }
   return (
     <NavLink to={to} style={{ textDecoration: 'none' }}>
@@ -206,10 +221,12 @@ function MobileBottomNav({ user, onLogout }) {
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginBottom: 14 }}>
-              {NAV_TOOLS.map(({ to, icon: Icon, label }) => {
+              {NAV_TOOLS.map(({ to, icon: Icon, label, preload }) => {
                 const active = location.pathname.startsWith(to)
                 return (
-                  <button key={to} onClick={() => { navigate(to); setShowMore(false) }}
+                  <button key={to}
+                    onMouseEnter={() => preload?.()}
+                    onClick={() => { navigate(to); setShowMore(false) }}
                     style={{
                       display: 'flex', alignItems: 'center', gap: 10, padding: '12px 14px',
                       borderRadius: 8, cursor: 'pointer', border: '1px solid',
