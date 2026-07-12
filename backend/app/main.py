@@ -362,7 +362,6 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         response.headers["X-XSS-Protection"] = "0"
         response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
         response.headers["Content-Security-Policy"] = self._CSP
-        response.headers["Cross-Origin-Resource-Policy"] = "same-site"
         # Remove header que vaza informação sobre o servidor
         try:
             del response.headers["server"]

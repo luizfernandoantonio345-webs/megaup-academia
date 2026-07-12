@@ -12,14 +12,18 @@ if _is_sqlite:
         echo=False,
     )
 else:
+    _connect_args: dict = {"connect_timeout": 10}
+    # Neon (and most managed PostgreSQL) requires SSL — add if not already in URL
+    if "sslmode" not in _db_url:
+        _connect_args["sslmode"] = "require"
     engine = create_engine(
         _db_url,
         pool_pre_ping=True,
         pool_size=5,
         max_overflow=10,
         pool_recycle=300,
-        pool_timeout=10,
-        connect_args={"connect_timeout": 5},
+        pool_timeout=15,
+        connect_args=_connect_args,
         echo=False,
     )
 

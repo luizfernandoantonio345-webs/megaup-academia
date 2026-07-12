@@ -6,8 +6,9 @@ let _token = null
 export function setToken(t) { _token = t }
 export function clearToken() { _token = null }
 
+const _PROD_URL = 'https://megaup-api.onrender.com'
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000',
+  baseURL: import.meta.env.VITE_API_URL || _PROD_URL,
   timeout: 65_000,
   withCredentials: true,  // Send httpOnly refresh-token cookie cross-origin
 })
