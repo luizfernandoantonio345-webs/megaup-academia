@@ -1,4 +1,4 @@
-﻿const CACHE = 'MegaUp-v7'
+const CACHE = 'MegaUp-v8'
 const STATIC = [
   '/',
   '/index.html',
@@ -19,8 +19,6 @@ self.addEventListener('activate', (e) => {
     caches.keys().then((keys) =>
       Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)))
     ).then(() => self.clients.claim())
-      .then(() => self.clients.matchAll({ type: 'window' }))
-      .then((clients) => clients.forEach((c) => c.navigate(c.url)))
   )
 })
 
@@ -33,16 +31,18 @@ self.addEventListener('fetch', (e) => {
   // Auth endpoints: always network, never serve stale credentials
   if (url.pathname.startsWith('/auth')) return
 
-  // API calls: stale-while-revalidate — return cached instantly, update in background
+  // API calls to onrender.com: stale-while-revalidate
   if (url.hostname.includes('onrender.com') || url.pathname.startsWith('/api')) {
     e.respondWith(
       caches.open(CACHE).then(async (cache) => {
         const cached = await cache.match(request)
         const netReq = fetch(request).then((res) => {
-          if (res.ok) cache.put(request, res.clone())
+          if (res.ok) {
+            const clone = res.clone()  // clone BEFORE any async op
+            cache.put(request, clone)
+          }
           return res
-        }).catch(() => cached)
-        // Serve cached immediately; network updates cache in background
+        }).catch(() => cached || new Response('', { status: 503 }))
         return cached || netReq
       })
     )
@@ -55,7 +55,10 @@ self.addEventListener('fetch', (e) => {
       caches.match(request).then((cached) => {
         if (cached) return cached
         return fetch(request).then((res) => {
-          caches.open(CACHE).then((c) => c.put(request, res.clone()))
+          if (res.ok) {
+            const clone = res.clone()
+            caches.open(CACHE).then((c) => c.put(request, clone))
+          }
           return res
         })
       })
@@ -68,7 +71,10 @@ self.addEventListener('fetch', (e) => {
     e.respondWith(
       caches.match(request).then((cached) => {
         const network = fetch(request).then((res) => {
-          if (res.ok) caches.open(CACHE).then((c) => c.put(request, res.clone()))
+          if (res.ok) {
+            const clone = res.clone()
+            caches.open(CACHE).then((c) => c.put(request, clone))
+          }
           return res
         })
         return cached || network
@@ -80,7 +86,9 @@ self.addEventListener('fetch', (e) => {
   // Navigation: network first, fall back to cached index.html for SPA
   if (request.mode === 'navigate') {
     e.respondWith(
-      fetch(request).catch(() => caches.match('/index.html'))
+      fetch(request).catch(() =>
+        caches.match('/index.html').then((r) => r || fetch('/index.html'))
+      )
     )
     return
   }
@@ -89,7 +97,10 @@ self.addEventListener('fetch', (e) => {
   e.respondWith(
     caches.match(request).then((cached) => {
       const network = fetch(request).then((res) => {
-        if (res.ok) caches.open(CACHE).then((c) => c.put(request, res.clone()))
+        if (res.ok) {
+          const clone = res.clone()
+          caches.open(CACHE).then((c) => c.put(request, clone))
+        }
         return res
       })
       return cached || network
@@ -131,4 +142,3 @@ self.addEventListener('notificationclick', (event) => {
     })
   )
 })
-
