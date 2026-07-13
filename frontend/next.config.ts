@@ -32,7 +32,15 @@ const nextConfig: NextConfig = {
         ],
       },
       {
-        // Cache assets estáticos por 1 ano
+        // HTML nunca fica em cache — garante que após um deploy o browser busca o novo index
+        source: '/:path((?!_next/static|_next/image|favicon|icon|manifest|sw\\.js).*)',
+        headers: [
+          { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
+          { key: 'Pragma', value: 'no-cache' },
+        ],
+      },
+      {
+        // Assets estáticos hasheados podem ser cacheados por 1 ano
         source: '/_next/static/(.*)',
         headers: [
           { key: 'Cache-Control', value: 'public, max-age=31536000, immutable' },

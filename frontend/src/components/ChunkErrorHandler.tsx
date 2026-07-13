@@ -18,11 +18,11 @@ export default function ChunkErrorHandler() {
 
       event.preventDefault()
 
-      const key = 'chunk_reload_count'
-      const count = parseInt(sessionStorage.getItem(key) || '0')
-      if (count < 3) {
-        sessionStorage.setItem(key, String(count + 1))
-        window.location.reload()
+      // Hard-reload com timestamp = força busca nova do HTML sem cache
+      const url = new URL(window.location.href)
+      if (!url.searchParams.get('_cr')) {
+        url.searchParams.set('_cr', Date.now().toString())
+        window.location.replace(url.toString())
       }
     }
 

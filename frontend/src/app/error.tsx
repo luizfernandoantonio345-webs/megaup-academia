@@ -18,16 +18,21 @@ export default function Error({
       error?.name === 'ChunkLoadError'
 
     if (isChunkError) {
-      const key = 'chunk_reload_count'
-      const count = parseInt(sessionStorage.getItem(key) || '0')
-      if (count < 3) {
-        sessionStorage.setItem(key, String(count + 1))
-        window.location.reload()
+      // Hard-reload via URL com timestamp = ignora cache do browser completamente
+      const url = new URL(window.location.href)
+      const alreadyReloaded = url.searchParams.get('_cr')
+      if (!alreadyReloaded) {
+        url.searchParams.set('_cr', Date.now().toString())
+        window.location.replace(url.toString())
         return
       }
     }
-    // Reset counter on non-chunk errors so future deploys still work
-    sessionStorage.removeItem('chunk_reload_count')
+    // Não é chunk error — remove o param se existir
+    const url = new URL(window.location.href)
+    if (url.searchParams.has('_cr')) {
+      url.searchParams.delete('_cr')
+      window.history.replaceState({}, '', url.toString())
+    }
   }, [error])
 
   return (
@@ -55,8 +60,10 @@ export default function Error({
         </p>
         <button
           onClick={() => {
-            sessionStorage.removeItem('chunk_reload_count')
-            window.location.reload()
+            // Hard-reload sem cache
+            const url = new URL(window.location.href)
+            url.searchParams.set('_cr', Date.now().toString())
+            window.location.replace(url.toString())
           }}
           style={{
             background: 'linear-gradient(135deg, #ef4444, #dc2626)', color: 'white',
