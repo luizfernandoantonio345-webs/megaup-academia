@@ -396,8 +396,8 @@ function QA({ to, icon: Icon, label, color, index }: { to: string; icon: React.E
 export default function DashboardPage() {
   const { user } = useAuth()
 
-  const { data: aRes  } = useQuery({ queryKey:['alunos'],              queryFn:() => listarAlunos(),      staleTime:60_000 })
-  const { data: anRes } = useQuery({ queryKey:['analytics-resumo', 7], queryFn:() => analyticsResumo(7), staleTime:60_000 })
+  const { data: aRes,  isLoading: loadingAlunos } = useQuery({ queryKey:['alunos'],              queryFn:() => listarAlunos(),      staleTime:60_000 })
+  const { data: anRes, isLoading: loadingStats  } = useQuery({ queryKey:['analytics-resumo', 7], queryFn:() => analyticsResumo(7), staleTime:60_000 })
 
   const alunos: Aluno[]   = (aRes  as { data: Aluno[] }     | undefined)?.data || []
   const stats:  Analytics = (anRes as { data: Analytics } | undefined)?.data || {}
@@ -428,6 +428,38 @@ export default function DashboardPage() {
 
   const peak = chartData.reduce((a, b) => a.v > b.v ? a : b)
   const avg  = Math.round(chartData.reduce((s, d) => s + d.v, 0) / chartData.length)
+  const isLoading = loadingAlunos || loadingStats
+
+  if (isLoading) return (
+    <div style={{ display:'flex', flexDirection:'column', gap:16, paddingBottom:40 }}>
+      {/* Header skeleton */}
+      <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:16 }}>
+        <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+          <div className="skeleton" style={{ width:160, height:14, borderRadius:8 }} />
+          <div className="skeleton" style={{ width:260, height:36, borderRadius:10 }} />
+          <div className="skeleton" style={{ width:180, height:14, borderRadius:8 }} />
+        </div>
+        <div className="skeleton" style={{ width:130, height:44, borderRadius:13 }} />
+      </div>
+      {/* Bento 1 */}
+      <div style={{ display:'grid', gap:14, gridTemplateColumns:'minmax(0,2fr) minmax(0,1fr)' }}>
+        <div className="skeleton" style={{ height:300, borderRadius:24 }} />
+        <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
+          <div className="skeleton" style={{ flex:1, minHeight:140, borderRadius:20 }} />
+          <div className="skeleton" style={{ flex:1, minHeight:140, borderRadius:20 }} />
+        </div>
+      </div>
+      {/* Small stats */}
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(190px,1fr))', gap:14 }}>
+        {[0,1,2,3].map(i => <div key={i} className="skeleton" style={{ height:84, borderRadius:18 }} />)}
+      </div>
+      {/* Chart + feed */}
+      <div style={{ display:'grid', gap:14, gridTemplateColumns:'minmax(0,1fr) 308px' }}>
+        <div className="skeleton" style={{ height:260, borderRadius:22 }} />
+        <div className="skeleton" style={{ height:260, borderRadius:22 }} />
+      </div>
+    </div>
+  )
 
   return (
     <div style={{ display:'flex', flexDirection:'column', gap:16, paddingBottom:40 }}>

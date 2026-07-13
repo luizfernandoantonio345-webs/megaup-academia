@@ -32,6 +32,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR" data-theme="dark" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://megaup-backend.onrender.com" />
+        <link rel="dns-prefetch" href="https://megaup-backend.onrender.com" />
+      </head>
       <body>
         <Providers>
           <ChunkErrorHandler />

@@ -72,10 +72,10 @@ export default function Financeiro() {
   })()
 
   const STATS = [
-    { icon:TrendingUp,  label:'Receita mensal prevista', value:fmt(resumo?.receita_mensal_prevista ?? 0), gradient:'linear-gradient(135deg,#059669,#10b981)', accent:'#10b981', loading:loadingResumo },
-    { icon:Users,       label:'Alunos com plano',        value:resumo?.total_alunos_com_plano ?? 0,       gradient:'linear-gradient(135deg,#dc2626,#7c3aed)', accent:'#ef4444', loading:loadingResumo },
-    { icon:AlertCircle, label:'Inadimplentes',            value:resumo?.inadimplentes ?? 0,                gradient:'linear-gradient(135deg,#e11d48,#f43f5e)', accent:'#f87171', loading:loadingResumo },
-    { icon:Wallet,      label:'Valor inadimplente',       value:fmt(resumo?.valor_inadimplente ?? 0),      gradient:'linear-gradient(135deg,#d97706,#f59e0b)', accent:'#fbbf24', loading:loadingResumo },
+    { icon:TrendingUp,  label:'Receita mensal prevista', value:fmt(resumo?.receita_mensal_prevista ?? 0), color:'#10b981', loading:loadingResumo },
+    { icon:Users,       label:'Alunos com plano',        value:resumo?.total_alunos_com_plano ?? 0,       color:'#6366f1', loading:loadingResumo },
+    { icon:AlertCircle, label:'Inadimplentes',            value:resumo?.inadimplentes ?? 0,                color:'#f87171', loading:loadingResumo },
+    { icon:Wallet,      label:'Valor inadimplente',       value:fmt(resumo?.valor_inadimplente ?? 0),      color:'#fbbf24', loading:loadingResumo },
   ]
 
   return (
@@ -95,16 +95,24 @@ export default function Financeiro() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {STATS.map(({ icon:Icon, label, value, gradient, accent, loading }) => (
+        {STATS.map(({ icon:Icon, label, value, color, loading }) => (
           loading ? <SkeletonStatCard key={label} /> : (
-            <div key={label} className="card flex items-center gap-4">
-              <div className="stat-icon" style={{ background: gradient }}>
-                <Icon style={{ width:20, height:20, color:'white' }} />
+            <div key={label} style={{
+              background:`radial-gradient(ellipse at 10% -20%, ${color}18 0%, transparent 55%), #111113`,
+              border:`1px solid ${color}18`, borderRadius:20, padding:'20px 22px',
+              position:'relative', overflow:'hidden',
+              boxShadow:`inset 0 1px 0 rgba(255,255,255,0.05)`,
+              transition:'transform 200ms ease, box-shadow 200ms ease',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow=`0 12px 32px -8px rgba(0,0,0,0.5), 0 0 0 1px ${color}22` }}
+              onMouseLeave={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow=`inset 0 1px 0 rgba(255,255,255,0.05)` }}
+            >
+              <div aria-hidden style={{ position:'absolute', top:-25, right:-15, width:90, height:90, borderRadius:'50%', background:`${color}0c`, filter:'blur(22px)', pointerEvents:'none' }} />
+              <div style={{ width:34, height:34, borderRadius:10, background:`${color}14`, border:`1px solid ${color}22`, display:'flex', alignItems:'center', justifyContent:'center', marginBottom:12 }}>
+                <Icon style={{ width:15, height:15, color }} />
               </div>
-              <div>
-                <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'var(--text-primary)', letterSpacing:'-0.02em' }}>{value}</div>
-                <div style={{ fontSize:11, color:'var(--text-muted)', fontWeight:600 }}>{label}</div>
-              </div>
+              <div style={{ fontSize:36, fontWeight:900, color:'#F4F4F5', letterSpacing:'-0.05em', lineHeight:1, marginBottom:6, textShadow:`0 0 32px ${color}55`, fontFamily:'Inter, sans-serif' }}>{value}</div>
+              <div style={{ fontSize:11, color:'rgba(255,255,255,0.45)', fontWeight:600 }}>{label}</div>
             </div>
           )
         ))}

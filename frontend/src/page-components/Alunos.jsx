@@ -3,7 +3,8 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { listarAlunos, criarAluno } from '../api'
 import toast from 'react-hot-toast'
-import { UserPlus, Search, ArrowRight, X, Mail, User, Target, LayoutGrid, List, Pin, PinOff, ChevronRight } from 'lucide-react'
+import { UserPlus, Search, X, Mail, User, Target, LayoutGrid, List, Pin, PinOff, ChevronRight } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { SkeletonCard } from '../components/ui/Skeleton'
 import { useDebounce } from '../hooks/useDebounce'
 import { useLocalStorage } from '../hooks/useLocalStorage'
@@ -180,7 +181,11 @@ export default function Alunos() {
     <div style={{ display:'flex', flexDirection:'column', gap:20, paddingBottom:40 }}>
 
       {/* ── HEADER ──────────────────────────────────────────────────── */}
-      <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:16, flexWrap:'wrap' }}>
+      <motion.div
+        initial={{ opacity:0, y:-16 }} animate={{ opacity:1, y:0 }}
+        transition={{ duration:0.52, ease:[0.16,1,0.3,1] }}
+        style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:16, flexWrap:'wrap' }}
+      >
         <div>
           <h1 style={{ fontSize:'clamp(22px,3.5vw,32px)', fontWeight:900, color:'#F4F4F5', letterSpacing:'-0.055em', lineHeight:1.05, marginBottom:8 }}>
             Alunos
@@ -191,14 +196,15 @@ export default function Alunos() {
             {inativos > 0 && <StatPill value={inativos} label="inativos" color="#f97316" />}
           </div>
         </div>
-        <button
+        <motion.button
+          whileHover={{ scale:1.03 }} whileTap={{ scale:0.97 }}
           className="btn-primary"
           style={{ display:'inline-flex', alignItems:'center', gap:7, height:42, paddingLeft:18, paddingRight:18, borderRadius:13, fontSize:14 }}
           onClick={() => setShowModal(true)}
         >
           <UserPlus style={{ width:15, height:15 }} /> Novo aluno
-        </button>
-      </div>
+        </motion.button>
+      </motion.div>
 
       {/* ── SEARCH + VIEW TOGGLE ────────────────────────────────────── */}
       <div style={{ display:'flex', gap:10, alignItems:'center' }}>
@@ -290,36 +296,32 @@ export default function Alunos() {
       ) : viewMode === 'grid' ? (
         /* ── GRID VIEW ──────────────────────────────────────────────── */
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <AnimatePresence>
           {filtered.map((a, i) => {
             const c = nameColor(a.nome)
             return (
-              <Link
+              <motion.div
                 key={a.id}
+                initial={{ opacity:0, y:16 }}
+                animate={{ opacity:1, y:0 }}
+                exit={{ opacity:0, scale:0.95 }}
+                transition={{ delay: Math.min(i * 0.04, 0.32), duration:0.42, ease:[0.16,1,0.3,1] }}
+                whileHover={{ y:-4, boxShadow:`inset 0 1px 0 rgba(255,255,255,0.07), 0 16px 40px -8px rgba(0,0,0,0.55), 0 0 0 1px ${c}20` }}
+              >
+              <Link
                 to={`/alunos/${a.id}`}
-                className="stagger-item"
                 style={{
                   textDecoration: 'none', display: 'block',
                   background: `radial-gradient(ellipse at 95% 0%, ${c}0e 0%, transparent 55%), #111113`,
-                  border: '1px solid rgba(255,255,255,0.07)',
+                  border: `1px solid rgba(255,255,255,0.07)`,
                   borderRadius: 18,
                   padding: '18px 18px 14px',
-                  transition: 'transform 220ms cubic-bezier(0.16,1,0.3,1), box-shadow 220ms ease, border-color 200ms ease',
+                  transition: 'border-color 220ms ease',
                   boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.05)',
-                  animationDelay: `${i * 0.04}s`,
                   position: 'relative', overflow: 'hidden',
                 }}
-                onMouseEnter={e => {
-                  const el = e.currentTarget
-                  el.style.transform = 'translateY(-4px)'
-                  el.style.boxShadow = `inset 0 1px 0 rgba(255,255,255,0.07), 0 16px 40px -8px rgba(0,0,0,0.55), 0 0 0 1px ${c}20`
-                  el.style.borderColor = `${c}22`
-                }}
-                onMouseLeave={e => {
-                  const el = e.currentTarget
-                  el.style.transform = 'translateY(0)'
-                  el.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.05)'
-                  el.style.borderColor = 'rgba(255,255,255,0.07)'
-                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = `${c}22` }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)' }}
               >
                 {/* Top glow orb */}
                 <div style={{ position:'absolute', top:-40, right:-30, width:100, height:100, borderRadius:'50%', background:`${c}0a`, filter:'blur(24px)', pointerEvents:'none' }} />
@@ -374,8 +376,10 @@ export default function Alunos() {
                   )}
                 </div>
               </Link>
+              </motion.div>
             )
           })}
+          </AnimatePresence>
         </div>
 
       ) : (

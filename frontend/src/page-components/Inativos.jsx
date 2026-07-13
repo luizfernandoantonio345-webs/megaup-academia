@@ -58,9 +58,10 @@ export default function Inativos() {
       {/* Stat */}
       {!isLoading && data && (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(180px,1fr))', gap: 14 }}>
-          <div style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '20px 22px' }}>
-            <p style={{ fontSize: 11, fontWeight: 600, color:'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 8 }}>Sem treinar há +{dias}d</p>
-            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 36, fontWeight: 600, color: '#f97316' }}>{data.total}</p>
+          <div style={{ background:'radial-gradient(ellipse at 10% -20%, rgba(249,115,22,0.18) 0%, transparent 55%), #111113', border: '1px solid rgba(249,115,22,0.2)', borderRadius: 18, padding: '20px 22px', position:'relative', overflow:'hidden' }}>
+            <div aria-hidden style={{ position:'absolute', top:-20, right:-15, width:80, height:80, borderRadius:'50%', background:'rgba(249,115,22,0.1)', filter:'blur(20px)', pointerEvents:'none' }} />
+            <p style={{ fontSize: 11, fontWeight: 700, color:'rgba(255,255,255,0.45)', textTransform: 'uppercase', letterSpacing: '0.07em', marginBottom: 8 }}>Sem treinar há +{dias}d</p>
+            <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 48, fontWeight: 900, color: '#f97316', letterSpacing:'-0.05em', lineHeight:1, textShadow:'0 0 32px rgba(249,115,22,0.55)' }}>{data.total}</p>
           </div>
           <div style={{ background: 'rgba(249,115,22,0.08)', border: '1px solid rgba(249,115,22,0.2)', borderRadius: 18, padding: '18px 22px', display: 'flex', alignItems: 'center', gap: 12 }}>
             <AlertTriangle style={{ width: 28, height: 28, color: '#f97316', flexShrink: 0 }} />

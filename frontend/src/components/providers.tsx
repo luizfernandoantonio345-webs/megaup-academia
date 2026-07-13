@@ -28,15 +28,29 @@ export function Providers({ children }: { children: ReactNode }) {
         <AuthProvider>
           {children}
           <Toaster
-            position="top-right"
+            position="bottom-center"
+            gutter={8}
+            containerStyle={{
+              bottom: 'calc(env(safe-area-inset-bottom, 0px) + 80px)',
+            }}
             toastOptions={{
-              duration: 3000,
+              duration: 3500,
               style: {
-                background: '#1c1d22',
+                background: '#18181b',
                 color: '#F4F4F5',
-                border: '1px solid #27272A',
-                borderRadius: '10px',
+                border: '1px solid rgba(255,255,255,0.1)',
+                borderRadius: '12px',
                 fontSize: '14px',
+                fontWeight: 600,
+                padding: '12px 16px',
+                boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.06)',
+                maxWidth: '360px',
+              },
+              success: {
+                iconTheme: { primary: '#22c55e', secondary: '#18181b' },
+              },
+              error: {
+                iconTheme: { primary: '#ef4444', secondary: '#18181b' },
               },
             }}
           />

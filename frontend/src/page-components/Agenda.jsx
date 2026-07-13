@@ -97,13 +97,15 @@ export default function Agenda() {
             <Calendar style={{ width: 22, height: 22, color: '#38bdf8' }} />
           </div>
           <div>
-            <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.02em' }}>Agenda</h1>
+            <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 900, color:'var(--text-primary)', letterSpacing: '-0.04em' }}>Agenda</h1>
             <p style={{ fontSize: 13, color:'var(--text-muted)' }}>Sessões agendadas com seus alunos</p>
           </div>
         </div>
         <button
           onClick={() => setShowModal(true)}
-          style={{ background: '#ef4444', border: 'none', borderRadius: 8, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '10px 18px', display: 'flex', alignItems: 'center', gap: 8 }}
+          style={{ background: 'linear-gradient(135deg,#ef4444,#dc2626)', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 700, fontSize: 14, padding: '10px 20px', display: 'flex', alignItems: 'center', gap: 8, boxShadow:'0 4px 16px rgba(239,68,68,0.35)', transition:'all 0.15s' }}
+          onMouseEnter={e=>{ e.currentTarget.style.boxShadow='0 6px 22px rgba(239,68,68,0.5)'; e.currentTarget.style.transform='translateY(-1px)' }}
+          onMouseLeave={e=>{ e.currentTarget.style.boxShadow='0 4px 16px rgba(239,68,68,0.35)'; e.currentTarget.style.transform='translateY(0)' }}
         >
           <Plus style={{ width: 16, height: 16 }} /> Agendar sessão
         </button>

@@ -484,6 +484,33 @@ h1,h2,h3,h4,h5,h6 {
 /* Old stagger-item compatibility */
 .stagger-item { animation: stagger-up 0.45s cubic-bezier(0.16,1,0.3,1) both; }
 
+/* ── Skeleton shimmer ────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -600px 0; }
+  100% { background-position:  600px 0; }
+}
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.09) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+  border-radius: 8px;
+}
+[data-theme='light'] .skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(0,0,0,0.06) 25%,
+    rgba(0,0,0,0.12) 50%,
+    rgba(0,0,0,0.06) 75%
+  );
+  background-size: 600px 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
 /* ── Login page ──────────────────────────────────────────────────────── */
 .login-left-panel {
   display: none; /* hidden on mobile */
@@ -555,6 +582,69 @@ h1,h2,h3,h4,h5,h6 {
   .btn-xl { height: 48px; }
   h1 { letter-spacing: -0.04em; }
 }
+
+/* ── Layout helpers missing in globals ──────────────────────────────── */
+.rg-3-2, .rg-sidebar, .rg-1-300 { display: grid; }
+@media (min-width: 768px) {
+  .rg-3-2     { grid-template-columns: minmax(0,3fr) minmax(0,2fr); }
+  .rg-sidebar { grid-template-columns: 1fr 360px; }
+  .rg-1-300   { grid-template-columns: 1fr 300px; }
+}
+.space-y-2 > * + * { margin-top: 8px; }
+.space-y-3 > * + * { margin-top: 12px; }
+.space-y-4 > * + * { margin-top: 16px; }
+.space-y-5 > * + * { margin-top: 20px; }
+.space-y-6 > * + * { margin-top: 24px; }
+.flex  { display: flex; }
+.items-center   { align-items: center; }
+.items-start    { align-items: flex-start; }
+.items-end      { align-items: flex-end; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.flex-1  { flex: 1; }
+.min-w-0 { min-width: 0; }
+.gap-2   { gap: 8px; }
+.gap-3   { gap: 12px; }
+.gap-4   { gap: 16px; }
+.gap-6   { gap: 24px; }
+.grid    { display: grid; }
+.grid-cols-3 { grid-template-columns: repeat(3,1fr); }
+.grid-cols-2 { grid-template-columns: repeat(2,1fr); }
+.text-center { text-align: center; }
+.p-3  { padding: 12px; }
+.p-4  { padding: 16px; }
+.py-10 { padding-top: 40px; padding-bottom: 40px; }
+.py-12 { padding-top: 48px; padding-bottom: 48px; }
+.mb-4 { margin-bottom: 16px; }
+.w-full { width: 100%; }
+.rounded-2xl { border-radius: 16px; }
+.overflow-hidden { overflow: hidden; }
+.resize-none { resize: none; }
+.appearance-none { -webkit-appearance: none; appearance: none; }
+.capitalize { text-transform: capitalize; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.flex-shrink-0 { flex-shrink: 0; }
+
+/* Responsive grids */
+@media (min-width: 640px) {
+  .sm\:grid-cols-2 { grid-template-columns: repeat(2,1fr); }
+  .sm\:grid-cols-3 { grid-template-columns: repeat(3,1fr); }
+  .sm\:grid-cols-4 { grid-template-columns: repeat(4,1fr); }
+}
+@media (min-width: 1024px) {
+  .lg\:grid-cols-3 { grid-template-columns: repeat(3,1fr); }
+  .lg\:grid-cols-4 { grid-template-columns: repeat(4,1fr); }
+  .lg\:grid-cols-2 { grid-template-columns: repeat(2,1fr); }
+}
+
+/* Skeleton compatibility */
+.section-title { font-size:11px; font-weight:700; color:rgba(255,255,255,0.28); text-transform:uppercase; letter-spacing:0.07em; margin-bottom:8px; display:block; }
+.progress-bar-track { width:100%; border-radius:9999px; overflow:hidden; background:rgba(255,255,255,0.06); height:4px; }
+.progress-bar-fill  { height:100%; border-radius:9999px; transition:width 0.6s cubic-bezier(0.16,1,0.3,1); }
+.btn-sm { height:28px; padding:0 12px; font-size:12px; border-radius:8px; }
+.alert-warning { padding:10px 14px; border-radius:10px; background:rgba(250,204,21,0.08); border:1px solid rgba(250,204,21,0.22); color:#fbbf24; font-size:13px; display:flex; align-items:flex-start; gap:8px; }
+.animate-slide-down { animation:slideDown 0.3s cubic-bezier(0.16,1,0.3,1) both; }
+@keyframes slideDown { from { opacity:0; transform:translateY(-8px) } to { opacity:1; transform:translateY(0) } }
 
 /* ── Print ───────────────────────────────────────────────────────────── */
 @media print {

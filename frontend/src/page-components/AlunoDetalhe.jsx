@@ -9,11 +9,29 @@ import ChatBox from '../components/ChatBox'
 import NutricaoTab from '../components/NutricaoTab'
 import FotosEvolucaoTab from '../components/FotosEvolucaoTab'
 
-function Avatar({ nome }) {
-  const initials = nome?.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
+const ALPHA = {
+  A:'#6366f1',B:'#ec4899',C:'#f97316',D:'#22c55e',E:'#a855f7',F:'#06b6d4',
+  G:'#ef4444',H:'#eab308',I:'#14b8a6',J:'#8b5cf6',K:'#f43f5e',L:'#10b981',
+  M:'#3b82f6',N:'#fb923c',O:'#84cc16',P:'#e879f9',Q:'#2dd4bf',R:'#f472b6',
+  S:'#38bdf8',T:'#4ade80',U:'#fbbf24',V:'#818cf8',W:'#34d399',X:'#f87171',
+  Y:'#a78bfa',Z:'#60a5fa',
+}
+const nameColor = (n) => ALPHA[(n || 'A')[0].toUpperCase()] ?? '#6366f1'
+const getInits  = (n) => (n?.split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('') || '??').toUpperCase()
+
+function Avatar({ nome, size = 64 }) {
+  const c = nameColor(nome)
   return (
-    <div style={{ width:64, height:64, borderRadius:'50%', background:'var(--bg-elevated)', border:'1px solid var(--border)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, fontWeight:600, color:'var(--text-secondary)', flexShrink:0 }}>
-      {initials}
+    <div style={{
+      width: size, height: size, borderRadius: '50%',
+      background: `${c}16`,
+      border: `2px solid ${c}38`,
+      boxShadow: `0 0 24px ${c}22`,
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      fontSize: size * 0.34, fontWeight: 900, color: c,
+      flexShrink: 0, letterSpacing: '-0.02em',
+    }}>
+      {getInits(nome)}
     </div>
   )
 }
@@ -61,86 +79,146 @@ export default function AlunoDetalhe() {
 
   const nSugestoes = sugestoes?.sugestoes_pendentes?.length || 0
 
+  const heroColor = nameColor(aluno?.nome || 'A')
+
   return (
-    <div className="space-y-6 animate-fade-in">
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Link to="/alunos" className="inline-flex items-center gap-2 text-sm font-medium transition-colors" style={{ color:'var(--text-muted)' }}
-          onMouseEnter={e => e.currentTarget.style.color='var(--text-secondary)'}
-          onMouseLeave={e => e.currentTarget.style.color='var(--text-muted)'}>
-          <ArrowLeft style={{ width:15, height:15 }} /> Voltar para alunos
+    <div style={{ display:'flex', flexDirection:'column', gap:16, paddingBottom:40 }}>
+
+      {/* ── TOP NAV ─────────────────────────────────────────────────── */}
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', gap:12 }}>
+        <Link to="/alunos" style={{ display:'inline-flex', alignItems:'center', gap:6, fontSize:13, fontWeight:600, color:'rgba(255,255,255,0.35)', textDecoration:'none', transition:'color 0.15s' }}
+          onMouseEnter={e => e.currentTarget.style.color='rgba(255,255,255,0.65)'}
+          onMouseLeave={e => e.currentTarget.style.color='rgba(255,255,255,0.35)'}>
+          <ArrowLeft style={{ width:14, height:14 }} /> Alunos
         </Link>
         <button
           onClick={() => navigate(`/alunos/${id}/relatorio`)}
-          style={{ background:'rgba(99,102,241,0.12)', border:'1px solid rgba(99,102,241,0.25)', borderRadius:12, color:'#f87171', cursor:'pointer', fontWeight:600, fontSize:13, padding:'8px 16px', display:'flex', alignItems:'center', gap:6 }}
+          style={{ background:'rgba(99,102,241,0.1)', border:'1px solid rgba(99,102,241,0.22)', borderRadius:11, color:'#818cf8', cursor:'pointer', fontWeight:700, fontSize:12, padding:'7px 14px', display:'flex', alignItems:'center', gap:5, whiteSpace:'nowrap' }}
         >
-          <FileText style={{ width:14, height:14 }} /> Relatório PDF
+          <FileText style={{ width:13, height:13 }} /> Relatório PDF
         </button>
       </div>
 
-      {/* Student header */}
-      <div className="card">
-        {isLoading ? (
-          <div style={{ display:'flex', gap:16, alignItems:'center' }}>
+      {/* ── HERO CARD ───────────────────────────────────────────────── */}
+      {isLoading ? (
+        <div style={{ display:'flex', flexDirection:'column', gap:16, background:'#111113', border:'1px solid rgba(255,255,255,0.07)', borderRadius:22, padding:'24px' }}>
+          <div style={{ display:'flex', gap:14, alignItems:'center' }}>
             <div className="skeleton" style={{ width:64, height:64, borderRadius:'50%', flexShrink:0 }} />
             <div style={{ flex:1, display:'flex', flexDirection:'column', gap:8 }}>
-              <div className="skeleton" style={{ height:20, width:'40%', borderRadius:6 }} />
-              <div className="skeleton" style={{ height:14, width:'60%', borderRadius:6 }} />
+              <div className="skeleton" style={{ height:22, width:'45%', borderRadius:8 }} />
+              <div className="skeleton" style={{ height:14, width:'62%', borderRadius:6 }} />
+              <div style={{ display:'flex', gap:6, marginTop:2 }}>
+                <div className="skeleton" style={{ height:20, width:50, borderRadius:999 }} />
+                <div className="skeleton" style={{ height:20, width:80, borderRadius:999 }} />
+              </div>
             </div>
           </div>
-        ) : (
-        <div className="flex items-start gap-4">
-          <Avatar nome={aluno?.nome} />
-          <div className="flex-1 min-w-0">
-            {editNome ? (
-              <div className="flex items-center gap-2 mb-1">
-                <input className="input text-lg font-bold py-1.5" value={nomeTemp} onChange={e => setNomeTemp(e.target.value)} autoFocus style={{ fontFamily:'Inter, sans-serif' }} />
-                <button onClick={() => updateNome({ nome: nomeTemp })} className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background:'rgba(16,185,129,0.2)', color:'#34d399' }}>
-                  <Check style={{ width:14, height:14 }} />
-                </button>
-                <button onClick={() => setEditNome(false)} className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background:'rgba(255,255,255,0.07)', color:'var(--text-muted)' }}>
-                  <X style={{ width:14, height:14 }} />
-                </button>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:10, paddingTop:16, borderTop:'1px solid rgba(255,255,255,0.05)' }}>
+            {[0,1,2].map(i => <div key={i} className="skeleton" style={{ height:72, borderRadius:14 }} />)}
+          </div>
+        </div>
+      ) : (
+        <div style={{
+          background: `radial-gradient(ellipse at 0% 0%, ${heroColor}1a 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(239,68,68,0.07) 0%, transparent 40%), #111113`,
+          border: `1px solid ${heroColor}20`,
+          borderRadius: 22,
+          padding: '24px 24px 20px',
+          position: 'relative',
+          overflow: 'hidden',
+          boxShadow: `0 0 80px -30px ${heroColor}16, inset 0 1px 0 rgba(255,255,255,0.05)`,
+        }}>
+          {/* Ambient glow orb */}
+          <div style={{ position:'absolute', top:-80, left:-60, width:240, height:240, borderRadius:'50%', background:`${heroColor}09`, filter:'blur(60px)', pointerEvents:'none' }} />
+
+          {/* Top: avatar + info */}
+          <div style={{ display:'flex', alignItems:'flex-start', gap:16, position:'relative' }}>
+            <Avatar nome={aluno?.nome} size={64} />
+
+            <div style={{ flex:1, minWidth:0 }}>
+              {editNome ? (
+                <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:6 }}>
+                  <input
+                    className="input"
+                    style={{ fontSize:17, fontWeight:800, height:42, borderRadius:12, letterSpacing:'-0.03em' }}
+                    value={nomeTemp}
+                    onChange={e => setNomeTemp(e.target.value)}
+                    autoFocus
+                  />
+                  <button onClick={() => updateNome({ nome: nomeTemp })} style={{ width:36, height:36, borderRadius:10, display:'flex', alignItems:'center', justifyContent:'center', background:'rgba(74,222,128,0.14)', border:'1px solid rgba(74,222,128,0.28)', color:'#4ade80', cursor:'pointer', flexShrink:0 }}>
+                    <Check style={{ width:15, height:15 }} />
+                  </button>
+                  <button onClick={() => setEditNome(false)} style={{ width:36, height:36, borderRadius:10, display:'flex', alignItems:'center', justifyContent:'center', background:'rgba(255,255,255,0.05)', border:'1px solid rgba(255,255,255,0.08)', color:'rgba(255,255,255,0.45)', cursor:'pointer', flexShrink:0 }}>
+                    <X style={{ width:14, height:14 }} />
+                  </button>
+                </div>
+              ) : (
+                <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:5 }}>
+                  <h1 style={{ fontSize:'clamp(18px,3vw,24px)', fontWeight:900, color:'#F4F4F5', letterSpacing:'-0.045em', lineHeight:1.1 }}>{aluno?.nome}</h1>
+                  <button onClick={() => { setNomeTemp(aluno?.nome || ''); setEditNome(true) }} style={{ background:'none', border:'none', cursor:'pointer', padding:3, color:'rgba(255,255,255,0.25)', display:'flex', flexShrink:0 }}>
+                    <Edit2 style={{ width:12, height:12 }} />
+                  </button>
+                </div>
+              )}
+
+              <p style={{ fontSize:12, color:'rgba(255,255,255,0.35)', marginBottom:10 }}>{aluno?.email}</p>
+
+              {/* Badges */}
+              <div style={{ display:'flex', flexWrap:'wrap', gap:5 }}>
+                {aluno?.ativo !== false ? (
+                  <span style={{ fontSize:10, padding:'3px 10px', borderRadius:999, background:'rgba(34,197,94,0.1)', color:'#4ade80', fontWeight:700, border:'1px solid rgba(34,197,94,0.2)', display:'inline-flex', alignItems:'center', gap:5 }}>
+                    <span style={{ width:5, height:5, borderRadius:'50%', background:'#22c55e', boxShadow:'0 0 5px #22c55e', flexShrink:0 }} />
+                    Ativo
+                  </span>
+                ) : (
+                  <span style={{ fontSize:10, padding:'3px 10px', borderRadius:999, background:'rgba(249,115,22,0.1)', color:'#fb923c', fontWeight:700, border:'1px solid rgba(249,115,22,0.2)' }}>Inativo</span>
+                )}
+                {aluno?.objetivo && (
+                  <span style={{ fontSize:10, padding:'3px 10px', borderRadius:999, background:`${heroColor}10`, color:heroColor, fontWeight:700, border:`1px solid ${heroColor}20`, maxWidth:130, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>
+                    {aluno.objetivo}
+                  </span>
+                )}
+                {aluno?.plano && (
+                  <span style={{ fontSize:10, padding:'3px 10px', borderRadius:999, background:'rgba(99,102,241,0.1)', color:'#818cf8', fontWeight:700, border:'1px solid rgba(99,102,241,0.2)' }}>
+                    {aluno.plano}
+                  </span>
+                )}
               </div>
-            ) : (
-              <div className="flex items-center gap-2 mb-0.5">
-                <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'var(--text-primary)', letterSpacing:'-0.02em' }}>{aluno?.nome}</h1>
-                <button onClick={() => { setNomeTemp(aluno?.nome || ''); setEditNome(true) }} style={{ color:'var(--text-disabled)', background:'none', border:'none', cursor:'pointer', padding:2 }}>
-                  <Edit2 style={{ width:13, height:13 }} />
-                </button>
-              </div>
-            )}
-            <p style={{ fontSize:13, color:'var(--text-muted)' }}>{aluno?.email}</p>
-            {aluno?.objetivo && <span className="badge-blue mt-2 text-xs">{aluno.objetivo}</span>}
+            </div>
           </div>
 
-          {gami && gami.streak_atual > 0 && (
-            <div className="flex-shrink-0 flex flex-col items-center gap-1 rounded-2xl px-4 py-3 text-white" style={{ background:'#c2410c' }}>
-              <Flame style={{ width:18, height:18 }} />
-              <div style={{ fontFamily:'Inter, sans-serif', fontSize:24, fontWeight:600, lineHeight:1 }}>{gami.streak_atual}</div>
-              <div style={{ fontSize:10, color:'rgba(255,255,255,0.6)', fontWeight:600 }}>streak</div>
+          {/* Stats row */}
+          {gami && (
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:10, marginTop:20, paddingTop:20, borderTop:'1px solid rgba(255,255,255,0.05)', position:'relative' }}>
+              {[
+                { label:'Streak atual', value:gami.streak_atual,   icon:'🔥', color:'#f97316' },
+                { label:'Recorde',      value:gami.streak_recorde, icon:'🏆', color:'#fbbf24' },
+                { label:'Treinos',      value:gami.total_treinos,  icon:'💪', color:'#34d399' },
+              ].map(({ label, value, icon, color }) => (
+                <div key={label} style={{
+                  textAlign:'center', padding:'14px 8px', borderRadius:16,
+                  background:`radial-gradient(ellipse at 50% -10%, ${color}18 0%, transparent 65%), ${color}08`,
+                  border:`1px solid ${color}1e`,
+                  boxShadow:`0 0 32px -12px ${color}30`,
+                }}>
+                  <div style={{ fontSize:16, marginBottom:6 }}>{icon}</div>
+                  <div style={{ fontSize:42, fontWeight:900, color, lineHeight:1, letterSpacing:'-0.06em', textShadow:`0 0 40px ${color}70, 0 0 14px ${color}40` }}>{value}</div>
+                  <div style={{ fontSize:10, color:'rgba(255,255,255,0.32)', fontWeight:700, marginTop:6, textTransform:'uppercase', letterSpacing:'0.07em' }}>{label}</div>
+                </div>
+              ))}
             </div>
           )}
         </div>
-        )}
+      )}
 
-        {gami && (
-          <div className="grid grid-cols-3 gap-3 mt-5 pt-5" style={{ borderTop:'1px solid rgba(255,255,255,0.05)' }}>
-            {[
-              { label:'Streak', value:`${gami.streak_atual}🔥`, color:'#f97316' },
-              { label:'Recorde', value:`${gami.streak_recorde}🏆`, color:'#fbbf24' },
-              { label:'Treinos', value:`${gami.total_treinos}💪`, color:'#34d399' },
-            ].map(({ label, value, color }) => (
-              <div key={label} className="text-center">
-                <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color }}>{value}</div>
-                <div style={{ fontSize:11, color:'var(--text-muted)', marginTop:2, fontWeight:600, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Tabs */}
-      <div className="tabs">
+      {/* ── TABS ─────────────────────────────────────────────────────── */}
+      <div style={{
+        display:'flex', gap:2,
+        borderBottom:'1px solid rgba(255,255,255,0.06)',
+        paddingBottom:0,
+        overflowX:'auto', scrollbarWidth:'none',
+        WebkitOverflowScrolling:'touch',
+        marginBottom:4,
+      }}>
         {[
           { key:'treinos',     label:'Treinos' },
           { key:'progresso',   label:'Progresso' },
@@ -152,7 +230,23 @@ export default function AlunoDetalhe() {
           { key:'nutricao',    label:'Nutrição' },
           { key:'chat',        label:'Chat' },
         ].map(({ key, label }) => (
-          <button key={key} onClick={() => setTab(key)} className={`tab ${tab === key ? 'tab-active' : 'tab-inactive'}`}>{label}</button>
+          <button
+            key={key}
+            onClick={() => setTab(key)}
+            style={{
+              fontSize:12, fontWeight: tab === key ? 700 : 500,
+              color: tab === key ? '#F4F4F5' : 'rgba(255,255,255,0.38)',
+              padding:'9px 14px',
+              cursor:'pointer',
+              borderBottom: tab === key ? '2px solid #ef4444' : '2px solid transparent',
+              marginBottom:-1,
+              transition:'color 0.15s',
+              background:'none', border:'none',
+              borderBottomStyle:'solid',
+              whiteSpace:'nowrap',
+              letterSpacing:'-0.01em',
+            }}
+          >{label}</button>
         ))}
       </div>
 
@@ -248,13 +342,16 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
       {chartData.length > 0 && (
         <div className="grid grid-cols-3 gap-3">
           {[
-            { label: 'Maximo', value: `${maxCarga}kg`, color: '#fca5a5' },
-            { label: 'Ultima', value: lastCarga != null ? `${lastCarga}kg` : '--', color: '#34d399' },
-            { label: 'Variacao', value: delta != null ? `${delta > 0 ? '+' : ''}${delta}kg` : '--', color: delta == null ? 'var(--text-muted)' : delta > 0 ? '#34d399' : delta < 0 ? '#f87171' : '#ef4444' },
+            { label: 'Máximo', value: `${maxCarga}kg`, color: '#fca5a5' },
+            { label: 'Última', value: lastCarga != null ? `${lastCarga}kg` : '--', color: '#34d399' },
+            { label: 'Variação', value: delta != null ? `${delta > 0 ? '+' : ''}${delta}kg` : '--', color: delta == null ? 'rgba(255,255,255,0.35)' : delta > 0 ? '#34d399' : delta < 0 ? '#f87171' : '#ef4444' },
           ].map(({ label, value, color }) => (
-            <div key={label} className="card text-center p-3">
-              <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 600, color, letterSpacing: '-0.02em' }}>{value}</div>
-              <div style={{ fontSize: 11, color:'var(--text-muted)', fontWeight: 600, marginTop: 2, textTransform: 'uppercase', letterSpacing: '0.05em' }}>{label}</div>
+            <div key={label} style={{
+              textAlign:'center', padding:'14px 8px', borderRadius:16,
+              background:`${color}09`, border:`1px solid ${color}18`,
+            }}>
+              <div style={{ fontSize:30, fontWeight:900, color, letterSpacing:'-0.05em', textShadow:`0 0 28px ${color}60` }}>{value}</div>
+              <div style={{ fontSize:10, color:'rgba(255,255,255,0.32)', fontWeight:700, marginTop:5, textTransform:'uppercase', letterSpacing:'0.06em' }}>{label}</div>
             </div>
           ))}
         </div>
@@ -489,14 +586,19 @@ function GamificacaoTab({ gami }) {
     <div className="space-y-6">
       <div className="grid grid-cols-3 gap-3">
         {[
-          { label:'Streak', value:gami.streak_atual, emoji:'🔥', border:'rgba(249,115,22,0.25)', bg:'rgba(249,115,22,0.08)', color:'#f97316' },
-          { label:'Recorde', value:gami.streak_recorde, emoji:'🏆', border:'rgba(251,191,36,0.25)', bg:'rgba(251,191,36,0.08)', color:'#fbbf24' },
-          { label:'Treinos', value:gami.total_treinos, emoji:'💪', border:'rgba(16,185,129,0.25)', bg:'rgba(16,185,129,0.08)', color:'#34d399' },
-        ].map(({ label, value, emoji, border, bg, color }) => (
-          <div key={label} className="card text-center" style={{ border:`1px solid ${border}`, background:bg }}>
-            <div style={{ fontSize:26, marginBottom:4 }}>{emoji}</div>
-            <div style={{ fontFamily:'Inter, sans-serif', fontSize:24, fontWeight:600, color }}>{value}</div>
-            <div style={{ fontSize:11, color:'var(--text-muted)', fontWeight:600, textTransform:'uppercase', letterSpacing:'0.05em' }}>{label}</div>
+          { label:'Streak', value:gami.streak_atual, emoji:'🔥', color:'#f97316' },
+          { label:'Recorde', value:gami.streak_recorde, emoji:'🏆', color:'#fbbf24' },
+          { label:'Treinos', value:gami.total_treinos, emoji:'💪', color:'#34d399' },
+        ].map(({ label, value, emoji, color }) => (
+          <div key={label} style={{
+            textAlign:'center', padding:'18px 10px', borderRadius:18,
+            background:`radial-gradient(ellipse at 50% -10%, ${color}18 0%, transparent 65%), ${color}07`,
+            border:`1px solid ${color}1e`,
+            boxShadow:`0 0 28px -10px ${color}28`,
+          }}>
+            <div style={{ fontSize:18, marginBottom:8 }}>{emoji}</div>
+            <div style={{ fontSize:44, fontWeight:900, color, lineHeight:1, letterSpacing:'-0.06em', textShadow:`0 0 40px ${color}70, 0 0 14px ${color}40` }}>{value}</div>
+            <div style={{ fontSize:10, color:'rgba(255,255,255,0.32)', fontWeight:700, textTransform:'uppercase', letterSpacing:'0.07em', marginTop:8 }}>{label}</div>
           </div>
         ))}
       </div>
@@ -778,36 +880,22 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
       {/* Summary cards */}
       {last ? (
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="card text-center p-3">
-            <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'#34d399', letterSpacing:'-0.02em' }}>
-              {last.peso ? `${last.peso}kg` : '—'}
+          {[
+            { label:'Peso', value:last.peso?`${last.peso}kg`:'—', color:'#34d399', sub: deltaPeso!=null?<DeltaBadge delta={deltaPeso} unit="kg" invertColors />:null },
+            { label:'% Gordura', value:last.percentual_gordura?`${last.percentual_gordura}%`:'—', color:'#fbbf24', sub: deltaGord!=null?<DeltaBadge delta={deltaGord} unit="%" invertColors />:null },
+            { label:'IMC', value:imc||'—', color:imcCat?.color||'rgba(255,255,255,0.5)', sub: imcCat?<span style={{ fontSize:10, color:imcCat.color }}>{imcCat.label}</span>:null },
+            { label:'Massa Magra', value:massaMagra?`${massaMagra}kg`:'—', color:'#c084fc', sub:null },
+          ].map(({ label, value, color, sub }) => (
+            <div key={label} style={{
+              textAlign:'center', padding:'16px 10px', borderRadius:16,
+              background:`${color}08`, border:`1px solid ${color}18`,
+              boxShadow:`inset 0 1px 0 rgba(255,255,255,0.04)`,
+            }}>
+              <div style={{ fontSize:28, fontWeight:900, color, letterSpacing:'-0.05em', lineHeight:1, textShadow:`0 0 28px ${color}55` }}>{value}</div>
+              <div style={{ fontSize:10, color:'rgba(255,255,255,0.32)', fontWeight:700, marginTop:5, textTransform:'uppercase', letterSpacing:'0.06em' }}>{label}</div>
+              {sub && <div style={{ marginTop:4 }}>{sub}</div>}
             </div>
-            <div style={{ fontSize:11, color:'var(--text-muted)', fontWeight:600, marginTop:2, textTransform:'uppercase', letterSpacing:'0.05em' }}>Peso</div>
-            <div style={{ display:'flex', justifyContent:'center', gap:6, marginTop:3 }}>
-              {deltaPeso != null && <DeltaBadge delta={deltaPeso} unit="kg" invertColors />}
-              {progressoPeso != null && avaliacoes.length > 2 && <span style={{ fontSize:10, color:'var(--text-muted)' }}>/ total <DeltaBadge delta={progressoPeso} unit="kg" invertColors /></span>}
-            </div>
-          </div>
-          <div className="card text-center p-3">
-            <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'#fbbf24', letterSpacing:'-0.02em' }}>
-              {last.percentual_gordura ? `${last.percentual_gordura}%` : '—'}
-            </div>
-            <div style={{ fontSize:11, color:'var(--text-muted)', fontWeight:600, marginTop:2, textTransform:'uppercase', letterSpacing:'0.05em' }}>% Gordura</div>
-            {deltaGord != null && <div style={{ marginTop:3 }}><DeltaBadge delta={deltaGord} unit="%" invertColors /></div>}
-          </div>
-          <div className="card text-center p-3">
-            <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:imcCat?.color || 'var(--text-secondary)', letterSpacing:'-0.02em' }}>
-              {imc || '—'}
-            </div>
-            <div style={{ fontSize:11, color:'var(--text-muted)', fontWeight:600, marginTop:2, textTransform:'uppercase', letterSpacing:'0.05em' }}>IMC</div>
-            {imcCat && <div style={{ fontSize:10, color:imcCat.color, marginTop:2 }}>{imcCat.label}</div>}
-          </div>
-          <div className="card text-center p-3">
-            <div style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'#c084fc', letterSpacing:'-0.02em' }}>
-              {massaMagra ? `${massaMagra}kg` : '—'}
-            </div>
-            <div style={{ fontSize:11, color:'var(--text-muted)', fontWeight:600, marginTop:2, textTransform:'uppercase', letterSpacing:'0.05em' }}>Massa Magra</div>
-          </div>
+          ))}
         </div>
       ) : null}
 

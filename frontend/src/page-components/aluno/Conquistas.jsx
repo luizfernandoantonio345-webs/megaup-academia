@@ -207,11 +207,18 @@ export default function Conquistas() {
   const { data:feed=[] } = useQuery({ queryKey:['feed-conquistas'], queryFn:()=>feedConquistas().then(r=>r.data), staleTime:3*60_000 })
 
   if (isLoading) return (
-    <div style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'80px 0', gap:12 }}>
-      <div style={{ width:52, height:52, borderRadius:16, background:'rgba(234,179,8,0.12)', border:'1px solid rgba(234,179,8,0.2)', display:'flex', alignItems:'center', justifyContent:'center' }}>
-        <Star style={{ width:22, height:22, color:'#fbbf24' }} />
+    <div style={{ display:'flex', flexDirection:'column', gap:20 }}>
+      <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+        <div className="skeleton" style={{ width:160, height:28, borderRadius:10 }} />
+        <div className="skeleton" style={{ width:200, height:14, borderRadius:8 }} />
       </div>
-      <p style={{ fontSize:13, color:'rgba(255,255,255,0.38)', fontWeight:600 }}>Carregando conquistas...</p>
+      <div className="skeleton" style={{ height:140, borderRadius:20 }} />
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:10 }}>
+        {[0,1,2].map(i => <div key={i} className="skeleton" style={{ height:100, borderRadius:18 }} />)}
+      </div>
+      <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+        {[0,1,2,3].map(i => <div key={i} className="skeleton" style={{ height:80, borderRadius:18 }} />)}
+      </div>
     </div>
   )
 

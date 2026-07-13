@@ -631,11 +631,14 @@ export default function TreinoHoje() {
   const hojeLabel=DIAS[new Date().getDay()]
 
   if (isLoading) return (
-    <div style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'80px 0', gap:12 }}>
-      <div style={{ width:52, height:52, borderRadius:16, display:'flex', alignItems:'center', justifyContent:'center', background:'rgba(99,102,241,0.12)', border:'1px solid rgba(99,102,241,0.2)' }}>
-        <Dumbbell style={{ width:22, height:22, color:'#f87171' }} />
+    <div style={{ display:'flex', flexDirection:'column', gap:16 }}>
+      <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+        <div className="skeleton" style={{ width:200, height:30, borderRadius:10 }} />
+        <div className="skeleton" style={{ width:140, height:22, borderRadius:999 }} />
       </div>
-      <p style={{ fontSize:13, color:'rgba(255,255,255,0.38)', fontWeight:600 }}>Carregando seus treinos...</p>
+      <div className="skeleton" style={{ height:160, borderRadius:20 }} />
+      <div className="skeleton" style={{ height:260, borderRadius:20 }} />
+      <div className="skeleton" style={{ height:200, borderRadius:20 }} />
     </div>
   )
 

@@ -34,13 +34,25 @@ const ChartTooltip = ({ active, payload, label }) => {
   )
 }
 
-function StatCard({ icon: Icon, label, value, sub }) {
+function StatCard({ icon: Icon, label, value, sub, color = '#ef4444' }) {
   return (
-    <div style={{ background:'var(--bg-card)', border: '1px solid var(--border)', borderRadius: 12, padding: '18px 20px' }}>
-      <Icon style={{ width: 15, height: 15, color:'var(--text-disabled)', marginBottom: 14, display: 'block' }} />
-      <p style={{ fontSize: 26, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.03em', lineHeight: 1, marginBottom: 5 }}>{value}</p>
-      <p style={{ fontSize: 12, color:'var(--text-secondary)', marginBottom: sub ? 3 : 0 }}>{label}</p>
-      {sub && <p style={{ fontSize: 11, color:'var(--text-muted)' }}>{sub}</p>}
+    <div style={{
+      background:`radial-gradient(ellipse at 10% -20%, ${color}18 0%, transparent 55%), #111113`,
+      border:`1px solid ${color}18`,
+      borderRadius:20, padding:'20px 22px', position:'relative', overflow:'hidden',
+      boxShadow:`inset 0 1px 0 rgba(255,255,255,0.05)`,
+      transition:'transform 200ms ease, box-shadow 200ms ease',
+    }}
+      onMouseEnter={e => { e.currentTarget.style.transform='translateY(-2px)'; e.currentTarget.style.boxShadow=`0 12px 32px -8px rgba(0,0,0,0.5), 0 0 0 1px ${color}22` }}
+      onMouseLeave={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow=`inset 0 1px 0 rgba(255,255,255,0.05)` }}
+    >
+      <div aria-hidden style={{ position:'absolute', top:-25, right:-15, width:90, height:90, borderRadius:'50%', background:`${color}0c`, filter:'blur(22px)', pointerEvents:'none' }} />
+      <div style={{ width:34, height:34, borderRadius:10, background:`${color}14`, border:`1px solid ${color}22`, display:'flex', alignItems:'center', justifyContent:'center', marginBottom:14 }}>
+        <Icon style={{ width:15, height:15, color }} />
+      </div>
+      <p style={{ fontSize:48, fontWeight:900, color:'#F4F4F5', letterSpacing:'-0.06em', lineHeight:1, marginBottom:8, textShadow:`0 0 40px ${color}50` }}>{value}</p>
+      <p style={{ fontSize:12, color:'rgba(255,255,255,0.45)', fontWeight:600, marginBottom: sub ? 3 : 0 }}>{label}</p>
+      {sub && <p style={{ fontSize:11, color:'rgba(255,255,255,0.28)' }}>{sub}</p>}
     </div>
   )
 }
@@ -91,11 +103,11 @@ export default function Analytics() {
 
       {/* KPIs */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill,minmax(190px,1fr))', gap: 14 }}>
-        <StatCard icon={Users}      label="Total de alunos"              value={d.total_alunos ?? '—'} />
-        <StatCard icon={Activity}   label={`Ativos (${dias}d)`}          value={d.alunos_ativos_7d ?? '—'} sub={`${retencao}% de retenção`} />
-        <StatCard icon={TrendingUp} label={`Inativos (${dias}d)`}        value={d.alunos_inativos_7d ?? '—'} sub="sem treinar" />
-        <StatCard icon={Dumbbell}   label={`Treinos (${dias}d)`}         value={d.treinos_semana ?? '—'} />
-        <StatCard icon={DollarSign} label="Receita no mês"               value={`R$${(d.receita_mes ?? 0).toLocaleString('pt-BR', { minimumFractionDigits: 0 })}`} />
+        <StatCard icon={Users}      color="#6366f1" label="Total de alunos"     value={d.total_alunos ?? '—'} />
+        <StatCard icon={Activity}   color="#22c55e" label={`Ativos (${dias}d)`} value={d.alunos_ativos_7d ?? '—'} sub={`${retencao}% de retenção`} />
+        <StatCard icon={TrendingUp} color="#f97316" label={`Inativos (${dias}d)`} value={d.alunos_inativos_7d ?? '—'} sub="sem treinar" />
+        <StatCard icon={Dumbbell}   color="#ef4444" label={`Treinos (${dias}d)`} value={d.treinos_semana ?? '—'} />
+        <StatCard icon={DollarSign} color="#34d399" label="Receita no mês"       value={`R$${(d.receita_mes ?? 0).toLocaleString('pt-BR', { minimumFractionDigits: 0 })}`} />
       </div>
 
       <div className="rg-1-300" style={{ gap: 16 }}>

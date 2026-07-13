@@ -63,11 +63,16 @@ export default function MeusCheckins() {
   })
 
   if (isLoading) return (
-    <div style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'80px 0', gap:12 }}>
-      <div style={{ width:52, height:52, borderRadius:16, background:'rgba(239,68,68,0.12)', border:'1px solid rgba(239,68,68,0.2)', display:'flex', alignItems:'center', justifyContent:'center' }}>
-        <Calendar style={{ width:22, height:22, color:'#f87171' }} />
+    <div style={{ display:'flex', flexDirection:'column', gap:18 }}>
+      <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+        <div className="skeleton" style={{ width:180, height:28, borderRadius:10 }} />
+        <div className="skeleton" style={{ width:240, height:14, borderRadius:8 }} />
       </div>
-      <p style={{ fontSize:13, color:'rgba(255,255,255,0.38)', fontWeight:600 }}>Carregando presença...</p>
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+        <div className="skeleton" style={{ height:110, borderRadius:18 }} />
+        <div className="skeleton" style={{ height:110, borderRadius:18 }} />
+      </div>
+      <div className="skeleton" style={{ height:260, borderRadius:20 }} />
     </div>
   )
 
