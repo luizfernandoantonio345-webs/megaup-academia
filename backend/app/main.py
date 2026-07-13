@@ -324,8 +324,9 @@ app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 _ALLOWED_ORIGINS = [
     "https://megaup-academia.onrender.com",
     "https://megaup.onrender.com",
-    "http://localhost:5173",
-    "http://localhost:4173",
+    "http://localhost:3000",   # Next.js dev
+    "http://localhost:5173",   # Vite dev (legado)
+    "http://localhost:4173",   # Vite preview
 ]
 # Adiciona FRONTEND_BASE_URL das env vars se configurado
 if settings.FRONTEND_BASE_URL and settings.FRONTEND_BASE_URL not in _ALLOWED_ORIGINS:

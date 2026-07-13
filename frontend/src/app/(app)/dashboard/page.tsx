@@ -15,6 +15,7 @@ import {
   Clock, Target, Award, ChevronRight,
 } from 'lucide-react'
 import Link from 'next/link'
+import { OnboardingWizard } from '@/components/OnboardingWizard'
 
 /* ── Types ─────────────────────────────────────────────────────────── */
 type Aluno = {
@@ -735,6 +736,8 @@ export default function DashboardPage() {
       </div>
 
       <div className="lg:hidden" style={{ height:80 }}/>
+
+      {total === 0 && !isLoading && <OnboardingWizard />}
     </div>
   )
 }

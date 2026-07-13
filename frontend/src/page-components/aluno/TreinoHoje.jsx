@@ -1,10 +1,13 @@
-import { useState, useEffect, useRef, useMemo } from 'react'
+import { useState, useEffect, useRef, useMemo, lazy, Suspense } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '../../contexts/AuthContext'
-import { treinoDodia, listarExercicios, executarTreino, gamificacaoAluno, historicoCargaBatch, treinoAlternativo } from '../../api'
+import { treinoDodia, listarExercicios, executarTreino, gamificacaoAluno, historicoCargaBatch, treinoAlternativo, fazerCheckin } from '../../api'
 import toast from 'react-hot-toast'
-import { Play, Dumbbell, CheckCircle, X, ChevronDown, ChevronUp, Timer, Zap, Check, Pause, Flame, RotateCcw, TrendingUp, TrendingDown, Minus, Plus, Shuffle, Trophy } from 'lucide-react'
+import { Play, Dumbbell, CheckCircle, X, ChevronDown, ChevronUp, Timer, Zap, Check, Pause, Flame, RotateCcw, TrendingUp, TrendingDown, Minus, Plus, Shuffle, Trophy, Camera, ScanLine } from 'lucide-react'
 import VideoPlayer from '../../components/VideoPlayer'
+
+const QRScanner = lazy(() => import('../../components/QRScanner').then(m => ({ default: m.QRScanner })))
+const PushNotificationToggle = lazy(() => import('../../components/PushNotificationToggle').then(m => ({ default: m.PushNotificationToggle })))
 
 /* ─── STEPPER ─── */
 function Stepper({ label, value, onChange, step = 1, min = 0, hint, isPR = false }) {
@@ -620,11 +623,44 @@ function StreakCard({ gami }) {
 /* ─── MAIN PAGE ─── */
 export default function TreinoHoje() {
   const { user, alunoId }=useAuth()
+  const qc=useQueryClient()
   const [treinoAtivo,setTreinoAtivo]=useState(null)
+  const [showScanner,setShowScanner]=useState(false)
+  const [checkinBanner,setCheckinBanner]=useState(null) // { ok, msg }
   const { data:treinosHoje=[],isLoading }=useQuery({ queryKey:['treino-do-dia',alunoId], queryFn:()=>treinoDodia(alunoId).then(r=>r.data), enabled:!!alunoId })
   const { data:gami }=useQuery({ queryKey:['gamificacao',alunoId], queryFn:()=>gamificacaoAluno(alunoId).then(r=>r.data), enabled:!!alunoId })
   const { data:exercicios=[] }=useQuery({ queryKey:['exercicios'], queryFn:()=>listarExercicios().then(r=>r.data) })
   const exercicioMap=Object.fromEntries(exercicios.map(e=>[e.id,e]))
+
+  const { mutate:doCheckin, isPending:checkinPending }=useMutation({
+    mutationFn:(token)=>fazerCheckin(token),
+    onSuccess:(res)=>{
+      const d=res.data
+      setCheckinBanner({ ok:d.ok!==false, msg:d.msg, novo:d.novo })
+      if (d.novo) {
+        toast.success('Check-in registrado! 💪', { duration:3000 })
+        qc.invalidateQueries({ queryKey:['meus-checkins'] })
+        qc.invalidateQueries({ queryKey:['gamificacao',alunoId] })
+      } else {
+        toast('Você já fez check-in hoje!', { icon:'ℹ️' })
+      }
+    },
+    onError:(err)=>{
+      setCheckinBanner({ ok:false, msg:err?.response?.data?.detail||'Erro ao fazer check-in' })
+      toast.error('Erro no check-in')
+    },
+  })
+
+  const handleQrResult=(rawValue)=>{
+    setShowScanner(false)
+    let token=rawValue
+    try {
+      const url=new URL(rawValue)
+      token=url.searchParams.get('t')||rawValue
+    } catch {}
+    if (!token) { toast.error('QR inválido'); return }
+    doCheckin(token)
+  }
   const hora=new Date().getHours()
   const saudacao=hora<12?'Bom dia':hora<18?'Boa tarde':'Boa noite'
   const DIAS=['Domingo','Segunda','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado']
@@ -658,6 +694,66 @@ export default function TreinoHoje() {
         </div>
       </div>
 
+      {/* Check-in QR Banner */}
+      {checkinBanner ? (
+        <div style={{
+          borderRadius:18, padding:'16px 18px',
+          background: checkinBanner.ok
+            ? 'radial-gradient(ellipse at 10% -20%, rgba(16,185,129,0.2) 0%, transparent 55%), #111113'
+            : 'radial-gradient(ellipse at 10% -20%, rgba(239,68,68,0.18) 0%, transparent 55%), #111113',
+          border:`1px solid ${checkinBanner.ok ? 'rgba(16,185,129,0.28)' : 'rgba(239,68,68,0.28)'}`,
+          display:'flex', alignItems:'center', gap:14,
+        }}>
+          <div style={{ width:44, height:44, borderRadius:14, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0,
+            background: checkinBanner.ok ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)',
+            border:`1px solid ${checkinBanner.ok ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)'}`,
+          }}>
+            {checkinBanner.ok
+              ? <CheckCircle style={{ width:22, height:22, color:'#10b981', filter:'drop-shadow(0 0 8px rgba(16,185,129,0.6))' }} />
+              : <X style={{ width:22, height:22, color:'#f87171' }} />}
+          </div>
+          <div style={{ flex:1, minWidth:0 }}>
+            <p style={{ fontSize:15, fontWeight:800, color:'#F4F4F5', letterSpacing:'-0.02em', marginBottom:2 }}>
+              {checkinBanner.ok ? (checkinBanner.novo ? 'Check-in registrado!' : 'Já fez check-in hoje') : 'Erro no check-in'}
+            </p>
+            <p style={{ fontSize:12, color:'rgba(255,255,255,0.45)' }}>{checkinBanner.msg}</p>
+          </div>
+          <button onClick={()=>setCheckinBanner(null)} style={{ background:'none', border:'none', cursor:'pointer', color:'rgba(255,255,255,0.3)', padding:4, flexShrink:0 }}>
+            <X style={{ width:15, height:15 }} />
+          </button>
+        </div>
+      ) : (
+        <button
+          onClick={()=>setShowScanner(true)}
+          disabled={checkinPending}
+          style={{
+            width:'100%', padding:'15px 20px', borderRadius:18, cursor:'pointer',
+            background:'radial-gradient(ellipse at 0% 50%, rgba(239,68,68,0.12) 0%, transparent 60%), #111113',
+            border:'1px solid rgba(239,68,68,0.22)',
+            display:'flex', alignItems:'center', gap:14,
+            transition:'all 0.18s', textAlign:'left',
+          }}
+          onMouseEnter={e=>{ e.currentTarget.style.border='1px solid rgba(239,68,68,0.42)'; e.currentTarget.style.boxShadow='0 0 24px rgba(239,68,68,0.12)' }}
+          onMouseLeave={e=>{ e.currentTarget.style.border='1px solid rgba(239,68,68,0.22)'; e.currentTarget.style.boxShadow='none' }}>
+          <div style={{ width:46, height:46, borderRadius:14, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, background:'rgba(239,68,68,0.15)', border:'1px solid rgba(239,68,68,0.28)', boxShadow:'0 0 20px rgba(239,68,68,0.15)' }}>
+            {checkinPending
+              ? <span style={{ width:18, height:18, border:'2px solid rgba(255,255,255,0.2)', borderTopColor:'white', borderRadius:'50%', display:'inline-block', animation:'spin 0.7s linear infinite' }} />
+              : <Camera style={{ width:20, height:20, color:'#f87171' }} />}
+          </div>
+          <div>
+            <p style={{ fontFamily:'Inter,sans-serif', fontSize:15, fontWeight:800, color:'#F4F4F5', letterSpacing:'-0.02em', marginBottom:2 }}>
+              {checkinPending ? 'Registrando...' : 'Fazer Check-in'}
+            </p>
+            <p style={{ fontSize:11, color:'rgba(255,255,255,0.38)', fontWeight:500 }}>
+              Escaneie o QR da academia
+            </p>
+          </div>
+          <div style={{ marginLeft:'auto', flexShrink:0 }}>
+            <ScanLine style={{ width:18, height:18, color:'rgba(239,68,68,0.5)' }} />
+          </div>
+        </button>
+      )}
+
       <StreakCard gami={gami} />
 
       {treinosHoje.length===0?(
@@ -690,7 +786,20 @@ export default function TreinoHoje() {
         </div>
       )}
 
+      {/* Push notification toggle */}
+      <Suspense fallback={null}>
+        <PushNotificationToggle />
+      </Suspense>
+
       {treinoAtivo&&<ModalExecutar treino={treinoAtivo} exercicioMap={exercicioMap} alunoId={alunoId} onClose={()=>setTreinoAtivo(null)} />}
+
+      {showScanner&&(
+        <Suspense fallback={null}>
+          <QRScanner onResult={handleQrResult} onClose={()=>setShowScanner(false)} />
+        </Suspense>
+      )}
+
+      <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
     </div>
   )
 }

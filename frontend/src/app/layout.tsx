@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Providers } from '@/components/providers'
 import ChunkErrorHandler from '@/components/ChunkErrorHandler'
+import { ServiceWorkerRegistrar } from '@/components/ServiceWorkerRegistrar'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -33,12 +34,13 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" data-theme="dark" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://megaup-backend.onrender.com" />
-        <link rel="dns-prefetch" href="https://megaup-backend.onrender.com" />
+        <link rel="preconnect" href="https://megaup-api.onrender.com" />
+        <link rel="dns-prefetch" href="https://megaup-api.onrender.com" />
       </head>
       <body>
         <Providers>
           <ChunkErrorHandler />
+          <ServiceWorkerRegistrar />
           {children}
         </Providers>
       </body>
