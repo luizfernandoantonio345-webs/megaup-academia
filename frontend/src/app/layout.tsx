@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Providers } from '@/components/providers'
+import ChunkErrorHandler from '@/components/ChunkErrorHandler'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -32,7 +33,10 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" data-theme="dark" suppressHydrationWarning>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <ChunkErrorHandler />
+          {children}
+        </Providers>
       </body>
     </html>
   )

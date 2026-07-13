@@ -1,5 +1,15 @@
-﻿import { Component } from 'react'
+import { Component } from 'react'
 import { RefreshCw } from 'lucide-react'
+
+function isChunkError(error) {
+  const msg = error?.message ?? ''
+  return (
+    msg.includes('Failed to fetch dynamically imported module') ||
+    msg.includes('Loading chunk') ||
+    msg.includes('ChunkLoadError') ||
+    error?.name === 'ChunkLoadError'
+  )
+}
 
 export default class ErrorBoundary extends Component {
   constructor(props) {
@@ -14,10 +24,20 @@ export default class ErrorBoundary extends Component {
   componentDidCatch(error, errorInfo) {
     this.setState({ errorInfo })
     console.error('[ErrorBoundary]', error, errorInfo)
+
+    if (isChunkError(error)) {
+      const key = 'chunk_reload_count'
+      const count = parseInt(sessionStorage.getItem(key) || '0')
+      if (count < 3) {
+        sessionStorage.setItem(key, String(count + 1))
+        window.location.reload()
+      }
+    }
   }
 
   render() {
     if (this.state.error) {
+      const chunkErr = isChunkError(this.state.error)
       return (
         <div style={{
           minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -25,28 +45,37 @@ export default class ErrorBoundary extends Component {
         }}>
           <div style={{ maxWidth: 360 }}>
             <div style={{
-              width: 48, height: 48, borderRadius: 14, background: 'rgba(248,113,113,0.1)',
+              width: 52, height: 52, borderRadius: 16, background: 'rgba(248,113,113,0.08)',
               border: '1px solid rgba(248,113,113,0.2)', display: 'flex', alignItems: 'center',
               justifyContent: 'center', margin: '0 auto 20px',
+              boxShadow: '0 0 20px rgba(248,113,113,0.08)',
             }}>
               <RefreshCw style={{ width: 20, height: 20, color: '#f87171' }} />
             </div>
-            <h2 style={{ fontSize: 17, fontWeight: 600, color:'var(--text-primary)', marginBottom: 8 }}>
+            <h2 style={{ fontSize: 18, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 8, letterSpacing: '-0.03em' }}>
               Algo deu errado
             </h2>
-            <p style={{ color:'var(--text-muted)', fontSize: 13, marginBottom: 20, lineHeight: 1.6 }}>
-              {this.state.error?.message || 'Erro inesperado nesta página.'}
+            <p style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 22, lineHeight: 1.65 }}>
+              {chunkErr
+                ? 'Nova versão disponível. Recarregando…'
+                : (this.state.error?.message || 'Erro inesperado nesta página.')}
             </p>
             <button
-              onClick={() => this.setState({ error: null, errorInfo: null })}
+              onClick={() => {
+                sessionStorage.removeItem('chunk_reload_count')
+                window.location.reload()
+              }}
               style={{
-                background: '#ef4444', color: 'white', border: 'none', borderRadius: 8,
-                padding: '10px 24px', fontWeight: 600, cursor: 'pointer', fontSize: 13,
-                display: 'inline-flex', alignItems: 'center', gap: 6,
+                background: 'linear-gradient(135deg,#ef4444,#dc2626)', color: 'white',
+                border: 'none', borderRadius: 12, padding: '11px 26px',
+                fontWeight: 700, cursor: 'pointer', fontSize: 14,
+                display: 'inline-flex', alignItems: 'center', gap: 7,
+                boxShadow: '0 4px 16px rgba(239,68,68,0.35)',
+                fontFamily: 'Inter, sans-serif',
               }}
             >
-              <RefreshCw style={{ width: 13, height: 13 }} />
-              Tentar novamente
+              <RefreshCw style={{ width: 14, height: 14 }} />
+              Recarregar página
             </button>
           </div>
         </div>
@@ -55,4 +84,3 @@ export default class ErrorBoundary extends Component {
     return this.props.children
   }
 }
-
