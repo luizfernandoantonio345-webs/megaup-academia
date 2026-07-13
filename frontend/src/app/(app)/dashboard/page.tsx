@@ -396,8 +396,8 @@ function QA({ to, icon: Icon, label, color, index }: { to: string; icon: React.E
 export default function DashboardPage() {
   const { user } = useAuth()
 
-  const { data: aRes,  isLoading: loadingAlunos } = useQuery({ queryKey:['alunos'],              queryFn:() => listarAlunos(),      staleTime:60_000 })
-  const { data: anRes, isLoading: loadingStats  } = useQuery({ queryKey:['analytics-resumo', 7], queryFn:() => analyticsResumo(7), staleTime:60_000 })
+  const { data: aRes,  isLoading: loadingAlunos } = useQuery({ queryKey:['alunos'],              queryFn:() => listarAlunos(),      staleTime:60_000, enabled:!!user })
+  const { data: anRes, isLoading: loadingStats  } = useQuery({ queryKey:['analytics-resumo', 7], queryFn:() => analyticsResumo(7), staleTime:60_000, enabled:!!user })
 
   const alunos: Aluno[]   = (aRes  as { data: Aluno[] }     | undefined)?.data || []
   const stats:  Analytics = (anRes as { data: Analytics } | undefined)?.data || {}

@@ -1,9 +1,12 @@
 'use client'
 
-import { Suspense, useState } from 'react'
+import { Suspense, useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@/contexts/auth-context'
+import { useQueryClient } from '@tanstack/react-query'
+import { listarAlunos, analyticsResumo } from '@/lib/api-routes'
+import api from '@/lib/api'
 import toast from 'react-hot-toast'
 import { Mail, Lock, Eye, EyeOff, ArrowRight, TrendingUp, Users, Zap } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -63,6 +66,7 @@ function LoginContent() {
   const { login } = useAuth()
   const router = useRouter()
   const searchParams = useSearchParams()
+  const queryClient = useQueryClient()
   const nextUrl = searchParams?.get('next')
 
   const [form, setForm] = useState({ email: '', senha: '' })
@@ -70,6 +74,11 @@ function LoginContent() {
   const [loading, setLoading] = useState(false)
   const [showPass, setShowPass] = useState(false)
   const [warmMsg, setWarmMsg] = useState<string | null>(null)
+
+  // Pre-warm backend on mount — so server is alive before user clicks submit
+  useEffect(() => {
+    api.get('/health', { timeout: 30_000 }).catch(() => {})
+  }, [])
 
   const set = (k: 'email' | 'senha') => (e: React.ChangeEvent<HTMLInputElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value }))
@@ -99,6 +108,13 @@ function LoginContent() {
       }
       try {
         const user = await login(form.email, form.senha)
+        // Prefetch critical data while token is fresh — dashboard loads from cache
+        if (user?.role !== 'aluno') {
+          await Promise.all([
+            queryClient.prefetchQuery({ queryKey: ['alunos'], queryFn: listarAlunos, staleTime: 60_000 }),
+            queryClient.prefetchQuery({ queryKey: ['analytics-resumo', 7], queryFn: () => analyticsResumo(7), staleTime: 60_000 }),
+          ])
+        }
         router.push(nextUrl || (user?.role === 'aluno' ? '/aluno' : '/dashboard'))
         return
       } catch (err) {
