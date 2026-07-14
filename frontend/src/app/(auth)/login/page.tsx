@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { Suspense, useState, useEffect } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -12,7 +12,7 @@ import { Mail, Lock, Eye, EyeOff, ArrowRight, TrendingUp, Users, Zap } from 'luc
 import { motion, AnimatePresence } from 'framer-motion'
 
 /* ── Dumbbell SVG logo ─────────────────────────────────────────────── */
-function DumbbellSVG({ size = 32, color = '#ef4444' }: { size?: number; color?: string }) {
+function DumbbellSVG({ size = 32, color = '#E8342B' }: { size?: number; color?: string }) {
   return (
     <svg width={size} height={Math.round(size * 0.54)} viewBox="0 0 50 27" fill="none" aria-hidden>
       <rect x="0.5"  y="4"    width="8"  height="19" rx="3" fill={color} />
@@ -29,12 +29,12 @@ function LogoBox({ size = 68 }: { size?: number }) {
     <div style={{
       width: size, height: size, flexShrink: 0,
       background: 'linear-gradient(145deg, #1e1f26, #111113)',
-      border: '1.5px solid rgba(239,68,68,0.45)',
+      border: '1.5px solid rgba(232,52,43,0.45)',
       borderRadius: Math.round(size * 0.26),
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      boxShadow: '0 0 36px rgba(239,68,68,0.28), 0 0 12px rgba(239,68,68,0.14) inset, inset 0 1px 0 rgba(255,255,255,0.08)',
+      boxShadow: '0 0 36px rgba(232,52,43,0.28), 0 0 12px rgba(232,52,43,0.14) inset, inset 0 1px 0 rgba(255,255,255,0.08)',
     }}>
-      <DumbbellSVG size={Math.round(size * 0.48)} color="#ef4444" />
+      <DumbbellSVG size={Math.round(size * 0.48)} color="#E8342B" />
     </div>
   )
 }
@@ -44,10 +44,10 @@ function Bracket({ top, right, bottom, left }: { top?: number; right?: number; b
     <div style={{
       position: 'absolute', width: 22, height: 22, pointerEvents: 'none',
       top, right, bottom, left,
-      borderTop:    top    != null ? '2px solid rgba(239,68,68,0.38)' : undefined,
-      borderLeft:   left   != null ? '2px solid rgba(239,68,68,0.38)' : undefined,
-      borderBottom: bottom != null ? '2px solid rgba(239,68,68,0.38)' : undefined,
-      borderRight:  right  != null ? '2px solid rgba(239,68,68,0.38)' : undefined,
+      borderTop:    top    != null ? '2px solid rgba(232,52,43,0.38)' : undefined,
+      borderLeft:   left   != null ? '2px solid rgba(232,52,43,0.38)' : undefined,
+      borderBottom: bottom != null ? '2px solid rgba(232,52,43,0.38)' : undefined,
+      borderRight:  right  != null ? '2px solid rgba(232,52,43,0.38)' : undefined,
       borderRadius:
         top != null && left  != null ? '14px 0 0 0'  :
         top != null && right != null ? '0 14px 0 0'  :
@@ -138,18 +138,18 @@ function LoginContent() {
 
   return (
     <div style={{
-      minHeight: '100dvh', display: 'flex', background: '#0C0C0D',
+      minHeight: '100dvh', display: 'flex', background: '#0D0D0F',
       position: 'relative', overflow: 'hidden',
     }}>
       {/* Ambient orbs */}
-      <div aria-hidden style={{ position: 'absolute', top: '-15%', left: '-8%', width: 650, height: 650, borderRadius: '50%', background: 'radial-gradient(circle,rgba(239,68,68,0.10) 0%,transparent 65%)', filter: 'blur(80px)', pointerEvents: 'none', zIndex: 0 }} />
+      <div aria-hidden style={{ position: 'absolute', top: '-15%', left: '-8%', width: 650, height: 650, borderRadius: '50%', background: 'radial-gradient(circle,rgba(232,52,43,0.10) 0%,transparent 65%)', filter: 'blur(80px)', pointerEvents: 'none', zIndex: 0 }} />
       <div aria-hidden style={{ position: 'absolute', bottom: '-15%', right: '-8%', width: 600, height: 600, borderRadius: '50%', background: 'radial-gradient(circle,rgba(99,102,241,0.07) 0%,transparent 65%)', filter: 'blur(70px)', pointerEvents: 'none', zIndex: 0 }} />
       {/* Dot grid */}
       <div aria-hidden style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(255,255,255,0.016) 1px,transparent 1px)', backgroundSize: '28px 28px', pointerEvents: 'none', zIndex: 0 }} />
 
       {/* ── LEFT HERO PANEL (hidden mobile, shown ≥900px) ── */}
       <div className="login-left-panel" style={{ position: 'relative', zIndex: 10 }}>
-        <div aria-hidden style={{ position: 'absolute', left: 0, top: '12%', bottom: '12%', width: 1, background: 'linear-gradient(180deg,transparent,rgba(239,68,68,0.38) 30%,rgba(239,68,68,0.38) 70%,transparent)', pointerEvents: 'none' }} />
+        <div aria-hidden style={{ position: 'absolute', left: 0, top: '12%', bottom: '12%', width: 1, background: 'linear-gradient(180deg,transparent,rgba(232,52,43,0.38) 30%,rgba(232,52,43,0.38) 70%,transparent)', pointerEvents: 'none' }} />
 
         <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
           {/* Brand row */}
@@ -162,7 +162,7 @@ function LoginContent() {
           <div style={{ marginBottom: 52 }}>
             <h1 style={{ fontSize: 'clamp(30px,3.5vw,44px)', fontWeight: 900, color: '#F4F4F5', letterSpacing: '-0.045em', lineHeight: 1.1, marginBottom: 18 }}>
               Transforme cada{' '}
-              <span style={{ color: '#ef4444', textShadow: '0 0 40px rgba(239,68,68,0.55)' }}>treino</span>{' '}
+              <span style={{ color: '#E8342B', textShadow: '0 0 40px rgba(232,52,43,0.55)' }}>treino</span>{' '}
               em resultado.
             </h1>
             <p style={{ fontSize: 15, color: 'rgba(255,255,255,0.4)', lineHeight: 1.7 }}>
@@ -180,8 +180,8 @@ function LoginContent() {
                 transition={{ delay: 0.2 + i * 0.1, duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}
               >
-                <div style={{ width: 34, height: 34, borderRadius: 10, background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
-                  <Icon style={{ width: 15, height: 15, color: '#f87171' }} />
+                <div style={{ width: 34, height: 34, borderRadius: 10, background: 'rgba(232,52,43,0.08)', border: '1px solid rgba(232,52,43,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: 1 }}>
+                  <Icon style={{ width: 15, height: 15, color: '#FF8078' }} />
                 </div>
                 <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', lineHeight: 1.65, margin: 0 }}>{text}</p>
               </motion.div>
@@ -191,7 +191,7 @@ function LoginContent() {
 
         {/* Watermark dumbbell */}
         <div aria-hidden style={{ position: 'absolute', bottom: 44, left: 56, opacity: 0.04 }}>
-          <DumbbellSVG size={130} color="#ef4444" />
+          <DumbbellSVG size={130} color="#E8342B" />
         </div>
       </div>
 
@@ -207,7 +207,7 @@ function LoginContent() {
             backdropFilter: 'blur(28px)', WebkitBackdropFilter: 'blur(28px)',
             borderRadius: 26, border: '1px solid rgba(255,255,255,0.075)',
             padding: 'clamp(28px,7vw,48px) clamp(20px,6vw,44px)',
-            boxShadow: '0 36px 72px -12px rgba(0,0,0,0.8),0 0 0 1px rgba(239,68,68,0.07),inset 0 1px 0 rgba(255,255,255,0.06)',
+            boxShadow: '0 36px 72px -12px rgba(0,0,0,0.8),0 0 0 1px rgba(232,52,43,0.07),inset 0 1px 0 rgba(255,255,255,0.06)',
             textAlign: 'center',
           } as React.CSSProperties}
         >
@@ -253,12 +253,12 @@ function LoginContent() {
                   placeholder="E-mail" value={form.email}
                   onChange={set('email')} onBlur={touch('email')}
                   required autoComplete="email"
-                  style={errors.email ? { borderColor: 'rgba(239,68,68,0.7)', boxShadow: '0 0 0 4px rgba(239,68,68,0.10)' } : {}}
+                  style={errors.email ? { borderColor: 'rgba(232,52,43,0.7)', boxShadow: '0 0 0 4px rgba(232,52,43,0.10)' } : {}}
                 />
               </div>
               <AnimatePresence>
                 {errors.email && (
-                  <motion.p role="alert" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} style={{ fontSize: 11, color: '#f87171', marginTop: 5, marginLeft: 4 }}>
+                  <motion.p role="alert" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} style={{ fontSize: 11, color: '#FF8078', marginTop: 5, marginLeft: 4 }}>
                     {errors.email}
                   </motion.p>
                 )}
@@ -274,7 +274,7 @@ function LoginContent() {
                   placeholder="Senha" value={form.senha}
                   onChange={set('senha')} onBlur={touch('senha')}
                   required autoComplete="current-password"
-                  style={errors.senha ? { borderColor: 'rgba(239,68,68,0.7)', boxShadow: '0 0 0 4px rgba(239,68,68,0.10)' } : {}}
+                  style={errors.senha ? { borderColor: 'rgba(232,52,43,0.7)', boxShadow: '0 0 0 4px rgba(232,52,43,0.10)' } : {}}
                 />
                 <button
                   type="button" onClick={() => setShowPass((v) => !v)}
@@ -286,7 +286,7 @@ function LoginContent() {
               </div>
               <AnimatePresence>
                 {errors.senha && (
-                  <motion.p role="alert" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} style={{ fontSize: 11, color: '#f87171', marginTop: 5, marginLeft: 4 }}>
+                  <motion.p role="alert" initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -4 }} style={{ fontSize: 11, color: '#FF8078', marginTop: 5, marginLeft: 4 }}>
                     {errors.senha}
                   </motion.p>
                 )}

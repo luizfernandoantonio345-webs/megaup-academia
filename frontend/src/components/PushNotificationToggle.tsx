@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { Bell, BellOff, Loader2 } from 'lucide-react'
@@ -76,7 +76,7 @@ export function PushNotificationToggle() {
   if (state === 'unsupported') return null
 
   const isOn = state === 'subscribed'
-  const color = state === 'denied' ? '#6b7280' : isOn ? '#22c55e' : '#ef4444'
+  const color = state === 'denied' ? '#6b7280' : isOn ? '#22c55e' : '#E8342B'
 
   return (
     <button
@@ -86,7 +86,7 @@ export function PushNotificationToggle() {
         width: '100%', padding: '14px 18px', borderRadius: 16,
         background: isOn
           ? 'radial-gradient(ellipse at 10% -20%, rgba(34,197,94,0.15) 0%, transparent 55%), #111113'
-          : 'radial-gradient(ellipse at 10% -20%, rgba(239,68,68,0.1) 0%, transparent 55%), #111113',
+          : 'radial-gradient(ellipse at 10% -20%, rgba(232,52,43,0.1) 0%, transparent 55%), #111113',
         border: `1px solid ${color}28`,
         cursor: loading || state === 'denied' ? 'not-allowed' : 'pointer',
         display: 'flex', alignItems: 'center', gap: 14, textAlign: 'left',

@@ -7,7 +7,7 @@ import { Brain, Zap, TrendingUp, TrendingDown, Minus, ChevronDown, Sparkles, Ale
 function Avatar({ nome, size = 28 }) {
   const initials = (nome || '?').split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase()
   return (
-    <div style={{ width: size, height: size, borderRadius: '50%', background: '#ef4444', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.38, fontWeight: 600, flexShrink: 0 }}>
+    <div style={{ width: size, height: size, borderRadius: '50%', background: '#E8342B', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: size * 0.38, fontWeight: 600, flexShrink: 0 }}>
       {initials}
     </div>
   )
@@ -15,8 +15,8 @@ function Avatar({ nome, size = 28 }) {
 
 const ACAO_CONFIG = {
   aumentar: { icon: TrendingUp,   label: 'Aumentar carga', bg: 'rgba(16,185,129,0.1)',  border: 'rgba(16,185,129,0.25)',  text: '#34d399', iconColor: '#10b981', dot: '#10b981' },
-  manter:   { icon: Minus,        label: 'Manter carga',   bg: 'rgba(99,102,241,0.1)',  border: 'rgba(99,102,241,0.25)',  text: '#fca5a5', iconColor: '#ef4444', dot: '#ef4444' },
-  reduzir:  { icon: TrendingDown, label: 'Reduzir carga',  bg: 'rgba(239,68,68,0.1)',   border: 'rgba(239,68,68,0.25)',   text: '#f87171', iconColor: '#ef4444', dot: '#ef4444' },
+  manter:   { icon: Minus,        label: 'Manter carga',   bg: 'rgba(99,102,241,0.1)',  border: 'rgba(99,102,241,0.25)',  text: '#fca5a5', iconColor: '#E8342B', dot: '#E8342B' },
+  reduzir:  { icon: TrendingDown, label: 'Reduzir carga',  bg: 'rgba(232,52,43,0.1)',   border: 'rgba(232,52,43,0.25)',   text: '#FF8078', iconColor: '#E8342B', dot: '#E8342B' },
 }
 
 function AlunoContextBanner({ aluno, gami, dias }) {
@@ -33,7 +33,7 @@ function AlunoContextBanner({ aluno, gami, dias }) {
       <div className="flex items-center gap-3 flex-shrink-0">
         {dias !== null && (
           <div className="text-center">
-            <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: dias === 0 ? '#34d399' : dias > 7 ? '#f87171' : '#fbbf24' }}>{dias === 0 ? 'Hoje' : `${dias}d`}</div>
+            <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 16, fontWeight: 600, color: dias === 0 ? '#34d399' : dias > 7 ? '#FF8078' : '#fbbf24' }}>{dias === 0 ? 'Hoje' : `${dias}d`}</div>
             <div style={{ fontSize: 10, color:'var(--text-muted)', fontWeight: 600 }}>Ultimo</div>
           </div>
         )}
@@ -78,7 +78,7 @@ export default function IA() {
         </div>
         <div className="relative">
           <div className="w-12 h-12 rounded-2xl flex items-center justify-center"
-            style={{ background: '#ef4444' }}>
+            style={{ background: '#E8342B' }}>
             <Brain style={{ width: 22, height: 22, color: 'white' }} />
           </div>
           <div style={{ position: 'absolute', top: -2, right: -2, width: 12, height: 12, borderRadius: '50%', background: '#34d399', border: '2px solid var(--bg-page)' }} />
@@ -134,15 +134,15 @@ export default function IA() {
           {/* Status badge */}
           {alunoSel && !loadingSug && sugestoes && sugestoes.dias_sem_treinar !== null && (
             <div className="flex items-center gap-3 p-4 rounded-2xl" style={{
-              background: sugestoes.dias_sem_treinar === 0 ? 'rgba(16,185,129,0.1)' : sugestoes.dias_sem_treinar > 7 ? 'rgba(239,68,68,0.1)' : 'rgba(245,158,11,0.1)',
-              border: `1px solid ${sugestoes.dias_sem_treinar === 0 ? 'rgba(16,185,129,0.25)' : sugestoes.dias_sem_treinar > 7 ? 'rgba(239,68,68,0.25)' : 'rgba(245,158,11,0.25)'}`,
+              background: sugestoes.dias_sem_treinar === 0 ? 'rgba(16,185,129,0.1)' : sugestoes.dias_sem_treinar > 7 ? 'rgba(232,52,43,0.1)' : 'rgba(245,158,11,0.1)',
+              border: `1px solid ${sugestoes.dias_sem_treinar === 0 ? 'rgba(16,185,129,0.25)' : sugestoes.dias_sem_treinar > 7 ? 'rgba(232,52,43,0.25)' : 'rgba(245,158,11,0.25)'}`,
             }}>
               {sugestoes.dias_sem_treinar === 0
                 ? <CheckCircle2 style={{ width: 18, height: 18, color: '#34d399', flexShrink: 0 }} />
                 : sugestoes.dias_sem_treinar > 7
-                  ? <AlertCircle style={{ width: 18, height: 18, color: '#f87171', flexShrink: 0 }} />
+                  ? <AlertCircle style={{ width: 18, height: 18, color: '#FF8078', flexShrink: 0 }} />
                   : <Clock style={{ width: 18, height: 18, color: '#fbbf24', flexShrink: 0 }} />}
-              <p style={{ fontWeight: 600, fontSize: 14, color: sugestoes.dias_sem_treinar === 0 ? '#34d399' : sugestoes.dias_sem_treinar > 7 ? '#f87171' : '#fbbf24' }}>
+              <p style={{ fontWeight: 600, fontSize: 14, color: sugestoes.dias_sem_treinar === 0 ? '#34d399' : sugestoes.dias_sem_treinar > 7 ? '#FF8078' : '#fbbf24' }}>
                 {sugestoes.dias_sem_treinar === 0
                   ? 'Treinou hoje!'
                   : sugestoes.dias_sem_treinar > 7
@@ -160,7 +160,7 @@ export default function IA() {
                   style={{ background: 'rgba(124,58,237,0.15)' }}>
                   <Brain style={{ width: 28, height: 28, color: '#a78bfa' }} />
                 </div>
-                <div style={{ position: 'absolute', top: -4, right: -4, width: 14, height: 14, borderRadius: '50%', background: '#ef4444', animation: 'ping 1s cubic-bezier(0,0,0.2,1) infinite' }} />
+                <div style={{ position: 'absolute', top: -4, right: -4, width: 14, height: 14, borderRadius: '50%', background: '#E8342B', animation: 'ping 1s cubic-bezier(0,0,0.2,1) infinite' }} />
               </div>
               <p style={{ fontSize: 14, color:'var(--text-muted)', fontWeight: 500 }}>A IA esta analisando o historico...</p>
             </div>
@@ -284,8 +284,8 @@ function GerarTreinoTab() {
     <div className="space-y-5">
       <div className="card space-y-5">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.2)' }}>
-            <Sparkles style={{ width: 18, height: 18, color: '#ef4444' }} />
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(232,52,43,0.15)', border: '1px solid rgba(232,52,43,0.2)' }}>
+            <Sparkles style={{ width: 18, height: 18, color: '#E8342B' }} />
           </div>
           <div>
             <h3 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color: 'var(--text-primary)', fontSize: 15 }}>Gerador de treino com IA</h3>
@@ -299,7 +299,7 @@ function GerarTreinoTab() {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             {OBJETIVOS.map(o => (
               <button key={o.value} type="button" onClick={() => setForm(f => ({ ...f, objetivo: o.value }))}
-                style={{ padding: '7px 14px', borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer', border: '1px solid', transition: 'all 0.1s', borderColor: form.objetivo === o.value ? '#ef4444' : 'rgba(255,255,255,0.1)', background: form.objetivo === o.value ? 'rgba(239,68,68,0.12)' : 'rgba(255,255,255,0.04)', color: form.objetivo === o.value ? '#f87171' : 'var(--text-muted)' }}>
+                style={{ padding: '7px 14px', borderRadius: 10, fontSize: 13, fontWeight: 600, cursor: 'pointer', border: '1px solid', transition: 'all 0.1s', borderColor: form.objetivo === o.value ? '#E8342B' : 'rgba(255,255,255,0.1)', background: form.objetivo === o.value ? 'rgba(232,52,43,0.12)' : 'rgba(255,255,255,0.04)', color: form.objetivo === o.value ? '#FF8078' : 'var(--text-muted)' }}>
                 {o.emoji} {o.label}
               </button>
             ))}
@@ -360,8 +360,8 @@ function GerarTreinoTab() {
 
       {isPending && (
         <div className="flex flex-col items-center justify-center py-12 gap-3">
-          <div className="w-16 h-16 rounded-2xl flex items-center justify-center animate-bounce-light" style={{ background: 'rgba(239,68,68,0.12)' }}>
-            <Brain style={{ width: 28, height: 28, color: '#ef4444' }} />
+          <div className="w-16 h-16 rounded-2xl flex items-center justify-center animate-bounce-light" style={{ background: 'rgba(232,52,43,0.12)' }}>
+            <Brain style={{ width: 28, height: 28, color: '#E8342B' }} />
           </div>
           <p style={{ fontSize: 14, color: 'var(--text-muted)', fontWeight: 500 }}>Claude está montando seu treino personalizado...</p>
           <p style={{ fontSize: 11, color: 'var(--text-muted)' }}>Isso pode levar 10-20 segundos</p>
@@ -371,10 +371,10 @@ function GerarTreinoTab() {
       {resultado && !isPending && (
         <div className="space-y-4 animate-fade-in">
           {resultado.metodologia && (
-            <div className="rounded-2xl p-4 flex items-center gap-3" style={{ background: 'rgba(239,68,68,0.07)', border: '1px solid rgba(239,68,68,0.18)' }}>
-              <Sparkles style={{ width: 15, height: 15, color: '#ef4444', flexShrink: 0 }} />
+            <div className="rounded-2xl p-4 flex items-center gap-3" style={{ background: 'rgba(232,52,43,0.07)', border: '1px solid rgba(232,52,43,0.18)' }}>
+              <Sparkles style={{ width: 15, height: 15, color: '#E8342B', flexShrink: 0 }} />
               <div>
-                <p style={{ fontSize: 12, fontWeight: 700, color: '#f87171' }}>{resultado.metodologia}</p>
+                <p style={{ fontSize: 12, fontWeight: 700, color: '#FF8078' }}>{resultado.metodologia}</p>
                 {resultado.observacoes && <p style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2, lineHeight: 1.5 }}>{resultado.observacoes}</p>}
               </div>
             </div>
@@ -382,7 +382,7 @@ function GerarTreinoTab() {
           {resultado.sessoes?.map((sessao, si) => (
             <div key={si} className="card space-y-4">
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white text-sm font-bold flex-shrink-0" style={{ background: '#ef4444' }}>
+                <div className="w-9 h-9 rounded-xl flex items-center justify-center text-white text-sm font-bold flex-shrink-0" style={{ background: '#E8342B' }}>
                   {si + 1}
                 </div>
                 <div>
@@ -399,7 +399,7 @@ function GerarTreinoTab() {
                         <p style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>{ex.grupo_muscular}{ex.equipamento ? ` · ${ex.equipamento}` : ''}</p>
                       </div>
                       <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-                        <span style={{ fontSize: 11, padding: '3px 9px', borderRadius: 6, background: 'rgba(239,68,68,0.1)', color: '#f87171', fontWeight: 700 }}>
+                        <span style={{ fontSize: 11, padding: '3px 9px', borderRadius: 6, background: 'rgba(232,52,43,0.1)', color: '#FF8078', fontWeight: 700 }}>
                           {ex.series}×{ex.repeticoes}
                         </span>
                         <span style={{ fontSize: 11, padding: '3px 9px', borderRadius: 6, background: 'rgba(255,255,255,0.06)', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: 4 }}>
@@ -507,7 +507,7 @@ function TreinoAlternativoTab() {
                   </span>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 flex-wrap text-sm mb-1.5">
-                      <span style={{ color: '#f87171', textDecoration: 'line-through', fontWeight: 500 }}>{item.exercicio_original}</span>
+                      <span style={{ color: '#FF8078', textDecoration: 'line-through', fontWeight: 500 }}>{item.exercicio_original}</span>
                       <span style={{ color:'var(--text-muted)', fontSize: 16 }}>→</span>
                       <span style={{ color: '#34d399', fontWeight: 600, fontFamily: 'Inter, sans-serif' }}>{item.exercicio_alternativo}</span>
                     </div>

@@ -145,7 +145,7 @@ export default function ChatBox({ alunoId, outroNome }) {
         {msgs.length === 0 && (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '40px 16px', gap: 12 }}>
             <div style={{ width: 48, height: 48, borderRadius: '50%', background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.18)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <MessageCircle style={{ width: 20, height: 20, color: '#f87171' }} />
+              <MessageCircle style={{ width: 20, height: 20, color: '#FF8078' }} />
             </div>
             <p style={{ fontSize: 13, fontWeight: 600, color:'var(--text-muted)', margin: 0 }}>Nenhuma mensagem ainda</p>
             <p style={{ fontSize: 12, color:'var(--text-disabled)', margin: 0 }}>Envie a primeira mensagem para {outroNome}</p>
@@ -173,7 +173,7 @@ export default function ChatBox({ alunoId, outroNome }) {
                 maxWidth: '74%', minWidth: 64,
                 padding: '8px 12px 5px',
                 borderRadius: eu ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
-                background: eu ? '#ef4444' : 'var(--bg-elevated)',
+                background: eu ? '#E8342B' : 'var(--bg-elevated)',
                 border: eu ? 'none' : '1px solid rgba(255,255,255,0.07)',
                 boxShadow: eu ? '0 2px 10px rgba(99,102,241,0.3)' : 'none',
               }}>
@@ -203,7 +203,7 @@ export default function ChatBox({ alunoId, outroNome }) {
       {/* Input */}
       <div style={{ paddingTop: 10, borderTop: '1px solid rgba(255,255,255,0.05)', flexShrink: 0 }}>
         {avisoChars && (
-          <p style={{ textAlign: 'right', fontSize: 11, color: restantes < 50 ? '#f87171' : 'var(--text-muted)', marginBottom: 5, marginTop: 0 }}>
+          <p style={{ textAlign: 'right', fontSize: 11, color: restantes < 50 ? '#FF8078' : 'var(--text-muted)', marginBottom: 5, marginTop: 0 }}>
             {restantes} restantes
           </p>
         )}
@@ -236,7 +236,7 @@ export default function ChatBox({ alunoId, outroNome }) {
               width: 40, height: 40, borderRadius: 12, border: 'none', flexShrink: 0,
               cursor: texto.trim() && !sending ? 'pointer' : 'default',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: texto.trim() ? '#ef4444' : 'rgba(255,255,255,0.05)',
+              background: texto.trim() ? '#E8342B' : 'rgba(255,255,255,0.05)',
               transition: 'background 0.15s, transform 0.1s',
             }}
             onMouseDown={e => { if (texto.trim()) e.currentTarget.style.transform = 'scale(0.88)' }}

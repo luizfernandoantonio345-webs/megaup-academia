@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+﻿import { useQuery } from '@tanstack/react-query'
 import { meusCheckins } from '../../api'
 import { CheckCircle, Calendar, Flame } from 'lucide-react'
 
@@ -40,10 +40,10 @@ function CalendarioMes({ ano, mes, checkinDias }) {
             <div key={dia} style={{
               aspectRatio:'1', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center',
               fontSize:11, fontWeight:isCheckin?800:400,
-              background: isCheckin ? 'linear-gradient(145deg,#ef4444,#c42121)' : isHoje ? 'rgba(255,255,255,0.07)' : 'transparent',
+              background: isCheckin ? 'linear-gradient(145deg,#E8342B,#c42121)' : isHoje ? 'rgba(255,255,255,0.07)' : 'transparent',
               color: isCheckin ? 'white' : isHoje ? '#F4F4F5' : 'rgba(255,255,255,0.4)',
               border: isHoje&&!isCheckin ? '1px solid rgba(255,255,255,0.15)' : 'none',
-              boxShadow: isCheckin ? '0 2px 10px rgba(239,68,68,0.45)' : 'none',
+              boxShadow: isCheckin ? '0 2px 10px rgba(232,52,43,0.45)' : 'none',
               transition:'all 0.15s',
             }}>
               {dia}
@@ -123,7 +123,7 @@ export default function MeusCheckins() {
       <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
         <div style={{
           borderRadius:18, padding:'18px', position:'relative', overflow:'hidden',
-          background: streak>0 ? 'radial-gradient(ellipse at 10% -20%, rgba(249,115,22,0.2) 0%, transparent 55%), #111113' : '#111113',
+          background: streak>0 ? 'radial-gradient(ellipse at 10% -20%, rgba(249,115,22,0.2) 0%, transparent 55%), #111113' : '#141416',
           border:`1px solid ${streak>0?'rgba(249,115,22,0.25)':'rgba(255,255,255,0.07)'}`,
           boxShadow: streak>0 ? '0 0 24px rgba(249,115,22,0.08)' : 'none',
         }}>
@@ -153,27 +153,27 @@ export default function MeusCheckins() {
       </div>
 
       {/* Calendários */}
-      <div style={{ borderRadius:20, padding:20, background:'#111113', border:'1px solid rgba(255,255,255,0.07)', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
+      <div style={{ borderRadius:20, padding:20, background:'#141416', border:'1px solid rgba(255,255,255,0.07)', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
         <div style={{ display:'flex', flexDirection:'column', gap:28 }}>
           {mesesMostrar.map(({ ano,mes })=>(
             <CalendarioMes key={`${ano}-${mes}`} ano={ano} mes={mes} checkinDias={checkinDias} />
           ))}
         </div>
         <div style={{ display:'flex', alignItems:'center', gap:10, marginTop:20, paddingTop:16, borderTop:'1px solid rgba(255,255,255,0.05)' }}>
-          <div style={{ width:18, height:18, borderRadius:5, background:'linear-gradient(145deg,#ef4444,#c42121)', boxShadow:'0 2px 8px rgba(239,68,68,0.4)' }} />
+          <div style={{ width:18, height:18, borderRadius:5, background:'linear-gradient(145deg,#E8342B,#c42121)', boxShadow:'0 2px 8px rgba(232,52,43,0.4)' }} />
           <span style={{ fontSize:11, color:'rgba(255,255,255,0.38)' }}>Check-in realizado</span>
         </div>
       </div>
 
       {/* Lista recente */}
       {checkins.length===0?(
-        <div style={{ textAlign:'center', padding:'40px 24px', borderRadius:20, background:'#111113', border:'1px solid rgba(255,255,255,0.07)' }}>
+        <div style={{ textAlign:'center', padding:'40px 24px', borderRadius:20, background:'#141416', border:'1px solid rgba(255,255,255,0.07)' }}>
           <div style={{ fontSize:44, marginBottom:16 }}>🏋️</div>
           <p style={{ fontSize:16, fontWeight:800, color:'#F4F4F5', letterSpacing:'-0.02em', marginBottom:6 }}>Nenhum check-in ainda</p>
           <p style={{ fontSize:13, color:'rgba(255,255,255,0.38)', lineHeight:1.5 }}>Escaneie o QR code na academia<br/>para registrar sua presença.</p>
         </div>
       ):(
-        <div style={{ borderRadius:20, background:'#111113', border:'1px solid rgba(255,255,255,0.07)', overflow:'hidden', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
+        <div style={{ borderRadius:20, background:'#141416', border:'1px solid rgba(255,255,255,0.07)', overflow:'hidden', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
           <div style={{ padding:'14px 20px', borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
             <p style={{ fontSize:13, fontWeight:800, color:'rgba(255,255,255,0.6)', letterSpacing:'-0.01em' }}>Últimas visitas</p>
           </div>
@@ -185,8 +185,8 @@ export default function MeusCheckins() {
                 borderBottom: i<Math.min(checkins.length,10)-1?'1px solid rgba(255,255,255,0.04)':'none',
                 transition:'background 0.12s',
               }}>
-                <div style={{ width:36, height:36, borderRadius:11, background:'rgba(239,68,68,0.1)', border:'1px solid rgba(239,68,68,0.18)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                  <CheckCircle style={{ width:15, height:15, color:'#f87171' }} />
+                <div style={{ width:36, height:36, borderRadius:11, background:'rgba(232,52,43,0.1)', border:'1px solid rgba(232,52,43,0.18)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                  <CheckCircle style={{ width:15, height:15, color:'#FF8078' }} />
                 </div>
                 <div style={{ flex:1 }}>
                   <p style={{ fontSize:14, fontWeight:700, color:'#F4F4F5', letterSpacing:'-0.01em' }}>

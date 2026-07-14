@@ -15,7 +15,7 @@ export default function ChatAluno() {
   if (isLoading) {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 200 }}>
-        <Loader2 style={{ width: 24, height: 24, color: '#ef4444', animation: 'spin 1s linear infinite' }} />
+        <Loader2 style={{ width: 24, height: 24, color: '#E8342B', animation: 'spin 1s linear infinite' }} />
         <style>{`@keyframes spin { to { transform: rotate(360deg) } }`}</style>
       </div>
     )

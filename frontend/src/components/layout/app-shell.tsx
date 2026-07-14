@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -25,7 +25,7 @@ const NAV_MAIN = [
   { to:'/alunos',     icon:Users,           label:'Alunos',         color:'#22c55e', bg:'#22c55e15', prefetch:{queryKey:['alunos'],             queryFn:()=>listarAlunos().then((r:any)=>r.data)} },
   { to:'/analytics',  icon:BarChart2,       label:'Analytics',      color:'#a855f7', bg:'#a855f715' },
   { to:'/agenda',     icon:Calendar,        label:'Agenda',         color:'#f97316', bg:'#f9731615' },
-  { to:'/exercicios', icon:Dumbbell,        label:'Exercícios',     color:'#ef4444', bg:'#ef444415', prefetch:{queryKey:['exercicios'], queryFn:()=>listarExercicios().then((r:any)=>r.data)} },
+  { to:'/exercicios', icon:Dumbbell,        label:'Exercícios',     color:'#E8342B', bg:'#E8342B15', prefetch:{queryKey:['exercicios'], queryFn:()=>listarExercicios().then((r:any)=>r.data)} },
 ] as const
 
 const NAV_TOOLS = [
@@ -180,7 +180,7 @@ function NotifBell() {
             width:16, height:16, borderRadius:'50%',
             background:'#f97316', color:'#fff', fontSize:9, fontWeight:800,
             display:'flex', alignItems:'center', justifyContent:'center',
-            border:'2px solid #0C0C0D',
+            border:'2px solid #0D0D0F',
           }}
         >
           {count}
@@ -203,10 +203,10 @@ function SidebarContent({ user, onLogout }: { user: { nome: string; email?: stri
       <div style={{ padding:'0 6px 18px', display:'flex', alignItems:'center', gap:11 }}>
         <div style={{
           width:38, height:38,
-          background:'linear-gradient(145deg, #ef4444, #c42121)',
+          background:'linear-gradient(145deg, #FF5D56, #E8342B)',
           borderRadius:12,
           display:'flex', alignItems:'center', justifyContent:'center',
-          boxShadow:'0 4px 18px rgba(239,68,68,0.50), inset 0 1px 0 rgba(255,255,255,0.15)',
+          boxShadow:'0 4px 20px rgba(232,52,43,0.55), inset 0 1px 0 rgba(255,255,255,0.18)',
           flexShrink:0,
         }}>
           <span style={{ fontSize:18, fontWeight:900, color:'white', letterSpacing:'-2px' }}>M</span>
@@ -251,10 +251,10 @@ function SidebarContent({ user, onLogout }: { user: { nome: string; email?: stri
           <div style={{ position:'relative', flexShrink:0 }}>
             <div style={{
               width:32, height:32, borderRadius:'50%',
-              background:'linear-gradient(145deg,#ef4444,#7c3aed)',
+              background:'linear-gradient(145deg,#E8342B,#7c3aed)',
               display:'flex', alignItems:'center', justifyContent:'center',
               fontSize:11, fontWeight:800, color:'white',
-              boxShadow:'0 2px 10px rgba(239,68,68,0.35)',
+              boxShadow:'0 2px 10px rgba(232,52,43,0.35)',
             }}>
               {inits}
             </div>
@@ -262,7 +262,7 @@ function SidebarContent({ user, onLogout }: { user: { nome: string; email?: stri
               position:'absolute', bottom:0, right:0,
               width:9, height:9, borderRadius:'50%',
               background:'#22c55e',
-              border:'1.5px solid #0C0C0D',
+              border:'1.5px solid #0D0D0F',
               boxShadow:'0 0 6px rgba(34,197,94,0.7)',
             }} />
           </div>
@@ -295,7 +295,7 @@ function SidebarContent({ user, onLogout }: { user: { nome: string; email?: stri
               cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center',
               color:'rgba(255,255,255,0.45)',
             }}
-            onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.background='rgba(239,68,68,0.1)'; el.style.borderColor='rgba(239,68,68,0.32)'; el.style.color='#ef4444' }}
+            onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.background='rgba(232,52,43,0.1)'; el.style.borderColor='rgba(232,52,43,0.32)'; el.style.color='#E8342B' }}
             onMouseLeave={e => { const el=e.currentTarget as HTMLElement; el.style.background='transparent'; el.style.borderColor='rgba(255,255,255,0.07)'; el.style.color='rgba(255,255,255,0.45)' }}
           >
             <LogOut style={{width:13,height:13}}/>
@@ -351,10 +351,10 @@ function MobileBottomNav({ user, onLogout }: { user: { nome: string; email?: str
             })}
             <button onClick={() => setShowMore(true)} style={{ flex:1, background:'none', border:'none', cursor:'pointer', padding:0 }}>
               <div style={{ display:'flex', flexDirection:'column', alignItems:'center', padding:'8px 0 7px', gap:3 }}>
-                <div style={{ width:30, height:30, borderRadius:9, background: isSecondary ? 'rgba(239,68,68,0.12)' : 'transparent', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                  <MoreHorizontal style={{ width:18, height:18, color: isSecondary ? '#ef4444' : 'rgba(255,255,255,0.36)' }} />
+                <div style={{ width:30, height:30, borderRadius:9, background: isSecondary ? 'rgba(232,52,43,0.12)' : 'transparent', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                  <MoreHorizontal style={{ width:18, height:18, color: isSecondary ? '#E8342B' : 'rgba(255,255,255,0.36)' }} />
                 </div>
-                <span style={{ fontSize:10, fontWeight: isSecondary ? 800 : 400, color: isSecondary ? '#ef4444' : 'rgba(255,255,255,0.36)' }}>Mais</span>
+                <span style={{ fontSize:10, fontWeight: isSecondary ? 800 : 400, color: isSecondary ? '#E8342B' : 'rgba(255,255,255,0.36)' }}>Mais</span>
               </div>
             </button>
           </div>
@@ -421,7 +421,7 @@ function MobileBottomNav({ user, onLogout }: { user: { nome: string; email?: str
               </div>
               <div style={{ borderTop:'1px solid rgba(255,255,255,0.06)', paddingTop:14, display:'flex', gap:9 }}>
                 <div style={{ display:'flex', alignItems:'center', gap:11, flex:1, padding:'11px 14px', borderRadius:12, background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.06)' }}>
-                  <div style={{ width:32, height:32, borderRadius:'50%', background:'linear-gradient(135deg,#ef4444,#7c3aed)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:800, color:'white', flexShrink:0 }}>
+                  <div style={{ width:32, height:32, borderRadius:'50%', background:'linear-gradient(135deg,#E8342B,#7c3aed)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:12, fontWeight:800, color:'white', flexShrink:0 }}>
                     {getInitials(user?.nome || '??')}
                   </div>
                   <div>
@@ -432,7 +432,7 @@ function MobileBottomNav({ user, onLogout }: { user: { nome: string; email?: str
                 <button
                   onClick={() => { onLogout(); setShowMore(false) }}
                   style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'0 18px', borderRadius:12, cursor:'pointer', border:'1px solid rgba(255,255,255,0.06)', background:'rgba(255,255,255,0.03)', color:'rgba(255,255,255,0.45)', transition:'all 0.15s' }}
-                  onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor='rgba(239,68,68,0.3)'; el.style.color='#ef4444' }}
+                  onMouseEnter={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor='rgba(232,52,43,0.3)'; el.style.color='#E8342B' }}
                   onMouseLeave={e => { const el=e.currentTarget as HTMLElement; el.style.borderColor='rgba(255,255,255,0.06)'; el.style.color='rgba(255,255,255,0.45)' }}
                 >
                   <LogOut style={{width:15,height:15}}/>
@@ -491,7 +491,7 @@ export function AppShell({ children }: { children: ReactNode }) {
         >
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', height:50, padding:'0 18px' }}>
             <div style={{ display:'flex', alignItems:'center', gap:9 }}>
-              <div style={{ width:28, height:28, background:'linear-gradient(145deg,#ef4444,#c42121)', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 2px 10px rgba(239,68,68,0.42)' }}>
+              <div style={{ width:28, height:28, background:'linear-gradient(145deg,#E8342B,#c42121)', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'0 2px 10px rgba(232,52,43,0.42)' }}>
                 <span style={{ fontSize:14, fontWeight:900, color:'white', letterSpacing:'-1.5px' }}>M</span>
               </div>
               <span style={{ fontSize:15, fontWeight:900, color:'#F4F4F5', letterSpacing:'-0.03em' }}>MegaUp</span>
@@ -558,7 +558,7 @@ function OnboardingPersonal({ onDone }: { onDone: () => void }) {
       >
         <div style={{ display:'flex', justifyContent:'center', gap:6, marginBottom:34 }}>
           {OB_STEPS.map((_, i) => (
-            <div key={i} style={{ height:6, borderRadius:3, background: i===step?'#ef4444':i<step?'rgba(239,68,68,0.4)':'rgba(255,255,255,0.08)', width:i===step?24:6, transition:'all 0.3s', boxShadow:i===step?'0 0 10px rgba(239,68,68,0.6)':'none' }} />
+            <div key={i} style={{ height:6, borderRadius:3, background: i===step?'#E8342B':i<step?'rgba(232,52,43,0.4)':'rgba(255,255,255,0.08)', width:i===step?24:6, transition:'all 0.3s', boxShadow:i===step?'0 0 10px rgba(232,52,43,0.6)':'none' }} />
           ))}
         </div>
         <div style={{ fontSize:60, marginBottom:22, lineHeight:1 }}>{s.icon}</div>
@@ -575,7 +575,7 @@ function OnboardingPersonal({ onDone }: { onDone: () => void }) {
           )}
           <button
             onClick={advance}
-            style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:8, padding:'15px 20px', borderRadius:13, background:'linear-gradient(135deg,#ef4444,#dc2626)', border:'none', color:'white', fontSize:14, fontWeight:800, cursor:'pointer', boxShadow:'0 4px 20px rgba(239,68,68,0.45), inset 0 1px 0 rgba(255,255,255,0.15)' }}
+            style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:8, padding:'15px 20px', borderRadius:13, background:'linear-gradient(135deg,#E8342B,#C8291F)', border:'none', color:'white', fontSize:14, fontWeight:800, cursor:'pointer', boxShadow:'0 4px 20px rgba(232,52,43,0.45), inset 0 1px 0 rgba(255,255,255,0.15)' }}
           >
             {isLast ? <><CheckCircle style={{width:15,height:15}}/> {s.cta}</> : <>{s.cta} <ArrowRight style={{width:14,height:14}}/></>}
           </button>

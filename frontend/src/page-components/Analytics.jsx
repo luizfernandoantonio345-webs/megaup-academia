@@ -15,7 +15,7 @@ import {
 } from 'recharts'
 
 const OBJETIVO_COLORS = {
-  'Hipertrofia':   '#f87171',
+  'Hipertrofia':   '#FF8078',
   'Emagrecimento': '#34d399',
   'Força':         '#fbbf24',
   'Condicionamento':'#f9a8d4',
@@ -34,7 +34,7 @@ const ChartTooltip = ({ active, payload, label }) => {
   )
 }
 
-function StatCard({ icon: Icon, label, value, sub, color = '#ef4444' }) {
+function StatCard({ icon: Icon, label, value, sub, color = '#E8342B' }) {
   return (
     <div style={{
       background:`radial-gradient(ellipse at 10% -20%, ${color}18 0%, transparent 55%), #111113`,
@@ -93,7 +93,7 @@ export default function Analytics() {
           {PERIODOS.map(p => (
             <button key={p.dias} onClick={() => setDias(p.dias)} style={{
               padding: '5px 14px', borderRadius: 7, border: 'none', cursor: 'pointer', fontSize: 12, fontWeight: 600,
-              background: dias === p.dias ? '#ef4444' : 'transparent',
+              background: dias === p.dias ? '#E8342B' : 'transparent',
               color: dias === p.dias ? 'white' : 'var(--text-muted)',
               transition: 'background 0.15s, color 0.15s',
             }}>{p.label}</button>
@@ -106,7 +106,7 @@ export default function Analytics() {
         <StatCard icon={Users}      color="#6366f1" label="Total de alunos"     value={d.total_alunos ?? '—'} />
         <StatCard icon={Activity}   color="#22c55e" label={`Ativos (${dias}d)`} value={d.alunos_ativos_7d ?? '—'} sub={`${retencao}% de retenção`} />
         <StatCard icon={TrendingUp} color="#f97316" label={`Inativos (${dias}d)`} value={d.alunos_inativos_7d ?? '—'} sub="sem treinar" />
-        <StatCard icon={Dumbbell}   color="#ef4444" label={`Treinos (${dias}d)`} value={d.treinos_semana ?? '—'} />
+        <StatCard icon={Dumbbell}   color="#E8342B" label={`Treinos (${dias}d)`} value={d.treinos_semana ?? '—'} />
         <StatCard icon={DollarSign} color="#34d399" label="Receita no mês"       value={`R$${(d.receita_mes ?? 0).toLocaleString('pt-BR', { minimumFractionDigits: 0 })}`} />
       </div>
 
@@ -124,7 +124,7 @@ export default function Analytics() {
                 <XAxis dataKey="dia" tick={{ fill:'var(--text-muted)', fontSize: 11 }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fill:'var(--text-muted)', fontSize: 11 }} axisLine={false} tickLine={false} allowDecimals={false} />
                 <Tooltip content={<ChartTooltip />} />
-                <Line type="monotone" dataKey="total" stroke="#ef4444" strokeWidth={2} dot={{ fill: '#ef4444', r: 2.5 }} activeDot={{ r: 4 }} isAnimationActive={false} />
+                <Line type="monotone" dataKey="total" stroke="#E8342B" strokeWidth={2} dot={{ fill: '#E8342B', r: 2.5 }} activeDot={{ r: 4 }} isAnimationActive={false} />
               </LineChart>
             </ResponsiveContainer>
           )}
@@ -180,7 +180,7 @@ export default function Analytics() {
                       <span style={{ fontSize: 11, color:'var(--text-muted)' }}>{ex.n}x</span>
                     </div>
                     <div style={{ height: 4, background:'var(--bg-elevated)', borderRadius: 2, overflow: 'hidden' }}>
-                      <div style={{ height: '100%', width: `${(ex.n / max) * 100}%`, background: '#ef4444', borderRadius: 2, opacity: 0.6 + i * 0.06 }} />
+                      <div style={{ height: '100%', width: `${(ex.n / max) * 100}%`, background: '#E8342B', borderRadius: 2, opacity: 0.6 + i * 0.06 }} />
                     </div>
                   </div>
                 )

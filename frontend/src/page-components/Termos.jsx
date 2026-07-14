@@ -18,7 +18,7 @@ export default function Termos() {
       {/* Header */}
       <div style={{ borderBottom: '1px solid var(--border-subtle)', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: 12, position: 'sticky', top: 0, background:'var(--bg-page)', zIndex: 10 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginRight: 'auto' }}>
-          <div style={{ width: 26, height: 26, borderRadius: 7, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 26, height: 26, borderRadius: 7, background: '#E8342B', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Zap style={{ width: 13, height: 13, color: 'white' }} />
           </div>
           <span style={{ fontSize: 14, fontWeight: 600, color:'var(--text-primary)' }}>MegaUp</span>
@@ -100,11 +100,11 @@ export default function Termos() {
         </Section>
 
         <Section title="13. Contato">
-          <p>Dúvidas sobre estes Termos devem ser enviadas para: <span style={{ color: '#f87171' }}>santossod345@gmail.com</span></p>
+          <p>Dúvidas sobre estes Termos devem ser enviadas para: <span style={{ color: '#FF8078' }}>santossod345@gmail.com</span></p>
         </Section>
 
         <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 24, marginTop: 8 }}>
-          <Link to="/privacidade" style={{ color: '#f87171', fontSize: 13, textDecoration: 'none' }}>
+          <Link to="/privacidade" style={{ color: '#FF8078', fontSize: 13, textDecoration: 'none' }}>
             Ver Política de Privacidade (LGPD) →
           </Link>
         </div>

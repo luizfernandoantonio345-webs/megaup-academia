@@ -26,7 +26,7 @@ export default function Privacidade() {
       {/* Header */}
       <div style={{ borderBottom: '1px solid var(--border-subtle)', padding: '16px 24px', display: 'flex', alignItems: 'center', gap: 12, position: 'sticky', top: 0, background:'var(--bg-page)', zIndex: 10 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginRight: 'auto' }}>
-          <div style={{ width: 26, height: 26, borderRadius: 7, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 26, height: 26, borderRadius: 7, background: '#E8342B', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Zap style={{ width: 13, height: 13, color: 'white' }} />
           </div>
           <span style={{ fontSize: 14, fontWeight: 600, color:'var(--text-primary)' }}>MegaUp</span>
@@ -58,7 +58,7 @@ export default function Privacidade() {
           <p style={{ marginBottom: 12 }}>Coletamos os seguintes tipos de dados:</p>
           <div style={{ marginBottom: 12 }}>
             <p style={{ color:'var(--text-primary)', fontWeight: 500, marginBottom: 6 }}>Dados de conta (Personal Trainer)</p>
-            <div><Tag color="#f87171">Nome completo</Tag><Tag color="#f87171">E-mail</Tag><Tag color="#f87171">Nome da academia</Tag><Tag color="#f87171">Data de aceite dos termos</Tag></div>
+            <div><Tag color="#FF8078">Nome completo</Tag><Tag color="#FF8078">E-mail</Tag><Tag color="#FF8078">Nome da academia</Tag><Tag color="#FF8078">Data de aceite dos termos</Tag></div>
           </div>
           <div style={{ marginBottom: 12 }}>
             <p style={{ color:'var(--text-primary)', fontWeight: 500, marginBottom: 6 }}>Dados dos alunos (inseridos pelo personal)</p>
@@ -119,7 +119,7 @@ export default function Privacidade() {
             <li><strong style={{ color:'var(--text-primary)' }}>Revogação de consentimento</strong> — a qualquer momento, sem prejuízo ao uso anterior.</li>
             <li><strong style={{ color:'var(--text-primary)' }}>Oposição</strong> — ao tratamento baseado em legítimo interesse.</li>
           </ul>
-          <p style={{ marginTop: 10 }}>Para exercer seus direitos, envie e-mail para: <span style={{ color: '#f87171' }}>santossod345@gmail.com</span></p>
+          <p style={{ marginTop: 10 }}>Para exercer seus direitos, envie e-mail para: <span style={{ color: '#FF8078' }}>santossod345@gmail.com</span></p>
         </Section>
 
         <Section title="7. Retenção de Dados">
@@ -140,7 +140,7 @@ export default function Privacidade() {
 
         <Section title="11. Contato e Encarregado (DPO)">
           <p>Responsável pelo tratamento de dados pessoais:</p>
-          <p style={{ marginTop: 8 }}>E-mail: <span style={{ color: '#f87171' }}>santossod345@gmail.com</span></p>
+          <p style={{ marginTop: 8 }}>E-mail: <span style={{ color: '#FF8078' }}>santossod345@gmail.com</span></p>
           <p>Tempo de resposta: até 15 dias úteis.</p>
         </Section>
 
@@ -149,7 +149,7 @@ export default function Privacidade() {
         </Section>
 
         <div style={{ borderTop: '1px solid var(--border-subtle)', paddingTop: 24, marginTop: 8 }}>
-          <Link to="/termos" style={{ color: '#f87171', fontSize: 13, textDecoration: 'none' }}>
+          <Link to="/termos" style={{ color: '#FF8078', fontSize: 13, textDecoration: 'none' }}>
             Ver Termos de Uso →
           </Link>
         </div>

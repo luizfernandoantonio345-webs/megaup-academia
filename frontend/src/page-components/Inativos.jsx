@@ -120,7 +120,7 @@ export default function Inativos() {
                   onClick={() => nudge.mutate(a.id)}
                   disabled={nudge.isPending}
                   title="Enviar mensagem de incentivo pelo chat do app"
-                  style={{ background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: 11, color: '#f87171', cursor: 'pointer', fontWeight: 600, fontSize: 12, padding: '7px 13px', display: 'flex', alignItems: 'center', gap: 5 }}
+                  style={{ background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: 11, color: '#FF8078', cursor: 'pointer', fontWeight: 600, fontSize: 12, padding: '7px 13px', display: 'flex', alignItems: 'center', gap: 5 }}
                 >
                   <Send style={{ width: 12, height: 12 }} /> Nudge
                 </button>

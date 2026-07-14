@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useState, useEffect } from 'react'
 import { Users, Dumbbell, QrCode, CheckCircle, X, ChevronRight, Zap } from 'lucide-react'
@@ -17,7 +17,7 @@ type Step = {
 const STEPS: Step[] = [
   {
     icon: Zap,
-    color: '#ef4444',
+    color: '#E8342B',
     title: 'Bem-vindo à MegaUp!',
     desc: 'Vamos configurar sua academia em 3 passos. Leva menos de 2 minutos.',
   },
@@ -77,7 +77,7 @@ export function OnboardingWizard() {
     }}>
       <div style={{
         width: '100%', maxWidth: 420,
-        background: '#111113',
+        background: '#141416',
         border: '1px solid rgba(255,255,255,0.1)',
         borderRadius: 24,
         boxShadow: '0 40px 120px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05)',

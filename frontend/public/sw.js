@@ -1,7 +1,5 @@
-const CACHE = 'MegaUp-v8'
+const CACHE = 'MegaUp-v9'
 const STATIC = [
-  '/',
-  '/index.html',
   '/manifest.json',
   '/icon-192.svg',
   '/icon-512.svg',
@@ -31,14 +29,17 @@ self.addEventListener('fetch', (e) => {
   // Auth endpoints: always network, never serve stale credentials
   if (url.pathname.startsWith('/auth')) return
 
+  // Next.js API routes: always network
+  if (url.pathname.startsWith('/api')) return
+
   // API calls to onrender.com: stale-while-revalidate
-  if (url.hostname.includes('onrender.com') || url.pathname.startsWith('/api')) {
+  if (url.hostname.includes('onrender.com')) {
     e.respondWith(
       caches.open(CACHE).then(async (cache) => {
         const cached = await cache.match(request)
         const netReq = fetch(request).then((res) => {
           if (res.ok) {
-            const clone = res.clone()  // clone BEFORE any async op
+            const clone = res.clone()
             cache.put(request, clone)
           }
           return res
@@ -66,46 +67,32 @@ self.addEventListener('fetch', (e) => {
     return
   }
 
-  // JS/CSS assets (hashed filenames): cache first, update in background
-  if (url.pathname.startsWith('/assets/')) {
+  // Next.js static assets (hashed filenames): cache first, immutable
+  if (url.pathname.startsWith('/_next/static/')) {
     e.respondWith(
       caches.match(request).then((cached) => {
-        const network = fetch(request).then((res) => {
+        if (cached) return cached
+        return fetch(request).then((res) => {
           if (res.ok) {
             const clone = res.clone()
             caches.open(CACHE).then((c) => c.put(request, clone))
           }
           return res
         })
-        return cached || network
       })
     )
     return
   }
 
-  // Navigation: network first, fall back to cached index.html for SPA
-  if (request.mode === 'navigate') {
+  // Static public assets (icons, manifest): cache first
+  if (STATIC.some((s) => url.pathname === s)) {
     e.respondWith(
-      fetch(request).catch(() =>
-        caches.match('/index.html').then((r) => r || fetch('/index.html'))
-      )
+      caches.match(request).then((cached) => cached || fetch(request))
     )
     return
   }
 
-  // Everything else: cache first, then network
-  e.respondWith(
-    caches.match(request).then((cached) => {
-      const network = fetch(request).then((res) => {
-        if (res.ok) {
-          const clone = res.clone()
-          caches.open(CACHE).then((c) => c.put(request, clone))
-        }
-        return res
-      })
-      return cached || network
-    })
-  )
+  // Navigation: always network in Next.js (SSR handles routing)
 })
 
 // ── Push notifications ──────────────────────────────────────────────────────

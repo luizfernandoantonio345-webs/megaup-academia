@@ -19,7 +19,7 @@ const BADGE_LABELS = {
 function EvolIcon({ pct }) {
   if (!pct) return <Minus style={{ width: 14, height: 14, color:'var(--text-muted)' }} />
   if (pct > 0) return <TrendingUp style={{ width: 14, height: 14, color: '#34d399' }} />
-  return <TrendingDown style={{ width: 14, height: 14, color: '#f87171' }} />
+  return <TrendingDown style={{ width: 14, height: 14, color: '#FF8078' }} />
 }
 
 export default function RelatorioAluno() {
@@ -43,7 +43,7 @@ export default function RelatorioAluno() {
   if (isError || !data) {
     return (
       <div style={{ padding: 48, textAlign: 'center' }}>
-        <p style={{ color: '#f87171', marginBottom: 16 }}>Erro ao carregar dados do aluno.</p>
+        <p style={{ color: '#FF8078', marginBottom: 16 }}>Erro ao carregar dados do aluno.</p>
         <button onClick={() => navigate(-1)} style={{ background: 'none', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 10, color:'var(--text-secondary)', cursor: 'pointer', padding: '8px 16px', fontSize: 13 }}>
           Voltar
         </button>
@@ -62,7 +62,7 @@ export default function RelatorioAluno() {
     : null
 
   const kpis = [
-    { label: 'Treinos no mês', value: resumo.frequencia_30d, color: '#f87171' },
+    { label: 'Treinos no mês', value: resumo.frequencia_30d, color: '#FF8078' },
     { label: 'Total de treinos', value: resumo.total_treinos, color: '#34d399' },
     { label: 'Streak atual', value: `${aluno.streak_atual}d`, note: `Recorde: ${aluno.streak_recorde}d`, color: '#f97316' },
     { label: 'Conquistas', value: resumo.conquistas_total, color: '#fbbf24' },
@@ -83,7 +83,7 @@ export default function RelatorioAluno() {
           .print-badge { background: #f0f0f0 !important; color: #333 !important; border: 1px solid #ddd !important; }
           .print-nutri-tag { background: #f0f0f0 !important; color: #333 !important; border: 1px solid #ddd !important; }
           .evolucao-pos { color: #16a34a !important; }
-          .evolucao-neg { color: #dc2626 !important; }
+          .evolucao-neg { color: #C8291F !important; }
         }
       `}</style>
 
@@ -98,7 +98,7 @@ export default function RelatorioAluno() {
         </div>
         <button
           onClick={() => window.print()}
-          style={{ background: '#ef4444', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '10px 22px', display: 'flex', alignItems: 'center', gap: 8 }}
+          style={{ background: '#E8342B', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 14, padding: '10px 22px', display: 'flex', alignItems: 'center', gap: 8 }}
         >
           <Printer style={{ width: 16, height: 16 }} /> Imprimir / Salvar PDF
         </button>
@@ -145,7 +145,7 @@ export default function RelatorioAluno() {
               {varPeso !== null && (
                 <div className="print-card" style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '12px 16px', minWidth: 160 }}>
                   <p style={{ fontSize: 11, color:'var(--text-muted)', fontWeight: 600, marginBottom: 6 }} className="print-text-muted">Variação de Peso</p>
-                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600, color: parseFloat(varPeso) < 0 ? '#34d399' : '#f87171' }} className={parseFloat(varPeso) < 0 ? 'evolucao-pos' : 'evolucao-neg'}>
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600, color: parseFloat(varPeso) < 0 ? '#34d399' : '#FF8078' }} className={parseFloat(varPeso) < 0 ? 'evolucao-pos' : 'evolucao-neg'}>
                     {parseFloat(varPeso) > 0 ? '+' : ''}{varPeso} kg
                   </p>
                   <p style={{ fontSize: 11, color:'var(--text-muted)' }} className="print-text-muted">{primeiraAv.peso} → {ultimaAv.peso} kg</p>
@@ -154,7 +154,7 @@ export default function RelatorioAluno() {
               {varGordura !== null && (
                 <div className="print-card" style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 12, padding: '12px 16px', minWidth: 160 }}>
                   <p style={{ fontSize: 11, color:'var(--text-muted)', fontWeight: 600, marginBottom: 6 }} className="print-text-muted">Variação Gordura</p>
-                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600, color: parseFloat(varGordura) < 0 ? '#34d399' : '#f87171' }} className={parseFloat(varGordura) < 0 ? 'evolucao-pos' : 'evolucao-neg'}>
+                  <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 22, fontWeight: 600, color: parseFloat(varGordura) < 0 ? '#34d399' : '#FF8078' }} className={parseFloat(varGordura) < 0 ? 'evolucao-pos' : 'evolucao-neg'}>
                     {parseFloat(varGordura) > 0 ? '+' : ''}{varGordura}%
                   </p>
                   <p style={{ fontSize: 11, color:'var(--text-muted)' }} className="print-text-muted">{primeiraAv.percentual_gordura} → {ultimaAv.percentual_gordura}%</p>
@@ -215,7 +215,7 @@ export default function RelatorioAluno() {
                       <td style={{ padding: '10px 14px', color:'var(--text-primary)', fontWeight: 600 }} className="print-text-main">{ex.carga_maxima ?? '—'}</td>
                       <td style={{ padding: '10px 14px' }}>
                         {ex.evolucao_pct != null ? (
-                          <span style={{ color: ex.evolucao_pct >= 0 ? '#34d399' : '#f87171', fontWeight: 600, fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }} className={ex.evolucao_pct >= 0 ? 'evolucao-pos' : 'evolucao-neg'}>
+                          <span style={{ color: ex.evolucao_pct >= 0 ? '#34d399' : '#FF8078', fontWeight: 600, fontSize: 13, display: 'flex', alignItems: 'center', gap: 4 }} className={ex.evolucao_pct >= 0 ? 'evolucao-pos' : 'evolucao-neg'}>
                             <EvolIcon pct={ex.evolucao_pct} />
                             {ex.evolucao_pct > 0 ? '+' : ''}{ex.evolucao_pct}%
                           </span>
@@ -264,7 +264,7 @@ export default function RelatorioAluno() {
                 <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
                   {[
                     { label: 'Calorias', value: `${plano_nutricao.objetivo_kcal} kcal`, color: '#f97316' },
-                    plano_nutricao.objetivo_proteina && { label: 'Proteína', value: `${plano_nutricao.objetivo_proteina}g`, color: '#f87171' },
+                    plano_nutricao.objetivo_proteina && { label: 'Proteína', value: `${plano_nutricao.objetivo_proteina}g`, color: '#FF8078' },
                     plano_nutricao.objetivo_carbo && { label: 'Carboidrato', value: `${plano_nutricao.objetivo_carbo}g`, color: '#34d399' },
                     plano_nutricao.objetivo_gordura && { label: 'Gordura', value: `${plano_nutricao.objetivo_gordura}g`, color: '#fbbf24' },
                   ].filter(Boolean).map(t => (

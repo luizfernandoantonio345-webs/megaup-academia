@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'react-hot-toast'
@@ -50,7 +50,7 @@ export function Providers({ children }: { children: ReactNode }) {
                 iconTheme: { primary: '#22c55e', secondary: '#18181b' },
               },
               error: {
-                iconTheme: { primary: '#ef4444', secondary: '#18181b' },
+                iconTheme: { primary: '#E8342B', secondary: '#18181b' },
               },
             }}
           />

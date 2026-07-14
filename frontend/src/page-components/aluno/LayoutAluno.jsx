@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+﻿import { useState, useEffect, useCallback } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
 import { Dumbbell, Trophy, LogOut, Zap, CalendarDays, MessageCircle, CheckCircle, Bell, BellOff, Download, X } from 'lucide-react'
@@ -9,9 +9,9 @@ import toast from 'react-hot-toast'
 /* ── Color helpers ──────────────────────────────────────────────────── */
 const ALPHA_COLORS = {
   A:'#6366f1',B:'#ec4899',C:'#f97316',D:'#22c55e',E:'#a855f7',F:'#06b6d4',
-  G:'#ef4444',H:'#eab308',I:'#14b8a6',J:'#8b5cf6',K:'#f43f5e',L:'#10b981',
+  G:'#E8342B',H:'#eab308',I:'#14b8a6',J:'#8b5cf6',K:'#f43f5e',L:'#10b981',
   M:'#3b82f6',N:'#fb923c',O:'#84cc16',P:'#e879f9',Q:'#2dd4bf',R:'#f472b6',
-  S:'#38bdf8',T:'#4ade80',U:'#fbbf24',V:'#818cf8',W:'#34d399',X:'#f87171',
+  S:'#38bdf8',T:'#4ade80',U:'#fbbf24',V:'#818cf8',W:'#34d399',X:'#FF8078',
   Y:'#a78bfa',Z:'#60a5fa',
 }
 const nameColor = (n) => ALPHA_COLORS[(n || 'A')[0].toUpperCase()] ?? '#6366f1'
@@ -79,7 +79,7 @@ function usePushSubscription() {
 
 /* ── Nav tabs ───────────────────────────────────────────────────────── */
 const TABS = [
-  { to:'/aluno',            icon:Dumbbell,      label:'Treino',   color:'#ef4444', end:true  },
+  { to:'/aluno',            icon:Dumbbell,      label:'Treino',   color:'#E8342B', end:true  },
   { to:'/aluno/semana',     icon:CalendarDays,  label:'Semana',   color:'#6366f1', end:false },
   { to:'/aluno/checkins',   icon:CheckCircle,   label:'Presença', color:'#22c55e', end:false },
   { to:'/aluno/conquistas', icon:Trophy,        label:'Troféus',  color:'#eab308', end:false },
@@ -108,8 +108,8 @@ export default function LayoutAluno({ children }) {
   return (
     <div style={{
       minHeight: '100dvh',
-      background: '#0C0C0D',
-      backgroundImage: 'radial-gradient(ellipse at 50% 0%, rgba(239,68,68,0.07) 0%, transparent 55%)',
+      background: '#0D0D0F',
+      backgroundImage: 'radial-gradient(ellipse at 50% 0%, rgba(232,52,43,0.07) 0%, transparent 55%)',
       display: 'flex',
       flexDirection: 'column',
     }}>
@@ -129,9 +129,9 @@ export default function LayoutAluno({ children }) {
           <div style={{ display:'flex', alignItems:'center', gap:9 }}>
             <div style={{
               width:32, height:32, borderRadius:10,
-              background:'linear-gradient(145deg,#ef4444,#c42121)',
+              background:'linear-gradient(145deg,#E8342B,#c42121)',
               display:'flex', alignItems:'center', justifyContent:'center',
-              boxShadow:'0 3px 12px rgba(239,68,68,0.45)',
+              boxShadow:'0 3px 12px rgba(232,52,43,0.45)',
             }}>
               <Zap style={{ width:15, height:15, color:'white' }} />
             </div>
@@ -161,10 +161,10 @@ export default function LayoutAluno({ children }) {
                 style={{
                   width:34, height:34, borderRadius:10,
                   display:'flex', alignItems:'center', justifyContent:'center',
-                  background: subscribed ? 'rgba(239,68,68,0.1)' : 'rgba(255,255,255,0.04)',
-                  border: `1px solid ${subscribed ? 'rgba(239,68,68,0.3)' : 'rgba(255,255,255,0.07)'}`,
+                  background: subscribed ? 'rgba(232,52,43,0.1)' : 'rgba(255,255,255,0.04)',
+                  border: `1px solid ${subscribed ? 'rgba(232,52,43,0.3)' : 'rgba(255,255,255,0.07)'}`,
                   cursor: pushLoading ? 'wait' : 'pointer',
-                  color: subscribed ? '#f87171' : 'rgba(255,255,255,0.4)',
+                  color: subscribed ? '#FF8078' : 'rgba(255,255,255,0.4)',
                   transition: 'all 0.15s',
                 }}
               >
@@ -181,7 +181,7 @@ export default function LayoutAluno({ children }) {
                 cursor:'pointer', color:'rgba(255,255,255,0.4)',
                 transition:'all 0.15s',
               }}
-              onMouseEnter={e => { e.currentTarget.style.background='rgba(239,68,68,0.1)'; e.currentTarget.style.color='#f87171'; e.currentTarget.style.borderColor='rgba(239,68,68,0.28)' }}
+              onMouseEnter={e => { e.currentTarget.style.background='rgba(232,52,43,0.1)'; e.currentTarget.style.color='#FF8078'; e.currentTarget.style.borderColor='rgba(232,52,43,0.28)' }}
               onMouseLeave={e => { e.currentTarget.style.background='transparent'; e.currentTarget.style.color='rgba(255,255,255,0.4)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.07)' }}
             >
               <LogOut style={{ width:14, height:14 }} />
@@ -193,19 +193,19 @@ export default function LayoutAluno({ children }) {
       {/* ── PWA INSTALL BANNER ────────────────────────────────────── */}
       {showPwa && (
         <div style={{
-          background: 'linear-gradient(135deg, rgba(239,68,68,0.1), rgba(99,102,241,0.08))',
-          borderBottom: '1px solid rgba(239,68,68,0.18)',
+          background: 'linear-gradient(135deg, rgba(232,52,43,0.1), rgba(99,102,241,0.08))',
+          borderBottom: '1px solid rgba(232,52,43,0.18)',
           padding: '10px 18px',
         }}>
           <div style={{ maxWidth:640, margin:'0 auto', display:'flex', alignItems:'center', gap:12 }}>
-            <div style={{ width:36, height:36, borderRadius:11, background:'linear-gradient(145deg,#ef4444,#c42121)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, boxShadow:'0 3px 10px rgba(239,68,68,0.4)' }}>
+            <div style={{ width:36, height:36, borderRadius:11, background:'linear-gradient(145deg,#E8342B,#c42121)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, boxShadow:'0 3px 10px rgba(232,52,43,0.4)' }}>
               <Zap style={{ width:16, height:16, color:'white' }} />
             </div>
             <div style={{ flex:1, minWidth:0 }}>
               <p style={{ fontSize:13, fontWeight:800, color:'#F4F4F5', lineHeight:1.2, marginBottom:1, letterSpacing:'-0.02em' }}>Instale o MegaUp</p>
               <p style={{ fontSize:11, color:'rgba(255,255,255,0.4)' }}>Acesso rápido direto da tela inicial</p>
             </div>
-            <button onClick={installPwa} style={{ padding:'7px 16px', borderRadius:9, background:'linear-gradient(135deg,#ef4444,#dc2626)', border:'none', color:'white', fontSize:12, fontWeight:800, cursor:'pointer', display:'flex', alignItems:'center', gap:5, flexShrink:0, boxShadow:'0 4px 12px rgba(239,68,68,0.35)' }}>
+            <button onClick={installPwa} style={{ padding:'7px 16px', borderRadius:9, background:'linear-gradient(135deg,#E8342B,#C8291F)', border:'none', color:'white', fontSize:12, fontWeight:800, cursor:'pointer', display:'flex', alignItems:'center', gap:5, flexShrink:0, boxShadow:'0 4px 12px rgba(232,52,43,0.35)' }}>
               <Download style={{ width:12, height:12 }} /> Instalar
             </button>
             <button onClick={dismissPwa} style={{ background:'none', border:'none', cursor:'pointer', color:'rgba(255,255,255,0.38)', padding:4, flexShrink:0 }}>

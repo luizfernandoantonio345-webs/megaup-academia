@@ -1,11 +1,11 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { listarTemplates, criarTemplate, deletarTemplate, aplicarTemplate, listarAlunos } from '../api'
 import toast from 'react-hot-toast'
 import { Plus, Trash2, Dumbbell, Copy, X, Check, ChevronDown, Users } from 'lucide-react'
 
 const OBJETIVOS = [
-  { key: 'hipertrofia',     label: 'Hipertrofia',     color: '#ef4444' },
+  { key: 'hipertrofia',     label: 'Hipertrofia',     color: '#E8342B' },
   { key: 'forca',           label: 'Força',            color: '#f97316' },
   { key: 'emagrecimento',   label: 'Emagrecimento',   color: '#10b981' },
   { key: 'condicionamento', label: 'Condicionamento', color: '#3b82f6' },
@@ -54,7 +54,7 @@ function ModalCriar({ onClose }) {
               {DIAS.map(d => (
                 <button key={d} type="button"
                   onClick={() => setForm({ ...form, dia_semana: form.dia_semana === d ? '' : d })}
-                  style={{ flex:1, padding:'6px 0', borderRadius:8, border:`1px solid ${form.dia_semana === d ? '#ef4444' : 'var(--border)'}`, background: form.dia_semana === d ? 'rgba(239,68,68,0.12)' : 'transparent', color: form.dia_semana === d ? '#ef4444' : 'var(--text-muted)', fontSize:11, cursor:'pointer', fontWeight: form.dia_semana === d ? 600 : 400 }}>
+                  style={{ flex:1, padding:'6px 0', borderRadius:8, border:`1px solid ${form.dia_semana === d ? '#E8342B' : 'var(--border)'}`, background: form.dia_semana === d ? 'rgba(232,52,43,0.12)' : 'transparent', color: form.dia_semana === d ? '#E8342B' : 'var(--text-muted)', fontSize:11, cursor:'pointer', fontWeight: form.dia_semana === d ? 600 : 400 }}>
                   {DIA_LABEL[d]}
                 </button>
               ))}
@@ -114,7 +114,7 @@ function ModalAplicar({ template, onClose }) {
               {DIAS.map(d => (
                 <button key={d} type="button"
                   onClick={() => setDia(dia === d ? '' : d)}
-                  style={{ flex:1, padding:'6px 0', borderRadius:8, border:`1px solid ${dia === d ? '#ef4444' : 'var(--border)'}`, background: dia === d ? 'rgba(239,68,68,0.12)' : 'transparent', color: dia === d ? '#ef4444' : 'var(--text-muted)', fontSize:11, cursor:'pointer', fontWeight: dia === d ? 600 : 400 }}>
+                  style={{ flex:1, padding:'6px 0', borderRadius:8, border:`1px solid ${dia === d ? '#E8342B' : 'var(--border)'}`, background: dia === d ? 'rgba(232,52,43,0.12)' : 'transparent', color: dia === d ? '#E8342B' : 'var(--text-muted)', fontSize:11, cursor:'pointer', fontWeight: dia === d ? 600 : 400 }}>
                   {DIA_LABEL[d]}
                 </button>
               ))}
@@ -147,7 +147,7 @@ function TemplateCard({ template, onDelete, onAplicar }) {
           </div>
         </div>
         <button onClick={onDelete} style={{ background:'none', border:'none', cursor:'pointer', color:'var(--text-muted)', padding:4, flexShrink:0, borderRadius:6 }}
-          onMouseEnter={e => e.currentTarget.style.color='#ef4444'}
+          onMouseEnter={e => e.currentTarget.style.color='#E8342B'}
           onMouseLeave={e => e.currentTarget.style.color='var(--text-muted)'}>
           <Trash2 size={15}/>
         </button>

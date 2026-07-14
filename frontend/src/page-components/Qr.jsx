@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import QRCode from 'react-qr-code'
 import { getCheckinToken } from '../api'
@@ -32,7 +32,7 @@ export default function Qr() {
           MegaUp — Check-in
         </div>
         <div style={{ padding: 20, background: 'white', borderRadius: 20, boxShadow: '0 4px 32px rgba(0,0,0,0.12)' }}>
-          <QRCode value={checkinUrl} size={280} fgColor="#0C0C0D" bgColor="white" />
+          <QRCode value={checkinUrl} size={280} fgColor="#0D0D0F" bgColor="white" />
         </div>
         <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 14, color: '#666' }}>
           Válido até {validade} · toque para fechar
@@ -51,7 +51,7 @@ export default function Qr() {
       <div className="card" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24, padding: '32px 24px' }}>
         {isLoading ? (
           <div style={{ width: 200, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ width: 32, height: 32, border: '2px solid var(--border)', borderTopColor: '#ef4444', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+            <div style={{ width: 32, height: 32, border: '2px solid var(--border)', borderTopColor: '#E8342B', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
           </div>
         ) : checkinUrl ? (
           <>
@@ -62,7 +62,7 @@ export default function Qr() {
               onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'}
               onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
             >
-              <QRCode value={checkinUrl} size={200} fgColor="#0C0C0D" bgColor="white" />
+              <QRCode value={checkinUrl} size={200} fgColor="#0D0D0F" bgColor="white" />
             </div>
 
             <div style={{ textAlign: 'center' }}>
@@ -111,7 +111,7 @@ export default function Qr() {
             { n: 3, text: 'O app MegaUp registra automaticamente a presença do aluno' },
           ].map(({ n, text }) => (
             <div key={n} style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
-              <div style={{ width: 24, height: 24, borderRadius: '50%', background: 'rgba(239,68,68,0.12)', border: '1px solid rgba(239,68,68,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 11, fontWeight: 700, color: '#ef4444', fontFamily: 'Inter, sans-serif' }}>{n}</div>
+              <div style={{ width: 24, height: 24, borderRadius: '50%', background: 'rgba(232,52,43,0.12)', border: '1px solid rgba(232,52,43,0.25)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, fontSize: 11, fontWeight: 700, color: '#E8342B', fontFamily: 'Inter, sans-serif' }}>{n}</div>
               <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0, lineHeight: 1.55, fontFamily: 'Inter, sans-serif' }}>{text}</p>
             </div>
           ))}

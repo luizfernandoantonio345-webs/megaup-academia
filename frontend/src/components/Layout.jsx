@@ -178,10 +178,10 @@ function MobileBottomNav({ user, onLogout }) {
               <NavLink key={to} to={to} style={{ flex: 1, textDecoration: 'none' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '8px 0 6px', gap: 3, position: 'relative' }}>
                   {active && (
-                    <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: 20, height: 2, borderRadius: 1, background: '#ef4444' }} />
+                    <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: 20, height: 2, borderRadius: 1, background: '#E8342B' }} />
                   )}
-                  <Icon style={{ width: 20, height: 20, color: active ? '#f87171' : 'var(--text-disabled)' }} />
-                  <span style={{ fontSize: 10, fontWeight: active ? 600 : 400, color: active ? '#f87171' : 'var(--text-disabled)', fontFamily: 'Inter, sans-serif' }}>
+                  <Icon style={{ width: 20, height: 20, color: active ? '#FF8078' : 'var(--text-disabled)' }} />
+                  <span style={{ fontSize: 10, fontWeight: active ? 600 : 400, color: active ? '#FF8078' : 'var(--text-disabled)', fontFamily: 'Inter, sans-serif' }}>
                     {label}
                   </span>
                 </div>
@@ -191,8 +191,8 @@ function MobileBottomNav({ user, onLogout }) {
 
           <button onClick={() => setShowMore(true)} style={{ flex: 1, background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '8px 0 6px', gap: 3 }}>
-              <MoreHorizontal style={{ width: 20, height: 20, color: isSecondaryActive ? '#f87171' : 'var(--text-disabled)' }} />
-              <span style={{ fontSize: 10, fontWeight: isSecondaryActive ? 600 : 400, color: isSecondaryActive ? '#f87171' : 'var(--text-disabled)', fontFamily: 'Inter, sans-serif' }}>
+              <MoreHorizontal style={{ width: 20, height: 20, color: isSecondaryActive ? '#FF8078' : 'var(--text-disabled)' }} />
+              <span style={{ fontSize: 10, fontWeight: isSecondaryActive ? 600 : 400, color: isSecondaryActive ? '#FF8078' : 'var(--text-disabled)', fontFamily: 'Inter, sans-serif' }}>
                 Mais
               </span>
             </div>
@@ -234,7 +234,7 @@ function MobileBottomNav({ user, onLogout }) {
                       background: active ? 'var(--bg-elevated)' : 'var(--bg-sidebar)',
                       textAlign: 'left',
                     }}>
-                    <Icon style={{ width: 16, height: 16, color: active ? '#f87171' : 'var(--text-muted)', flexShrink: 0 }} />
+                    <Icon style={{ width: 16, height: 16, color: active ? '#FF8078' : 'var(--text-muted)', flexShrink: 0 }} />
                     <span style={{ fontSize: 13, fontWeight: 500, color: active ? 'var(--text-primary)' : 'var(--text-secondary)', fontFamily: 'Inter, sans-serif' }}>{label}</span>
                   </button>
                 )
@@ -253,7 +253,7 @@ function MobileBottomNav({ user, onLogout }) {
               </div>
               <button onClick={() => { onLogout(); setShowMore(false) }}
                 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '0 16px', borderRadius: 8, cursor: 'pointer', border: '1px solid var(--border-subtle)', background: 'var(--bg-sidebar)', color:'var(--text-muted)', transition: 'all 0.1s' }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(248,113,113,0.2)'; e.currentTarget.style.color = '#f87171' }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(248,113,113,0.2)'; e.currentTarget.style.color = '#FF8078' }}
                 onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-subtle)'; e.currentTarget.style.color='var(--text-muted)' }}
               >
                 <LogOut style={{ width: 15, height: 15 }} />
@@ -348,7 +348,7 @@ function OnboardingPersonal({ userId, onDone }) {
           {OB_STEPS.map((_, i) => (
             <div key={i} style={{
               width: i === step ? 20 : 6, height: 6, borderRadius: 3,
-              background: i === step ? '#ef4444' : i < step ? 'rgba(239,68,68,0.4)' : 'var(--border)',
+              background: i === step ? '#E8342B' : i < step ? 'rgba(232,52,43,0.4)' : 'var(--border)',
               transition: 'all 0.3s',
             }} />
           ))}
@@ -370,7 +370,7 @@ function OnboardingPersonal({ userId, onDone }) {
             </button>
           )}
           <button onClick={advance}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '13px 20px', borderRadius: 12, background: '#ef4444', border: 'none', color: 'white', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: '13px 20px', borderRadius: 12, background: '#E8342B', border: 'none', color: 'white', fontSize: 14, fontWeight: 600, cursor: 'pointer' }}>
             {isLast ? <><CheckCircle style={{ width: 15, height: 15 }} /> {s.cta}</> : <>{s.cta} <ArrowRight style={{ width: 14, height: 14 }} /></>}
           </button>
         </div>

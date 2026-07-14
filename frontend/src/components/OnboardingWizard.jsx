@@ -124,7 +124,7 @@ export default function OnboardingWizard() {
 
         {/* Progress bar */}
         <div style={{ height: 3, background: 'rgba(255,255,255,0.05)' }}>
-          <div style={{ height: '100%', width: `${progress}%`, background: '#ef4444', transition: 'width 0.4s ease' }} />
+          <div style={{ height: '100%', width: `${progress}%`, background: '#E8342B', transition: 'width 0.4s ease' }} />
         </div>
 
         {/* Header */}
@@ -133,7 +133,7 @@ export default function OnboardingWizard() {
             {STEPS.map((s, i) => (
               <div key={s.id} style={{
                 width: i === step ? 20 : 6, height: 6, borderRadius: 3,
-                background: i < step ? '#ef4444' : i === step ? '#f87171' : 'rgba(255,255,255,0.1)',
+                background: i < step ? '#E8342B' : i === step ? '#FF8078' : 'rgba(255,255,255,0.1)',
                 transition: 'all 0.3s',
               }} />
             ))}

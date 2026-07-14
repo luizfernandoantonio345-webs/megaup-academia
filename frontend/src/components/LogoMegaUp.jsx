@@ -1,4 +1,4 @@
-/**
+﻿/**
  * MEGAUP — Sistema de Marca
  *
  * Símbolo: duas setas ascendentes que formam a letra M.
@@ -7,7 +7,7 @@
  */
 
 /* ── Ícone: M de duas setas ────────────────────────────────── */
-export function IconMark({ size = 32, color = '#ef4444' }) {
+export function IconMark({ size = 32, color = '#E8342B' }) {
   const sw = Math.max(3, size * 0.115)
   return (
     <svg
@@ -43,7 +43,7 @@ export function IconBadge({ size = 32 }) {
         width: size,
         height: size,
         borderRadius: Math.round(size * 0.25),
-        background: '#ef4444',
+        background: '#E8342B',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -58,7 +58,7 @@ export function IconBadge({ size = 32 }) {
 
 /* ── Wordmark: MEGA (claro) + UP (vermelho) ─────────────────── */
 export function LogoWordmark({ size = 18, light = false }) {
-  const primary = light ? '#111113' : '#F4F4F5'
+  const primary = light ? '#141416' : '#F4F4F5'
   const st = {
     fontFamily: 'Inter, system-ui, sans-serif',
     fontWeight: 900,
@@ -70,7 +70,7 @@ export function LogoWordmark({ size = 18, light = false }) {
   return (
     <span style={{ display: 'inline-flex', alignItems: 'baseline' }}>
       <span style={{ ...st, color: primary }}>MEGA</span>
-      <span style={{ ...st, color: '#ef4444' }}>UP</span>
+      <span style={{ ...st, color: '#E8342B' }}>UP</span>
     </span>
   )
 }
@@ -86,7 +86,7 @@ export function LogoFull({
     <div style={{ display: 'flex', alignItems: 'center', gap: Math.round(size * 0.55) }}>
       {useBadge
         ? <IconBadge size={Math.round(size * 1.9)} />
-        : <IconMark  size={Math.round(size * 1.6)} color="#ef4444" />
+        : <IconMark  size={Math.round(size * 1.6)} color="#E8342B" />
       }
       <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         <LogoWordmark size={size} light={light} />

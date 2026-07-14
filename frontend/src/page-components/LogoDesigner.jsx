@@ -1,4 +1,4 @@
-import { IconMark, IconBadge, LogoFull, LogoWordmark } from '../components/LogoMegaUp'
+﻿import { IconMark, IconBadge, LogoFull, LogoWordmark } from '../components/LogoMegaUp'
 
 /* ── helpers ────────────────────────────────────────────────── */
 function Label({ children }) {
@@ -29,7 +29,7 @@ function Section({ title, desc, children }) {
       <div style={{ marginBottom: 28 }}>
         <p style={{
           fontSize: 10, fontWeight: 700, letterSpacing: '0.14em',
-          textTransform: 'uppercase', color: '#ef4444', marginBottom: 6,
+          textTransform: 'uppercase', color: '#E8342B', marginBottom: 6,
         }}>
           {title}
         </p>
@@ -112,7 +112,7 @@ function NavMockup() {
       <div style={{ display: 'flex', gap: 20, fontSize: 13, color: 'var(--text-muted)' }}>
         <span>Modalidades</span>
         <span>Planos</span>
-        <span style={{ color: '#ef4444', fontWeight: 600 }}>Matricule-se</span>
+        <span style={{ color: '#E8342B', fontWeight: 600 }}>Matricule-se</span>
       </div>
     </div>
   )
@@ -136,11 +136,11 @@ function AuthMockup() {
 
 /* ── Paleta ───────────────────────────────────────────────── */
 const CORES = [
-  { swatch: '#ef4444', name: 'MegaUp Red',  hex: '#ef4444', role: 'Primária — ícone, CTA, destaque' },
-  { swatch: '#f87171', name: 'Red Light',   hex: '#f87171', role: 'Hover, estados ativos, gradiente' },
+  { swatch: '#E8342B', name: 'MegaUp Red',  hex: '#E8342B', role: 'Primária — ícone, CTA, destaque' },
+  { swatch: '#FF8078', name: 'Red Light',   hex: '#FF8078', role: 'Hover, estados ativos, gradiente' },
   { swatch: '#F4F4F5', name: 'Zinc 100',    hex: '#F4F4F5', role: 'Texto principal sobre fundo escuro' },
-  { swatch: '#0C0C0D', name: 'Near Black',  hex: '#0C0C0D', role: 'Fundo do app', dark: true },
-  { swatch: '#111113', name: 'Card',        hex: '#111113', role: 'Fundo de cards', dark: true },
+  { swatch: '#0D0D0F', name: 'Near Black',  hex: '#0D0D0F', role: 'Fundo do app', dark: true },
+  { swatch: '#141416', name: 'Card',        hex: '#141416', role: 'Fundo de cards', dark: true },
   { swatch: '#27272A', name: 'Border',      hex: '#27272A', role: 'Bordas, separadores', dark: true },
 ]
 
@@ -179,7 +179,7 @@ export default function LogoDesigner() {
             letterSpacing: '-0.045em',
             lineHeight: 1.08,
             marginBottom: 18,
-            background: 'linear-gradient(135deg, #F4F4F5 40%, #ef4444 100%)',
+            background: 'linear-gradient(135deg, #F4F4F5 40%, #E8342B 100%)',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -191,7 +191,7 @@ export default function LogoDesigner() {
             e tipografia. Use estes elementos com consistência em todas as superfícies.
           </p>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            {['Inter 900', '#ef4444', '−0.05em tracking', 'v1.0 · 2026'].map(tag => (
+            {['Inter 900', '#E8342B', '−0.05em tracking', 'v1.0 · 2026'].map(tag => (
               <span key={tag} style={{
                 background: 'var(--bg-elevated)',
                 border: '1px solid var(--border)',
@@ -212,13 +212,13 @@ export default function LogoDesigner() {
           {/* 3 variantes principais */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14, marginBottom: 14 }}>
             <Tile label="Primário" sub="Fundo escuro — uso padrão" bg="var(--bg-card)">
-              <IconMark size={80} color="#ef4444" />
+              <IconMark size={80} color="#E8342B" />
             </Tile>
             <Tile label="Badge" sub="App icon, favicon, avatar" bg="var(--bg-card)">
               <IconBadge size={80} />
             </Tile>
             <Tile label="Invertido" sub="Fundo claro" bg="#F0F0F2" border="#DDDDE3">
-              <IconMark size={80} color="#ef4444" />
+              <IconMark size={80} color="#E8342B" />
             </Tile>
           </div>
 
@@ -329,7 +329,7 @@ export default function LogoDesigner() {
                   <div style={{
                     width: disp, height: disp,
                     borderRadius: Math.round(disp * 0.22),
-                    background: '#ef4444',
+                    background: '#E8342B',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                   }}>
                     <IconMark size={disp * 0.62} color="white" />
@@ -361,7 +361,7 @@ export default function LogoDesigner() {
                 }} />
                 <div style={{ padding: '16px 18px' }}>
                   <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', marginBottom: 3 }}>{c.name}</p>
-                  <p style={{ fontSize: 12, fontFamily: 'monospace', color: '#f87171', marginBottom: 6 }}>{c.hex}</p>
+                  <p style={{ fontSize: 12, fontFamily: 'monospace', color: '#FF8078', marginBottom: 6 }}>{c.hex}</p>
                   <p style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.5 }}>{c.role}</p>
                 </div>
               </div>
@@ -426,8 +426,8 @@ export default function LogoDesigner() {
               </p>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 11 }}>
                 {[
-                  'Ícone sempre em #ef4444 ou branco sobre fundo vermelho',
-                  'MEGA em branco / cinza-claro, UP em #ef4444',
+                  'Ícone sempre em #E8342B ou branco sobre fundo vermelho',
+                  'MEGA em branco / cinza-claro, UP em #E8342B',
                   'Inter peso 900, letras maiúsculas, tracking −0.05em',
                   'Badge vermelho para app icon e avatar',
                   'Mínimo 16px para o badge, 14px para wordmark',
@@ -445,7 +445,7 @@ export default function LogoDesigner() {
               borderRadius: 12,
               padding: '24px 28px',
             }}>
-              <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#f87171', marginBottom: 18 }}>
+              <p style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#FF8078', marginBottom: 18 }}>
                 ✗ Evite
               </p>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 11 }}>
@@ -458,7 +458,7 @@ export default function LogoDesigner() {
                   'Fundo colorido que não seja vermelho ou neutro escuro/claro',
                 ].map(r => (
                   <li key={r} style={{ fontSize: 13, color: 'var(--text-secondary)', display: 'flex', gap: 10, lineHeight: 1.4 }}>
-                    <span style={{ color: '#f87171', flexShrink: 0, fontWeight: 700 }}>–</span>{r}
+                    <span style={{ color: '#FF8078', flexShrink: 0, fontWeight: 700 }}>–</span>{r}
                   </li>
                 ))}
               </ul>

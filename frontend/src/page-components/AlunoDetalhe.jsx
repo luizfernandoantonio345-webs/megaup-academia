@@ -11,9 +11,9 @@ import FotosEvolucaoTab from '../components/FotosEvolucaoTab'
 
 const ALPHA = {
   A:'#6366f1',B:'#ec4899',C:'#f97316',D:'#22c55e',E:'#a855f7',F:'#06b6d4',
-  G:'#ef4444',H:'#eab308',I:'#14b8a6',J:'#8b5cf6',K:'#f43f5e',L:'#10b981',
+  G:'#E8342B',H:'#eab308',I:'#14b8a6',J:'#8b5cf6',K:'#f43f5e',L:'#10b981',
   M:'#3b82f6',N:'#fb923c',O:'#84cc16',P:'#e879f9',Q:'#2dd4bf',R:'#f472b6',
-  S:'#38bdf8',T:'#4ade80',U:'#fbbf24',V:'#818cf8',W:'#34d399',X:'#f87171',
+  S:'#38bdf8',T:'#4ade80',U:'#fbbf24',V:'#818cf8',W:'#34d399',X:'#FF8078',
   Y:'#a78bfa',Z:'#60a5fa',
 }
 const nameColor = (n) => ALPHA[(n || 'A')[0].toUpperCase()] ?? '#6366f1'
@@ -38,8 +38,8 @@ function Avatar({ nome, size = 64 }) {
 
 const ACAO_CONFIG = {
   aumentar: { icon:TrendingUp,  label:'Aumentar', bg:'rgba(16,185,129,0.1)',  border:'rgba(16,185,129,0.25)', text:'#34d399',  iconColor:'#10b981' },
-  manter:   { icon:Minus,       label:'Manter',   bg:'rgba(99,102,241,0.1)', border:'rgba(99,102,241,0.25)',text:'#fca5a5',  iconColor:'#ef4444' },
-  reduzir:  { icon:TrendingDown,label:'Reduzir',  bg:'rgba(239,68,68,0.1)',  border:'rgba(239,68,68,0.25)',  text:'#f87171',  iconColor:'#ef4444' },
+  manter:   { icon:Minus,       label:'Manter',   bg:'rgba(99,102,241,0.1)', border:'rgba(99,102,241,0.25)',text:'#fca5a5',  iconColor:'#E8342B' },
+  reduzir:  { icon:TrendingDown,label:'Reduzir',  bg:'rgba(232,52,43,0.1)',  border:'rgba(232,52,43,0.25)',  text:'#FF8078',  iconColor:'#E8342B' },
 }
 
 export default function AlunoDetalhe() {
@@ -101,7 +101,7 @@ export default function AlunoDetalhe() {
 
       {/* ── HERO CARD ───────────────────────────────────────────────── */}
       {isLoading ? (
-        <div style={{ display:'flex', flexDirection:'column', gap:16, background:'#111113', border:'1px solid rgba(255,255,255,0.07)', borderRadius:22, padding:'24px' }}>
+        <div style={{ display:'flex', flexDirection:'column', gap:16, background:'#141416', border:'1px solid rgba(255,255,255,0.07)', borderRadius:22, padding:'24px' }}>
           <div style={{ display:'flex', gap:14, alignItems:'center' }}>
             <div className="skeleton" style={{ width:64, height:64, borderRadius:'50%', flexShrink:0 }} />
             <div style={{ flex:1, display:'flex', flexDirection:'column', gap:8 }}>
@@ -119,7 +119,7 @@ export default function AlunoDetalhe() {
         </div>
       ) : (
         <div style={{
-          background: `radial-gradient(ellipse at 0% 0%, ${heroColor}1a 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(239,68,68,0.07) 0%, transparent 40%), #111113`,
+          background: `radial-gradient(ellipse at 0% 0%, ${heroColor}1a 0%, transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(232,52,43,0.07) 0%, transparent 40%), #111113`,
           border: `1px solid ${heroColor}20`,
           borderRadius: 22,
           padding: '24px 24px 20px',
@@ -238,7 +238,7 @@ export default function AlunoDetalhe() {
               color: tab === key ? '#F4F4F5' : 'rgba(255,255,255,0.38)',
               padding:'9px 14px',
               cursor:'pointer',
-              borderBottom: tab === key ? '2px solid #ef4444' : '2px solid transparent',
+              borderBottom: tab === key ? '2px solid #E8342B' : '2px solid transparent',
               marginBottom:-1,
               transition:'color 0.15s',
               background:'none', border:'none',
@@ -263,7 +263,7 @@ export default function AlunoDetalhe() {
           <div className="card" style={{ height: 520 }}>
             <div className="flex items-center gap-2 mb-4" style={{ borderBottom:'1px solid rgba(255,255,255,0.06)', paddingBottom:14 }}>
               <div style={{ width:32, height:32, borderRadius:10, background:'rgba(99,102,241,0.15)', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                <MessageCircle style={{ width:14, height:14, color:'#f87171' }} />
+                <MessageCircle style={{ width:14, height:14, color:'#FF8078' }} />
               </div>
               <div>
                 <p style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'var(--text-primary)', fontSize:14, lineHeight:1 }}>Chat com {aluno?.nome?.split(' ')[0]}</p>
@@ -344,7 +344,7 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
           {[
             { label: 'Máximo', value: `${maxCarga}kg`, color: '#fca5a5' },
             { label: 'Última', value: lastCarga != null ? `${lastCarga}kg` : '--', color: '#34d399' },
-            { label: 'Variação', value: delta != null ? `${delta > 0 ? '+' : ''}${delta}kg` : '--', color: delta == null ? 'rgba(255,255,255,0.35)' : delta > 0 ? '#34d399' : delta < 0 ? '#f87171' : '#ef4444' },
+            { label: 'Variação', value: delta != null ? `${delta > 0 ? '+' : ''}${delta}kg` : '--', color: delta == null ? 'rgba(255,255,255,0.35)' : delta > 0 ? '#34d399' : delta < 0 ? '#FF8078' : '#E8342B' },
           ].map(({ label, value, color }) => (
             <div key={label} style={{
               textAlign:'center', padding:'14px 8px', borderRadius:16,
@@ -367,13 +367,13 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
             </p>
           </div>
           <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: 'rgba(99,102,241,0.12)' }}>
-            <TrendingUp style={{ width: 16, height: 16, color: '#f87171' }} />
+            <TrendingUp style={{ width: 16, height: 16, color: '#FF8078' }} />
           </div>
         </div>
 
         {isLoading ? (
           <div className="flex justify-center py-10">
-            <Loader2 style={{ width: 22, height: 22, color: '#ef4444', animation: 'spin 1s linear infinite' }} />
+            <Loader2 style={{ width: 22, height: 22, color: '#E8342B', animation: 'spin 1s linear infinite' }} />
           </div>
         ) : chartData.length === 0 ? (
           <div className="empty-state py-10">
@@ -388,8 +388,8 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
               <XAxis dataKey="data" tick={{ fontSize: 11, fill:'var(--text-muted)' }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 11, fill:'var(--text-muted)' }} axisLine={false} tickLine={false} width={40} tickFormatter={v => `${v}kg`} />
               <Tooltip content={<DotTooltip />} />
-              <Line type="monotone" dataKey="carga" stroke="#ef4444" strokeWidth={2.5}
-                dot={{ fill: '#ef4444', r: 4, strokeWidth: 0 }}
+              <Line type="monotone" dataKey="carga" stroke="#E8342B" strokeWidth={2.5}
+                dot={{ fill: '#E8342B', r: 4, strokeWidth: 0 }}
                 activeDot={{ r: 6, fill: '#fca5a5', strokeWidth: 0 }}
                 isAnimationActive={false} />
             </LineChart>
@@ -413,7 +413,7 @@ function ProgresoTab({ alunoId, treinos, exercicios }) {
                   style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
                   <div className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0"
                     style={{ background: 'rgba(99,102,241,0.12)' }}>
-                    <span style={{ fontSize: 12, fontWeight: 600, color: '#f87171', fontFamily: 'Inter, sans-serif' }}>
+                    <span style={{ fontSize: 12, fontWeight: 600, color: '#FF8078', fontFamily: 'Inter, sans-serif' }}>
                       {sessions.length - i}
                     </span>
                   </div>
@@ -486,7 +486,7 @@ function TreinosTab({ aluno, treinos, onCriar }) {
       {showTemplate && (
         <div className="card animate-slide-down" style={{ border:'1px solid rgba(99,102,241,0.3)' }}>
           <h3 style={{ fontFamily:'Inter, sans-serif', fontWeight:600, color:'var(--text-primary)', fontSize:14, marginBottom:16, display:'flex', alignItems:'center', gap:6 }}>
-            <Copy style={{ width:14, height:14, color:'#f87171' }}/> Aplicar template
+            <Copy style={{ width:14, height:14, color:'#FF8078' }}/> Aplicar template
           </h3>
           {templates.length === 0 ? (
             <p style={{ fontSize:13, color:'var(--text-muted)', marginBottom:12 }}>
@@ -559,7 +559,7 @@ function TreinosTab({ aluno, treinos, onCriar }) {
                   <div style={{ fontSize:12, color:'var(--text-muted)', marginTop:2 }}>{t.itens?.length || 0} exercício{t.itens?.length !== 1 ? 's' : ''}</div>
                 </div>
                 <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{ background:'rgba(99,102,241,0.12)' }}>
-                  <Dumbbell style={{ width:15, height:15, color:'#f87171' }} />
+                  <Dumbbell style={{ width:15, height:15, color:'#FF8078' }} />
                 </div>
               </div>
               {t.dia_semana && <span className="badge-blue capitalize">{t.dia_semana}</span>}
@@ -572,7 +572,7 @@ function TreinosTab({ aluno, treinos, onCriar }) {
 }
 
 function GamificacaoTab({ gami }) {
-  if (!gami) return <div className="flex justify-center py-12"><Loader2 style={{ width:24, height:24, color:'#ef4444', animation:'spin 1s linear infinite' }} /></div>
+  if (!gami) return <div className="flex justify-center py-12"><Loader2 style={{ width:24, height:24, color:'#E8342B', animation:'spin 1s linear infinite' }} /></div>
 
   const BADGES = {
     primeiro_treino: { emoji:'🏋️', label:'Primeiro treino', border:'rgba(100,116,139,0.3)', bg:'rgba(100,116,139,0.1)' },
@@ -633,16 +633,16 @@ function GamificacaoTab({ gami }) {
 }
 
 function SugestoesTab({ sugestoes }) {
-  if (!sugestoes) return <div className="flex justify-center py-12"><Loader2 style={{ width:24, height:24, color:'#ef4444', animation:'spin 1s linear infinite' }} /></div>
+  if (!sugestoes) return <div className="flex justify-center py-12"><Loader2 style={{ width:24, height:24, color:'#E8342B', animation:'spin 1s linear infinite' }} /></div>
 
   return (
     <div className="space-y-4">
       {sugestoes.dias_sem_treinar !== null && (
         <div className="p-4 rounded-2xl" style={{
-          background: sugestoes.dias_sem_treinar === 0 ? 'rgba(16,185,129,0.1)' : sugestoes.dias_sem_treinar > 7 ? 'rgba(239,68,68,0.1)' : 'rgba(245,158,11,0.1)',
-          border: `1px solid ${sugestoes.dias_sem_treinar === 0 ? 'rgba(16,185,129,0.25)' : sugestoes.dias_sem_treinar > 7 ? 'rgba(239,68,68,0.25)' : 'rgba(245,158,11,0.25)'}`,
+          background: sugestoes.dias_sem_treinar === 0 ? 'rgba(16,185,129,0.1)' : sugestoes.dias_sem_treinar > 7 ? 'rgba(232,52,43,0.1)' : 'rgba(245,158,11,0.1)',
+          border: `1px solid ${sugestoes.dias_sem_treinar === 0 ? 'rgba(16,185,129,0.25)' : sugestoes.dias_sem_treinar > 7 ? 'rgba(232,52,43,0.25)' : 'rgba(245,158,11,0.25)'}`,
         }}>
-          <p style={{ fontWeight:600, fontSize:13, color: sugestoes.dias_sem_treinar === 0 ? '#34d399' : sugestoes.dias_sem_treinar > 7 ? '#f87171' : '#fbbf24' }}>
+          <p style={{ fontWeight:600, fontSize:13, color: sugestoes.dias_sem_treinar === 0 ? '#34d399' : sugestoes.dias_sem_treinar > 7 ? '#FF8078' : '#fbbf24' }}>
             {sugestoes.dias_sem_treinar === 0 ? '✅ Treinou hoje!' : sugestoes.dias_sem_treinar > 7 ? `⚠️ ${sugestoes.dias_sem_treinar} dias sem treinar — vale entrar em contato!` : `⏱️ Último treino há ${sugestoes.dias_sem_treinar} dia${sugestoes.dias_sem_treinar > 1 ? 's' : ''}`}
           </p>
         </div>
@@ -696,7 +696,7 @@ const MEDIDAS_FIELDS = [
 ]
 
 const CIRCUM_OPCOES = [
-  { key:'cintura', label:'Cintura', color:'#f87171' },
+  { key:'cintura', label:'Cintura', color:'#FF8078' },
   { key:'quadril', label:'Quadril', color:'#a78bfa' },
   { key:'peito',   label:'Peito',   color:'#60a5fa' },
   { key:'abdomen', label:'Abdômen', color:'#f97316' },
@@ -708,14 +708,14 @@ function imcCategoria(imc) {
   if (imc < 18.5) return { label:'Abaixo do peso', color:'#60a5fa' }
   if (imc < 25)   return { label:'Peso normal',     color:'#34d399' }
   if (imc < 30)   return { label:'Sobrepeso',       color:'#fbbf24' }
-  return                  { label:'Obesidade',       color:'#ef4444' }
+  return                  { label:'Obesidade',       color:'#E8342B' }
 }
 
 function DeltaBadge({ delta, unit = '', invertColors = false }) {
   if (delta == null) return null
   const positive = delta > 0
   const good = invertColors ? !positive : positive
-  const color = good ? '#34d399' : '#f87171'
+  const color = good ? '#34d399' : '#FF8078'
   return (
     <span style={{ fontSize:10, color, fontWeight:600 }}>
       {positive ? '+' : ''}{Number(delta).toFixed(1)}{unit}
@@ -793,7 +793,7 @@ function AvaliacaoTab({ alunoId, avaliacoes, onRefresh }) {
     data: new Date(a.data).toLocaleDateString('pt-BR', { day:'2-digit', month:'short' }), valor: a.medidas[chartMedida],
   }))
 
-  const circColor = CIRCUM_OPCOES.find(o => o.key === chartMedida)?.color || '#f87171'
+  const circColor = CIRCUM_OPCOES.find(o => o.key === chartMedida)?.color || '#FF8078'
 
   const MiniTooltip = (unit) => ({ active, payload, label }) => {
     if (!active || !payload?.length) return null

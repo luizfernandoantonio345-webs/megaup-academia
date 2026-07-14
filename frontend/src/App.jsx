@@ -66,7 +66,7 @@ const qc = new QueryClient({
 function PageLoader() {
   return (
     <div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ width: 24, height: 24, border: '2px solid var(--border)', borderTopColor: '#ef4444', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+      <div style={{ width: 24, height: 24, border: '2px solid var(--border)', borderTopColor: '#E8342B', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
     </div>
   )
 }
@@ -135,7 +135,7 @@ function AnimatedRoutes() {
                 <div style={{ fontSize:40, marginBottom:16 }}>🔒</div>
                 <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:20, fontWeight:600, color:'var(--text-primary)', marginBottom:8 }}>Acesso negado</h1>
                 <p style={{ color:'var(--text-muted)', marginBottom:24, fontSize:14 }}>Você não tem permissão para acessar esta página.</p>
-                <a href="/login" style={{ color:'#f87171', fontWeight:600, fontSize:14 }}>Voltar ao login</a>
+                <a href="/login" style={{ color:'#FF8078', fontWeight:600, fontSize:14 }}>Voltar ao login</a>
               </div>
             </div>
           </P>

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, type ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
@@ -8,7 +8,7 @@ import { AppShell } from '@/components/layout/app-shell'
 function Spinner() {
   return (
     <div style={{ minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-page)' }}>
-      <div style={{ width: 28, height: 28, border: '2px solid var(--border)', borderTopColor: '#ef4444', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+      <div style={{ width: 28, height: 28, border: '2px solid var(--border)', borderTopColor: '#E8342B', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
     </div>
   )
 }

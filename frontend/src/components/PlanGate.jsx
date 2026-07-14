@@ -39,7 +39,7 @@ export default function PlanGate({ children }) {
           background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.2)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px',
         }}>
-          <Lock style={{ width: 28, height: 28, color: '#f87171' }} />
+          <Lock style={{ width: 28, height: 28, color: '#FF8078' }} />
         </div>
 
         <h1 style={{ fontSize: 22, fontWeight: 600, color:'var(--text-primary)', marginBottom: 8 }}>
@@ -55,7 +55,7 @@ export default function PlanGate({ children }) {
             onClick={() => navigate('/planos')}
             style={{
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
-              background: '#ef4444', color: 'white', border: 'none', borderRadius: 12,
+              background: '#E8342B', color: 'white', border: 'none', borderRadius: 12,
               padding: '14px 24px', fontWeight: 600, fontSize: 14, cursor: 'pointer',
               transition: 'opacity 0.15s',
             }}

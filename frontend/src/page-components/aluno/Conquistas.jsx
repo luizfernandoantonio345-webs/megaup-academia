@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+﻿import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '../../contexts/AuthContext'
 import { gamificacaoAluno, feedConquistas } from '../../api'
 import { Lock, Star, Zap, Flame, Trophy, Target, Users } from 'lucide-react'
@@ -43,7 +43,7 @@ function XPBar({ xpTotal }) {
   return (
     <div style={{
       borderRadius:20, padding:'20px', position:'relative', overflow:'hidden',
-      background:'radial-gradient(ellipse at 10% -20%, rgba(99,102,241,0.25) 0%, transparent 55%), radial-gradient(ellipse at 90% 120%, rgba(239,68,68,0.12) 0%, transparent 50%), #111113',
+      background:'radial-gradient(ellipse at 10% -20%, rgba(99,102,241,0.25) 0%, transparent 55%), radial-gradient(ellipse at 90% 120%, rgba(232,52,43,0.12) 0%, transparent 50%), #111113',
       border:'1px solid rgba(99,102,241,0.22)', boxShadow:'0 8px 32px rgba(99,102,241,0.1)',
     }}>
       <div style={{ position:'absolute', top:-20, right:-20, width:100, height:100, borderRadius:'50%', background:'rgba(99,102,241,0.15)', filter:'blur(36px)', pointerEvents:'none' }} />
@@ -58,7 +58,7 @@ function XPBar({ xpTotal }) {
             </div>
           </div>
         </div>
-        <div style={{ width:52, height:52, borderRadius:16, display:'flex', alignItems:'center', justifyContent:'center', background:'linear-gradient(145deg,#ef4444,#c42121)', boxShadow:'0 4px 18px rgba(239,68,68,0.45)' }}>
+        <div style={{ width:52, height:52, borderRadius:16, display:'flex', alignItems:'center', justifyContent:'center', background:'linear-gradient(145deg,#E8342B,#c42121)', boxShadow:'0 4px 18px rgba(232,52,43,0.45)' }}>
           <Zap style={{ width:24, height:24, color:'white' }} />
         </div>
       </div>
@@ -133,7 +133,7 @@ function ConquistaCard({ conquista:c, gami, desbloqueadas }) {
         }}>
           {desbloqueada ? c.emoji : <Lock style={{ width:20, height:20, color:'rgba(255,255,255,0.2)' }} />}
           {desbloqueada && (
-            <div style={{ position:'absolute', bottom:-5, right:-5, width:16, height:16, borderRadius:'50%', background:R.dot, border:'2.5px solid #0C0C0D', boxShadow:`0 0 8px ${R.dot}` }} />
+            <div style={{ position:'absolute', bottom:-5, right:-5, width:16, height:16, borderRadius:'50%', background:R.dot, border:'2.5px solid #0D0D0F', boxShadow:`0 0 8px ${R.dot}` }} />
           )}
         </div>
 
@@ -173,7 +173,7 @@ function ConquistaCard({ conquista:c, gami, desbloqueadas }) {
 }
 
 /* ── Colored avatar for name initials ── */
-const ALPHA_COLORS = { A:'#6366f1',B:'#ec4899',C:'#f97316',D:'#22c55e',E:'#a855f7',F:'#06b6d4',G:'#ef4444',H:'#eab308',I:'#14b8a6',J:'#8b5cf6',K:'#f43f5e',L:'#10b981',M:'#3b82f6',N:'#fb923c',O:'#84cc16',P:'#e879f9',Q:'#2dd4bf',R:'#f472b6',S:'#38bdf8',T:'#4ade80',U:'#fbbf24',V:'#818cf8',W:'#34d399',X:'#f87171',Y:'#a78bfa',Z:'#60a5fa' }
+const ALPHA_COLORS = { A:'#6366f1',B:'#ec4899',C:'#f97316',D:'#22c55e',E:'#a855f7',F:'#06b6d4',G:'#E8342B',H:'#eab308',I:'#14b8a6',J:'#8b5cf6',K:'#f43f5e',L:'#10b981',M:'#3b82f6',N:'#fb923c',O:'#84cc16',P:'#e879f9',Q:'#2dd4bf',R:'#f472b6',S:'#38bdf8',T:'#4ade80',U:'#fbbf24',V:'#818cf8',W:'#34d399',X:'#FF8078',Y:'#a78bfa',Z:'#60a5fa' }
 const nameColor = n => ALPHA_COLORS[(n||'A')[0].toUpperCase()] ?? '#6366f1'
 
 function FeedItem({ item }) {
@@ -259,9 +259,9 @@ export default function Conquistas() {
       </div>
 
       {/* Progress milestones */}
-      <div style={{ padding:'18px', borderRadius:18, background:'#111113', border:'1px solid rgba(255,255,255,0.07)', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)', display:'flex', flexDirection:'column', gap:14 }}>
+      <div style={{ padding:'18px', borderRadius:18, background:'#141416', border:'1px solid rgba(255,255,255,0.07)', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)', display:'flex', flexDirection:'column', gap:14 }}>
         <h3 style={{ fontFamily:'Inter,sans-serif', fontWeight:800, color:'#F4F4F5', fontSize:14, letterSpacing:'-0.02em', marginBottom:2 }}>Progresso para próximas conquistas</h3>
-        <ProgressMilestone label="Treinos totais"  current={total}  targets={[10,25,50,100]} color="#f87171" />
+        <ProgressMilestone label="Treinos totais"  current={total}  targets={[10,25,50,100]} color="#FF8078" />
         <ProgressMilestone label="Sequência atual" current={streak} targets={[3,7,14,30,60]} color="#fb923c" />
       </div>
 
@@ -291,9 +291,9 @@ export default function Conquistas() {
 
       {/* Feed */}
       {feed.length>0&&(
-        <div style={{ padding:'18px 20px', borderRadius:18, background:'#111113', border:'1px solid rgba(255,255,255,0.07)', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
+        <div style={{ padding:'18px 20px', borderRadius:18, background:'#141416', border:'1px solid rgba(255,255,255,0.07)', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
           <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:3 }}>
-            <Users style={{ width:14, height:14, color:'#ef4444' }} />
+            <Users style={{ width:14, height:14, color:'#E8342B' }} />
             <h3 style={{ fontFamily:'Inter,sans-serif', fontWeight:800, color:'#F4F4F5', fontSize:14, letterSpacing:'-0.02em' }}>Mural da Academia</h3>
           </div>
           <p style={{ fontSize:11, color:'rgba(255,255,255,0.35)', marginBottom:14 }}>Conquistas recentes dos colegas</p>

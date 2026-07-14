@@ -102,23 +102,23 @@ export default function Perfil() {
           </h2>
 
           {/* Avatar preview */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 22, padding:'16px 18px', background:'radial-gradient(ellipse at 0% 50%, rgba(239,68,68,0.08) 0%, transparent 60%)', borderRadius:14, border:'1px solid rgba(239,68,68,0.1)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 18, marginBottom: 22, padding:'16px 18px', background:'radial-gradient(ellipse at 0% 50%, rgba(232,52,43,0.08) 0%, transparent 60%)', borderRadius:14, border:'1px solid rgba(232,52,43,0.1)' }}>
             <div style={{ position: 'relative', flexShrink:0 }}>
               {form.foto_url ? (
                 <img
                   src={form.foto_url}
                   alt="Foto de perfil"
-                  style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(239,68,68,0.4)', boxShadow:'0 0 24px rgba(239,68,68,0.2)' }}
+                  style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover', border: '2px solid rgba(232,52,43,0.4)', boxShadow:'0 0 24px rgba(232,52,43,0.2)' }}
                   onError={e => { e.currentTarget.style.display = 'none' }}
                 />
               ) : (
                 <div style={{
                   width: 72, height: 72, borderRadius: '50%',
-                  background:'linear-gradient(135deg,rgba(239,68,68,0.15),rgba(239,68,68,0.05))',
-                  border: '2px solid rgba(239,68,68,0.35)',
-                  boxShadow:'0 0 24px rgba(239,68,68,0.15)',
+                  background:'linear-gradient(135deg,rgba(232,52,43,0.15),rgba(232,52,43,0.05))',
+                  border: '2px solid rgba(232,52,43,0.35)',
+                  boxShadow:'0 0 24px rgba(232,52,43,0.15)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 24, fontWeight: 700, color:'#ef4444',
+                  fontSize: 24, fontWeight: 700, color:'#E8342B',
                   fontFamily:'Inter, sans-serif',
                 }}>
                   {initials}
@@ -127,16 +127,16 @@ export default function Perfil() {
               <div style={{
                 position: 'absolute', bottom: 2, right: 2,
                 width: 22, height: 22, borderRadius: '50%',
-                background:'#1a1a1c', border: '1px solid rgba(239,68,68,0.3)',
+                background:'#1a1a1c', border: '1px solid rgba(232,52,43,0.3)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
-                <Camera style={{ width: 10, height: 10, color:'#ef4444' }} />
+                <Camera style={{ width: 10, height: 10, color:'#E8342B' }} />
               </div>
             </div>
             <div>
               <p style={{ fontSize: 17, fontWeight: 700, color:'#F4F4F5', letterSpacing:'-0.02em', marginBottom: 4, fontFamily:'Inter, sans-serif' }}>{form.nome || user?.nome}</p>
               <div style={{ display:'flex', alignItems:'center', gap:6 }}>
-                <span style={{ fontSize: 11, fontWeight:600, color:'#ef4444', background:'rgba(239,68,68,0.1)', border:'1px solid rgba(239,68,68,0.2)', borderRadius:5, padding:'2px 8px' }}>Personal Trainer</span>
+                <span style={{ fontSize: 11, fontWeight:600, color:'#E8342B', background:'rgba(232,52,43,0.1)', border:'1px solid rgba(232,52,43,0.2)', borderRadius:5, padding:'2px 8px' }}>Personal Trainer</span>
                 {perfil?.cref && <span style={{ fontSize: 11, color:'rgba(255,255,255,0.4)', fontWeight:500 }}>{perfil.cref}</span>}
               </div>
             </div>

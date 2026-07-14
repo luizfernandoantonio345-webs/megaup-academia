@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { infoConvite, aceitarConvite } from '../api'
 import { useAuth } from '../contexts/AuthContext'
@@ -41,7 +41,7 @@ export default function AceitarConvite() {
   if (loading)
     return (
       <div style={{ minHeight:'100vh', background:'var(--bg-page)', display:'flex', alignItems:'center', justifyContent:'center' }}>
-        <Loader2 style={{ width:32, height:32, color:'#ef4444', animation:'spin 1s linear infinite' }} />
+        <Loader2 style={{ width:32, height:32, color:'#E8342B', animation:'spin 1s linear infinite' }} />
       </div>
     )
 
@@ -54,7 +54,7 @@ export default function AceitarConvite() {
             Convite não encontrado
           </h1>
           <p style={{ color:'var(--text-muted)', marginBottom:24, fontSize:14 }}>Este convite é inválido ou já expirou.</p>
-          <a href="/login" style={{ color:'#f87171', fontWeight:600, fontSize:14 }}>Ir para login</a>
+          <a href="/login" style={{ color:'#FF8078', fontWeight:600, fontSize:14 }}>Ir para login</a>
         </div>
       </div>
     )
@@ -64,7 +64,7 @@ export default function AceitarConvite() {
       <div style={{ width:'100%', maxWidth:420 }}>
         {/* Logo */}
         <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:32 }}>
-          <div style={{ width:40, height:40, borderRadius:14, background:'#ef4444', display:'flex', alignItems:'center', justifyContent:'center', outline:'none' }}>
+          <div style={{ width:40, height:40, borderRadius:14, background:'#E8342B', display:'flex', alignItems:'center', justifyContent:'center', outline:'none' }}>
             <Zap style={{ width:18, height:18, color:'white' }} />
           </div>
           <span style={{ fontFamily:'Inter, sans-serif', fontWeight:600, fontSize:17, color:'var(--text-primary)' }}>MegaUp</span>
@@ -72,7 +72,7 @@ export default function AceitarConvite() {
 
         {/* Header */}
         <div style={{ textAlign:'center', marginBottom:32 }}>
-          <div style={{ width:64, height:64, borderRadius:20, background:'#ef4444', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 16px', outline:'none' }}>
+          <div style={{ width:64, height:64, borderRadius:20, background:'#E8342B', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 16px', outline:'none' }}>
             <Dumbbell style={{ width:28, height:28, color:'white' }} />
           </div>
           <h1 style={{ fontFamily:'Inter, sans-serif', fontSize:24, fontWeight:600, color:'var(--text-primary)', letterSpacing:'-0.02em', marginBottom:8 }}>

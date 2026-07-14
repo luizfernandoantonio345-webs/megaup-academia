@@ -1,4 +1,4 @@
-import { Component } from 'react'
+﻿import { Component } from 'react'
 import { RefreshCw } from 'lucide-react'
 
 function isChunkError(error) {
@@ -50,7 +50,7 @@ export default class ErrorBoundary extends Component {
               justifyContent: 'center', margin: '0 auto 20px',
               boxShadow: '0 0 20px rgba(248,113,113,0.08)',
             }}>
-              <RefreshCw style={{ width: 20, height: 20, color: '#f87171' }} />
+              <RefreshCw style={{ width: 20, height: 20, color: '#FF8078' }} />
             </div>
             <h2 style={{ fontSize: 18, fontWeight: 800, color: 'var(--text-primary)', marginBottom: 8, letterSpacing: '-0.03em' }}>
               Algo deu errado
@@ -66,11 +66,11 @@ export default class ErrorBoundary extends Component {
                 window.location.reload()
               }}
               style={{
-                background: 'linear-gradient(135deg,#ef4444,#dc2626)', color: 'white',
+                background: 'linear-gradient(135deg,#E8342B,#C8291F)', color: 'white',
                 border: 'none', borderRadius: 12, padding: '11px 26px',
                 fontWeight: 700, cursor: 'pointer', fontSize: 14,
                 display: 'inline-flex', alignItems: 'center', gap: 7,
-                boxShadow: '0 4px 16px rgba(239,68,68,0.35)',
+                boxShadow: '0 4px 16px rgba(232,52,43,0.35)',
                 fontFamily: 'Inter, sans-serif',
               }}
             >

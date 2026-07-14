@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Mail, ArrowLeft, CheckCircle } from 'lucide-react'
 import api from '../api/client'
@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 import { motion, AnimatePresence } from 'framer-motion'
 
 /* ── SVG Dumbbell Logo ───────────────────────────────────────────────── */
-function DumbbellSVG({ size = 32, color = '#ef4444' }) {
+function DumbbellSVG({ size = 32, color = '#E8342B' }) {
   return (
     <svg width={size} height={Math.round(size * 0.54)} viewBox="0 0 50 27" fill="none" aria-hidden>
       <rect x="0.5"  y="4"    width="8"  height="19" rx="3" fill={color} />
@@ -23,12 +23,12 @@ function LogoBox({ size = 68 }) {
     <div style={{
       width: size, height: size, flexShrink: 0,
       background: 'linear-gradient(145deg, #1e1f26, #111113)',
-      border: '1.5px solid rgba(239,68,68,0.45)',
+      border: '1.5px solid rgba(232,52,43,0.45)',
       borderRadius: Math.round(size * 0.26),
       display: 'flex', alignItems: 'center', justifyContent: 'center',
-      boxShadow: '0 0 36px rgba(239,68,68,0.28), 0 0 12px rgba(239,68,68,0.14) inset, inset 0 1px 0 rgba(255,255,255,0.08)',
+      boxShadow: '0 0 36px rgba(232,52,43,0.28), 0 0 12px rgba(232,52,43,0.14) inset, inset 0 1px 0 rgba(255,255,255,0.08)',
     }}>
-      <DumbbellSVG size={Math.round(size * 0.48)} color="#ef4444" />
+      <DumbbellSVG size={Math.round(size * 0.48)} color="#E8342B" />
     </div>
   )
 }
@@ -38,10 +38,10 @@ function Bracket({ top, right, bottom, left }) {
     <div style={{
       position:'absolute', width:20, height:20, pointerEvents:'none',
       top, right, bottom, left,
-      borderTop:    top    != null ? '2px solid rgba(239,68,68,0.38)' : undefined,
-      borderLeft:   left   != null ? '2px solid rgba(239,68,68,0.38)' : undefined,
-      borderBottom: bottom != null ? '2px solid rgba(239,68,68,0.38)' : undefined,
-      borderRight:  right  != null ? '2px solid rgba(239,68,68,0.38)' : undefined,
+      borderTop:    top    != null ? '2px solid rgba(232,52,43,0.38)' : undefined,
+      borderLeft:   left   != null ? '2px solid rgba(232,52,43,0.38)' : undefined,
+      borderBottom: bottom != null ? '2px solid rgba(232,52,43,0.38)' : undefined,
+      borderRight:  right  != null ? '2px solid rgba(232,52,43,0.38)' : undefined,
       borderRadius:
         top    != null && left  != null ? '14px 0 0 0'  :
         top    != null && right != null ? '0 14px 0 0'  :
@@ -72,10 +72,10 @@ export default function EsqueciSenha() {
   }
 
   return (
-    <div style={{ minHeight:'100dvh', display:'flex', alignItems:'center', justifyContent:'center', background:'#0C0C0D', padding:'24px 16px', position:'relative', overflow:'hidden' }}>
+    <div style={{ minHeight:'100dvh', display:'flex', alignItems:'center', justifyContent:'center', background:'#0D0D0F', padding:'24px 16px', position:'relative', overflow:'hidden' }}>
 
       {/* Orbs */}
-      <div aria-hidden style={{ position:'absolute', top:'-18%', left:'-8%', width:700, height:700, borderRadius:'50%', background:'radial-gradient(circle, rgba(239,68,68,0.10) 0%, transparent 65%)', filter:'blur(90px)', pointerEvents:'none', zIndex:0 }} />
+      <div aria-hidden style={{ position:'absolute', top:'-18%', left:'-8%', width:700, height:700, borderRadius:'50%', background:'radial-gradient(circle, rgba(232,52,43,0.10) 0%, transparent 65%)', filter:'blur(90px)', pointerEvents:'none', zIndex:0 }} />
       <div aria-hidden style={{ position:'absolute', bottom:'-18%', right:'-8%', width:600, height:600, borderRadius:'50%', background:'radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 65%)', filter:'blur(80px)', pointerEvents:'none', zIndex:0 }} />
       <div aria-hidden style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(rgba(255,255,255,0.016) 1px, transparent 1px)', backgroundSize:'28px 28px', pointerEvents:'none', zIndex:0 }} />
 
@@ -89,7 +89,7 @@ export default function EsqueciSenha() {
           backdropFilter:'blur(28px)', WebkitBackdropFilter:'blur(28px)',
           borderRadius:26, border:'1px solid rgba(255,255,255,0.075)',
           padding:'clamp(28px,7vw,46px) clamp(20px,6vw,42px)',
-          boxShadow:'0 36px 72px -12px rgba(0,0,0,0.8), 0 0 0 1px rgba(239,68,68,0.07), inset 0 1px 0 rgba(255,255,255,0.06)',
+          boxShadow:'0 36px 72px -12px rgba(0,0,0,0.8), 0 0 0 1px rgba(232,52,43,0.07), inset 0 1px 0 rgba(255,255,255,0.06)',
           textAlign:'center',
         }}
       >
@@ -122,13 +122,13 @@ export default function EsqueciSenha() {
               </p>
               {devLink && (
                 <div style={{ background:'rgba(99,102,241,0.07)', border:'1px solid rgba(99,102,241,0.18)', borderRadius:12, padding:'12px 16px', marginBottom:20, textAlign:'left' }}>
-                  <p style={{ fontSize:11, fontWeight:700, color:'#f87171', marginBottom:6 }}>DEV — Link gerado (SMTP não configurado):</p>
-                  <a href={devLink} style={{ fontSize:12, color:'#f87171', wordBreak:'break-all' }}>{devLink}</a>
+                  <p style={{ fontSize:11, fontWeight:700, color:'#FF8078', marginBottom:6 }}>DEV — Link gerado (SMTP não configurado):</p>
+                  <a href={devLink} style={{ fontSize:12, color:'#FF8078', wordBreak:'break-all' }}>{devLink}</a>
                 </div>
               )}
-              <Link to="/login" style={{ display:'inline-flex', alignItems:'center', gap:7, fontSize:14, fontWeight:700, color:'#ef4444', textDecoration:'none', padding:'10px 20px', borderRadius:12, background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.2)', transition:'all 0.15s' }}
-                onMouseEnter={e => { e.currentTarget.style.background='rgba(239,68,68,0.14)' }}
-                onMouseLeave={e => { e.currentTarget.style.background='rgba(239,68,68,0.08)' }}>
+              <Link to="/login" style={{ display:'inline-flex', alignItems:'center', gap:7, fontSize:14, fontWeight:700, color:'#E8342B', textDecoration:'none', padding:'10px 20px', borderRadius:12, background:'rgba(232,52,43,0.08)', border:'1px solid rgba(232,52,43,0.2)', transition:'all 0.15s' }}
+                onMouseEnter={e => { e.currentTarget.style.background='rgba(232,52,43,0.14)' }}
+                onMouseLeave={e => { e.currentTarget.style.background='rgba(232,52,43,0.08)' }}>
                 <ArrowLeft style={{ width:14, height:14 }} /> Voltar ao login
               </Link>
             </motion.div>

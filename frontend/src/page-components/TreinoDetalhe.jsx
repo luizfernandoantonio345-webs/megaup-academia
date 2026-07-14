@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { obterTreino, listarExercicios, adicionarItem, removerItem, executarTreino, templateFromTreino, duplicarTreino } from '../api'
@@ -10,11 +10,11 @@ import { VideoThumb } from '../components/VideoPlayer'
 const DIFICULDADE = [
   { key:'facil',   emoji:'😊', label:'Fácil',  bg:'rgba(16,185,129,0.15)',  border:'rgba(16,185,129,0.4)', text:'#34d399' },
   { key:'ok',      emoji:'💪', label:'Normal', bg:'rgba(99,102,241,0.15)',  border:'rgba(99,102,241,0.4)', text:'#a5b4fc' },
-  { key:'dificil', emoji:'🔥', label:'Pesado', bg:'rgba(239,68,68,0.15)',   border:'rgba(239,68,68,0.4)',  text:'#f87171' },
+  { key:'dificil', emoji:'🔥', label:'Pesado', bg:'rgba(232,52,43,0.15)',   border:'rgba(232,52,43,0.4)',  text:'#FF8078' },
 ]
 
 const GRUPO_COLORS = {
-  Peito:   { bg:'rgba(239,68,68,0.12)',   border:'rgba(239,68,68,0.3)',   text:'#f87171',  glow:'rgba(239,68,68,0.4)' },
+  Peito:   { bg:'rgba(232,52,43,0.12)',   border:'rgba(232,52,43,0.3)',   text:'#FF8078',  glow:'rgba(232,52,43,0.4)' },
   Costas:  { bg:'rgba(6,182,212,0.12)',   border:'rgba(6,182,212,0.3)',   text:'#22d3ee',  glow:'rgba(6,182,212,0.4)' },
   Pernas:  { bg:'rgba(16,185,129,0.12)',  border:'rgba(16,185,129,0.3)',  text:'#34d399',  glow:'rgba(16,185,129,0.4)' },
   Ombros:  { bg:'rgba(245,158,11,0.12)',  border:'rgba(245,158,11,0.3)',  text:'#fbbf24',  glow:'rgba(245,158,11,0.4)' },
@@ -95,7 +95,7 @@ function ModalExecutar({ treino, onClose }) {
         initial={{ opacity:0, scale:0.96, y:12 }} animate={{ opacity:1, scale:1, y:0 }}
         exit={{ opacity:0, scale:0.96, y:12 }}
         transition={{ duration:0.28, ease:[0.16,1,0.3,1] }}
-        style={{ background:'#111113', border:'1px solid rgba(99,102,241,0.25)', borderRadius:24, width:'100%', maxWidth:520, maxHeight:'88vh', overflow:'hidden', display:'flex', flexDirection:'column', boxShadow:'0 32px 80px rgba(0,0,0,0.7)' }}
+        style={{ background:'#141416', border:'1px solid rgba(99,102,241,0.25)', borderRadius:24, width:'100%', maxWidth:520, maxHeight:'88vh', overflow:'hidden', display:'flex', flexDirection:'column', boxShadow:'0 32px 80px rgba(0,0,0,0.7)' }}
       >
         <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'18px 24px', borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
           <div>
@@ -192,7 +192,7 @@ function ModalExecutar({ treino, onClose }) {
             <button
               disabled={isPending}
               onClick={() => mutate()}
-              style={{ flex:1, padding:'11px 0', borderRadius:12, border:'none', background:'linear-gradient(135deg,#ef4444,#dc2626)', color:'white', fontSize:14, fontWeight:700, cursor:isPending?'wait':'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:8 }}
+              style={{ flex:1, padding:'11px 0', borderRadius:12, border:'none', background:'linear-gradient(135deg,#E8342B,#C8291F)', color:'white', fontSize:14, fontWeight:700, cursor:isPending?'wait':'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:8 }}
             >
               {isPending ? (
                 <>
@@ -279,17 +279,17 @@ export default function TreinoDetalhe() {
       {/* Hero card */}
       <div style={{
         borderRadius:24, padding:'28px 28px 24px', position:'relative', overflow:'hidden',
-        background:'radial-gradient(ellipse at 5% -30%, rgba(239,68,68,0.2) 0%, transparent 55%), radial-gradient(ellipse at 95% 110%, rgba(99,102,241,0.12) 0%, transparent 50%), #111113',
+        background:'radial-gradient(ellipse at 5% -30%, rgba(232,52,43,0.2) 0%, transparent 55%), radial-gradient(ellipse at 95% 110%, rgba(99,102,241,0.12) 0%, transparent 50%), #111113',
         border:'1px solid rgba(255,255,255,0.08)',
-        boxShadow:'0 0 0 1px rgba(239,68,68,0.06) inset, 0 24px 60px rgba(0,0,0,0.4)',
+        boxShadow:'0 0 0 1px rgba(232,52,43,0.06) inset, 0 24px 60px rgba(0,0,0,0.4)',
       }}>
         {/* glow orb */}
-        <div style={{ position:'absolute', top:-40, left:-30, width:200, height:200, borderRadius:'50%', background:'rgba(239,68,68,0.08)', filter:'blur(40px)', pointerEvents:'none' }} />
+        <div style={{ position:'absolute', top:-40, left:-30, width:200, height:200, borderRadius:'50%', background:'rgba(232,52,43,0.08)', filter:'blur(40px)', pointerEvents:'none' }} />
 
         <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:16, flexWrap:'wrap', position:'relative' }}>
           <div style={{ flex:1, minWidth:0 }}>
             {treino?.dia_semana && (
-              <span style={{ display:'inline-flex', alignItems:'center', gap:5, fontSize:10, fontWeight:800, color:'#f87171', textTransform:'uppercase', letterSpacing:'0.1em', padding:'4px 10px', borderRadius:999, background:'rgba(239,68,68,0.12)', border:'1px solid rgba(239,68,68,0.25)', marginBottom:12 }}>
+              <span style={{ display:'inline-flex', alignItems:'center', gap:5, fontSize:10, fontWeight:800, color:'#FF8078', textTransform:'uppercase', letterSpacing:'0.1em', padding:'4px 10px', borderRadius:999, background:'rgba(232,52,43,0.12)', border:'1px solid rgba(232,52,43,0.25)', marginBottom:12 }}>
                 {treino.dia_semana}
               </span>
             )}
@@ -335,7 +335,7 @@ export default function TreinoDetalhe() {
             <motion.button
               whileHover={{ scale:1.03 }} whileTap={{ scale:0.97 }}
               onClick={() => setShowExecutar(true)}
-              style={{ display:'flex', alignItems:'center', gap:7, padding:'10px 18px', borderRadius:12, border:'none', background:'linear-gradient(135deg,#ef4444,#dc2626)', color:'white', fontSize:14, cursor:'pointer', fontWeight:700, boxShadow:'0 4px 20px rgba(239,68,68,0.4)' }}
+              style={{ display:'flex', alignItems:'center', gap:7, padding:'10px 18px', borderRadius:12, border:'none', background:'linear-gradient(135deg,#E8342B,#C8291F)', color:'white', fontSize:14, cursor:'pointer', fontWeight:700, boxShadow:'0 4px 20px rgba(232,52,43,0.4)' }}
             >
               <Play style={{ width:15, height:15, fill:'white' }} />
               Registrar execução
@@ -346,7 +346,7 @@ export default function TreinoDetalhe() {
         {/* Stats row */}
         <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:12, marginTop:24 }}>
           {[
-            { label:'Exercícios', value: treino?.itens?.length || 0, color:'#f87171', icon:<Dumbbell style={{ width:13, height:13 }} /> },
+            { label:'Exercícios', value: treino?.itens?.length || 0, color:'#FF8078', icon:<Dumbbell style={{ width:13, height:13 }} /> },
             { label:'Séries total', value: totalSeries, color:'#a5b4fc', icon:<Zap style={{ width:13, height:13 }} /> },
             { label:'Volume (kg)', value: totalVolume > 0 ? `${totalVolume.toFixed(0)}` : '—', color:'#34d399', icon:<Clock style={{ width:13, height:13 }} /> },
           ].map(({ label, value, color, icon }) => (
@@ -367,7 +367,7 @@ export default function TreinoDetalhe() {
       </div>
 
       {/* Exercise list card */}
-      <div style={{ borderRadius:22, background:'#111113', border:'1px solid rgba(255,255,255,0.07)', overflow:'hidden', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
+      <div style={{ borderRadius:22, background:'#141416', border:'1px solid rgba(255,255,255,0.07)', overflow:'hidden', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
         {/* Card header */}
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'18px 22px', borderBottom:'1px solid rgba(255,255,255,0.06)' }}>
           <h2 style={{ fontFamily:'Inter,sans-serif', fontWeight:800, color:'#F4F4F5', fontSize:15, letterSpacing:'-0.02em' }}>Exercícios do treino</h2>
@@ -506,7 +506,7 @@ export default function TreinoDetalhe() {
             <motion.div
               initial={{ opacity:0, scale:0.95, y:10 }} animate={{ opacity:1, scale:1, y:0 }} exit={{ opacity:0, scale:0.95 }}
               transition={{ duration:0.25, ease:[0.16,1,0.3,1] }}
-              style={{ background:'#111113', border:'1px solid rgba(255,255,255,0.1)', borderRadius:22, width:'100%', maxWidth:400, padding:24, boxShadow:'0 32px 80px rgba(0,0,0,0.6)' }}
+              style={{ background:'#141416', border:'1px solid rgba(255,255,255,0.1)', borderRadius:22, width:'100%', maxWidth:400, padding:24, boxShadow:'0 32px 80px rgba(0,0,0,0.6)' }}
             >
               <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
                 <h3 style={{ fontSize:16, fontWeight:800, color:'#F4F4F5', letterSpacing:'-0.02em' }}>Salvar como template</h3>
@@ -615,9 +615,9 @@ function ExercicioItem({ item, ex, gc, grupo, idx, onRemove }) {
             {!confirmDelete ? (
               <button
                 onClick={() => setConfirmDelete(true)}
-                style={{ width:30, height:30, borderRadius:9, border:'1px solid rgba(239,68,68,0)', background:'rgba(239,68,68,0)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'rgba(255,255,255,0.2)', transition:'all 0.15s' }}
-                onMouseEnter={e => { e.currentTarget.style.background='rgba(239,68,68,0.12)'; e.currentTarget.style.borderColor='rgba(239,68,68,0.3)'; e.currentTarget.style.color='#f87171' }}
-                onMouseLeave={e => { e.currentTarget.style.background='rgba(239,68,68,0)'; e.currentTarget.style.borderColor='rgba(239,68,68,0)'; e.currentTarget.style.color='rgba(255,255,255,0.2)' }}
+                style={{ width:30, height:30, borderRadius:9, border:'1px solid rgba(232,52,43,0)', background:'rgba(232,52,43,0)', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', color:'rgba(255,255,255,0.2)', transition:'all 0.15s' }}
+                onMouseEnter={e => { e.currentTarget.style.background='rgba(232,52,43,0.12)'; e.currentTarget.style.borderColor='rgba(232,52,43,0.3)'; e.currentTarget.style.color='#FF8078' }}
+                onMouseLeave={e => { e.currentTarget.style.background='rgba(232,52,43,0)'; e.currentTarget.style.borderColor='rgba(232,52,43,0)'; e.currentTarget.style.color='rgba(255,255,255,0.2)' }}
               >
                 <Trash2 style={{ width:13, height:13 }} />
               </button>
@@ -629,7 +629,7 @@ function ExercicioItem({ item, ex, gc, grupo, idx, onRemove }) {
                 >Não</button>
                 <button
                   onClick={() => { onRemove(); setConfirmDelete(false) }}
-                  style={{ padding:'4px 8px', borderRadius:8, border:'none', background:'rgba(239,68,68,0.2)', color:'#f87171', fontSize:11, fontWeight:700, cursor:'pointer' }}
+                  style={{ padding:'4px 8px', borderRadius:8, border:'none', background:'rgba(232,52,43,0.2)', color:'#FF8078', fontSize:11, fontWeight:700, cursor:'pointer' }}
                 >Sim</button>
               </div>
             )}

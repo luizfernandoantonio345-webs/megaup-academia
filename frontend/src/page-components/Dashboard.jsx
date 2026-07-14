@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+﻿import { useQuery } from '@tanstack/react-query'
 import { listarAlunos, analyticsResumo } from '../api'
 import { useAuth } from '../contexts/AuthContext'
 import { Link } from 'react-router-dom'
@@ -17,9 +17,9 @@ import { motion } from 'framer-motion'
 /* ── color helpers ──────────────────────────────────────────────────── */
 const ALPHA = {
   A:'#6366f1',B:'#ec4899',C:'#f97316',D:'#22c55e',E:'#a855f7',F:'#06b6d4',
-  G:'#ef4444',H:'#eab308',I:'#14b8a6',J:'#8b5cf6',K:'#f43f5e',L:'#10b981',
+  G:'#E8342B',H:'#eab308',I:'#14b8a6',J:'#8b5cf6',K:'#f43f5e',L:'#10b981',
   M:'#3b82f6',N:'#fb923c',O:'#84cc16',P:'#e879f9',Q:'#2dd4bf',R:'#f472b6',
-  S:'#38bdf8',T:'#4ade80',U:'#fbbf24',V:'#818cf8',W:'#34d399',X:'#f87171',
+  S:'#38bdf8',T:'#4ade80',U:'#fbbf24',V:'#818cf8',W:'#34d399',X:'#FF8078',
   Y:'#a78bfa',Z:'#60a5fa',
 }
 const nameColor = n => ALPHA[(n || 'A')[0].toUpperCase()] ?? '#6366f1'
@@ -43,7 +43,7 @@ function Avatar({ nome, size = 38 }) {
 const ChartTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null
   return (
-    <div style={{ background:'rgba(15,15,17,0.97)', border:'1px solid rgba(239,68,68,0.25)', borderRadius:12, padding:'8px 14px', boxShadow:'0 8px 24px rgba(0,0,0,0.5)' }}>
+    <div style={{ background:'rgba(15,15,17,0.97)', border:'1px solid rgba(232,52,43,0.25)', borderRadius:12, padding:'8px 14px', boxShadow:'0 8px 24px rgba(0,0,0,0.5)' }}>
       <p style={{ color:'rgba(255,255,255,0.38)', fontSize:11, fontWeight:600, marginBottom:3 }}>{label}</p>
       <p style={{ color:'#F4F4F5', fontWeight:800, fontSize:16, margin:0, letterSpacing:'-0.02em' }}>
         {payload[0].value} treino{payload[0].value !== 1 ? 's' : ''}
@@ -98,7 +98,7 @@ function KpiCard({ value, label, color, icon: Icon, to, delay = 0 }) {
 
 /* ── Quick action row ────────────────────────────────────────────────── */
 const ACTIONS = [
-  { to:'/convites',   icon:UserPlus,   label:'Convidar aluno',      color:'#ef4444' },
+  { to:'/convites',   icon:UserPlus,   label:'Convidar aluno',      color:'#E8342B' },
   { to:'/exercicios', icon:Dumbbell,   label:'Exercícios',          color:'#6366f1' },
   { to:'/ia',         icon:Zap,        label:'Progressão IA',       color:'#f97316' },
   { to:'/financeiro', icon:BarChart2,  label:'Financeiro',          color:'#22c55e' },
@@ -149,7 +149,7 @@ export default function Dashboard() {
         <div>
           <h1 style={{ fontSize:'clamp(24px,4vw,34px)', fontWeight:900, color:'#F4F4F5', letterSpacing:'-0.055em', lineHeight:1.05, marginBottom:5 }}>
             {saudacao},{' '}
-            <span style={{ color:'#ef4444', textShadow:'0 0 32px rgba(239,68,68,0.45)' }}>
+            <span style={{ color:'#E8342B', textShadow:'0 0 32px rgba(232,52,43,0.45)' }}>
               {user?.nome?.split(' ')[0]}
             </span>
           </h1>
@@ -159,14 +159,14 @@ export default function Dashboard() {
         </div>
         <Link to="/convites" style={{
           display:'inline-flex', alignItems:'center', gap:7,
-          background:'linear-gradient(135deg,#ef4444,#dc2626)', color:'white',
+          background:'linear-gradient(135deg,#E8342B,#C8291F)', color:'white',
           border:'none', borderRadius:13, padding:'10px 18px',
           fontWeight:800, fontSize:13, textDecoration:'none', letterSpacing:'-0.01em',
-          boxShadow:'0 4px 18px rgba(239,68,68,0.38)',
+          boxShadow:'0 4px 18px rgba(232,52,43,0.38)',
           transition:'transform 150ms ease, box-shadow 150ms ease',
         }}
-          onMouseEnter={e => { e.currentTarget.style.transform='translateY(-1px)'; e.currentTarget.style.boxShadow='0 8px 28px rgba(239,68,68,0.5)' }}
-          onMouseLeave={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 18px rgba(239,68,68,0.38)' }}
+          onMouseEnter={e => { e.currentTarget.style.transform='translateY(-1px)'; e.currentTarget.style.boxShadow='0 8px 28px rgba(232,52,43,0.5)' }}
+          onMouseLeave={e => { e.currentTarget.style.transform='translateY(0)'; e.currentTarget.style.boxShadow='0 4px 18px rgba(232,52,43,0.38)' }}
         >
           <UserPlus style={{ width:15, height:15 }} />
           Novo aluno
@@ -176,7 +176,7 @@ export default function Dashboard() {
       {/* ── KPI BENTO GRID ──────────────────────────────────────────── */}
       <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(180px,1fr))', gap:12 }}>
         <KpiCard value={la  ? '…' : totalAlunos}   label="Total de alunos"    color="#6366f1" icon={Users}      to="/alunos"    delay={0.04} />
-        <KpiCard value={lan ? '…' : totalTreinos}  label="Treinos esta semana" color="#ef4444" icon={Activity}   delay={0.08} />
+        <KpiCard value={lan ? '…' : totalTreinos}  label="Treinos esta semana" color="#E8342B" icon={Activity}   delay={0.08} />
         <KpiCard value={lan ? '…' : ativos}         label="Alunos ativos (7d)" color="#22c55e" icon={TrendingUp}  delay={0.12} />
         <KpiCard value={lan ? '…' : (analytics?.risco_abandono?.length ?? 0)} label="Em risco de abandono" color="#f97316" icon={AlertTriangle} to="/inativos" delay={0.16} />
       </div>
@@ -187,23 +187,23 @@ export default function Dashboard() {
         <motion.div
           initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
           transition={{ delay:0.2, duration:0.5, ease:[0.16,1,0.3,1] }}
-          style={{ background:'#111113', border:'1px solid rgba(255,255,255,0.07)', borderRadius:22, padding:'22px 20px', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.05)' }}
+          style={{ background:'#141416', border:'1px solid rgba(255,255,255,0.07)', borderRadius:22, padding:'22px 20px', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.05)' }}
         >
           <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:20 }}>
             <div>
               <h2 style={{ fontSize:15, fontWeight:800, color:'#F4F4F5', letterSpacing:'-0.035em', marginBottom:3 }}>Atividade</h2>
               <p style={{ fontSize:12, color:'rgba(255,255,255,0.35)' }}>Treinos executados — últimos 7 dias</p>
             </div>
-            <div style={{ width:34, height:34, borderRadius:10, background:'rgba(239,68,68,0.1)', border:'1px solid rgba(239,68,68,0.18)', display:'flex', alignItems:'center', justifyContent:'center' }}>
-              <Activity style={{ width:15, height:15, color:'#ef4444' }} />
+            <div style={{ width:34, height:34, borderRadius:10, background:'rgba(232,52,43,0.1)', border:'1px solid rgba(232,52,43,0.18)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+              <Activity style={{ width:15, height:15, color:'#E8342B' }} />
             </div>
           </div>
           {lan ? (
             <div className="skeleton" style={{ height:180, borderRadius:12 }} />
           ) : treinosDia.length === 0 ? (
             <div style={{ height:180, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:10 }}>
-              <div style={{ width:48, height:48, borderRadius:16, background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.15)', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                <Dumbbell style={{ width:18, height:18, color:'#ef4444' }} />
+              <div style={{ width:48, height:48, borderRadius:16, background:'rgba(232,52,43,0.08)', border:'1px solid rgba(232,52,43,0.15)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                <Dumbbell style={{ width:18, height:18, color:'#E8342B' }} />
               </div>
               <p style={{ fontSize:13, color:'rgba(255,255,255,0.35)', fontWeight:600 }}>Nenhuma execução ainda</p>
             </div>
@@ -212,8 +212,8 @@ export default function Dashboard() {
               <BarChart data={treinosDia} barSize={24} margin={{ top:2, right:4, left:-20, bottom:0 }}>
                 <defs>
                   <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#ef4444" stopOpacity={0.95} />
-                    <stop offset="100%" stopColor="#dc2626" stopOpacity={0.55} />
+                    <stop offset="0%" stopColor="#E8342B" stopOpacity={0.95} />
+                    <stop offset="100%" stopColor="#C8291F" stopOpacity={0.55} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="2 4" vertical={false} stroke="rgba(255,255,255,0.04)" />
@@ -234,7 +234,7 @@ export default function Dashboard() {
         <motion.div
           initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
           transition={{ delay:0.25, duration:0.5, ease:[0.16,1,0.3,1] }}
-          style={{ background:'#111113', border:'1px solid rgba(255,255,255,0.07)', borderRadius:22, padding:'22px 20px', display:'flex', flexDirection:'column', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.05)' }}
+          style={{ background:'#141416', border:'1px solid rgba(255,255,255,0.07)', borderRadius:22, padding:'22px 20px', display:'flex', flexDirection:'column', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.05)' }}
         >
           <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:20 }}>
             <div>
@@ -253,7 +253,7 @@ export default function Dashboard() {
             <div style={{ display:'flex', flexDirection:'column', gap:18, flex:1, justifyContent:'center' }}>
               {[
                 { label:'Total alunos',    value:totalAlunos,  max:Math.max(totalAlunos,10),   color:'#6366f1' },
-                { label:'Treinos (7d)',    value:totalTreinos, max:Math.max(totalTreinos,20),  color:'#ef4444' },
+                { label:'Treinos (7d)',    value:totalTreinos, max:Math.max(totalTreinos,20),  color:'#E8342B' },
                 { label:'Alunos ativos',  value:ativos,       max:Math.max(totalAlunos,1),    color:'#22c55e' },
               ].map(({ label, value, max, color }) => (
                 <div key={label}>
@@ -277,12 +277,12 @@ export default function Dashboard() {
           <div style={{ marginTop:20, paddingTop:16, borderTop:'1px solid rgba(255,255,255,0.05)' }}>
             <Link to="/convites" style={{
               width:'100%', display:'flex', alignItems:'center', justifyContent:'center', gap:6,
-              background:'rgba(239,68,68,0.07)', border:'1px solid rgba(239,68,68,0.18)',
-              borderRadius:12, padding:'10px 0', color:'#f87171', fontWeight:700, fontSize:13,
+              background:'rgba(232,52,43,0.07)', border:'1px solid rgba(232,52,43,0.18)',
+              borderRadius:12, padding:'10px 0', color:'#FF8078', fontWeight:700, fontSize:13,
               textDecoration:'none', transition:'all 0.15s',
             }}
-              onMouseEnter={e => e.currentTarget.style.background='rgba(239,68,68,0.12)'}
-              onMouseLeave={e => e.currentTarget.style.background='rgba(239,68,68,0.07)'}
+              onMouseEnter={e => e.currentTarget.style.background='rgba(232,52,43,0.12)'}
+              onMouseLeave={e => e.currentTarget.style.background='rgba(232,52,43,0.07)'}
             >
               <UserPlus style={{ width:13, height:13 }} />
               Convidar aluno
@@ -297,11 +297,11 @@ export default function Dashboard() {
         <motion.div
           initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
           transition={{ delay:0.3, duration:0.5, ease:[0.16,1,0.3,1] }}
-          style={{ background:'#111113', border:'1px solid rgba(255,255,255,0.07)', borderRadius:22, padding:'22px 20px', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.05)' }}
+          style={{ background:'#141416', border:'1px solid rgba(255,255,255,0.07)', borderRadius:22, padding:'22px 20px', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.05)' }}
         >
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:16 }}>
             <h2 style={{ fontSize:15, fontWeight:800, color:'#F4F4F5', letterSpacing:'-0.035em' }}>Alunos recentes</h2>
-            <Link to="/alunos" style={{ fontSize:12, color:'#f87171', textDecoration:'none', display:'flex', alignItems:'center', gap:3, fontWeight:700 }}>
+            <Link to="/alunos" style={{ fontSize:12, color:'#FF8078', textDecoration:'none', display:'flex', alignItems:'center', gap:3, fontWeight:700 }}>
               Ver todos <ArrowRight style={{ width:12, height:12 }} />
             </Link>
           </div>
@@ -311,11 +311,11 @@ export default function Dashboard() {
             </div>
           ) : recentAlunos.length === 0 ? (
             <div style={{ padding:'32px 0', textAlign:'center' }}>
-              <div style={{ width:48, height:48, borderRadius:16, background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.15)', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 12px' }}>
-                <Users style={{ width:18, height:18, color:'#ef4444' }} />
+              <div style={{ width:48, height:48, borderRadius:16, background:'rgba(232,52,43,0.08)', border:'1px solid rgba(232,52,43,0.15)', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 12px' }}>
+                <Users style={{ width:18, height:18, color:'#E8342B' }} />
               </div>
               <p style={{ fontSize:13, fontWeight:700, color:'rgba(255,255,255,0.6)', marginBottom:12 }}>Nenhum aluno ainda</p>
-              <Link to="/convites" style={{ display:'inline-flex', alignItems:'center', gap:6, background:'linear-gradient(135deg,#ef4444,#dc2626)', color:'white', borderRadius:10, padding:'8px 16px', fontWeight:700, fontSize:12, textDecoration:'none' }}>
+              <Link to="/convites" style={{ display:'inline-flex', alignItems:'center', gap:6, background:'linear-gradient(135deg,#E8342B,#C8291F)', color:'white', borderRadius:10, padding:'8px 16px', fontWeight:700, fontSize:12, textDecoration:'none' }}>
                 <UserPlus style={{ width:13, height:13 }} /> Enviar convite
               </Link>
             </div>
@@ -353,7 +353,7 @@ export default function Dashboard() {
         <motion.div
           initial={{ opacity:0, y:16 }} animate={{ opacity:1, y:0 }}
           transition={{ delay:0.34, duration:0.5, ease:[0.16,1,0.3,1] }}
-          style={{ background:'#111113', border:'1px solid rgba(255,255,255,0.07)', borderRadius:22, padding:'22px 20px', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.05)' }}
+          style={{ background:'#141416', border:'1px solid rgba(255,255,255,0.07)', borderRadius:22, padding:'22px 20px', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.05)' }}
         >
           <h2 style={{ fontSize:15, fontWeight:800, color:'#F4F4F5', letterSpacing:'-0.035em', marginBottom:14 }}>Ações rápidas</h2>
           <div style={{ display:'flex', flexDirection:'column', gap:4 }}>
@@ -400,7 +400,7 @@ export default function Dashboard() {
           </div>
           <div style={{ display:'flex', flexDirection:'column', gap:2 }}>
             {analytics.risco_abandono.map((a, i) => {
-              const scoreColor = a.score >= 8 ? '#f87171' : a.score >= 5 ? '#fb923c' : '#fbbf24'
+              const scoreColor = a.score >= 8 ? '#FF8078' : a.score >= 5 ? '#fb923c' : '#fbbf24'
               return (
                 <Link key={a.id} to={`/alunos/${a.id}`} style={{
                   display:'flex', alignItems:'center', gap:11, padding:'9px 0',

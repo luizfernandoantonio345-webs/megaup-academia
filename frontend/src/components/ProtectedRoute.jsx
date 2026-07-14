@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from 'react-router-dom'
+﻿import { Navigate, Outlet } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 
 export function ProtectedRoute({ roles }) {
@@ -7,7 +7,7 @@ export function ProtectedRoute({ roles }) {
   if (!authReady) {
     return (
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-page)' }}>
-        <div style={{ width: 28, height: 28, border: '2px solid var(--border)', borderTopColor: '#ef4444', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+        <div style={{ width: 28, height: 28, border: '2px solid var(--border)', borderTopColor: '#E8342B', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
       </div>
     )
   }

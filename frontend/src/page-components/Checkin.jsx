@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+﻿import { useState, useEffect } from 'react'
 import { useSearchParams, useNavigate } from 'react-router-dom'
 import { useMutation } from '@tanstack/react-query'
 import { fazerCheckin } from '../api'
@@ -33,10 +33,10 @@ export default function Checkin() {
   if (!authReady || isPending) {
     return (
       <div style={{ minHeight: '100dvh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16, padding: 24 }}>
-        <div style={{ width: 48, height: 48, borderRadius: 14, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div style={{ width: 48, height: 48, borderRadius: 14, background: '#E8342B', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Zap style={{ width: 24, height: 24, color: 'white' }} />
         </div>
-        <div style={{ width: 28, height: 28, border: '2.5px solid rgba(255,255,255,0.1)', borderTopColor: '#ef4444', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
+        <div style={{ width: 28, height: 28, border: '2.5px solid rgba(255,255,255,0.1)', borderTopColor: '#E8342B', borderRadius: '50%', animation: 'spin 0.7s linear infinite' }} />
         <p style={{ fontSize: 14, color: 'var(--text-muted)', fontFamily: 'Inter, sans-serif' }}>Verificando check-in...</p>
       </div>
     )
@@ -45,7 +45,7 @@ export default function Checkin() {
   if (!token) {
     return (
       <div style={{ minHeight: '100dvh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16, padding: 24, textAlign: 'center' }}>
-        <AlertCircle style={{ width: 48, height: 48, color: '#ef4444' }} />
+        <AlertCircle style={{ width: 48, height: 48, color: '#E8342B' }} />
         <h1 style={{ fontSize: 20, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'Inter, sans-serif' }}>QR inválido</h1>
         <p style={{ fontSize: 14, color: 'var(--text-muted)', fontFamily: 'Inter, sans-serif' }}>Escaneie o QR code da academia novamente.</p>
         <button onClick={() => navigate('/aluno')} className="btn-primary" style={{ fontSize: 14 }}>Ir para o início</button>
@@ -58,7 +58,7 @@ export default function Checkin() {
     return (
       <div style={{ minHeight: '100dvh', background: 'var(--bg-page)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 20, padding: 24, textAlign: 'center' }}>
         {/* Logo */}
-        <div style={{ width: 52, height: 52, borderRadius: 16, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 4 }}>
+        <div style={{ width: 52, height: 52, borderRadius: 16, background: '#E8342B', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 4 }}>
           <Zap style={{ width: 26, height: 26, color: 'white' }} />
         </div>
 
@@ -83,7 +83,7 @@ export default function Checkin() {
           </>
         ) : (
           <>
-            <AlertCircle style={{ width: 56, height: 56, color: '#ef4444', margin: '0 auto' }} />
+            <AlertCircle style={{ width: 56, height: 56, color: '#E8342B', margin: '0 auto' }} />
             <div>
               <h1 style={{ fontSize: 22, fontWeight: 700, color: 'var(--text-primary)', fontFamily: 'Inter, sans-serif', margin: '0 0 8px' }}>Ops!</h1>
               <p style={{ fontSize: 14, color: 'var(--text-muted)', fontFamily: 'Inter, sans-serif' }}>{result.msg}</p>

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect } from 'react'
 import { RefreshCw } from 'lucide-react'
@@ -38,17 +38,17 @@ export default function Error({
   return (
     <div style={{
       minHeight: '100dvh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-      background: '#0C0C0D', padding: 24, textAlign: 'center',
+      background: '#0D0D0F', padding: 24, textAlign: 'center',
     }}>
       <div style={{ maxWidth: 340 }}>
         <div style={{
           width: 60, height: 60, borderRadius: 18,
-          background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.25)',
+          background: 'rgba(232,52,43,0.1)', border: '1px solid rgba(232,52,43,0.25)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           margin: '0 auto 20px',
-          boxShadow: '0 0 24px rgba(239,68,68,0.1)',
+          boxShadow: '0 0 24px rgba(232,52,43,0.1)',
         }}>
-          <RefreshCw style={{ width: 22, height: 22, color: '#f87171' }} />
+          <RefreshCw style={{ width: 22, height: 22, color: '#FF8078' }} />
         </div>
         <h2 style={{ fontSize: 20, fontWeight: 800, color: '#F4F4F5', letterSpacing: '-0.03em', marginBottom: 8, fontFamily: 'Inter, sans-serif' }}>
           Algo deu errado
@@ -66,11 +66,11 @@ export default function Error({
             window.location.replace(url.toString())
           }}
           style={{
-            background: 'linear-gradient(135deg, #ef4444, #dc2626)', color: 'white',
+            background: 'linear-gradient(135deg, #E8342B, #C8291F)', color: 'white',
             border: 'none', borderRadius: 12, padding: '11px 28px',
             fontWeight: 700, cursor: 'pointer', fontSize: 14,
             display: 'inline-flex', alignItems: 'center', gap: 7,
-            boxShadow: '0 4px 18px rgba(239,68,68,0.38)',
+            boxShadow: '0 4px 18px rgba(232,52,43,0.38)',
             fontFamily: 'Inter, sans-serif', letterSpacing: '-0.01em',
           }}
         >

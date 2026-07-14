@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 import { Camera, X, Loader2 } from 'lucide-react'
@@ -139,19 +139,19 @@ export function QRScanner({ onResult, onClose }: QRScannerProps) {
             position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center',
             background: 'rgba(0,0,0,0.5)', borderRadius: 20, zIndex: 2,
           }}>
-            <Loader2 style={{ width: 32, height: 32, color: '#ef4444', animation: 'spin 1s linear infinite' }} />
+            <Loader2 style={{ width: 32, height: 32, color: '#E8342B', animation: 'spin 1s linear infinite' }} />
           </div>
         )}
 
         {error ? (
           <div style={{
             width: '100%', height: '100%', borderRadius: 20,
-            background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)',
+            background: 'rgba(232,52,43,0.1)', border: '1px solid rgba(232,52,43,0.3)',
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             gap: 12, padding: 20, textAlign: 'center',
           }}>
-            <Camera style={{ width: 36, height: 36, color: '#f87171' }} />
-            <p style={{ color: '#f87171', fontSize: 13, fontFamily: 'Inter,sans-serif' }}>{error}</p>
+            <Camera style={{ width: 36, height: 36, color: '#FF8078' }} />
+            <p style={{ color: '#FF8078', fontSize: 13, fontFamily: 'Inter,sans-serif' }}>{error}</p>
           </div>
         ) : (
           <video
@@ -166,18 +166,18 @@ export function QRScanner({ onResult, onClose }: QRScannerProps) {
         {!error && (
           <>
             {[
-              { top: 0, left: 0, borderTop: '3px solid #ef4444', borderLeft: '3px solid #ef4444', borderRadius: '16px 0 0 0' },
-              { top: 0, right: 0, borderTop: '3px solid #ef4444', borderRight: '3px solid #ef4444', borderRadius: '0 16px 0 0' },
-              { bottom: 0, left: 0, borderBottom: '3px solid #ef4444', borderLeft: '3px solid #ef4444', borderRadius: '0 0 0 16px' },
-              { bottom: 0, right: 0, borderBottom: '3px solid #ef4444', borderRight: '3px solid #ef4444', borderRadius: '0 0 16px 0' },
+              { top: 0, left: 0, borderTop: '3px solid #E8342B', borderLeft: '3px solid #E8342B', borderRadius: '16px 0 0 0' },
+              { top: 0, right: 0, borderTop: '3px solid #E8342B', borderRight: '3px solid #E8342B', borderRadius: '0 16px 0 0' },
+              { bottom: 0, left: 0, borderBottom: '3px solid #E8342B', borderLeft: '3px solid #E8342B', borderRadius: '0 0 0 16px' },
+              { bottom: 0, right: 0, borderBottom: '3px solid #E8342B', borderRight: '3px solid #E8342B', borderRadius: '0 0 16px 0' },
             ].map((s, i) => (
               <div key={i} style={{ position: 'absolute', width: 28, height: 28, ...s }} />
             ))}
             {/* Scan line */}
             <div style={{
               position: 'absolute', left: 12, right: 12, height: 2,
-              background: 'linear-gradient(90deg, transparent, #ef4444, transparent)',
-              boxShadow: '0 0 8px #ef4444',
+              background: 'linear-gradient(90deg, transparent, #E8342B, transparent)',
+              boxShadow: '0 0 8px #E8342B',
               animation: 'scanLine 2s ease-in-out infinite',
               top: '50%',
             }} />

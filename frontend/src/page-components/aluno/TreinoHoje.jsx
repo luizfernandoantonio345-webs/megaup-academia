@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo, lazy, Suspense } from 'react'
+﻿import { useState, useEffect, useRef, useMemo, lazy, Suspense } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { useAuth } from '../../contexts/AuthContext'
 import { treinoDodia, listarExercicios, executarTreino, gamificacaoAluno, historicoCargaBatch, treinoAlternativo, fazerCheckin } from '../../api'
@@ -14,7 +14,7 @@ function Stepper({ label, value, onChange, step = 1, min = 0, hint, isPR = false
   const parse = v => (v === '' || v == null ? NaN : parseFloat(v))
   const inc = () => { const n = parse(value); onChange(String(isNaN(n) ? step : parseFloat((n + step).toFixed(2)))) }
   const dec = () => { const n = parse(value); if (!isNaN(n)) onChange(String(parseFloat(Math.max(min, n - step).toFixed(2)))) }
-  const accent = isPR ? '#fbbf24' : '#ef4444'
+  const accent = isPR ? '#fbbf24' : '#E8342B'
   return (
     <div>
       <label style={{ display:'block', fontSize:10, fontWeight:700, color:'rgba(255,255,255,0.4)', textTransform:'uppercase', letterSpacing:'0.07em', marginBottom:6 }}>
@@ -44,7 +44,7 @@ function Stepper({ label, value, onChange, step = 1, min = 0, hint, isPR = false
 function Confetti() {
   const pieces = useMemo(() => Array.from({ length: 48 }, (_, i) => ({
     id:i, left: Math.random()*100,
-    color:['#ef4444','#f59e0b','#10b981','#3b82f6','#a855f7','#ec4899','#fbbf24','#f87171'][Math.floor(Math.random()*8)],
+    color:['#E8342B','#f59e0b','#10b981','#3b82f6','#a855f7','#ec4899','#fbbf24','#FF8078'][Math.floor(Math.random()*8)],
     delay:(Math.random()*1.8).toFixed(2), dur:(2.2+Math.random()*0.8).toFixed(2),
     size:5+Math.floor(Math.random()*9), isCircle:Math.random()>0.45,
   })), [])
@@ -78,7 +78,7 @@ function RestTimer({ seconds=60, autoStart=false, onDismiss }) {
   const reset  = () => { clearInterval(ref.current); setElapsed(0); setRunning(false) }
   const remaining=TOTAL-elapsed
   const r=26, circ=2*Math.PI*r, dash=circ*(1-elapsed/TOTAL)
-  const ringColor=remaining<=10?'#ef4444':remaining<=30?'#f59e0b':'#6366f1'
+  const ringColor=remaining<=10?'#E8342B':remaining<=30?'#f59e0b':'#6366f1'
   const min=Math.floor(remaining/60), sec=remaining%60
   return (
     <div style={{ display:'flex', alignItems:'center', gap:14, padding:'14px 16px', borderRadius:18, background:'rgba(99,102,241,0.07)', border:'1px solid rgba(99,102,241,0.22)' }}>
@@ -104,7 +104,7 @@ function RestTimer({ seconds=60, autoStart=false, onDismiss }) {
         <button onClick={reset} style={{ width:36, height:36, borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.09)', cursor:'pointer', color:'rgba(255,255,255,0.4)' }}>
           <RotateCcw style={{ width:13, height:13 }} />
         </button>
-        <button onClick={toggle} style={{ width:36, height:36, borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'white', border:'none', cursor:'pointer', background:running?'rgba(245,158,11,0.85)':'#ef4444', boxShadow:running?'0 4px 12px rgba(245,158,11,0.4)':'0 4px 12px rgba(239,68,68,0.4)' }}>
+        <button onClick={toggle} style={{ width:36, height:36, borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', color:'white', border:'none', cursor:'pointer', background:running?'rgba(245,158,11,0.85)':'#E8342B', boxShadow:running?'0 4px 12px rgba(245,158,11,0.4)':'0 4px 12px rgba(232,52,43,0.4)' }}>
           {running?<Pause style={{ width:14, height:14 }} />:<Play style={{ width:14, height:14, marginLeft:1 }} />}
         </button>
         <button onClick={onDismiss} style={{ width:36, height:36, borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center', background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.09)', cursor:'pointer', color:'rgba(255,255,255,0.4)' }}>
@@ -149,7 +149,7 @@ function Sparkline({ values }) {
   const min=Math.min(...valid), max=Math.max(...valid), range=max-min||1
   const pts=valid.map((v,i)=>{ const x=PAD+(i/(valid.length-1))*(W-PAD*2); const y=H-PAD-((v-min)/range)*(H-PAD*2); return `${x.toFixed(1)},${y.toFixed(1)}` })
   const last=valid[valid.length-1], first=valid[0]
-  const color=last>first?'#10b981':last<first?'#f87171':'#6b7280'
+  const color=last>first?'#10b981':last<first?'#FF8078':'#6b7280'
   const [lx,ly]=pts[pts.length-1].split(',')
   return (
     <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} style={{ display:'block', overflow:'visible', flexShrink:0 }}>
@@ -173,14 +173,14 @@ function ExerciseExCard({ item, idx, ex, hist, completedSets, onToggle, videoAbe
     ? last.carga_realizada>prev.carga_realizada?'up':last.carga_realizada<prev.carga_realizada?'down':'same'
     : null
   const TrendIcon=trend==='up'?TrendingUp:trend==='down'?TrendingDown:Minus
-  const trendColor=trend==='up'?'#10b981':trend==='down'?'#f87171':'rgba(255,255,255,0.3)'
+  const trendColor=trend==='up'?'#10b981':trend==='down'?'#FF8078':'rgba(255,255,255,0.3)'
   const borderColor=allDone?'rgba(16,185,129,0.3)':isPR?'rgba(251,191,36,0.3)':'rgba(255,255,255,0.07)'
-  const badgeBg=allDone?'#10b981':isPR?'#f59e0b':'#ef4444'
+  const badgeBg=allDone?'#10b981':isPR?'#f59e0b':'#E8342B'
 
   return (
     <div style={{
       padding:18, borderRadius:18,
-      background:`radial-gradient(ellipse at 95% 0%, ${allDone?'rgba(16,185,129,0.09)':isPR?'rgba(251,191,36,0.07)':'rgba(239,68,68,0.06)'} 0%, transparent 55%), #111113`,
+      background:`radial-gradient(ellipse at 95% 0%, ${allDone?'rgba(16,185,129,0.09)':isPR?'rgba(251,191,36,0.07)':'rgba(232,52,43,0.06)'} 0%, transparent 55%), #111113`,
       border:`1px solid ${borderColor}`,
       boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)',
       transition:'border-color 0.3s',
@@ -215,7 +215,7 @@ function ExerciseExCard({ item, idx, ex, hist, completedSets, onToggle, videoAbe
               <div>
                 <div style={{ display:'flex', alignItems:'center', gap:5 }}>
                   {trend&&<TrendIcon style={{ width:11, height:11, color:trendColor }} />}
-                  <span style={{ fontSize:11, fontWeight:700, color:'#f87171', letterSpacing:'-0.01em' }}>
+                  <span style={{ fontSize:11, fontWeight:700, color:'#FF8078', letterSpacing:'-0.01em' }}>
                     Última: {last.carga_realizada!=null?`${last.carga_realizada}kg`:'--'}
                     {last.repeticoes_realizadas?` × ${last.repeticoes_realizadas}`:''}
                   </span>
@@ -332,12 +332,12 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
   const DIFF=[
     { key:'facil', emoji:'😊', label:'Fácil',  bg:'rgba(16,185,129,0.12)', border:'rgba(16,185,129,0.35)', text:'#34d399' },
     { key:'ok',    emoji:'💪', label:'Normal', bg:'rgba(99,102,241,0.12)', border:'rgba(99,102,241,0.35)', text:'#a5b4fc' },
-    { key:'dificil',emoji:'🔥',label:'Pesado', bg:'rgba(239,68,68,0.12)',  border:'rgba(239,68,68,0.35)',  text:'#f87171' },
+    { key:'dificil',emoji:'🔥',label:'Pesado', bg:'rgba(232,52,43,0.12)',  border:'rgba(232,52,43,0.35)',  text:'#FF8078' },
   ]
 
   if (celebracao) {
     return (
-      <div style={{ position:'fixed', inset:0, zIndex:50, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', background:'#0C0C0D', padding:'0 24px' }}>
+      <div style={{ position:'fixed', inset:0, zIndex:50, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', background:'#0D0D0F', padding:'0 24px' }}>
         <Confetti />
         <div style={{ maxWidth:360, width:'100%', textAlign:'center' }}>
           <div style={{ fontSize:88, lineHeight:1, marginBottom:20 }}>🏆</div>
@@ -345,11 +345,11 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
           <p style={{ fontSize:14, color:'rgba(255,255,255,0.45)', marginBottom:24 }}>Mandou muito bem! Continue assim 💪</p>
           <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:10, marginBottom:16 }}>
             {[
-              { label:'Séries', value:celebracao.sets, color:'#ef4444' },
+              { label:'Séries', value:celebracao.sets, color:'#E8342B' },
               { label:'Volume', value:celebracao.volume>0?`${celebracao.volume.toFixed(0)}kg`:'—', color:'#f59e0b' },
               { label:'Recordes', value:celebracao.prs.length||'—', color:'#10b981' },
             ].map(({ label,value,color }) => (
-              <div key={label} style={{ padding:'16px 8px', borderRadius:16, background:'#111113', border:'1px solid rgba(255,255,255,0.07)', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.05)' }}>
+              <div key={label} style={{ padding:'16px 8px', borderRadius:16, background:'#141416', border:'1px solid rgba(255,255,255,0.07)', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.05)' }}>
                 <p style={{ fontSize:26, fontWeight:900, color, fontFamily:'Inter,sans-serif', letterSpacing:'-0.03em', textShadow:`0 0 24px ${color}60` }}>{value}</p>
                 <p style={{ fontSize:11, color:'rgba(255,255,255,0.38)', marginTop:3, fontWeight:600 }}>{label}</p>
               </div>
@@ -363,7 +363,7 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
               ))}
             </div>
           )}
-          <button onClick={onClose} style={{ width:'100%', padding:'15px 24px', borderRadius:16, background:'linear-gradient(135deg,#ef4444,#dc2626)', border:'none', color:'white', fontSize:16, fontWeight:800, cursor:'pointer', fontFamily:'Inter,sans-serif', letterSpacing:'-0.02em', boxShadow:'0 6px 24px rgba(239,68,68,0.4), inset 0 1px 0 rgba(255,255,255,0.15)' }}>
+          <button onClick={onClose} style={{ width:'100%', padding:'15px 24px', borderRadius:16, background:'linear-gradient(135deg,#E8342B,#C8291F)', border:'none', color:'white', fontSize:16, fontWeight:800, cursor:'pointer', fontFamily:'Inter,sans-serif', letterSpacing:'-0.02em', boxShadow:'0 6px 24px rgba(232,52,43,0.4), inset 0 1px 0 rgba(255,255,255,0.15)' }}>
             Fechar
           </button>
         </div>
@@ -372,13 +372,13 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
   }
 
   return (
-    <div style={{ position:'fixed', inset:0, zIndex:50, display:'flex', flexDirection:'column', background:'#0C0C0D' }}>
+    <div style={{ position:'fixed', inset:0, zIndex:50, display:'flex', flexDirection:'column', background:'#0D0D0F' }}>
       <style>{`@keyframes spin{to{transform:rotate(360deg)}}`}</style>
       {/* Header */}
       <div style={{ background:'rgba(10,10,11,0.95)', borderBottom:'1px solid rgba(255,255,255,0.06)', flexShrink:0, padding:'14px 16px 12px', backdropFilter:'blur(16px)' }}>
         <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:12, maxWidth:520, margin:'0 auto 12px' }}>
           <div style={{ display:'flex', alignItems:'center', gap:10 }}>
-            <div style={{ width:36, height:36, borderRadius:12, display:'flex', alignItems:'center', justifyContent:'center', background:'linear-gradient(145deg,#ef4444,#c42121)', boxShadow:'0 3px 12px rgba(239,68,68,0.45)' }}>
+            <div style={{ width:36, height:36, borderRadius:12, display:'flex', alignItems:'center', justifyContent:'center', background:'linear-gradient(145deg,#E8342B,#c42121)', boxShadow:'0 3px 12px rgba(232,52,43,0.45)' }}>
               <Zap style={{ width:15, height:15, color:'white' }} />
             </div>
             <div>
@@ -394,10 +394,10 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
           <div style={{ maxWidth:520, margin:'0 auto' }}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', fontSize:11, marginBottom:5, color:'rgba(255,255,255,0.38)', fontWeight:600 }}>
               <span>{completedTotal} de {totalSeries} séries</span>
-              <span style={{ color:pct===100?'#10b981':'#ef4444', fontWeight:800 }}>{pct}%</span>
+              <span style={{ color:pct===100?'#10b981':'#E8342B', fontWeight:800 }}>{pct}%</span>
             </div>
             <div style={{ height:4, background:'rgba(255,255,255,0.06)', borderRadius:4, overflow:'hidden' }}>
-              <div style={{ height:'100%', width:`${pct}%`, background:pct===100?'#10b981':'linear-gradient(90deg,#ef4444,#f87171)', borderRadius:4, transition:'width 0.4s ease', boxShadow:pct===100?'0 0 10px rgba(16,185,129,0.6)':'0 0 10px rgba(239,68,68,0.5)' }} />
+              <div style={{ height:'100%', width:`${pct}%`, background:pct===100?'#10b981':'linear-gradient(90deg,#E8342B,#FF8078)', borderRadius:4, transition:'width 0.4s ease', boxShadow:pct===100?'0 0 10px rgba(16,185,129,0.6)':'0 0 10px rgba(232,52,43,0.5)' }} />
             </div>
           </div>
         )}
@@ -407,7 +407,7 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
       <div style={{ flex:1, overflowY:'auto', padding:'16px', paddingBottom:100 }}>
         <div style={{ maxWidth:520, margin:'0 auto', display:'flex', flexDirection:'column', gap:12 }}>
 
-          <div style={{ padding:16, borderRadius:18, background:'#111113', border:'1px solid rgba(255,255,255,0.07)', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
+          <div style={{ padding:16, borderRadius:18, background:'#141416', border:'1px solid rgba(255,255,255,0.07)', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
             <p style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,0.5)', marginBottom:10, letterSpacing:'-0.01em' }}>Como está o treino?</p>
             <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:8 }}>
               {DIFF.map(({ key,emoji,label,bg,border,text })=>(
@@ -469,7 +469,7 @@ function ModalExecutar({ treino, exercicioMap, alunoId, onClose }) {
       <div style={{ flexShrink:0, padding:'12px 16px calc(12px + env(safe-area-inset-bottom))', background:'rgba(10,10,11,0.95)', borderTop:'1px solid rgba(255,255,255,0.05)', backdropFilter:'blur(16px)' }}>
         <div style={{ maxWidth:520, margin:'0 auto' }}>
           <button disabled={isPending} onClick={()=>mutate()}
-            style={{ width:'100%', padding:'15px 24px', borderRadius:16, background:'linear-gradient(135deg,#ef4444,#dc2626)', border:'none', color:'white', fontSize:16, fontWeight:800, cursor:isPending?'wait':'pointer', fontFamily:'Inter,sans-serif', letterSpacing:'-0.02em', boxShadow:'0 6px 24px rgba(239,68,68,0.4), inset 0 1px 0 rgba(255,255,255,0.15)', display:'flex', alignItems:'center', justifyContent:'center', gap:10, opacity:isPending?0.8:1, transition:'all 0.15s' }}>
+            style={{ width:'100%', padding:'15px 24px', borderRadius:16, background:'linear-gradient(135deg,#E8342B,#C8291F)', border:'none', color:'white', fontSize:16, fontWeight:800, cursor:isPending?'wait':'pointer', fontFamily:'Inter,sans-serif', letterSpacing:'-0.02em', boxShadow:'0 6px 24px rgba(232,52,43,0.4), inset 0 1px 0 rgba(255,255,255,0.15)', display:'flex', alignItems:'center', justifyContent:'center', gap:10, opacity:isPending?0.8:1, transition:'all 0.15s' }}>
             {isPending?(
               <>
                 <span style={{ width:18, height:18, border:'2px solid rgba(255,255,255,0.3)', borderTopColor:'white', borderRadius:'50%', display:'inline-block', animation:'spin 0.7s linear infinite' }} />
@@ -520,7 +520,7 @@ function TreinoCard({ treino, exercicioMap, onStart }) {
           </div>
         </div>
         <div style={{ width:46, height:46, borderRadius:14, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, background:'rgba(99,102,241,0.15)', border:'1px solid rgba(99,102,241,0.25)', boxShadow:'0 0 20px rgba(99,102,241,0.15)' }}>
-          <Dumbbell style={{ width:21, height:21, color:'#f87171' }} />
+          <Dumbbell style={{ width:21, height:21, color:'#FF8078' }} />
         </div>
       </div>
 
@@ -537,7 +537,7 @@ function TreinoCard({ treino, exercicioMap, onStart }) {
           </div>
         ))}
         {totalEx>3&&(
-          <button onClick={()=>setExpanded(!expanded)} style={{ display:'flex', alignItems:'center', gap:4, fontSize:11, fontWeight:800, color:'#f87171', background:'none', border:'none', cursor:'pointer', padding:'2px 0' }}>
+          <button onClick={()=>setExpanded(!expanded)} style={{ display:'flex', alignItems:'center', gap:4, fontSize:11, fontWeight:800, color:'#FF8078', background:'none', border:'none', cursor:'pointer', padding:'2px 0' }}>
             {expanded?<ChevronUp style={{ width:11, height:11 }} />:<ChevronDown style={{ width:11, height:11 }} />}
             {expanded?'Mostrar menos':`+${totalEx-3} exercícios`}
           </button>
@@ -554,9 +554,9 @@ function TreinoCard({ treino, exercicioMap, onStart }) {
       </div>
 
       <button onClick={()=>onStart(treino)}
-        style={{ width:'100%', padding:'14px 24px', borderRadius:14, background:'linear-gradient(135deg,#ef4444,#dc2626)', border:'none', color:'white', fontSize:15, fontWeight:800, cursor:'pointer', fontFamily:'Inter,sans-serif', letterSpacing:'-0.02em', boxShadow:'0 5px 20px rgba(239,68,68,0.38), inset 0 1px 0 rgba(255,255,255,0.15)', display:'flex', alignItems:'center', justifyContent:'center', gap:8, transition:'all 0.15s' }}
-        onMouseEnter={e=>{ e.currentTarget.style.boxShadow='0 8px 28px rgba(239,68,68,0.55), inset 0 1px 0 rgba(255,255,255,0.18)'; e.currentTarget.style.transform='translateY(-1px)' }}
-        onMouseLeave={e=>{ e.currentTarget.style.boxShadow='0 5px 20px rgba(239,68,68,0.38), inset 0 1px 0 rgba(255,255,255,0.15)'; e.currentTarget.style.transform='translateY(0)' }}>
+        style={{ width:'100%', padding:'14px 24px', borderRadius:14, background:'linear-gradient(135deg,#E8342B,#C8291F)', border:'none', color:'white', fontSize:15, fontWeight:800, cursor:'pointer', fontFamily:'Inter,sans-serif', letterSpacing:'-0.02em', boxShadow:'0 5px 20px rgba(232,52,43,0.38), inset 0 1px 0 rgba(255,255,255,0.15)', display:'flex', alignItems:'center', justifyContent:'center', gap:8, transition:'all 0.15s' }}
+        onMouseEnter={e=>{ e.currentTarget.style.boxShadow='0 8px 28px rgba(232,52,43,0.55), inset 0 1px 0 rgba(255,255,255,0.18)'; e.currentTarget.style.transform='translateY(-1px)' }}
+        onMouseLeave={e=>{ e.currentTarget.style.boxShadow='0 5px 20px rgba(232,52,43,0.38), inset 0 1px 0 rgba(255,255,255,0.15)'; e.currentTarget.style.transform='translateY(0)' }}>
         <Play style={{ width:16, height:16 }} />
         Iniciar treino
       </button>
@@ -571,9 +571,9 @@ function StreakCard({ gami }) {
   return (
     <div style={{
       borderRadius:20, padding:'18px 20px', position:'relative', overflow:'hidden',
-      background:'radial-gradient(ellipse at 10% -20%, rgba(249,115,22,0.55) 0%, transparent 55%), radial-gradient(ellipse at 90% 120%, rgba(239,68,68,0.35) 0%, transparent 50%), #1a0d08',
+      background:'radial-gradient(ellipse at 10% -20%, rgba(249,115,22,0.55) 0%, transparent 55%), radial-gradient(ellipse at 90% 120%, rgba(232,52,43,0.35) 0%, transparent 50%), #1a0d08',
       border:'1px solid rgba(249,115,22,0.25)',
-      boxShadow:'0 8px 32px rgba(239,68,68,0.18)',
+      boxShadow:'0 8px 32px rgba(232,52,43,0.18)',
     }}>
       {/* Ambient glow orb */}
       <div style={{ position:'absolute', top:-30, right:-30, width:120, height:120, borderRadius:'50%', background:'rgba(251,146,60,0.25)', filter:'blur(40px)', pointerEvents:'none' }} />
@@ -684,7 +684,7 @@ export default function TreinoHoje() {
       <div style={{ marginBottom:4 }}>
         <h1 style={{ fontFamily:'Inter,sans-serif', fontSize:24, fontWeight:900, color:'#F4F4F5', letterSpacing:'-0.04em', lineHeight:1.1, marginBottom:4 }}>
           {saudacao},{' '}
-          <span style={{ color:'#f87171', textShadow:'0 0 30px rgba(248,113,113,0.4)' }}>
+          <span style={{ color:'#FF8078', textShadow:'0 0 30px rgba(248,113,113,0.4)' }}>
             {user?.nome?.split(' ')[0]}
           </span>
         </h1>
@@ -700,17 +700,17 @@ export default function TreinoHoje() {
           borderRadius:18, padding:'16px 18px',
           background: checkinBanner.ok
             ? 'radial-gradient(ellipse at 10% -20%, rgba(16,185,129,0.2) 0%, transparent 55%), #111113'
-            : 'radial-gradient(ellipse at 10% -20%, rgba(239,68,68,0.18) 0%, transparent 55%), #111113',
-          border:`1px solid ${checkinBanner.ok ? 'rgba(16,185,129,0.28)' : 'rgba(239,68,68,0.28)'}`,
+            : 'radial-gradient(ellipse at 10% -20%, rgba(232,52,43,0.18) 0%, transparent 55%), #111113',
+          border:`1px solid ${checkinBanner.ok ? 'rgba(16,185,129,0.28)' : 'rgba(232,52,43,0.28)'}`,
           display:'flex', alignItems:'center', gap:14,
         }}>
           <div style={{ width:44, height:44, borderRadius:14, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0,
-            background: checkinBanner.ok ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)',
-            border:`1px solid ${checkinBanner.ok ? 'rgba(16,185,129,0.3)' : 'rgba(239,68,68,0.3)'}`,
+            background: checkinBanner.ok ? 'rgba(16,185,129,0.15)' : 'rgba(232,52,43,0.15)',
+            border:`1px solid ${checkinBanner.ok ? 'rgba(16,185,129,0.3)' : 'rgba(232,52,43,0.3)'}`,
           }}>
             {checkinBanner.ok
               ? <CheckCircle style={{ width:22, height:22, color:'#10b981', filter:'drop-shadow(0 0 8px rgba(16,185,129,0.6))' }} />
-              : <X style={{ width:22, height:22, color:'#f87171' }} />}
+              : <X style={{ width:22, height:22, color:'#FF8078' }} />}
           </div>
           <div style={{ flex:1, minWidth:0 }}>
             <p style={{ fontSize:15, fontWeight:800, color:'#F4F4F5', letterSpacing:'-0.02em', marginBottom:2 }}>
@@ -728,17 +728,17 @@ export default function TreinoHoje() {
           disabled={checkinPending}
           style={{
             width:'100%', padding:'15px 20px', borderRadius:18, cursor:'pointer',
-            background:'radial-gradient(ellipse at 0% 50%, rgba(239,68,68,0.12) 0%, transparent 60%), #111113',
-            border:'1px solid rgba(239,68,68,0.22)',
+            background:'radial-gradient(ellipse at 0% 50%, rgba(232,52,43,0.12) 0%, transparent 60%), #111113',
+            border:'1px solid rgba(232,52,43,0.22)',
             display:'flex', alignItems:'center', gap:14,
             transition:'all 0.18s', textAlign:'left',
           }}
-          onMouseEnter={e=>{ e.currentTarget.style.border='1px solid rgba(239,68,68,0.42)'; e.currentTarget.style.boxShadow='0 0 24px rgba(239,68,68,0.12)' }}
-          onMouseLeave={e=>{ e.currentTarget.style.border='1px solid rgba(239,68,68,0.22)'; e.currentTarget.style.boxShadow='none' }}>
-          <div style={{ width:46, height:46, borderRadius:14, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, background:'rgba(239,68,68,0.15)', border:'1px solid rgba(239,68,68,0.28)', boxShadow:'0 0 20px rgba(239,68,68,0.15)' }}>
+          onMouseEnter={e=>{ e.currentTarget.style.border='1px solid rgba(232,52,43,0.42)'; e.currentTarget.style.boxShadow='0 0 24px rgba(232,52,43,0.12)' }}
+          onMouseLeave={e=>{ e.currentTarget.style.border='1px solid rgba(232,52,43,0.22)'; e.currentTarget.style.boxShadow='none' }}>
+          <div style={{ width:46, height:46, borderRadius:14, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, background:'rgba(232,52,43,0.15)', border:'1px solid rgba(232,52,43,0.28)', boxShadow:'0 0 20px rgba(232,52,43,0.15)' }}>
             {checkinPending
               ? <span style={{ width:18, height:18, border:'2px solid rgba(255,255,255,0.2)', borderTopColor:'white', borderRadius:'50%', display:'inline-block', animation:'spin 0.7s linear infinite' }} />
-              : <Camera style={{ width:20, height:20, color:'#f87171' }} />}
+              : <Camera style={{ width:20, height:20, color:'#FF8078' }} />}
           </div>
           <div>
             <p style={{ fontFamily:'Inter,sans-serif', fontSize:15, fontWeight:800, color:'#F4F4F5', letterSpacing:'-0.02em', marginBottom:2 }}>
@@ -749,7 +749,7 @@ export default function TreinoHoje() {
             </p>
           </div>
           <div style={{ marginLeft:'auto', flexShrink:0 }}>
-            <ScanLine style={{ width:18, height:18, color:'rgba(239,68,68,0.5)' }} />
+            <ScanLine style={{ width:18, height:18, color:'rgba(232,52,43,0.5)' }} />
           </div>
         </button>
       )}
@@ -757,7 +757,7 @@ export default function TreinoHoje() {
       <StreakCard gami={gami} />
 
       {treinosHoje.length===0?(
-        <div style={{ padding:32, borderRadius:20, background:'#111113', border:'1px solid rgba(255,255,255,0.07)', textAlign:'center', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
+        <div style={{ padding:32, borderRadius:20, background:'#141416', border:'1px solid rgba(255,255,255,0.07)', textAlign:'center', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
           <div style={{ fontSize:56, marginBottom:16 }}>😴</div>
           <p style={{ fontFamily:'Inter,sans-serif', fontWeight:900, color:'#F4F4F5', fontSize:19, letterSpacing:'-0.03em', marginBottom:6 }}>Dia de descanso!</p>
           <p style={{ fontSize:13, color:'rgba(255,255,255,0.4)', marginBottom:24, lineHeight:1.5 }}>Não há treinos para hoje.<br/>Aproveite para recuperar.</p>
@@ -777,7 +777,7 @@ export default function TreinoHoje() {
               {treinosHoje.length} treino{treinosHoje.length!==1?'s':''} hoje
             </p>
             {gami?.total_treinos>0&&(
-              <span style={{ fontSize:11, color:'#f87171', fontWeight:700, padding:'3px 10px', borderRadius:999, background:'rgba(239,68,68,0.1)', border:'1px solid rgba(239,68,68,0.18)' }}>
+              <span style={{ fontSize:11, color:'#FF8078', fontWeight:700, padding:'3px 10px', borderRadius:999, background:'rgba(232,52,43,0.1)', border:'1px solid rgba(232,52,43,0.18)' }}>
                 {gami.total_treinos} totais
               </span>
             )}

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import { useQuery } from '@tanstack/react-query'
 import { useAuth } from '@/contexts/auth-context'
@@ -30,9 +30,9 @@ type Analytics = {
 /* ── Helpers ────────────────────────────────────────────────────────── */
 const ALPHA: Record<string, string> = {
   A:'#6366f1',B:'#ec4899',C:'#f97316',D:'#22c55e',E:'#a855f7',F:'#06b6d4',
-  G:'#ef4444',H:'#eab308',I:'#14b8a6',J:'#8b5cf6',K:'#f43f5e',L:'#10b981',
+  G:'#E8342B',H:'#eab308',I:'#14b8a6',J:'#8b5cf6',K:'#f43f5e',L:'#10b981',
   M:'#3b82f6',N:'#fb923c',O:'#84cc16',P:'#e879f9',Q:'#2dd4bf',R:'#f472b6',
-  S:'#38bdf8',T:'#4ade80',U:'#fbbf24',V:'#818cf8',W:'#34d399',X:'#f87171',
+  S:'#38bdf8',T:'#4ade80',U:'#fbbf24',V:'#818cf8',W:'#34d399',X:'#FF8078',
   Y:'#a78bfa',Z:'#60a5fa',
 }
 const nameColor = (n: string) => ALPHA[(n || 'A')[0].toUpperCase()] ?? '#6366f1'
@@ -101,11 +101,11 @@ function HeroCard({ total, ativos, novos }: { total: number; ativos: number; nov
       transition={{ duration: 0.72, ease: [0.16, 1, 0.3, 1] }}
       style={{
         background: `
-          radial-gradient(ellipse at 14% -28%, rgba(239,68,68,0.28) 0%, transparent 50%),
-          radial-gradient(ellipse at 86% 115%, rgba(239,68,68,0.15) 0%, transparent 46%),
+          radial-gradient(ellipse at 14% -28%, rgba(232,52,43,0.28) 0%, transparent 50%),
+          radial-gradient(ellipse at 86% 115%, rgba(232,52,43,0.15) 0%, transparent 46%),
           #111113
         `,
-        border: '1px solid rgba(239,68,68,0.20)',
+        border: '1px solid rgba(232,52,43,0.20)',
         borderRadius: 24,
         padding: '30px 32px 0',
         position: 'relative',
@@ -114,24 +114,24 @@ function HeroCard({ total, ativos, novos }: { total: number; ativos: number; nov
         flexDirection: 'column',
         minHeight: 300,
         boxShadow:
-          '0 0 140px -40px rgba(239,68,68,0.24), inset 0 1px 0 rgba(255,255,255,0.06)',
+          '0 0 140px -40px rgba(232,52,43,0.24), inset 0 1px 0 rgba(255,255,255,0.06)',
       }}
     >
       {/* Ambient glow orbs */}
-      <div style={{ position:'absolute', top:-100, left:-60, width:340, height:340, borderRadius:'50%', background:'rgba(239,68,68,0.09)', filter:'blur(80px)', pointerEvents:'none' }} />
-      <div style={{ position:'absolute', bottom:-80, right:-60, width:260, height:260, borderRadius:'50%', background:'rgba(239,68,68,0.07)', filter:'blur(60px)', pointerEvents:'none' }} />
+      <div style={{ position:'absolute', top:-100, left:-60, width:340, height:340, borderRadius:'50%', background:'rgba(232,52,43,0.09)', filter:'blur(80px)', pointerEvents:'none' }} />
+      <div style={{ position:'absolute', bottom:-80, right:-60, width:260, height:260, borderRadius:'50%', background:'rgba(232,52,43,0.07)', filter:'blur(60px)', pointerEvents:'none' }} />
 
       {/* Top row: icon label + trend badge */}
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:24, position:'relative' }}>
         <div style={{ display:'flex', alignItems:'center', gap:12 }}>
           <div style={{
             width:44, height:44, borderRadius:14,
-            background:'rgba(239,68,68,0.13)',
-            border:'1px solid rgba(239,68,68,0.28)',
+            background:'rgba(232,52,43,0.13)',
+            border:'1px solid rgba(232,52,43,0.28)',
             display:'flex', alignItems:'center', justifyContent:'center',
-            boxShadow:'0 4px 20px rgba(239,68,68,0.24)',
+            boxShadow:'0 4px 20px rgba(232,52,43,0.24)',
           }}>
-            <Users style={{ width:21, height:21, color:'#ef4444' }} />
+            <Users style={{ width:21, height:21, color:'#E8342B' }} />
           </div>
           <span style={{ fontSize:11, fontWeight:800, color:'rgba(255,255,255,0.30)', textTransform:'uppercase', letterSpacing:'0.1em' }}>
             Total de Alunos
@@ -162,7 +162,7 @@ function HeroCard({ total, ativos, novos }: { total: number; ativos: number; nov
           letterSpacing: '-0.07em',
           lineHeight: 1,
           color: '#fff',
-          textShadow: '0 0 100px rgba(239,68,68,0.70), 0 0 40px rgba(239,68,68,0.45)',
+          textShadow: '0 0 100px rgba(232,52,43,0.70), 0 0 40px rgba(232,52,43,0.45)',
           marginBottom: 14,
           position: 'relative',
         }}
@@ -191,11 +191,11 @@ function HeroCard({ total, ativos, novos }: { total: number; ativos: number; nov
           <AreaChart data={spark.map(v => ({ v }))} margin={{ top:0, right:0, left:0, bottom:0 }}>
             <defs>
               <linearGradient id="heroG" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%"   stopColor="#ef4444" stopOpacity={0.48} />
-                <stop offset="100%" stopColor="#ef4444" stopOpacity={0.02} />
+                <stop offset="0%"   stopColor="#E8342B" stopOpacity={0.48} />
+                <stop offset="100%" stopColor="#E8342B" stopOpacity={0.02} />
               </linearGradient>
             </defs>
-            <Area type="monotone" dataKey="v" stroke="#ef4444" strokeWidth={2.5} fill="url(#heroG)" dot={false} />
+            <Area type="monotone" dataKey="v" stroke="#E8342B" strokeWidth={2.5} fill="url(#heroG)" dot={false} />
           </AreaChart>
         </ResponsiveContainer>
       </div>
@@ -214,7 +214,7 @@ function BigMetric({
 }) {
   const display = useCountUp(value)
   const spark   = useMemo(() => genSpark(value), [value])
-  const TC      = trend === 'up' ? '#22c55e' : '#ef4444'
+  const TC      = trend === 'up' ? '#22c55e' : '#E8342B'
   const TI      = trend === 'up' ? ArrowUpRight : ArrowDownRight
 
   return (
@@ -324,8 +324,8 @@ function ChartTip({ active, payload, label }: { active?: boolean; payload?: Arra
   return (
     <div style={{ background:'#18191e', border:'1px solid rgba(255,255,255,0.08)', borderRadius:12, padding:'12px 16px', boxShadow:'0 20px 50px rgba(0,0,0,0.75)' }}>
       <div style={{ fontSize:10, color:'rgba(255,255,255,0.32)', textTransform:'uppercase', letterSpacing:'0.08em', marginBottom:5 }}>{label}</div>
-      <div style={{ fontSize:32, fontWeight:900, color:'#fff', letterSpacing:'-0.06em', textShadow:'0 0 30px rgba(239,68,68,0.65)', lineHeight:1 }}>{payload[0]?.value}</div>
-      <div style={{ fontSize:11, color:'rgba(239,68,68,0.7)', fontWeight:700, marginTop:3 }}>presenças</div>
+      <div style={{ fontSize:32, fontWeight:900, color:'#fff', letterSpacing:'-0.06em', textShadow:'0 0 30px rgba(232,52,43,0.65)', lineHeight:1 }}>{payload[0]?.value}</div>
+      <div style={{ fontSize:11, color:'rgba(232,52,43,0.7)', fontWeight:700, marginTop:3 }}>presenças</div>
     </div>
   )
 }
@@ -486,7 +486,7 @@ export default function DashboardPage() {
 
           <h1 style={{ fontSize:'clamp(26px,4vw,38px)', fontWeight:900, letterSpacing:'-0.055em', lineHeight:1.05, marginBottom:7 }}>
             <span style={{ color:'#F4F4F5' }}>{greeting}, </span>
-            <span style={{ background:'linear-gradient(135deg,#ef4444 0%,#f472b6 52%,#a855f7 100%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>
+            <span style={{ background:'linear-gradient(135deg,#FF5D56 0%,#E8342B 60%,#C8291F 100%)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>
               {firstName}
             </span>
             <span style={{ fontSize:'0.85em', marginLeft:6 }}>👋</span>
@@ -501,10 +501,10 @@ export default function DashboardPage() {
           <Link href="/alunos/novo" style={{
             display:'inline-flex', alignItems:'center', gap:8,
             padding:'12px 24px', borderRadius:13,
-            background:'linear-gradient(135deg,#ef4444 0%,#dc2626 100%)',
+            background:'linear-gradient(135deg,#E8342B 0%,#C8291F 100%)',
             color:'#fff', fontSize:14, fontWeight:800, textDecoration:'none',
             letterSpacing:'-0.01em',
-            boxShadow:'0 4px 28px rgba(239,68,68,0.42), 0 0 0 1px rgba(239,68,68,0.38), inset 0 1px 0 rgba(255,255,255,0.16)',
+            boxShadow:'0 4px 28px rgba(232,52,43,0.42), 0 0 0 1px rgba(232,52,43,0.38), inset 0 1px 0 rgba(255,255,255,0.16)',
           }}>
             <Users style={{ width:15, height:15 }}/> Novo aluno
           </Link>
@@ -539,7 +539,7 @@ export default function DashboardPage() {
       {/* ── BENTO 2: SMALL STATS ROW ───────────────────────────────── */}
       <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(190px, 1fr))', gap:14 }}>
         <SmallStat value={inativos}      label="Alunos inativos"    icon={Activity}     color="#f97316" index={0} />
-        <SmallStat value={inadimpl}      label="Inadimplentes"      icon={DollarSign}   color="#ef4444" index={1} />
+        <SmallStat value={inadimpl}      label="Inadimplentes"      icon={DollarSign}   color="#E8342B" index={1} />
         <SmallStat value={churn.length}  label="Risco de abandono"  icon={TrendingDown} color="#a855f7" index={2} />
         <SmallStat value={ativos}        label="Check-ins hoje"     icon={Calendar}     color="#eab308" index={3} />
       </div>
@@ -552,7 +552,7 @@ export default function DashboardPage() {
           initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
           transition={{ delay:0.38, duration:0.56 }}
           style={{
-            background:'#111113',
+            background:'#141416',
             border:'1px solid rgba(255,255,255,0.06)',
             borderRadius:22,
             padding:'24px 24px 14px',
@@ -561,13 +561,13 @@ export default function DashboardPage() {
             boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)',
           }}
         >
-          <div style={{ position:'absolute', top:-50, right:-50, width:300, height:300, borderRadius:'50%', background:'rgba(239,68,68,0.055)', filter:'blur(65px)', pointerEvents:'none' }} />
+          <div style={{ position:'absolute', top:-50, right:-50, width:300, height:300, borderRadius:'50%', background:'rgba(232,52,43,0.055)', filter:'blur(65px)', pointerEvents:'none' }} />
 
           <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:28, position:'relative' }}>
             <div>
               <h2 style={{ fontSize:16, fontWeight:900, color:'#F4F4F5', letterSpacing:'-0.04em', marginBottom:5 }}>Atividade da Semana</h2>
               <p style={{ fontSize:12, color:'rgba(255,255,255,0.35)' }}>
-                Pico <span style={{ color:'#ef4444', fontWeight:800 }}>{peak.dia}</span>
+                Pico <span style={{ color:'#E8342B', fontWeight:800 }}>{peak.dia}</span>
                 {' '}· Média <span style={{ color:'rgba(255,255,255,0.55)', fontWeight:700 }}>{avg} presenças/dia</span>
               </p>
             </div>
@@ -578,7 +578,7 @@ export default function DashboardPage() {
                 color: '#fff',
                 letterSpacing: '-0.06em',
                 lineHeight: 1,
-                textShadow: '0 0 45px rgba(239,68,68,0.65)',
+                textShadow: '0 0 45px rgba(232,52,43,0.65)',
               }}>{peak.v}</div>
               <div style={{ fontSize:10, color:'rgba(255,255,255,0.28)', textTransform:'uppercase', letterSpacing:'0.07em', marginTop:2 }}>
                 recorde do dia
@@ -590,19 +590,19 @@ export default function DashboardPage() {
             <AreaChart data={chartData} margin={{ top:4, right:4, left:-28, bottom:0 }}>
               <defs>
                 <linearGradient id="chartG" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%"   stopColor="#ef4444" stopOpacity={0.48} />
-                  <stop offset="100%" stopColor="#ef4444" stopOpacity={0.02} />
+                  <stop offset="0%"   stopColor="#E8342B" stopOpacity={0.48} />
+                  <stop offset="100%" stopColor="#E8342B" stopOpacity={0.02} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="2 4" stroke="rgba(255,255,255,0.04)" vertical={false} />
               <XAxis dataKey="dia" tick={{ fill:'rgba(255,255,255,0.3)', fontSize:11, fontWeight:700 }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fill:'rgba(255,255,255,0.22)', fontSize:10 }} axisLine={false} tickLine={false} />
-              <Tooltip content={<ChartTip />} cursor={{ stroke:'rgba(239,68,68,0.18)', strokeWidth:1 }} />
+              <Tooltip content={<ChartTip />} cursor={{ stroke:'rgba(232,52,43,0.18)', strokeWidth:1 }} />
               <Area
                 type="monotone" dataKey="v"
-                stroke="#ef4444" strokeWidth={2.5}
+                stroke="#E8342B" strokeWidth={2.5}
                 fill="url(#chartG)" dot={false}
-                activeDot={{ r:7, fill:'#ef4444', stroke:'rgba(239,68,68,0.35)', strokeWidth:8 }}
+                activeDot={{ r:7, fill:'#E8342B', stroke:'rgba(232,52,43,0.35)', strokeWidth:8 }}
               />
             </AreaChart>
           </ResponsiveContainer>
@@ -613,7 +613,7 @@ export default function DashboardPage() {
           initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
           transition={{ delay:0.46, duration:0.56 }}
           style={{
-            background:'#111113',
+            background:'#141416',
             border:'1px solid rgba(255,255,255,0.06)',
             borderRadius:22,
             overflow:'hidden',
@@ -626,7 +626,7 @@ export default function DashboardPage() {
               <h2 style={{ fontSize:13, fontWeight:900, color:'#F4F4F5', letterSpacing:'-0.03em', marginBottom:2 }}>Alunos Recentes</h2>
               <p style={{ fontSize:11, color:'rgba(255,255,255,0.3)' }}>{recentes.length} cadastros</p>
             </div>
-            <Link href="/alunos" style={{ display:'flex', alignItems:'center', gap:4, fontSize:12, color:'#ef4444', fontWeight:800, textDecoration:'none' }}>
+            <Link href="/alunos" style={{ display:'flex', alignItems:'center', gap:4, fontSize:12, color:'#E8342B', fontWeight:800, textDecoration:'none' }}>
               Ver todos <ChevronRight style={{ width:13, height:13 }}/>
             </Link>
           </div>
@@ -653,7 +653,7 @@ export default function DashboardPage() {
         <motion.div
           initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
           transition={{ delay:0.53, duration:0.55 }}
-          style={{ background:'#111113', border:'1px solid rgba(255,255,255,0.06)', borderRadius:22, padding:'22px 24px' }}
+          style={{ background:'#141416', border:'1px solid rgba(255,255,255,0.06)', borderRadius:22, padding:'22px 24px' }}
         >
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:22 }}>
             <div>
@@ -681,7 +681,7 @@ export default function DashboardPage() {
             <div style={{ display:'flex', flexDirection:'column', gap:16 }}>
               {churn.slice(0, 5).map((a, idx) => {
                 const score = a.score ?? Math.min(100, (a.dias_sem_treino || 0) * 3)
-                const sc    = score > 70 ? '#ef4444' : score > 40 ? '#f97316' : '#eab308'
+                const sc    = score > 70 ? '#E8342B' : score > 40 ? '#f97316' : '#eab308'
                 const lb    = score > 70 ? 'Alto' : score > 40 ? 'Médio' : 'Baixo'
                 return (
                   <Link key={a.id} href={`/alunos/${a.id}`} style={{ display:'flex', alignItems:'center', gap:11, textDecoration:'none' }}>
@@ -713,11 +713,11 @@ export default function DashboardPage() {
         <motion.div
           initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }}
           transition={{ delay:0.60, duration:0.55 }}
-          style={{ background:'#111113', border:'1px solid rgba(255,255,255,0.06)', borderRadius:22, padding:'22px 24px' }}
+          style={{ background:'#141416', border:'1px solid rgba(255,255,255,0.06)', borderRadius:22, padding:'22px 24px' }}
         >
           <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:20 }}>
-            <div style={{ width:40, height:40, borderRadius:12, background:'rgba(239,68,68,0.11)', border:'1px solid rgba(239,68,68,0.26)', display:'flex', alignItems:'center', justifyContent:'center' }}>
-              <Zap style={{ width:18, height:18, color:'#ef4444' }}/>
+            <div style={{ width:40, height:40, borderRadius:12, background:'rgba(232,52,43,0.11)', border:'1px solid rgba(232,52,43,0.26)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+              <Zap style={{ width:18, height:18, color:'#E8342B' }}/>
             </div>
             <div>
               <h2 style={{ fontSize:15, fontWeight:900, color:'#F4F4F5', letterSpacing:'-0.04em', marginBottom:2 }}>Ações Rápidas</h2>

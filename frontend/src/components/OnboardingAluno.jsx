@@ -1,10 +1,10 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
 import { atualizarMeuPerfil } from '../api'
 import { useAuth } from '../contexts/AuthContext'
 
 const OBJETIVOS = [
-  { key: 'hipertrofia',     label: 'Ganhar músculo',  icon: '💪', color: '#ef4444' },
+  { key: 'hipertrofia',     label: 'Ganhar músculo',  icon: '💪', color: '#E8342B' },
   { key: 'emagrecimento',   label: 'Emagrecer',        icon: '🔥', color: '#f97316' },
   { key: 'forca',           label: 'Ganhar força',     icon: '⚡', color: '#eab308' },
   { key: 'condicionamento', label: 'Condicionamento', icon: '🏃', color: '#10b981' },
@@ -56,7 +56,7 @@ export default function OnboardingAluno({ onDone }) {
           {[0, 1, 2].map(i => (
             <div key={i} style={{
               width: i === step ? 24 : 6, height: 6, borderRadius: 3,
-              background: i <= step ? '#ef4444' : 'var(--border)',
+              background: i <= step ? '#E8342B' : 'var(--border)',
               transition: 'all 0.3s ease',
             }} />
           ))}
@@ -74,13 +74,13 @@ export default function OnboardingAluno({ onDone }) {
                 </h1>
                 <p style={{ color: 'var(--text-muted)', fontSize: 14, lineHeight: 1.65, margin: 0, fontFamily: 'Inter, sans-serif' }}>
                   Bem-vindo ao{' '}
-                  <strong style={{ color: '#ef4444', fontWeight: 700 }}>MegaUp</strong>
+                  <strong style={{ color: '#E8342B', fontWeight: 700 }}>MegaUp</strong>
                   ! Seu personal já preparou seus treinos. Vamos conhecer o app?
                 </p>
               </div>
               <button
                 onClick={() => setStep(1)}
-                style={{ width: '100%', padding: '14px 0', borderRadius: 12, background: '#ef4444', color: 'white', border: 'none', fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>
+                style={{ width: '100%', padding: '14px 0', borderRadius: 12, background: '#E8342B', color: 'white', border: 'none', fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600, cursor: 'pointer' }}>
                 Começar →
               </button>
             </>
@@ -129,7 +129,7 @@ export default function OnboardingAluno({ onDone }) {
                 disabled={isPending}
                 style={{
                   width: '100%', padding: '14px 0', borderRadius: 12,
-                  background: '#ef4444', color: 'white', border: 'none',
+                  background: '#E8342B', color: 'white', border: 'none',
                   fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600,
                   cursor: 'pointer', opacity: isPending ? 0.7 : 1,
                   transition: 'opacity 0.15s',
@@ -168,7 +168,7 @@ export default function OnboardingAluno({ onDone }) {
                 onClick={onDone}
                 style={{
                   width: '100%', padding: '14px 0', borderRadius: 12,
-                  background: '#ef4444', color: 'white', border: 'none',
+                  background: '#E8342B', color: 'white', border: 'none',
                   fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600,
                   cursor: 'pointer',
                 }}>

@@ -9,7 +9,7 @@ import { SkeletonCard } from '../components/ui/Skeleton'
 const GRUPOS = ['', 'Peito', 'Costas', 'Ombros', 'Biceps', 'Triceps', 'Pernas', 'Gluteos', 'Core', 'Cardio', 'Outro']
 
 const GRUPO_META = {
-  Peito:   { color: '#f87171', bg: 'rgba(239,68,68,0.13)',   border: 'rgba(239,68,68,0.28)',   grad: 'linear-gradient(135deg,#450a0a,#1c0505)' },
+  Peito:   { color: '#FF8078', bg: 'rgba(232,52,43,0.13)',   border: 'rgba(232,52,43,0.28)',   grad: 'linear-gradient(135deg,#450a0a,#1c0505)' },
   Costas:  { color: '#7dd3fc', bg: 'rgba(56,189,248,0.13)',  border: 'rgba(56,189,248,0.28)',  grad: 'linear-gradient(135deg,#082032,#020d18)' },
   Ombros:  { color: '#fde047', bg: 'rgba(234,179,8,0.13)',   border: 'rgba(234,179,8,0.28)',   grad: 'linear-gradient(135deg,#2d2000,#110d00)' },
   Biceps:  { color: '#34d399', bg: 'rgba(16,185,129,0.13)',  border: 'rgba(16,185,129,0.28)',  grad: 'linear-gradient(135deg,#022c1a,#010f09)' },
@@ -51,7 +51,7 @@ function ExercicioCard({ exercicio: e, onEdit, onDelete }) {
             <Edit2 style={{ width: 12, height: 12, color:'var(--text-secondary)' }} />
           </button>
           <button onClick={() => onDelete(e)} title="Deletar" style={{ width: 30, height: 30, borderRadius: 8, background: 'rgba(0,0,0,0.65)', border: '1px solid rgba(248,113,113,0.3)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(8px)' }}>
-            <Trash2 style={{ width: 12, height: 12, color: '#f87171' }} />
+            <Trash2 style={{ width: 12, height: 12, color: '#FF8078' }} />
           </button>
         </div>
       )}
@@ -97,7 +97,7 @@ function ExercicioCard({ exercicio: e, onEdit, onDelete }) {
         <div style={{ fontFamily: 'Inter, sans-serif', fontSize: 15, fontWeight: 600, color: '#e2e8f0', lineHeight: 1.3, marginBottom: 8 }}>{e.nome}</div>
         {e.equipamento && <div style={{ fontSize: 12, color:'var(--text-muted)', lineHeight: 1.5 }}>{e.equipamento}</div>}
         {isCustom && !e.video_url && (
-          <button onClick={() => onEdit(e)} style={{ marginTop: 10, display: 'inline-flex', alignItems: 'center', gap: 6, padding: '5px 10px', borderRadius: 8, background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)', color: '#f87171', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}>
+          <button onClick={() => onEdit(e)} style={{ marginTop: 10, display: 'inline-flex', alignItems: 'center', gap: 6, padding: '5px 10px', borderRadius: 8, background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.2)', color: '#FF8078', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}>
             <Video style={{ width: 10, height: 10 }} />Adicionar vídeo
           </button>
         )}
@@ -170,7 +170,7 @@ function ExercicioModal({ mode, initial, onClose, onSubmit, isPending }) {
             <input className="input" placeholder="https://youtube.com/watch?v=..." value={form.video_url} onChange={set('video_url')} />
             <div style={{ marginTop: 8, padding: '10px 12px', background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.15)', borderRadius: 8 }}>
               <p style={{ fontSize: 11, color:'var(--text-muted)', margin: 0, lineHeight: 1.6 }}>
-                💡 <strong style={{ color: '#f87171' }}>Dica:</strong> Grave seu vídeo → suba no YouTube como <em>não listado</em> → cole o link aqui. Só você e seus alunos têm acesso.
+                💡 <strong style={{ color: '#FF8078' }}>Dica:</strong> Grave seu vídeo → suba no YouTube como <em>não listado</em> → cole o link aqui. Só você e seus alunos têm acesso.
               </p>
             </div>
           </div>
@@ -287,7 +287,7 @@ export default function Exercicios() {
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-              <div style={{ width: 36, height: 36, borderRadius: 12, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 36, height: 36, borderRadius: 12, background: '#E8342B', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Dumbbell style={{ width: 17, height: 17, color: 'white' }} />
               </div>
               <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 26, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.03em', margin: 0 }}>Biblioteca de Exercícios</h1>

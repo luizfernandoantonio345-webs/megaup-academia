@@ -23,7 +23,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
-  themeColor: '#0C0C0D',
+  themeColor: '#0D0D0F',
 }
 
 export default function RootLayout({
@@ -34,6 +34,8 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" data-theme="dark" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://megaup-api.onrender.com" />
         <link rel="dns-prefetch" href="https://megaup-api.onrender.com" />
       </head>

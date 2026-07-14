@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+﻿import { useEffect, useState } from 'react'
 
 const API = process.env.NEXT_PUBLIC_API_URL || 'https://megaup-api.onrender.com'
 
@@ -32,8 +32,8 @@ export default function Debug() {
   )
 
   return (
-    <div style={{ padding: 32, fontFamily: 'monospace', background: '#111113', color: '#fff', minHeight: '100vh' }}>
-      <h1 style={{ fontSize: 20, marginBottom: 8, color: '#ef4444' }}>MegaUp Diagnóstico</h1>
+    <div style={{ padding: 32, fontFamily: 'monospace', background: '#141416', color: '#fff', minHeight: '100vh' }}>
+      <h1 style={{ fontSize: 20, marginBottom: 8, color: '#E8342B' }}>MegaUp Diagnóstico</h1>
       <p style={{ fontSize: 12, color: '#6b7280', marginBottom: 24 }}>
         Abra esta página em aba anônima para evitar cache do Service Worker.
       </p>

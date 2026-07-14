@@ -5,8 +5,8 @@ import toast from 'react-hot-toast'
 import { Plus, Trash2, Zap, Target, Clock, ChevronDown, ChevronUp, Download, Users, ArrowRight, BarChart2, Loader2 } from 'lucide-react'
 
 const OBJETIVOS = [
-  { key: 'hipertrofia',     label: 'Hipertrofia',     color: '#f87171', bg: 'rgba(99,102,241,0.12)',  border: 'rgba(99,102,241,0.25)', emoji: '💪' },
-  { key: 'forca',           label: 'Força',           color: '#f87171', bg: 'rgba(239,68,68,0.12)',   border: 'rgba(239,68,68,0.25)',  emoji: '🏋️' },
+  { key: 'hipertrofia',     label: 'Hipertrofia',     color: '#FF8078', bg: 'rgba(99,102,241,0.12)',  border: 'rgba(99,102,241,0.25)', emoji: '💪' },
+  { key: 'forca',           label: 'Força',           color: '#FF8078', bg: 'rgba(232,52,43,0.12)',   border: 'rgba(232,52,43,0.25)',  emoji: '🏋️' },
   { key: 'potencia',        label: 'Potência',        color: '#fbbf24', bg: 'rgba(251,191,36,0.12)',  border: 'rgba(251,191,36,0.25)', emoji: '⚡' },
   { key: 'emagrecimento',   label: 'Emagrecimento',   color: '#34d399', bg: 'rgba(16,185,129,0.12)',  border: 'rgba(16,185,129,0.25)', emoji: '🔥' },
   { key: 'condicionamento', label: 'Condicionamento', color: '#38bdf8', bg: 'rgba(56,189,248,0.12)',  border: 'rgba(56,189,248,0.25)', emoji: '🏃' },
@@ -122,7 +122,7 @@ function ProgramaCard({ programa, alunos, onDelete }) {
               <option value="">Selecionar aluno...</option>
               {(alunos || []).map(a => <option key={a.id} value={a.id}>{a.nome}</option>)}
             </select>
-            <button onClick={() => aplicar()} disabled={!alunoId || aplicandoMut} style={{ padding: '8px 14px', borderRadius: 10, background: '#ef4444', border: 'none', color: 'white', fontSize: 12, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
+            <button onClick={() => aplicar()} disabled={!alunoId || aplicandoMut} style={{ padding: '8px 14px', borderRadius: 10, background: '#E8342B', border: 'none', color: 'white', fontSize: 12, fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 5 }}>
               {aplicandoMut ? <Loader2 style={{ width: 12, height: 12, animation: 'spin 0.8s linear infinite' }} /> : <ArrowRight style={{ width: 12, height: 12 }} />}
               Aplicar
             </button>
@@ -199,7 +199,7 @@ function NovoPrograma({ alunos, onClose }) {
             <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 13, fontWeight: 600, color:'var(--text-secondary)' }}>Fases ({fases.length})</p>
             <div style={{ display: 'flex', gap: 8 }}>
               {FASES_PRESET[objetivo] && (
-                <button onClick={() => { setFases(FASES_PRESET[objetivo]); setUsandoPreset(true) }} style={{ fontSize: 11, fontWeight: 600, color: '#ef4444', background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: 8, padding: '5px 10px', cursor: 'pointer' }}>
+                <button onClick={() => { setFases(FASES_PRESET[objetivo]); setUsandoPreset(true) }} style={{ fontSize: 11, fontWeight: 600, color: '#E8342B', background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.25)', borderRadius: 8, padding: '5px 10px', cursor: 'pointer' }}>
                   Usar preset
                 </button>
               )}
@@ -296,7 +296,7 @@ export default function Periodizacao() {
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
-              <div style={{ width: 36, height: 36, borderRadius: 12, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 36, height: 36, borderRadius: 12, background: '#E8342B', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <BarChart2 style={{ width: 17, height: 17, color: 'white' }} />
               </div>
               <h1 style={{ fontFamily: 'Inter, sans-serif', fontSize: 26, fontWeight: 600, color:'var(--text-primary)', letterSpacing: '-0.03em', margin: 0 }}>Periodização</h1>
@@ -344,7 +344,7 @@ export default function Periodizacao() {
       {/* Lista */}
       {isLoading ? (
         <div style={{ display: 'flex', justifyContent: 'center', padding: 48 }}>
-          <Loader2 style={{ width: 24, height: 24, color: '#ef4444', animation: 'spin 1s linear infinite' }} />
+          <Loader2 style={{ width: 24, height: 24, color: '#E8342B', animation: 'spin 1s linear infinite' }} />
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: 20 }}>

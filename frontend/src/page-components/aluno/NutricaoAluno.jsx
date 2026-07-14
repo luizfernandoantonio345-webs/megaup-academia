@@ -89,7 +89,7 @@ export default function NutricaoAluno() {
         <div className="grid-macros">
           {[
             { label: 'Kcal', value: `${totalKcal}`, meta: plano.objetivo_kcal, color: '#fbbf24' },
-            { label: 'Prot.', value: `${Math.round(totalProt)}g`, meta: plano.objetivo_proteina ? `${plano.objetivo_proteina}g` : null, color: '#f87171' },
+            { label: 'Prot.', value: `${Math.round(totalProt)}g`, meta: plano.objetivo_proteina ? `${plano.objetivo_proteina}g` : null, color: '#FF8078' },
             { label: 'Carbo', value: `${Math.round(totalCarbo)}g`, meta: plano.objetivo_carbo ? `${plano.objetivo_carbo}g` : null, color: '#34d399' },
             { label: 'Gord.', value: `${Math.round(totalGord)}g`, meta: plano.objetivo_gordura ? `${plano.objetivo_gordura}g` : null, color: '#f9a8d4' },
           ].map(m => (

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 import { listarAlunos, criarAluno } from '../api'
@@ -12,9 +12,9 @@ import { useLocalStorage } from '../hooks/useLocalStorage'
 /* ── Color system ───────────────────────────────────────────────────── */
 const ALPHA = {
   A:'#6366f1',B:'#ec4899',C:'#f97316',D:'#22c55e',E:'#a855f7',F:'#06b6d4',
-  G:'#ef4444',H:'#eab308',I:'#14b8a6',J:'#8b5cf6',K:'#f43f5e',L:'#10b981',
+  G:'#E8342B',H:'#eab308',I:'#14b8a6',J:'#8b5cf6',K:'#f43f5e',L:'#10b981',
   M:'#3b82f6',N:'#fb923c',O:'#84cc16',P:'#e879f9',Q:'#2dd4bf',R:'#f472b6',
-  S:'#38bdf8',T:'#4ade80',U:'#fbbf24',V:'#818cf8',W:'#34d399',X:'#f87171',
+  S:'#38bdf8',T:'#4ade80',U:'#fbbf24',V:'#818cf8',W:'#34d399',X:'#FF8078',
   Y:'#a78bfa',Z:'#60a5fa',
 }
 const nameColor = (n) => ALPHA[(n || 'A')[0].toUpperCase()] ?? '#6366f1'
@@ -65,8 +65,8 @@ function ModalCriar({ onClose }) {
         <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:24 }}>
           <div>
             <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:6 }}>
-              <div style={{ width:36, height:36, borderRadius:11, background:'rgba(239,68,68,0.12)', border:'1px solid rgba(239,68,68,0.25)', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                <UserPlus style={{ width:17, height:17, color:'#ef4444' }} />
+              <div style={{ width:36, height:36, borderRadius:11, background:'rgba(232,52,43,0.12)', border:'1px solid rgba(232,52,43,0.25)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                <UserPlus style={{ width:17, height:17, color:'#E8342B' }} />
               </div>
               <h3 style={{ fontSize:16, fontWeight:900, color:'#F4F4F5', letterSpacing:'-0.04em' }}>Novo aluno</h3>
             </div>
@@ -229,8 +229,8 @@ export default function Alunos() {
           {[{ mode:'grid', Icon:LayoutGrid }, { mode:'list', Icon:List }].map(({ mode, Icon }) => (
             <button key={mode} onClick={() => setViewMode(mode)} style={{
               width:44, height:44,
-              background: viewMode === mode ? 'rgba(239,68,68,0.12)' : 'transparent',
-              color: viewMode === mode ? '#ef4444' : 'rgba(255,255,255,0.35)',
+              background: viewMode === mode ? 'rgba(232,52,43,0.12)' : 'transparent',
+              color: viewMode === mode ? '#E8342B' : 'rgba(255,255,255,0.35)',
               cursor:'pointer', border:'none',
               borderLeft: mode === 'list' ? '1px solid rgba(255,255,255,0.07)' : 'none',
               display:'flex', alignItems:'center', justifyContent:'center',
@@ -254,10 +254,10 @@ export default function Alunos() {
                 style={{
                   padding:'5px 14px', borderRadius:20, fontSize:12, fontWeight:700,
                   cursor:'pointer', border:'1px solid', transition:'all 0.15s',
-                  borderColor: active ? 'rgba(239,68,68,0.35)' : 'rgba(255,255,255,0.08)',
-                  background: active ? 'rgba(239,68,68,0.1)' : 'rgba(255,255,255,0.03)',
+                  borderColor: active ? 'rgba(232,52,43,0.35)' : 'rgba(255,255,255,0.08)',
+                  background: active ? 'rgba(232,52,43,0.1)' : 'rgba(255,255,255,0.03)',
                   color: active ? '#fca5a5' : 'rgba(255,255,255,0.45)',
-                  boxShadow: active ? '0 0 14px rgba(239,68,68,0.12)' : 'none',
+                  boxShadow: active ? '0 0 14px rgba(232,52,43,0.12)' : 'none',
                 }}
               >
                 {obj}
@@ -275,8 +275,8 @@ export default function Alunos() {
 
       ) : filtered.length === 0 ? (
         <div style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', padding:'80px 24px', gap:14, textAlign:'center', background:'rgba(255,255,255,0.02)', border:'1px solid rgba(255,255,255,0.06)', borderRadius:20, boxShadow:'inset 0 1px 0 rgba(255,255,255,0.04)' }}>
-          <div style={{ width:60, height:60, borderRadius:20, background:'rgba(239,68,68,0.08)', border:'1px solid rgba(239,68,68,0.18)', display:'flex', alignItems:'center', justifyContent:'center' }}>
-            <UserPlus style={{ width:28, height:28, color:'#ef4444' }} />
+          <div style={{ width:60, height:60, borderRadius:20, background:'rgba(232,52,43,0.08)', border:'1px solid rgba(232,52,43,0.18)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+            <UserPlus style={{ width:28, height:28, color:'#E8342B' }} />
           </div>
           <div>
             <p style={{ fontSize:16, fontWeight:900, color:'#F4F4F5', letterSpacing:'-0.04em', marginBottom:6 }}>
@@ -334,7 +334,7 @@ export default function Alunos() {
                   </div>
                   <div style={{ flex:1, minWidth:0 }}>
                     <div style={{ display:'flex', alignItems:'center', gap:5, marginBottom:2 }}>
-                      {pinnedIds.includes(a.id) && <Pin style={{ width:10, height:10, color:'#ef4444', flexShrink:0 }} />}
+                      {pinnedIds.includes(a.id) && <Pin style={{ width:10, height:10, color:'#E8342B', flexShrink:0 }} />}
                       <div style={{ fontSize:14, fontWeight:800, color:'#F4F4F5', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', letterSpacing:'-0.02em' }}>
                         {a.nome}
                       </div>
@@ -345,7 +345,7 @@ export default function Alunos() {
                     <button
                       onClick={e => togglePin(e, a.id)}
                       title={pinnedIds.includes(a.id) ? 'Desafixar' : 'Fixar'}
-                      style={{ background:'none', border:'none', cursor:'pointer', padding:4, color: pinnedIds.includes(a.id) ? '#ef4444' : 'rgba(255,255,255,0.25)', transition:'color 0.15s' }}
+                      style={{ background:'none', border:'none', cursor:'pointer', padding:4, color: pinnedIds.includes(a.id) ? '#E8342B' : 'rgba(255,255,255,0.25)', transition:'color 0.15s' }}
                     >
                       {pinnedIds.includes(a.id) ? <PinOff style={{ width:12, height:12 }} /> : <Pin style={{ width:12, height:12 }} />}
                     </button>
@@ -369,7 +369,7 @@ export default function Alunos() {
                     </span>
                   )}
                   {a.tem_debito && (
-                    <span style={{ fontSize:10, padding:'2px 8px', borderRadius:999, background:'rgba(239,68,68,0.09)', color:'#f87171', fontWeight:700, border:'1px solid rgba(239,68,68,0.22)' }}>⚠ Débito</span>
+                    <span style={{ fontSize:10, padding:'2px 8px', borderRadius:999, background:'rgba(232,52,43,0.09)', color:'#FF8078', fontWeight:700, border:'1px solid rgba(232,52,43,0.22)' }}>⚠ Débito</span>
                   )}
                   {a.streak_atual > 0 && (
                     <span style={{ fontSize:10, padding:'2px 8px', borderRadius:999, background:'rgba(249,115,22,0.08)', color:'#fb923c', fontWeight:700, border:'1px solid rgba(249,115,22,0.2)' }}>🔥 {a.streak_atual}d</span>
@@ -384,7 +384,7 @@ export default function Alunos() {
 
       ) : (
         /* ── LIST VIEW ──────────────────────────────────────────────── */
-        <div style={{ background:'#111113', border:'1px solid rgba(255,255,255,0.06)', borderRadius:20, overflow:'hidden', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.05)' }}>
+        <div style={{ background:'#141416', border:'1px solid rgba(255,255,255,0.06)', borderRadius:20, overflow:'hidden', boxShadow:'inset 0 1px 0 rgba(255,255,255,0.05)' }}>
           {filtered.map((a, i) => {
             const c = nameColor(a.nome)
             return (
@@ -409,7 +409,7 @@ export default function Alunos() {
                 <div style={{ flex:1, minWidth:0 }}>
                   <div style={{ display:'flex', alignItems:'center', gap:7, marginBottom:2 }}>
                     <span style={{ fontSize:13, fontWeight:800, color:'#F4F4F5', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', letterSpacing:'-0.01em' }}>{a.nome}</span>
-                    {a.tem_debito && <span style={{ fontSize:10, padding:'1px 6px', borderRadius:999, background:'rgba(239,68,68,0.1)', color:'#f87171', fontWeight:700, flexShrink:0, border:'1px solid rgba(239,68,68,0.22)' }}>⚠</span>}
+                    {a.tem_debito && <span style={{ fontSize:10, padding:'1px 6px', borderRadius:999, background:'rgba(232,52,43,0.1)', color:'#FF8078', fontWeight:700, flexShrink:0, border:'1px solid rgba(232,52,43,0.22)' }}>⚠</span>}
                     {a.streak_atual > 0 && <span style={{ fontSize:10, padding:'1px 6px', borderRadius:999, background:'rgba(249,115,22,0.08)', color:'#fb923c', fontWeight:700, flexShrink:0 }}>🔥</span>}
                   </div>
                   <div style={{ fontSize:11, color:'rgba(255,255,255,0.35)', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{a.email}</div>
@@ -419,7 +419,7 @@ export default function Alunos() {
                     {a.objetivo}
                   </span>
                 )}
-                {pinnedIds.includes(a.id) && <Pin style={{ width:11, height:11, color:'#ef4444', flexShrink:0 }} />}
+                {pinnedIds.includes(a.id) && <Pin style={{ width:11, height:11, color:'#E8342B', flexShrink:0 }} />}
                 <ChevronRight style={{ width:15, height:15, color:'rgba(255,255,255,0.22)', flexShrink:0 }} />
               </Link>
             )

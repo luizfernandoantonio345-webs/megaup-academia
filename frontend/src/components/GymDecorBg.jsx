@@ -40,7 +40,7 @@ export function SvgDumbbellHero({ style, uid = 'hero' }) {
         <linearGradient id={`${p}-op`} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%"   stopColor="#6B7280"/>
           <stop offset="18%"  stopColor="#27272A"/>
-          <stop offset="45%"  stopColor="#111113"/>
+          <stop offset="45%"  stopColor="#141416"/>
           <stop offset="78%"  stopColor="#27272A"/>
           <stop offset="100%" stopColor="#6B7280"/>
         </linearGradient>
@@ -54,8 +54,8 @@ export function SvgDumbbellHero({ style, uid = 'hero' }) {
         </linearGradient>
         {/* Collar — MegaUp red metallic */}
         <linearGradient id={`${p}-cl`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%"   stopColor="#f87171"/>
-          <stop offset="50%"  stopColor="#ef4444"/>
+          <stop offset="0%"   stopColor="#FF8078"/>
+          <stop offset="50%"  stopColor="#E8342B"/>
           <stop offset="100%" stopColor="#b91c1c"/>
         </linearGradient>
         {/* Bar — chrome / steel */}
@@ -120,32 +120,32 @@ export function GymDecorBg() {
     <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden' }}>
       <SvgDumbbell style={{
         position: 'absolute', top: -30, right: -80, width: 460,
-        color: '#ef4444', opacity: 0.05, transform: 'rotate(-13deg)',
+        color: '#E8342B', opacity: 0.05, transform: 'rotate(-13deg)',
         animation: 'float 9s ease-in-out infinite',
       }} />
       <SvgDumbbell style={{
         position: 'absolute', bottom: -20, left: -110, width: 360,
-        color: '#f87171', opacity: 0.038, transform: 'rotate(17deg)',
+        color: '#FF8078', opacity: 0.038, transform: 'rotate(17deg)',
         animation: 'float 11s ease-in-out infinite 2s',
       }} />
       <SvgDumbbell style={{
         position: 'absolute', top: '44%', right: -40, width: 220,
-        color: '#ef4444', opacity: 0.028, transform: 'rotate(-7deg)',
+        color: '#E8342B', opacity: 0.028, transform: 'rotate(-7deg)',
         animation: 'float 7s ease-in-out infinite 1s',
       }} />
       <SvgPlate style={{
         position: 'absolute', top: '4%', left: '10%', width: 140,
-        color: '#ef4444', opacity: 0.04,
+        color: '#E8342B', opacity: 0.04,
         animation: 'float 13s ease-in-out infinite 0.5s',
       }} />
       <SvgPlate style={{
         position: 'absolute', bottom: '6%', right: '3%', width: 190,
-        color: '#f87171', opacity: 0.032,
+        color: '#FF8078', opacity: 0.032,
         animation: 'float 10s ease-in-out infinite 3s',
       }} />
       <SvgPlate style={{
         position: 'absolute', top: '-5%', left: '43%', width: 110,
-        color: '#ef4444', opacity: 0.025,
+        color: '#E8342B', opacity: 0.025,
         animation: 'float 8s ease-in-out infinite 1.5s',
       }} />
     </div>

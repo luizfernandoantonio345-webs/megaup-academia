@@ -69,7 +69,7 @@ export default function Referral() {
         </div>
         <div style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '20px 22px' }}>
           <p style={{ fontSize: 11, color:'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 10 }}>Próxima meta</p>
-          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 28, fontWeight: 600, color: '#f87171' }}>{nextMilestone.qty}</p>
+          <p style={{ fontFamily: 'Inter, sans-serif', fontSize: 28, fontWeight: 600, color: '#FF8078' }}>{nextMilestone.qty}</p>
         </div>
       </div>
 
@@ -84,7 +84,7 @@ export default function Referral() {
           </div>
           <button
             onClick={copyLink}
-            style={{ background: copied ? 'rgba(52,211,153,0.15)' : 'rgba(99,102,241,0.15)', border: `1px solid ${copied ? 'rgba(52,211,153,0.3)' : 'rgba(99,102,241,0.3)'}`, borderRadius: 12, color: copied ? '#34d399' : '#f87171', cursor: 'pointer', fontWeight: 600, fontSize: 13, padding: '12px 18px', display: 'flex', alignItems: 'center', gap: 7, transition: 'all 0.15s', whiteSpace: 'nowrap' }}
+            style={{ background: copied ? 'rgba(52,211,153,0.15)' : 'rgba(99,102,241,0.15)', border: `1px solid ${copied ? 'rgba(52,211,153,0.3)' : 'rgba(99,102,241,0.3)'}`, borderRadius: 12, color: copied ? '#34d399' : '#FF8078', cursor: 'pointer', fontWeight: 600, fontSize: 13, padding: '12px 18px', display: 'flex', alignItems: 'center', gap: 7, transition: 'all 0.15s', whiteSpace: 'nowrap' }}
           >
             {copied ? <><Check style={{ width: 15, height: 15 }} /> Copiado!</> : <><Copy style={{ width: 15, height: 15 }} /> Copiar</>}
           </button>
@@ -102,13 +102,13 @@ export default function Referral() {
         <div style={{ background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.07)', borderRadius: 18, padding: '20px 24px', marginBottom: 28 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
             <p style={{ fontSize: 13, fontWeight: 600, color:'var(--text-secondary)' }}>Progresso para próxima recompensa</p>
-            <p style={{ fontSize: 13, fontWeight: 600, color: '#f87171' }}>{indicados} / {nextMilestone.qty}</p>
+            <p style={{ fontSize: 13, fontWeight: 600, color: '#FF8078' }}>{indicados} / {nextMilestone.qty}</p>
           </div>
           <div style={{ height: 8, background: 'rgba(255,255,255,0.06)', borderRadius: 4, overflow: 'hidden' }}>
-            <div style={{ height: '100%', width: `${Math.min(100, (indicados / nextMilestone.qty) * 100)}%`, background: 'linear-gradient(90deg, #ef4444, #a78bfa)', borderRadius: 4, transition: 'width 0.6s ease' }} />
+            <div style={{ height: '100%', width: `${Math.min(100, (indicados / nextMilestone.qty) * 100)}%`, background: 'linear-gradient(90deg, #E8342B, #a78bfa)', borderRadius: 4, transition: 'width 0.6s ease' }} />
           </div>
           <p style={{ fontSize: 12, color:'var(--text-muted)', marginTop: 10 }}>
-            Faltam <strong style={{ color: '#f87171' }}>{nextMilestone.qty - indicados} indicação{nextMilestone.qty - indicados !== 1 ? 'ões' : ''}</strong> para {nextMilestone.icon} {nextMilestone.reward}
+            Faltam <strong style={{ color: '#FF8078' }}>{nextMilestone.qty - indicados} indicação{nextMilestone.qty - indicados !== 1 ? 'ões' : ''}</strong> para {nextMilestone.icon} {nextMilestone.reward}
           </p>
         </div>
       )}
@@ -143,12 +143,12 @@ export default function Referral() {
 
       {/* How it works */}
       <div style={{ marginTop: 24, background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.15)', borderRadius: 18, padding: '18px 22px' }}>
-        <p style={{ fontSize: 13, fontWeight: 600, color: '#f87171', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
+        <p style={{ fontSize: 13, fontWeight: 600, color: '#FF8078', marginBottom: 12, display: 'flex', alignItems: 'center', gap: 8 }}>
           <Zap style={{ width: 14, height: 14 }} /> Como funciona
         </p>
         {['Compartilhe seu link exclusivo com outros personal trainers.', 'Quando alguém criar uma conta usando seu link, contamos como uma indicação.', 'Ao atingir as metas, entre em contato para resgatar sua recompensa.'].map((t, i) => (
           <div key={i} style={{ display: 'flex', gap: 10, marginBottom: i < 2 ? 8 : 0 }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: '#ef4444', minWidth: 18, paddingTop: 1 }}>0{i + 1}</span>
+            <span style={{ fontSize: 11, fontWeight: 600, color: '#E8342B', minWidth: 18, paddingTop: 1 }}>0{i + 1}</span>
             <p style={{ fontSize: 13, color:'var(--text-muted)', lineHeight: 1.5 }}>{t}</p>
           </div>
         ))}

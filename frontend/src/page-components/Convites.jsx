@@ -53,7 +53,7 @@ export default function Convites() {
           <p className="page-subtitle">Gere um link e envie para o aluno via WhatsApp ou e-mail.</p>
         </div>
         <div className="w-11 h-11 rounded-2xl flex items-center justify-center"
-          style={{ background: '#ef4444' }}>
+          style={{ background: '#E8342B' }}>
           <UserPlus style={{ width: 20, height: 20, color: 'white' }} />
         </div>
       </div>
@@ -79,7 +79,7 @@ export default function Convites() {
       <div className="card space-y-5">
         <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
           <div style={{ width: 40, height: 40, background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 14, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <UserPlus style={{ width: 18, height: 18, color: '#f87171' }} />
+            <UserPlus style={{ width: 18, height: 18, color: '#FF8078' }} />
           </div>
           <div>
             <h2 style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, color:'var(--text-primary)', fontSize: 15 }}>Novo convite</h2>

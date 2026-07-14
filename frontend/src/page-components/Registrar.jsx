@@ -13,10 +13,10 @@ function senhaForca(senha) {
   if (/[A-Z]/.test(senha)) score++
   if (/[0-9]/.test(senha)) score++
   if (/[^A-Za-z0-9]/.test(senha)) score++
-  if (score <= 1) return { score, label: 'Fraca',  color: '#f87171' }
+  if (score <= 1) return { score, label: 'Fraca',  color: '#FF8078' }
   if (score <= 2) return { score, label: 'Média',  color: '#fbbf24' }
   if (score <= 3) return { score, label: 'Boa',    color: '#34d399' }
-  return              { score, label: 'Forte', color: '#ef4444' }
+  return              { score, label: 'Forte', color: '#E8342B' }
 }
 
 function PasswordStrength({ senha }) {
@@ -138,7 +138,7 @@ export default function Registrar() {
 
         <div style={{ position: 'relative' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 44 }}>
-            <div style={{ width: 28, height: 28, borderRadius: 8, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 28, height: 28, borderRadius: 8, background: '#E8342B', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 14, height: 14, color: 'white' }} />
             </div>
             <span style={{ fontSize: 15, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.02em' }}>MegaUp</span>
@@ -165,9 +165,9 @@ export default function Registrar() {
             }} />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                <SvgPlate style={{ width: 26, color: '#f87171', opacity: 0.7 }} />
+                <SvgPlate style={{ width: 26, color: '#FF8078', opacity: 0.7 }} />
                 <SvgPlate style={{ width: 22, color: '#a78bfa', opacity: 0.5 }} />
-                <SvgPlate style={{ width: 18, color: '#ef4444', opacity: 0.4 }} />
+                <SvgPlate style={{ width: 18, color: '#E8342B', opacity: 0.4 }} />
               </div>
               <span style={{ fontSize: 10, color: 'var(--text-disabled)', fontWeight: 500, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
                 Grátis para começar
@@ -194,7 +194,7 @@ export default function Registrar() {
         <div style={{ width: '100%', maxWidth: 360 }} className="animate-fade-in">
           {/* Mobile logo */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 32 }} className="lg:hidden">
-            <div style={{ width: 26, height: 26, borderRadius: 7, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <div style={{ width: 26, height: 26, borderRadius: 7, background: '#E8342B', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Zap style={{ width: 13, height: 13, color: 'white' }} />
             </div>
             <span style={{ fontSize: 14, fontWeight: 600, color: 'var(--text-primary)' }}>MegaUp</span>
@@ -211,7 +211,7 @@ export default function Registrar() {
             <h2 style={{ fontSize: 20, fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '-0.02em', marginBottom: 6 }}>Criar conta de personal</h2>
             <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>
               Já tem conta?{' '}
-              <Link to="/login" style={{ color: '#ef4444', fontWeight: 500, textDecoration: 'none' }}>Entrar</Link>
+              <Link to="/login" style={{ color: '#E8342B', fontWeight: 500, textDecoration: 'none' }}>Entrar</Link>
             </p>
           </div>
 
@@ -247,8 +247,8 @@ export default function Registrar() {
               <div
                 onClick={() => setTermosAceitos(!termosAceitos)}
                 style={{
-                  width: 18, height: 18, borderRadius: 5, border: `1.5px solid ${termosAceitos ? '#ef4444' : 'var(--text-disabled)'}`,
-                  background: termosAceitos ? '#ef4444' : 'transparent',
+                  width: 18, height: 18, borderRadius: 5, border: `1.5px solid ${termosAceitos ? '#E8342B' : 'var(--text-disabled)'}`,
+                  background: termosAceitos ? '#E8342B' : 'transparent',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   flexShrink: 0, marginTop: 1, transition: 'all 0.15s', cursor: 'pointer',
                 }}
@@ -257,9 +257,9 @@ export default function Registrar() {
               </div>
               <span style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.6 }}>
                 Li e aceito os{' '}
-                <Link to="/termos" target="_blank" style={{ color: '#f87171', textDecoration: 'none', fontWeight: 500 }}>Termos de Uso</Link>
+                <Link to="/termos" target="_blank" style={{ color: '#FF8078', textDecoration: 'none', fontWeight: 500 }}>Termos de Uso</Link>
                 {' '}e a{' '}
-                <Link to="/privacidade" target="_blank" style={{ color: '#f87171', textDecoration: 'none', fontWeight: 500 }}>Política de Privacidade</Link>
+                <Link to="/privacidade" target="_blank" style={{ color: '#FF8078', textDecoration: 'none', fontWeight: 500 }}>Política de Privacidade</Link>
                 {' '}(LGPD)
               </span>
             </label>

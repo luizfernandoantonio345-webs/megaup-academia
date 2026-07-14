@@ -74,7 +74,7 @@ export default function Financeiro() {
   const STATS = [
     { icon:TrendingUp,  label:'Receita mensal prevista', value:fmt(resumo?.receita_mensal_prevista ?? 0), color:'#10b981', loading:loadingResumo },
     { icon:Users,       label:'Alunos com plano',        value:resumo?.total_alunos_com_plano ?? 0,       color:'#6366f1', loading:loadingResumo },
-    { icon:AlertCircle, label:'Inadimplentes',            value:resumo?.inadimplentes ?? 0,                color:'#f87171', loading:loadingResumo },
+    { icon:AlertCircle, label:'Inadimplentes',            value:resumo?.inadimplentes ?? 0,                color:'#FF8078', loading:loadingResumo },
     { icon:Wallet,      label:'Valor inadimplente',       value:fmt(resumo?.valor_inadimplente ?? 0),      color:'#fbbf24', loading:loadingResumo },
   ]
 
@@ -221,7 +221,7 @@ export default function Financeiro() {
                           <td className="px-4 py-3 whitespace-nowrap"><StatusBadge status={c.status} /></td>
                           <td className="px-4 py-3">
                             {c.link_pagamento ? (
-                              <a href={c.link_pagamento} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-semibold" style={{ color:'#f87171' }}>
+                              <a href={c.link_pagamento} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-semibold" style={{ color:'#FF8078' }}>
                                 <ExternalLink style={{ width:12, height:12 }} /> PIX
                               </a>
                             ) : <span style={{ color:'var(--text-disabled)', fontSize:12 }}>—</span>}
@@ -327,7 +327,7 @@ export default function Financeiro() {
                         <p style={{ fontSize:11, color:'var(--text-muted)', marginTop:2 }}>Vence dia {p.dia_vencimento}</p>
                       </div>
                       {p.status === 'ativo' && (
-                        <button onClick={() => mutInativarPlano.mutate(p.id)} className="flex items-center gap-1 text-xs font-semibold" style={{ color:'#f87171' }}>
+                        <button onClick={() => mutInativarPlano.mutate(p.id)} className="flex items-center gap-1 text-xs font-semibold" style={{ color:'#FF8078' }}>
                           <Ban style={{ width:12, height:12 }} /> Inativar
                         </button>
                       )}

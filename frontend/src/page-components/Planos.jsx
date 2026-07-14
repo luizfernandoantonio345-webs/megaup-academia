@@ -191,7 +191,7 @@ export default function Planos() {
             onClick={() => setAnual(!anual)}
             style={{
               width: 52, height: 28, borderRadius: 14, position: 'relative', cursor: 'pointer', border: 'none',
-              background: anual ? '#ef4444' : 'rgba(255,255,255,0.1)',
+              background: anual ? '#E8342B' : 'rgba(255,255,255,0.1)',
               transition: 'background 0.3s',
             }}
           >
@@ -384,7 +384,7 @@ export default function Planos() {
           </div>
           <p style={{ fontSize: 12, color:'var(--text-disabled)' }}>
             Dúvidas? Fale conosco:{' '}
-            <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer" style={{ color: '#ef4444', fontWeight: 600, textDecoration: 'none' }}>@luuiz.dev</a>
+            <a href="https://www.instagram.com/luuiz.dev" target="_blank" rel="noopener noreferrer" style={{ color: '#E8342B', fontWeight: 600, textDecoration: 'none' }}>@luuiz.dev</a>
           </p>
         </div>
       </div>

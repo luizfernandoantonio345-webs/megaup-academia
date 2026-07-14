@@ -5,10 +5,10 @@ import { Calendar, Plus, Clock, User, Video, MapPin, Check, X, Trash2, ChevronLe
 import toast from 'react-hot-toast'
 
 const STATUS_MAP = {
-  agendada:   { label: 'Agendada',   color: '#f87171', bg: 'rgba(129,140,248,0.12)' },
+  agendada:   { label: 'Agendada',   color: '#FF8078', bg: 'rgba(129,140,248,0.12)' },
   confirmada: { label: 'Confirmada', color: '#34d399', bg: 'rgba(52,211,153,0.12)'  },
   concluida:  { label: 'Concluída',  color:'var(--text-muted)', bg: 'rgba(75,87,104,0.12)'   },
-  cancelada:  { label: 'Cancelada',  color: '#f87171', bg: 'rgba(248,113,113,0.12)' },
+  cancelada:  { label: 'Cancelada',  color: '#FF8078', bg: 'rgba(248,113,113,0.12)' },
 }
 
 const MESES = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
@@ -103,9 +103,9 @@ export default function Agenda() {
         </div>
         <button
           onClick={() => setShowModal(true)}
-          style={{ background: 'linear-gradient(135deg,#ef4444,#dc2626)', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 700, fontSize: 14, padding: '10px 20px', display: 'flex', alignItems: 'center', gap: 8, boxShadow:'0 4px 16px rgba(239,68,68,0.35)', transition:'all 0.15s' }}
-          onMouseEnter={e=>{ e.currentTarget.style.boxShadow='0 6px 22px rgba(239,68,68,0.5)'; e.currentTarget.style.transform='translateY(-1px)' }}
-          onMouseLeave={e=>{ e.currentTarget.style.boxShadow='0 4px 16px rgba(239,68,68,0.35)'; e.currentTarget.style.transform='translateY(0)' }}
+          style={{ background: 'linear-gradient(135deg,#E8342B,#C8291F)', border: 'none', borderRadius: 12, color: 'white', cursor: 'pointer', fontWeight: 700, fontSize: 14, padding: '10px 20px', display: 'flex', alignItems: 'center', gap: 8, boxShadow:'0 4px 16px rgba(232,52,43,0.35)', transition:'all 0.15s' }}
+          onMouseEnter={e=>{ e.currentTarget.style.boxShadow='0 6px 22px rgba(232,52,43,0.5)'; e.currentTarget.style.transform='translateY(-1px)' }}
+          onMouseLeave={e=>{ e.currentTarget.style.boxShadow='0 4px 16px rgba(232,52,43,0.35)'; e.currentTarget.style.transform='translateY(0)' }}
         >
           <Plus style={{ width: 16, height: 16 }} /> Agendar sessão
         </button>
@@ -137,7 +137,7 @@ export default function Agenda() {
                   border: isHoje ? '1px solid rgba(99,102,241,0.4)' : temSessao ? '1px solid rgba(56,189,248,0.2)' : '1px solid transparent',
                   cursor: temSessao ? 'pointer' : 'default',
                 }}>
-                  <span style={{ fontSize: 12, fontWeight: isHoje ? 800 : 600, color: isHoje ? '#f87171' : 'var(--text-secondary)' }}>{dia}</span>
+                  <span style={{ fontSize: 12, fontWeight: isHoje ? 800 : 600, color: isHoje ? '#FF8078' : 'var(--text-secondary)' }}>{dia}</span>
                   {temSessao && (
                     <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#38bdf8', boxShadow: '0 0 6px #38bdf8' }} />
                   )}
@@ -169,7 +169,7 @@ export default function Agenda() {
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
                   {s.tipo === 'online'
-                    ? <Video style={{ width: 13, height: 13, color: '#f87171' }} />
+                    ? <Video style={{ width: 13, height: 13, color: '#FF8078' }} />
                     : <MapPin style={{ width: 13, height: 13, color: '#34d399' }} />
                   }
                   <span style={{ fontSize: 12, color:'var(--text-muted)', textTransform: 'capitalize' }}>{s.tipo}</span>
@@ -181,11 +181,11 @@ export default function Agenda() {
                     </button>
                   )}
                   {s.status !== 'concluida' && s.status !== 'cancelada' && (
-                    <button onClick={() => atualizar.mutate({ id: s.id, status: 'concluida' })} style={{ flex: 1, background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 10, color: '#f87171', cursor: 'pointer', fontSize: 11, fontWeight: 600, padding: '6px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
+                    <button onClick={() => atualizar.mutate({ id: s.id, status: 'concluida' })} style={{ flex: 1, background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 10, color: '#FF8078', cursor: 'pointer', fontSize: 11, fontWeight: 600, padding: '6px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 4 }}>
                       Concluir
                     </button>
                   )}
-                  <button onClick={() => { if (confirm('Remover sessão?')) deletar.mutate(s.id) }} style={{ width: 32, background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: 10, color: '#f87171', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <button onClick={() => { if (confirm('Remover sessão?')) deletar.mutate(s.id) }} style={{ width: 32, background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.2)', borderRadius: 10, color: '#FF8078', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                     <Trash2 style={{ width: 12, height: 12 }} />
                   </button>
                 </div>
@@ -233,7 +233,7 @@ export default function Agenda() {
                 <label style={{ fontSize: 12, fontWeight: 600, color:'var(--text-muted)', display: 'block', marginBottom: 6 }}>Observações</label>
                 <textarea value={form.notas} onChange={set('notas')} rows={2} placeholder="Foco do treino, local..." style={{ width: '100%', background:'var(--bg-card)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 12, color:'var(--text-primary)', fontSize: 14, padding: '10px 14px', resize: 'vertical', boxSizing: 'border-box' }} />
               </div>
-              <button type="submit" disabled={criar.isPending} style={{ background: '#ef4444', border: 'none', borderRadius: 14, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 15, padding: '13px', marginTop: 4 }}>
+              <button type="submit" disabled={criar.isPending} style={{ background: '#E8342B', border: 'none', borderRadius: 14, color: 'white', cursor: 'pointer', fontWeight: 600, fontSize: 15, padding: '13px', marginTop: 4 }}>
                 {criar.isPending ? 'Agendando…' : 'Confirmar agendamento'}
               </button>
             </form>

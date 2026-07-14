@@ -1,4 +1,4 @@
-import { useState } from 'react'
+﻿import { useState } from 'react'
 import { useNavigate, Link, useSearchParams } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import toast from 'react-hot-toast'
@@ -6,7 +6,7 @@ import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 /* ── SVG Dumbbell Logo ───────────────────────────────────────────────── */
-function DumbbellSVG({ size = 32, color = '#ef4444' }) {
+function DumbbellSVG({ size = 32, color = '#E8342B' }) {
   return (
     <svg width={size} height={Math.round(size * 0.54)} viewBox="0 0 50 27" fill="none" aria-hidden>
       {/* left outer plate */}
@@ -29,16 +29,16 @@ function LogoBox({ size = 72 }) {
     <div style={{
       width: size, height: size, flexShrink: 0,
       background: 'linear-gradient(145deg, #1e1f26, #111113)',
-      border: '1.5px solid rgba(239,68,68,0.45)',
+      border: '1.5px solid rgba(232,52,43,0.45)',
       borderRadius: Math.round(size * 0.26),
       display: 'flex', alignItems: 'center', justifyContent: 'center',
       boxShadow: [
-        '0 0 36px rgba(239,68,68,0.28)',
-        '0 0 12px rgba(239,68,68,0.14) inset',
+        '0 0 36px rgba(232,52,43,0.28)',
+        '0 0 12px rgba(232,52,43,0.14) inset',
         'inset 0 1px 0 rgba(255,255,255,0.08)',
       ].join(', '),
     }}>
-      <DumbbellSVG size={Math.round(size * 0.48)} color="#ef4444" />
+      <DumbbellSVG size={Math.round(size * 0.48)} color="#E8342B" />
     </div>
   )
 }
@@ -49,10 +49,10 @@ function Bracket({ top, right, bottom, left }) {
     <div style={{
       position: 'absolute', width: 20, height: 20, pointerEvents: 'none',
       top, right, bottom, left,
-      borderTop:    top    != null ? '2px solid rgba(239,68,68,0.38)' : undefined,
-      borderLeft:   left   != null ? '2px solid rgba(239,68,68,0.38)' : undefined,
-      borderBottom: bottom != null ? '2px solid rgba(239,68,68,0.38)' : undefined,
-      borderRight:  right  != null ? '2px solid rgba(239,68,68,0.38)' : undefined,
+      borderTop:    top    != null ? '2px solid rgba(232,52,43,0.38)' : undefined,
+      borderLeft:   left   != null ? '2px solid rgba(232,52,43,0.38)' : undefined,
+      borderBottom: bottom != null ? '2px solid rgba(232,52,43,0.38)' : undefined,
+      borderRight:  right  != null ? '2px solid rgba(232,52,43,0.38)' : undefined,
       borderRadius:
         top    != null && left   != null ? '14px 0 0 0'  :
         top    != null && right  != null ? '0 14px 0 0'  :
@@ -111,10 +111,10 @@ export default function Login() {
   }
 
   return (
-    <div style={{ minHeight: '100dvh', display: 'flex', background: '#0C0C0D', overflow: 'hidden', position: 'relative' }}>
+    <div style={{ minHeight: '100dvh', display: 'flex', background: '#0D0D0F', overflow: 'hidden', position: 'relative' }}>
 
       {/* ── Global orbs ── */}
-      <div aria-hidden style={{ position:'absolute', top:'-18%',  left:'-8%',  width:700, height:700, borderRadius:'50%', background:'radial-gradient(circle, rgba(239,68,68,0.10) 0%, transparent 65%)', filter:'blur(90px)', pointerEvents:'none', zIndex:0 }} />
+      <div aria-hidden style={{ position:'absolute', top:'-18%',  left:'-8%',  width:700, height:700, borderRadius:'50%', background:'radial-gradient(circle, rgba(232,52,43,0.10) 0%, transparent 65%)', filter:'blur(90px)', pointerEvents:'none', zIndex:0 }} />
       <div aria-hidden style={{ position:'absolute', bottom:'-18%',right:'-8%', width:600, height:600, borderRadius:'50%', background:'radial-gradient(circle, rgba(99,102,241,0.07) 0%, transparent 65%)',  filter:'blur(80px)', pointerEvents:'none', zIndex:0 }} />
       {/* dot grid */}
       <div aria-hidden style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(rgba(255,255,255,0.016) 1px, transparent 1px)', backgroundSize:'28px 28px', pointerEvents:'none', zIndex:0 }} />
@@ -143,7 +143,7 @@ export default function Login() {
           <div style={{ marginBottom:52 }}>
             <h1 style={{ fontFamily:'Inter,sans-serif', fontSize:'clamp(32px,3.5vw,46px)', fontWeight:900, color:'#F4F4F5', letterSpacing:'-0.055em', lineHeight:1.08, marginBottom:18 }}>
               Transforme cada<br/>
-              <span style={{ color:'#ef4444', textShadow:'0 0 48px rgba(239,68,68,0.55)' }}>treino</span>{' '}em<br/>resultado.
+              <span style={{ color:'#E8342B', textShadow:'0 0 48px rgba(232,52,43,0.55)' }}>treino</span>{' '}em<br/>resultado.
             </h1>
             <p style={{ fontSize:14, color:'rgba(255,255,255,0.42)', lineHeight:1.7, maxWidth:320 }}>
               Plataforma completa para personal trainers e academias gerenciarem alunos com inteligência artificial.
@@ -157,7 +157,7 @@ export default function Login() {
                 initial={{ opacity:0, x:-16 }} animate={{ opacity:1, x:0 }}
                 transition={{ delay:0.18 + i * 0.09, duration:0.5, ease:[0.16,1,0.3,1] }}
                 style={{ display:'flex', alignItems:'flex-start', gap:14 }}>
-                <div style={{ width:40, height:40, borderRadius:12, background:'rgba(239,68,68,0.1)', border:'1px solid rgba(239,68,68,0.18)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, flexShrink:0, boxShadow:'0 0 16px rgba(239,68,68,0.08)' }}>
+                <div style={{ width:40, height:40, borderRadius:12, background:'rgba(232,52,43,0.1)', border:'1px solid rgba(232,52,43,0.18)', display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, flexShrink:0, boxShadow:'0 0 16px rgba(232,52,43,0.08)' }}>
                   {icon}
                 </div>
                 <div>
@@ -185,7 +185,7 @@ export default function Login() {
             padding:'clamp(28px,7vw,46px) clamp(20px,6vw,42px)',
             boxShadow:[
               '0 36px 72px -12px rgba(0,0,0,0.8)',
-              '0 0 0 1px rgba(239,68,68,0.07)',
+              '0 0 0 1px rgba(232,52,43,0.07)',
               'inset 0 1px 0 rgba(255,255,255,0.06)',
             ].join(', '),
           }}
@@ -233,12 +233,12 @@ export default function Login() {
                 <input type="email" className="login-input" placeholder="E-mail"
                   value={form.email} onChange={set('email')} onBlur={touch('email')}
                   required autoComplete="email"
-                  style={errors.email ? { borderColor:'rgba(239,68,68,0.6)', boxShadow:'0 0 0 4px rgba(239,68,68,0.10)' } : {}} />
+                  style={errors.email ? { borderColor:'rgba(232,52,43,0.6)', boxShadow:'0 0 0 4px rgba(232,52,43,0.10)' } : {}} />
               </div>
               <AnimatePresence>
                 {errors.email && (
                   <motion.p initial={{ opacity:0, y:-4 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, y:-4 }}
-                    style={{ fontSize:11, color:'#f87171', marginTop:5, marginLeft:4 }}>{errors.email}</motion.p>
+                    style={{ fontSize:11, color:'#FF8078', marginTop:5, marginLeft:4 }}>{errors.email}</motion.p>
                 )}
               </AnimatePresence>
             </div>
@@ -250,7 +250,7 @@ export default function Login() {
                 <input type={showPw ? 'text' : 'password'} className="login-input login-input-password"
                   placeholder="Senha" value={form.senha} onChange={set('senha')} onBlur={touch('senha')}
                   required autoComplete="current-password"
-                  style={errors.senha ? { borderColor:'rgba(239,68,68,0.6)', boxShadow:'0 0 0 4px rgba(239,68,68,0.10)' } : {}} />
+                  style={errors.senha ? { borderColor:'rgba(232,52,43,0.6)', boxShadow:'0 0 0 4px rgba(232,52,43,0.10)' } : {}} />
                 <button type="button" onClick={() => setShowPw(v => !v)} aria-label={showPw ? 'Ocultar senha' : 'Mostrar senha'}
                   style={{ position:'absolute', right:14, top:'50%', transform:'translateY(-50%)', background:'none', border:'none', cursor:'pointer', color:'rgba(255,255,255,0.28)', padding:4, display:'flex', alignItems:'center', transition:'color 150ms' }}
                   onMouseEnter={e => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
@@ -261,7 +261,7 @@ export default function Login() {
               <AnimatePresence>
                 {errors.senha && (
                   <motion.p initial={{ opacity:0, y:-4 }} animate={{ opacity:1, y:0 }} exit={{ opacity:0, y:-4 }}
-                    style={{ fontSize:11, color:'#f87171', marginTop:5, marginLeft:4 }}>{errors.senha}</motion.p>
+                    style={{ fontSize:11, color:'#FF8078', marginTop:5, marginLeft:4 }}>{errors.senha}</motion.p>
                 )}
               </AnimatePresence>
             </div>
@@ -270,7 +270,7 @@ export default function Login() {
             <div style={{ display:'flex', justifyContent:'flex-end', marginTop:-2 }}>
               <Link to="/esqueci-senha"
                 style={{ fontSize:13, color:'rgba(255,255,255,0.32)', textDecoration:'none', fontWeight:500, transition:'color 150ms' }}
-                onMouseEnter={e => e.currentTarget.style.color = '#ef4444'}
+                onMouseEnter={e => e.currentTarget.style.color = '#E8342B'}
                 onMouseLeave={e => e.currentTarget.style.color = 'rgba(255,255,255,0.32)'}>
                 Esqueci minha senha
               </Link>

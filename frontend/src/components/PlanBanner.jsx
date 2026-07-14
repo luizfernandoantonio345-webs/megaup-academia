@@ -48,12 +48,12 @@ export default function PlanBanner() {
       bg: 'rgba(99,102,241,0.08)',
       border: 'rgba(99,102,241,0.2)',
       icon: Zap,
-      iconColor: '#f87171',
+      iconColor: '#FF8078',
       text: 'Você está no plano Free — limite de 3 alunos',
       sub: 'Faça upgrade para escalar sua academia.',
       cta: 'Fazer upgrade',
       ctaBg: 'rgba(99,102,241,0.18)',
-      ctaColor: '#f87171',
+      ctaColor: '#FF8078',
       ctaBorder: 'rgba(99,102,241,0.28)',
     }
   } else if (nearLimit) {

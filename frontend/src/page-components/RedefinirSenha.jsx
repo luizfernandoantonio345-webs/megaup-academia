@@ -44,10 +44,10 @@ export default function RedefinirSenha() {
     return (
       <div style={{ minHeight: '100vh', background:'var(--bg-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
         <div style={{ textAlign: 'center', maxWidth: 340 }}>
-          <XCircle style={{ width: 48, height: 48, color: '#f87171', margin: '0 auto 16px' }} />
+          <XCircle style={{ width: 48, height: 48, color: '#FF8078', margin: '0 auto 16px' }} />
           <h2 style={{ fontFamily: 'Inter, sans-serif', fontSize: 20, fontWeight: 600, color:'var(--text-primary)', marginBottom: 8 }}>Link inválido</h2>
           <p style={{ fontSize: 14, color:'var(--text-muted)', marginBottom: 20 }}>O link de redefinição é inválido ou expirou.</p>
-          <Link to="/esqueci-senha" style={{ color: '#f87171', fontWeight: 600, fontSize: 14 }}>Solicitar novo link</Link>
+          <Link to="/esqueci-senha" style={{ color: '#FF8078', fontWeight: 600, fontSize: 14 }}>Solicitar novo link</Link>
         </div>
       </div>
     )
@@ -57,7 +57,7 @@ export default function RedefinirSenha() {
     <div style={{ minHeight: '100vh', background:'var(--bg-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
       <div style={{ width: '100%', maxWidth: 420 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 40, justifyContent: 'center' }}>
-          <div style={{ width: 38, height: 38, borderRadius: 13, background: '#ef4444', outline: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <div style={{ width: 38, height: 38, borderRadius: 13, background: '#E8342B', outline: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Zap style={{ width: 18, height: 18, color: 'white' }} />
           </div>
           <span style={{ fontFamily: 'Inter, sans-serif', fontWeight: 600, fontSize: 20, color:'var(--text-primary)', letterSpacing: '-0.02em' }}>MegaUp</span>
@@ -81,8 +81,8 @@ export default function RedefinirSenha() {
 
               {erro && (
                 <div style={{ background: 'rgba(248,113,113,0.1)', border: '1px solid rgba(248,113,113,0.25)', borderRadius: 12, padding: '12px 16px', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <XCircle style={{ width: 15, height: 15, color: '#f87171', flexShrink: 0 }} />
-                  <span style={{ fontSize: 13, color: '#f87171' }}>{erro}</span>
+                  <XCircle style={{ width: 15, height: 15, color: '#FF8078', flexShrink: 0 }} />
+                  <span style={{ fontSize: 13, color: '#FF8078' }}>{erro}</span>
                 </div>
               )}
 
@@ -135,7 +135,7 @@ export default function RedefinirSenha() {
                 <button
                   type="submit"
                   disabled={loading || !senhaValida}
-                  style={{ background: '#ef4444', border: 'none', borderRadius: 14, color: 'white', cursor: loading || !senhaValida ? 'not-allowed' : 'pointer', fontWeight: 600, fontSize: 15, padding: '14px', marginTop: 4, opacity: loading || !senhaValida ? 0.7 : 1, outline: 'none' }}
+                  style={{ background: '#E8342B', border: 'none', borderRadius: 14, color: 'white', cursor: loading || !senhaValida ? 'not-allowed' : 'pointer', fontWeight: 600, fontSize: 15, padding: '14px', marginTop: 4, opacity: loading || !senhaValida ? 0.7 : 1, outline: 'none' }}
                 >
                   {loading ? 'Salvando…' : 'Salvar nova senha'}
                 </button>

@@ -62,7 +62,7 @@ function FotoCard({ foto, onDelete, onClick }) {
         onClick={e => { e.stopPropagation(); onDelete(foto) }}
         style={{ position: 'absolute', top: 8, right: 8, width: 28, height: 28, borderRadius: 8, background: 'rgba(0,0,0,0.65)', border: '1px solid rgba(248,113,113,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
       >
-        <Trash2 style={{ width: 12, height: 12, color: '#f87171' }} />
+        <Trash2 style={{ width: 12, height: 12, color: '#FF8078' }} />
       </button>
     </div>
   )
