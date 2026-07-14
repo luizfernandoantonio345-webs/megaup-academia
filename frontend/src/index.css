@@ -11,12 +11,12 @@
 ══════════════════════════════════════════════════════════ */
 :root {
   /* ── Superfícies ── */
-  --bg-page       : #0C0C0D;
-  --bg-card       : #111113;
+  --bg-page       : #0D0D0F;
+  --bg-card       : #141416;
   --bg-elevated   : #1C1C1E;
   --bg-hover      : #1C1C1E;
   --bg-subtle     : rgba(255,255,255,0.03);
-  --bg-input      : #111113;
+  --bg-input      : #141416;
   --bg-sidebar    : #0A0A0B;
 
   /* ── Accent — MegaUp Red ── */
@@ -26,7 +26,7 @@
   --accent-border : rgba(232,52,43,0.3);
   --accent-text   : #fca5a5;
 
-  /* ── Texto (WCAG AA sobre #0C0C0D) ── */
+  /* ── Texto (WCAG AA sobre #0D0D0F) ── */
   --text-primary   : #F4F4F5;   /* zinc-100 */
   --text-secondary : #A1A1AA;   /* zinc-400 */
   --text-muted     : #71717A;   /* zinc-500 */
